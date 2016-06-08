@@ -114,6 +114,8 @@ interface UType : UElement, UNamed, UFqNamed, UAnnotated {
      * Returns the list of type parameters of this type.
      */
     val arguments: List<UTypeProjection>
+    
+    val argumentCount: Int
 
     /**
      * [parent] should always return 'null' for [UType].

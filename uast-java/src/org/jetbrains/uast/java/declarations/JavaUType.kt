@@ -98,6 +98,9 @@ class JavaUType(val psi: PsiType?) : JavaAbstractUElement(), UType {
         }
     }
 
+    override val argumentCount: Int
+        get() = (psi as? PsiClassType)?.parameterCount ?: 0
+
     @Suppress("NOTHING_TO_INLINE")
     private inline fun check(primitiveType: PsiPrimitiveType, boxedType: String): Boolean =
             psi == primitiveType || (psi as? PsiClassType)?.resolve()?.qualifiedName == boxedType
