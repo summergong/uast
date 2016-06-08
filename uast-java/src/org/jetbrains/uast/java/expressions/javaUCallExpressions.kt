@@ -98,8 +98,10 @@ class JavaConstructorUCallExpression(
         }
     }
 
-    override val typeArgumentCount by lz { psi.typeArguments.size }
-    override val typeArguments by lz { psi.typeArguments.map { JavaConverter.convertType(it) } }
+    override val typeArgumentCount by lz { psi.classReference?.typeParameters?.size ?: 0 }
+    override val typeArguments by lz {
+        psi.classReference?.typeParameters?.map { JavaConverter.convertType(it) } ?: listOf() 
+    }
 
     override val functionName: String?
         get() {
