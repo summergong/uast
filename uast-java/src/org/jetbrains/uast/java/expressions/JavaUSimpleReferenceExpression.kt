@@ -49,10 +49,9 @@ class JavaTypeElementUSimpleReferenceExpression(
 class JavaClassUSimpleReferenceExpression(
         override val identifier: String,
         val ref: PsiJavaReference,
+        override val psi: PsiElement?,
         override val parent: UElement?
 ) : JavaAbstractUExpression(), USimpleReferenceExpression, PsiElementBacked {
-    override val psi: PsiElement?
-        get() = ref.element
-
+    
     override fun resolve(context: UastContext) = context.convert(ref.resolve()) as? UDeclaration
 }
