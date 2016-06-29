@@ -8,7 +8,7 @@ configurations {
 
 dependencies {
     provided fileTree(dir: '../lib', include: ['intellij-core.jar'])
-    compile project(':uast-common')
+    compile project(':uast-new')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }
 
