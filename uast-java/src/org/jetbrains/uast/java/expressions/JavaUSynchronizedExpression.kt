@@ -19,21 +19,22 @@ package org.jetbrains.uast.java.expressions
 import com.intellij.psi.PsiSynchronizedStatement
 import org.jetbrains.uast.UBlockExpression
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.acceptList
-import org.jetbrains.uast.java.*
+import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.java.JavaAbstractUExpression
+import org.jetbrains.uast.java.JavaConverter
+import org.jetbrains.uast.java.lz
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastVisitor
 
 class JavaUSynchronizedExpression(
         override val psi: PsiSynchronizedStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UBlockExpression, PsiElementBacked {
     override val expressions by lz { psi.body?.statements?.map { JavaConverter.convertStatement(it, this) } ?: listOf() }
     val lockExpression by lz { JavaConverter.convertOrEmpty(psi.lockExpression, this) }
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitBlockExpression(this)) return
-        psi.lockExpression
         expressions.acceptList(visitor)
         lockExpression.accept(visitor)
         visitor.afterVisitBlockExpression(this)

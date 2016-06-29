@@ -22,13 +22,10 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUForExpression(
         override val psi: PsiForStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UForExpression, PsiElementBacked {
     override val declaration by lz { psi.initialization?.let { JavaConverter.convertStatement(it, this) } }
     override val condition by lz { psi.condition?.let { JavaConverter.convertExpression(it, this) } }
     override val update by lz { psi.update?.let { JavaConverter.convertStatement(it, this) } }
     override val body by lz { JavaConverter.convertOrEmpty(psi.body, this) }
-
-    override val isStatement: Boolean
-        get() = true
 }

@@ -16,17 +16,22 @@
 package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiInstanceOfExpression
+import com.intellij.psi.PsiType
 import org.jetbrains.uast.UBinaryExpressionWithType
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UastBinaryExpressionWithTypeKind
+import org.jetbrains.uast.UastErrorType
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUInstanceCheckExpression(
         override val psi: PsiInstanceOfExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UBinaryExpressionWithType, PsiElementBacked {
     override val operand by lz { JavaConverter.convertOrEmpty(psi.operand, this) }
-    override val type by lz { JavaConverter.convertType(psi.checkType?.type) }
+    override val typeReference by lz { psi.checkType?.let { JavaUTypeReferenceExpression(it, this) } }
+    
+    override val type: PsiType
+        get() = psi.checkType?.type ?: UastErrorType
 
     override val operationKind: UastBinaryExpressionWithTypeKind.InstanceCheck
         get() = UastBinaryExpressionWithTypeKind.INSTANCE_CHECK

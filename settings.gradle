@@ -1,1 +1,1 @@
-include ':uast-common', ':uast-java'
+include ':uast-common', ':uast-java', ':uast-kotlin'

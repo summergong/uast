@@ -15,19 +15,26 @@
  */
 package org.jetbrains.uast.java
 
+import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiReferenceExpression
-import org.jetbrains.uast.*
+import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UQualifiedReferenceExpression
+import org.jetbrains.uast.UastQualifiedExpressionAccessType
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUQualifiedExpression(
         override val psi: PsiReferenceExpression,
-        override val parent: UElement?
-) : JavaAbstractUExpression(), UQualifiedExpression, PsiElementBacked {
+        override val containingElement: UElement?
+) : JavaAbstractUExpression(), UQualifiedReferenceExpression, PsiElementBacked {
     override val receiver by lz { JavaConverter.convertOrEmpty(psi.qualifierExpression, this) }
-    override val selector by lz { JavaUSimpleReferenceExpression(psi, psi.referenceName ?: "<error>", this) }
-
+    override val selector by lz { 
+        JavaUSimpleNameReferenceExpression(psi.referenceNameElement, psi.referenceName ?: "<error>", this, psi) }
+    
     override val accessType: UastQualifiedExpressionAccessType
         get() = UastQualifiedExpressionAccessType.SIMPLE
 
-    override fun resolve(context: UastContext) = psi.resolve()?.let { JavaConverter.convertWithParent(it) } as? UDeclaration
+    override val resolvedName: String?
+        get() = (psi.resolve() as? PsiNamedElement)?.name
+    
+    override fun resolve() = psi.resolve()
 }

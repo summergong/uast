@@ -16,6 +16,9 @@
 package org.jetbrains.uast
 
 
+import com.intellij.psi.PsiType
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -33,17 +36,23 @@ interface UBinaryExpressionWithType : UExpression {
     val operationKind: UastBinaryExpressionWithTypeKind
 
     /**
+     * Returns the type reference of this expression.
+     */
+    val typeReference: UTypeReferenceExpression?
+
+    /**
      * Returns the type.
      */
-    val type: UType
+    val type: PsiType
 
-    override fun logString() = log("UBinaryExpressionWithType (${getExpressionType()?.name}, ${operationKind.name})", operand)
-    override fun renderString() = "${operand.renderString()} ${operationKind.name} ${type.name}"
+    override fun asLogString() = log("UBinaryExpressionWithType " +
+            "(${getExpressionType()?.name}, ${operationKind.name})", operand)
+    
+    override fun asRenderString() = "${operand.asRenderString()} ${operationKind.name} ${type.name}"
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitBinaryExpressionWithType(this)) return
         operand.accept(visitor)
-        type.accept(visitor)
         visitor.afterVisitBinaryExpressionWithType(this)
     }
 }

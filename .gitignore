@@ -2,5 +2,4 @@
 build/
 .DS_Store
 local.properties
-/lib
 /repo

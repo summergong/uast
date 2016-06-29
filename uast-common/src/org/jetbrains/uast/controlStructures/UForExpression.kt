@@ -15,6 +15,7 @@
  */
 package org.jetbrains.uast
 
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -51,16 +52,16 @@ interface UForExpression : ULoopExpression {
         visitor.afterVisitForExpression(this)
     }
 
-    override fun renderString() = buildString {
+    override fun asRenderString() = buildString {
         append("for (")
-        declaration?.let { append(it.renderString()) }
+        declaration?.let { append(it.asRenderString()) }
         append("; ")
-        condition?.let { append(it.renderString()) }
+        condition?.let { append(it.asRenderString()) }
         append("; ")
-        update?.let { append(it.renderString()) }
+        update?.let { append(it.asRenderString()) }
         append(") ")
-        append(body.renderString())
+        append(body.asRenderString())
     }
 
-    override fun logString() = log("UForExpression", declaration, condition, update, body)
+    override fun asLogString() = log("UForExpression", declaration, condition, update, body)
 }

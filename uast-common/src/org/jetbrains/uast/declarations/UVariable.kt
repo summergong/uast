@@ -1,101 +1,70 @@
-/*
- * Copyright 2000-2016 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.jetbrains.uast
 
-import org.jetbrains.uast.kinds.UastVariableInitialierKind
-
+import com.intellij.psi.*
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
-interface UVariable : UDeclaration, UModifierOwner, UVisibilityOwner, UAnnotated {
-    /**
-     * Return the variable initializer (or the default value for value parameter), or null if the variable is not initialized.
-     */
-    val initializer: UExpression?
+/**
+ * A variable wrapper to be used in [UastVisitor].
+ */
+interface UVariable : UDeclaration, PsiVariable {
+    override val psi: PsiVariable
 
     /**
-     * Return the variable initializer kind (simple initializer, property delegation, etc.).
+     * Returns the variable initializer or the parameter default value, or null if the variable has not an initializer.
      */
-    val initializerKind: UastVariableInitialierKind
+    val uastInitializer: UExpression?
 
     /**
-     * Return the variable kind.
+     * Returns variable type reference.
      */
-    val kind: UastVariableKind
-
-    /**
-     * Return the variable type.
-     *
-     * If variable has a [UastModifier.VARARG] modifier, [type] should return the vararg type, not an array type.
-     */
-    val type: UType
-
-    /**
-     * Return the list of accessors if the variable is a property, or null otherwise.
-     */
-    val accessors: List<UFunction>?
-        get() = null
-
-    override fun getOverriddenDeclarations(context: UastContext): List<UVariable>
+    val typeReference: UTypeReferenceExpression?
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitVariable(this)) return
-        nameElement?.accept(visitor)
-        initializer?.accept(visitor)
-        annotations.acceptList(visitor)
-        type.accept(visitor)
+        uastAnnotations.acceptList(visitor)
+        uastInitializer?.accept(visitor)
         visitor.afterVisitVariable(this)
     }
 
-    override fun renderString(): String = buildString {
-        append(renderAnnotations(annotations))
-        if (kind != UastVariableKind.VALUE_PARAMETER) appendWithSpace(visibility.name)
-        appendWithSpace(renderModifiers())
-        if (kind != UastVariableKind.VALUE_PARAMETER) append("var ")
-        append(name)
-        append(": ")
-        append(type.name)
-        if (initializer != null && initializer !is UastEmptyExpression) {
-            append(" = ")
-            append(initializer!!.renderString())
-        }
+    @Deprecated("Use uastInitializer instead.", ReplaceWith("uastInitializer"))
+    override fun getInitializer() = psi.initializer
 
-        accessors?.let {
-            appendln()
-            it.forEachIndexed { i, accessor ->
-                this@buildString.append(accessor.renderString().withMargin)
-                if ((i + 1) < it.size) appendln()
-            }
-        }
+    override fun asLogString() = "UVariable (name = $name)"
+
+    override fun asRenderString() = buildString {
+        val modifiers = PsiModifier.MODIFIERS.filter { psi.hasModifierProperty(it) }.joinToString(" ")
+        if (modifiers.isNotEmpty()) append(modifiers).append(' ')
+        append("var ").append(psi.name).append(": ").append(psi.type.getCanonicalText(false))
     }
-
-    override fun logString() = "UVariable ($name, kind = ${kind.name})" + LINE_SEPARATOR +
-            (initializer?.let { it.logString().withMargin } ?: "<no initializer>")
 }
 
-object UVariableNotResolved : UVariable {
-    override val initializer = null
-    override val initializerKind = UastVariableInitialierKind.NO_INITIALIZER
-    override val kind = UastVariableKind(ERROR_NAME)
-    override fun getOverriddenDeclarations(context: UastContext) = emptyList<UVariable>()
-    override val type = UastErrorType
-    override val nameElement = null
-    override val parent = null
-    override val name = ERROR_NAME
-    override val visibility = UastVisibility.LOCAL
+interface UParameter : UVariable, PsiParameter {
+    override val psi: PsiParameter
+}
 
-    override fun hasModifier(modifier: UastModifier) = false
-    override val annotations = emptyList<UAnnotation>()
+interface UField : UVariable, PsiField {
+    override val psi: PsiField
+}
+
+interface ULocalVariable : UVariable, PsiLocalVariable {
+    override val psi: PsiLocalVariable
+}
+
+interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
+    override val psi: PsiEnumConstant
+
+    override fun asLogString() = "UEnumConstant (name = ${psi.name}"
+
+    override fun accept(visitor: UastVisitor) {
+        if (visitor.visitVariable(this)) return
+        uastAnnotations.acceptList(visitor)
+        methodIdentifier?.accept(visitor)
+        classReference?.accept(visitor)
+        valueArguments.acceptList(visitor)
+        visitor.afterVisitVariable(this)
+    }
+
+    override fun asRenderString() = name ?: "<ERROR>"
 }

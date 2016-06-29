@@ -1,92 +1,43 @@
-/*
- * Copyright 2000-2016 JetBrains s.r.o.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- * http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- */
 package org.jetbrains.uast
 
-import org.jetbrains.uast.visitor.UastVisitor
+import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiModifier
+import com.intellij.psi.PsiModifierListOwner
+import org.jetbrains.uast.psi.PsiElementBacked
 
 /**
- * Represents a declaration.
+ * A [PsiElement] declaration wrapper.
  */
-interface UDeclaration : UElement, UNamed {
+interface UDeclaration : UElement, PsiElementBacked, PsiModifierListOwner {
     /**
-     * Returns an element for the name node, or null if the node does not exist in the underlying AST (Psi).
+     * Returns the original declaration (which is *always* unwrapped, never a [UDeclaration]).
      */
-    val nameElement: UElement?
-
-    /**
-     * Get the list of all overridden declarations for this declaration.
-     *
-     * @param context the Uast context
-     * @return returns the list of all overridden declaration. Order is not guaranteed.
-     */
-    fun getOverriddenDeclarations(context: UastContext): List<UDeclaration>
+    override val psi: PsiModifierListOwner
+    
+    override fun getOriginalElement(): PsiElement? = psi.originalElement
 
     /**
-     * Checks if the declaration's containing class qualified name is [containingClassFqName].
-     *
-     * @param containingClassFqName the required containing class qualified name.
-     * @return true if the qualified name of the containing class is [containingClassFqName],
-     *         false otherwise.
+     * Returns the declaration name identifier, or null if the declaration is anonymous.
      */
-    fun matchesContaining(containingClassFqName: String): Boolean {
-        return matchesContaining(containingClassFqName, false)
-    }
+    val uastAnchor: UElement?
+
+    val uastAnnotations: List<UAnnotation>
 
     /**
-     * Checks if the declaration's containing class qualified name is [containingClassFqName].
-     *
-     * @param containingClassFqName the required containing class qualified name.
-     * @param allowInherit if true, the containing class could also a subtype of [containingClassFqName].
-     * @return true if the qualified name of the containing class is [containingClassFqName],
-     *         false otherwise.
+     * Returns `true` if this declaration has a [PsiModifier.STATIC] modifier.
      */
-    fun matchesContaining(containingClassFqName: String, allowInherit: Boolean): Boolean {
-        val containingClass = this.getContainingClass() ?: return false
-        val matchesExactly = containingClass.matchesFqName(containingClassFqName)
-        if (!allowInherit || matchesExactly) return matchesExactly
-        return containingClass.isSubclassOf(containingClassFqName, true)
-    }
+    val isStatic: Boolean
+        get() = hasModifierProperty(PsiModifier.STATIC)
 
     /**
-     * Checks if the declaration name is [name], and the declaration's containing class qualified name is [containingClassFqName].
-     *
-     * @param containingClassFqName the required containing class qualified name.
-     * @param name the declaration name to check against.
-     * @return true if the declaration name is [name],
-     *              and the qualified name of the containing class is [containingClassFqName],
-     *         false otherwise.
+     * Returns `true` if this declaration has a [PsiModifier.FINAL] modifier.
      */
-    fun matchesNameWithContaining(containingClassFqName: String, name: String): Boolean {
-        if (!matchesName(name)) return false
-        return matchesContaining(containingClassFqName)
-    }
+    val isFinal: Boolean
+        get() = hasModifierProperty(PsiModifier.FINAL)
 
-    override fun accept(visitor: UastVisitor) {
-        visitor.visitElement(this)
-        visitor.afterVisitElement(this)
-    }
-}
-
-object UDeclarationNotResolved : UDeclaration {
-    override val name = ERROR_NAME
-    override val nameElement = null
-    override val parent = null
-
-    override fun logString() = "[!] $name"
-    override fun renderString() = name
-
-    override fun getOverriddenDeclarations(context: UastContext) = emptyList<UDeclaration>()
+    /**
+     * Returns a declaration visibility.
+     */
+    val visibility: UastVisibility
+        get() = UastVisibility[this]
 }

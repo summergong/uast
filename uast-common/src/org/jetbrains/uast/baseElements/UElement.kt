@@ -24,18 +24,12 @@ interface UElement {
     /**
      * Returns the element parent.
      */
-    val parent: UElement?
-
-    /**
-     * Returns comments associated with this element.
-     */
-    val comments: List<String>
-        get() = emptyList()
+    val containingElement: UElement?
 
     /**
      * Returns true if this element is valid, false otherwise.
      */
-    val isValid: Boolean
+    val isPsiValid: Boolean
         get() = true
 
     /**
@@ -55,7 +49,7 @@ interface UElement {
      * @return the expression tree for this element.
      * @see [UIfExpression] for example.
      */
-    fun logString(): String
+    fun asLogString(): String
 
     /**
      * Returns the string in pseudo-code.
@@ -69,7 +63,7 @@ interface UElement {
      * @return the rendered text.
      * @see [UIfExpression] for example.
      */
-    fun renderString(): String = logString()
+    fun asRenderString(): String = asLogString()
 
     /**
      * Returns the string as written in the source file.
@@ -77,7 +71,7 @@ interface UElement {
      *
      * @return the original text.
      */
-    fun originalString(): String = renderString()
+    fun asSourceString(): String = asRenderString()
 
     /**
      * Passes the element to the specified visitor.
@@ -88,94 +82,4 @@ interface UElement {
         visitor.visitElement(this)
         visitor.afterVisitElement(this)
     }
-}
-
-/**
- * An interface for the [UElement] which was synthesized by an [UastExtendableVisitor].
- * A synthesized element is not processed by an [UastExtendableVisitor].
- */
-interface SynthesizedUElement : UElement
-
-/**
- * An interface for the [UElement] which has a name.
- */
-interface UNamed {
-    /**
-     * Returns the name of this element.
-     */
-    val name: String
-
-    /**
-     * Checks if the element name is equal to the passed name.
-     *
-     * @param name the name to check against
-     * @return true if the element name is equal to [name], false otherwise.
-     */
-    fun matchesName(name: String) = this.name == name
-}
-
-/**
- * An interface for the [UElement] which has a qualified name.
- */
-interface UFqNamed {
-    /**
-     * Returns the qualified name of this element, or null if the qualified name was not resolved.
-     */
-    val fqName: String?
-
-    /**
-     * Checks if the element qualified name is equal to the passed name.
-     *
-     * @param fqName qualified name to check against
-     * @return true if the element name is not null and is equal to [fqName], false otherwise.
-     */
-    fun matchesFqName(fqName: String) = this.fqName == fqName
-}
-
-/**
- * An interface for the [UElement] which has Uast modifiers.
- */
-interface UModifierOwner {
-    /**
-     * Checks if the element has the passed modifier.
-     *
-     * @param modifier modifier to check
-     * @return true if the element has [modifier], false otherwise.
-     */
-    fun hasModifier(modifier: UastModifier): Boolean
-}
-
-/**
- * An interface for the [UElement] which has a visibility (class, function, variable).
- */
-interface UVisibilityOwner {
-    /**
-     * Returns the element visibility.
-     */
-    val visibility: UastVisibility
-}
-
-/**
- * An inteface for the [UElement] which can be resolved to the its declaration.
- */
-interface UResolvable {
-    /**
-     * Returns the declaration element.
-     *
-     * @param context the Uast context
-     * @return the resolved declaration, or null if the declaration was not resolved.
-     */
-    fun resolve(context: UastContext): UDeclaration?
-
-    /**
-     * Returns the declaration element or an empty Uast declaration element if the declaration was not resolved.
-     * An empty declaration element should be a singleton.
-     * [resolveOrEmpty] should not create new elements each time the declaration was not resolved.
-     *
-     * @param context the Uast context
-     * @return the resolved declaration, of an empty error Uast declaration element if the declaration was not resolved.
-     *
-     * @see [UDeclarationNotResolved]
-     */
-    fun resolveOrEmpty(context: UastContext): UDeclaration = resolve(context) ?: UDeclarationNotResolved
 }

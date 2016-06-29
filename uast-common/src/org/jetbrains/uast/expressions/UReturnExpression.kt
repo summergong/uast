@@ -16,6 +16,7 @@
 
 package org.jetbrains.uast
 
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -33,6 +34,6 @@ interface UReturnExpression : UExpression {
         visitor.afterVisitReturnExpression(this)
     }
 
-    override fun renderString() = returnExpression.let { if (it == null) "return" else "return " + it.renderString() }
-    override fun logString() = log("UReturnExpression", returnExpression)
+    override fun asRenderString() = returnExpression.let { if (it == null) "return" else "return " + it.asRenderString() }
+    override fun asLogString() = log("UReturnExpression", returnExpression)
 }

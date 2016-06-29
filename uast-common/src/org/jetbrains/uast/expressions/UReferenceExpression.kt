@@ -21,15 +21,9 @@ import org.jetbrains.uast.UResolvable
 
 interface UReferenceExpression : UExpression, UResolvable {
     /**
-     * Returns identifier if the reference selector part is an identifier.
+     * Returns the resolved name for this reference, or null if the reference can't be resolved.
      */
-    val identifier: String?
-
-    /**
-     * Checks if the reference identifier is the same as [identifier].
-     *
-     * @param identifier the identifier to check against.
-     * @return true if the identifier of this reference element is [identifier], false otherwise.
-     */
-    fun matchesIdentifier(identifier: String) = this.identifier == identifier
+    val resolvedName: String?
+    
+    override fun asLogString() = "UReferenceExpression"
 }

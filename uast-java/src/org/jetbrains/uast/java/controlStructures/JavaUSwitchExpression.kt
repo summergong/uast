@@ -17,40 +17,34 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiSwitchLabelStatement
 import com.intellij.psi.PsiSwitchStatement
-import org.jetbrains.uast.*
+import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.USwitchClauseExpression
+import org.jetbrains.uast.USwitchExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUSwitchExpression(
         override val psi: PsiSwitchStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), USwitchExpression, PsiElementBacked {
     override val expression by lz { JavaConverter.convertOrEmpty(psi.expression, this) }
     override val body by lz { JavaConverter.convertOrEmpty(psi.body, this) }
-
-    override val isStatement: Boolean
-        get() = true
 }
 
 class JavaUCaseSwitchClauseExpression(
         override val psi: PsiSwitchLabelStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), USwitchClauseExpression, PsiElementBacked {
     override val caseValues by lz {
         val value = psi.caseValue ?: return@lz null
         listOf(JavaConverter.convertExpression(value, this))
     }
-
-    override val isStatement: Boolean
-        get() = true
 }
 
-class DefaultUSwitchClauseExpression(override val parent: UElement?) : USwitchClauseExpression {
+class DefaultUSwitchClauseExpression(override val containingElement: UElement?) : USwitchClauseExpression {
     override val caseValues: List<UExpression>?
         get() = null
 
-    override fun logString() = "DefaultUSwitchClauseExpression"
-    override fun renderString() = "else -> "
-
-    override val isStatement: Boolean
-        get() = true
+    override fun asLogString() = "DefaultUSwitchClauseExpression"
+    override fun asRenderString() = "else -> "
 }

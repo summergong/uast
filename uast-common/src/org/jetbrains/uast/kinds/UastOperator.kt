@@ -22,7 +22,7 @@ package org.jetbrains.uast
  */
 interface UastOperator {
     /**
-     * Returns the operator text to render in [UElement.renderString].
+     * Returns the operator text to render in [UElement.asRenderString].
      */
     val text: String
 }

@@ -50,7 +50,7 @@ interface ULiteralExpression : UExpression {
         visitor.afterVisitLiteralExpression(this)
     }
 
-    override fun renderString(): String {
+    override fun asRenderString(): String {
         val value = value
         return when (value) {
             null -> "null"
@@ -63,5 +63,5 @@ interface ULiteralExpression : UExpression {
         }
     }
 
-    override fun logString() = "ULiteralExpression (${renderString()})"
+    override fun asLogString() = "ULiteralExpression (${asRenderString()})"
 }

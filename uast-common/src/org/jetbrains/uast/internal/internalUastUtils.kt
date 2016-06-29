@@ -15,20 +15,18 @@
  */
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiType
+
 internal val ERROR_NAME = "<error>"
 
 internal val LINE_SEPARATOR = System.getProperty("line.separator") ?: "\n"
 
-internal val String.withMargin: String
+val String.withMargin: String
     get() = lines().joinToString(LINE_SEPARATOR) { "    " + it }
 
 internal operator fun String.times(n: Int) = this.repeat(n)
 
-internal fun List<UElement>.logString() = joinToString(LINE_SEPARATOR) { it.logString().withMargin }
-
-internal fun UModifierOwner.renderModifiers() = UastModifier.VALUES
-        .filter { hasModifier(it) }
-        .joinToString(" ") { it.name }
+internal fun List<UElement>.asLogString() = joinToString(LINE_SEPARATOR) { it.asLogString().withMargin }
 
 internal fun StringBuilder.appendWithSpace(s: String) {
     if (s.isNotEmpty()) {
@@ -42,13 +40,7 @@ internal tailrec fun UExpression.unwrapParenthesis(): UExpression = when (this) 
     else -> this
 }
 
-internal fun renderAnnotations(annotations: List<UAnnotation>): String = buildString {
-    for (annotation in annotations) {
-        appendln(annotation.renderString())
-    }
-    if (annotations.isNotEmpty()) {
-        appendln()
-    }
-}
-
 internal fun <T> lz(f: () -> T) = lazy(LazyThreadSafetyMode.NONE, f)
+
+internal val PsiType.name: String
+    get() = getCanonicalText(false)
