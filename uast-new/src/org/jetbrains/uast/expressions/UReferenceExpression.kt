@@ -20,5 +20,6 @@ import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UResolvable
 
 interface UReferenceExpression : UExpression, UResolvable {
+    val resolvedName: String?
     override fun logString() = "UReferenceExpression"
 }

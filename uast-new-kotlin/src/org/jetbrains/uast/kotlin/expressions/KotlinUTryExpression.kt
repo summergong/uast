@@ -24,12 +24,15 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUTryExpression(
         override val psi: KtTryExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UTryExpression, PsiElementBacked, KotlinUElementWithType {
     override val tryClause by lz { KotlinConverter.convertExpression(psi.tryBlock, this) }
     override val catchClauses by lz { psi.catchClauses.map { KotlinUCatchClause(it, this) } }
     override val finallyClause by lz { psi.finallyBlock?.finalExpression?.let { KotlinConverter.convertExpression(it, this) } }
 
     override val resources: List<PsiResourceListElement>?
-        get() = throw UnsupportedOperationException()
+        get() = null
+
+    override val isResources: Boolean
+        get() = false
 }

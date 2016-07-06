@@ -57,7 +57,7 @@ internal fun IElementType.getOperatorType() = when (this) {
 }
 
 internal tailrec fun UElement.getLanguagePlugin(): UastLanguagePlugin {
-    return if (this is UDeclaration) getLanguagePlugin() else parent!!.getLanguagePlugin()
+    return if (this is UDeclaration) languagePlugin else containingElement!!.getLanguagePlugin()
 }
 
 internal fun <T> singletonListOrEmpty(element: T?) = if (element != null) listOf(element) else emptyList<T>()

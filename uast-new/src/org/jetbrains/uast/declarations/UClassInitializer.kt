@@ -6,11 +6,15 @@ import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.visitor.UastVisitor
 
-interface UInitializer : UDeclaration, PsiClassInitializer {
+interface UClassInitializer : UDeclaration, PsiClassInitializer {
     override val psi: PsiClassInitializer
+    val uastBody: UExpression
+
+    @Deprecated("Use uastBody instead.", ReplaceWith("uastBody"))
+    override fun getBody() = psi.body
 
     override fun accept(visitor: UastVisitor) {
-        visitor.visitInitializer(this)
+        if (visitor.visitInitializer(this)) return
         visitor.afterVisitInitializer(this)
     }
 

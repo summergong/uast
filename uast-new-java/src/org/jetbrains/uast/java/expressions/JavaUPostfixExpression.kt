@@ -24,7 +24,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUPostfixExpression(
         override val psi: PsiPostfixExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UPostfixExpression, PsiElementBacked {
     override val operand by lz { JavaConverter.convertOrEmpty(psi.operand, this) }
 

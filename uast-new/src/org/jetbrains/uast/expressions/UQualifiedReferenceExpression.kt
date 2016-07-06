@@ -41,10 +41,10 @@ interface UQualifiedReferenceExpression : UReferenceExpression {
     override fun renderString() = receiver.renderString() + accessType.name + selector.renderString()
 
     override fun accept(visitor: UastVisitor) {
-        if (visitor.visitQualifiedExpression(this)) return
+        if (visitor.visitQualifiedReferenceExpression(this)) return
         receiver.accept(visitor)
         selector.accept(visitor)
-        visitor.afterVisitQualifiedExpression(this)
+        visitor.afterVisitQualifiedReferenceExpression(this)
     }
 
     override fun logString() = log("UQualifiedExpression", receiver, selector)

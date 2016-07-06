@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUReturnExpression(
         override val psi: KtReturnExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UReturnExpression, PsiElementBacked, KotlinUElementWithType {
     override val returnExpression by lz { KotlinConverter.convertOrNull(psi.returnedExpression, this) }
 }

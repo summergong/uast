@@ -25,7 +25,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinULiteralExpression(
         override val psi: KtConstantExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), ULiteralExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override val isNull: Boolean
         get() = psi.isNullExpression()
@@ -35,7 +35,7 @@ class KotlinULiteralExpression(
 
 class KotlinStringULiteralExpression(
         override val psi: PsiElement,
-        override val parent: UElement?,
+        override val containingElement: UElement?,
         val text: String? = null
 ) : KotlinAbstractUElement(), ULiteralExpression, PsiElementBacked, KotlinUElementWithType{
     override val value: String

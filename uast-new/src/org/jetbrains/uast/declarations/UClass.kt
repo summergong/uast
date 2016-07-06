@@ -1,5 +1,6 @@
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiClassInitializer
 import com.intellij.psi.PsiModifierListOwner
@@ -21,15 +22,19 @@ interface UClass : UDeclaration, PsiClass {
     val uastDeclarations: List<UDeclaration>
     
     val uastFields: List<UVariable>
-    val uastInitializers: List<UInitializer>
+    val uastInitializers: List<UClassInitializer>
     val uastMethods: List<UMethod>
     val uastNestedClasses: List<UClass>
 
     override fun logString() = "UClass (name = $name"
 
     override fun accept(visitor: UastVisitor) {
-        visitor.visitClass(this)
+        if (visitor.visitClass(this)) return
         uastDeclarations.acceptList(visitor)
         visitor.afterVisitClass(this)
     }
+}
+
+interface UAnonymousClass : UClass, PsiAnonymousClass {
+    override val psi: PsiAnonymousClass
 }

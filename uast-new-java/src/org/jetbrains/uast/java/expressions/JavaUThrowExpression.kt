@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUThrowExpression(
         override val psi: PsiThrowStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UThrowExpression, PsiElementBacked {
     override val thrownExpression by lz { JavaConverter.convertOrEmpty(psi.exception, this) }
 }

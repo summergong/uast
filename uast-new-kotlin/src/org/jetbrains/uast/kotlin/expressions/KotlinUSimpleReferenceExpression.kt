@@ -17,6 +17,7 @@
 package org.jetbrains.uast.kotlin
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
 import org.jetbrains.kotlin.descriptors.DeclarationDescriptor
 import org.jetbrains.kotlin.psi.KtCallExpression
@@ -28,10 +29,12 @@ import org.jetbrains.uast.psi.PsiElementBacked
 open class KotlinUSimpleReferenceExpression(
         override val psi: PsiElement,
         override val identifier: String,
-        override val parent: UElement?,
+        override val containingElement: UElement?,
         private val resultingDescriptor: DeclarationDescriptor? = null
 ) : KotlinAbstractUElement(), USimpleNameReferenceExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override fun resolve() = (psi as? KtElement)?.resolveCallToDeclaration(resultingDescriptor)
+    override val resolvedName: String?
+        get() = (resolve() as? PsiNamedElement)?.name
 }
 
 class KotlinNameUSimpleReferenceExpression(
@@ -46,8 +49,12 @@ class KotlinNameUSimpleReferenceExpression(
 class KotlinClassViaConstructorUSimpleReferenceExpression(
         override val psi: KtCallExpression,
         override val identifier: String,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), USimpleNameReferenceExpression, PsiElementBacked, KotlinUElementWithType {
+    override val resolvedName: String?
+        get() = (psi.getResolvedCall(psi.analyze())?.resultingDescriptor as? ConstructorDescriptor)
+                ?.containingDeclaration?.name?.asString()
+
     override fun resolve(): PsiElement? {
         val resolvedCall = psi.getResolvedCall(psi.analyze())
         val resultingDescriptor = resolvedCall?.resultingDescriptor as? ConstructorDescriptor ?: return null
@@ -58,7 +65,9 @@ class KotlinClassViaConstructorUSimpleReferenceExpression(
 
 class KotlinStringUSimpleReferenceExpression(
         override val identifier: String,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), USimpleNameReferenceExpression {
     override fun resolve() = null
+    override val resolvedName: String?
+        get() = identifier
 }

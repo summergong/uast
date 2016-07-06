@@ -24,7 +24,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUBreakExpression(
         override val psi: KtBreakExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UBreakExpression, PsiElementBacked {
     override val label: String?
         get() = psi.getLabelName()

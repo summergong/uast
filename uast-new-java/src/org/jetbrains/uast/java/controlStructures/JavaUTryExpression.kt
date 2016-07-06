@@ -21,22 +21,24 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUTryExpression(
         override val psi: PsiTryStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UTryExpression, PsiElementBacked {
     override val tryClause by lz { JavaConverter.convertOrEmpty(psi.tryBlock, this) }
     override val catchClauses by lz { psi.catchSections.map { JavaUCatchClause(it, this) } }
     override val finallyClause by lz { psi.finallyBlock?.let { JavaConverter.convertBlock(it, this) } }
     override val resources: List<PsiResourceListElement>?
         get() = psi.resourceList?.toList() ?: emptyList<PsiResourceListElement>()
+    override val isResources: Boolean
+        get() = psi.resourceList != null
 }
 
 class JavaUCatchClause(
         override val psi: PsiCatchSection,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUElement(), UCatchClause, PsiElementBacked {
     override val body by lz { JavaConverter.convertOrEmpty(psi.catchBlock, this) }
     
-    override val parameters: List<PsiVariable>
+    override val parameters: List<PsiParameter>
         get() = psi.parameter?.let { listOf(it) } ?: emptyList()
 
     override val types: List<PsiType>

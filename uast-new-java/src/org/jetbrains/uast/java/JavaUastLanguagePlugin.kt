@@ -64,12 +64,20 @@ class JavaUastLanguagePlugin : UastLanguagePlugin() {
 
     override fun getMethodBody(e: PsiMethod): UExpression? {
         val body = e.body ?: return UastEmptyExpression
-        return JavaConverter.convertBlock(body, SimpleUMethod(e, this, null))
+        val parent = if (e is UMethod) e else null
+        return JavaConverter.convertBlock(body, SimpleUMethod(e, this, parent))
     }
 
     override fun getInitializerBody(e: PsiVariable): UExpression? {
         val initializer = e.initializer ?: return null
-        return JavaConverter.convertExpression(initializer, SimpleUVariable(e, this, null))
+        val parent = if (e is UVariable) e else null
+        return JavaConverter.convertExpression(initializer, SimpleUVariable.create(e, this, parent))
+    }
+
+    override fun getInitializerBody(e: PsiClassInitializer): UExpression? {
+        val body = e.body
+        val parent = if (e is UClassInitializer) e else null
+        return JavaConverter.convertBlock(body, SimpleUClassInitializer(e, this, parent))
     }
 
     override val priority = 0
@@ -96,12 +104,10 @@ class JavaUastLanguagePlugin : UastLanguagePlugin() {
     private fun convertDeclaration(element: PsiElement, parent: UElement?): UElement? {
         return when (element) {
             is PsiJavaFile -> JavaUFile(element, this)
-            is PsiClass -> SimpleUClass(element, this, parent)
+            is UDeclaration -> element
+            is PsiClass -> SimpleUClass.create(element, this, parent)
             is PsiMethod -> SimpleUMethod(element, this, parent)
-            is PsiField -> SimpleUField(element, this, parent)
-            is PsiParameter -> SimpleUParameter(element, this, parent)
-            is PsiLocalVariable -> SimpleULocalVariable(element, this, parent)
-            is PsiVariable -> SimpleUVariable(element, this, parent)
+            is PsiVariable -> SimpleUVariable.create(element, this, parent)
             else -> null
         }
     }
@@ -251,7 +257,7 @@ internal object JavaConverter : UastConverter {
             val variables = mutableListOf<UVariable>()
             for (element in elements) {
                 if (element !is PsiVariable) continue
-                variables += SimpleUVariable(element, languagePlugin, this)
+                variables += SimpleUVariable.create(element, languagePlugin, this)
             }
             this.variables = variables
         }

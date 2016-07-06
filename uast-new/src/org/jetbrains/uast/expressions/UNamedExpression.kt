@@ -20,7 +20,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 
 class UNamedExpression(
         override val name: String,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ): UExpression, UNamed {
     lateinit var expression: UExpression
 

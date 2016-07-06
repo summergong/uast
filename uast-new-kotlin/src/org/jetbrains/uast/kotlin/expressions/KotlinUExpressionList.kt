@@ -29,7 +29,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 open class KotlinUExpressionList(
         override val psi: PsiElement?,
         override val kind: UastSpecialExpressionKind, // original element
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UExpressionList, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override lateinit var expressions: List<UExpression>
         internal set

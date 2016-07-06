@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUSwitchExpression(
         override val psi: KtWhenExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), USwitchExpression, PsiElementBacked, KotlinUElementWithType {
     override val expression by lz { KotlinConverter.convertOrNull(psi.subjectExpression, this) }
 
@@ -45,7 +45,7 @@ class KotlinUSwitchExpression(
 
 class KotlinUSwitchEntry(
         override val psi: KtWhenEntry,
-        override val parent: UExpression
+        override val containingElement: UExpression
 ) : KotlinAbstractUElement(), USwitchClauseExpressionWithBody, PsiElementBacked {
     override val caseValues by lz {
         psi.conditions.map { when (it) {
@@ -86,11 +86,11 @@ class KotlinUSwitchEntry(
                 is KtBlockExpression -> exprPsi.statements.map { KotlinConverter.convertExpression(it, this) }
                 else -> listOf(KotlinConverter.convertOrEmpty(exprPsi, this))
             }
-            parent
+            containingElement
             expressions = userExpressions + object : UBreakExpression {
                 override val label: String?
                     get() = null
-                override val parent: UElement?
+                override val containingElement: UElement?
                     get() = this@KotlinUSwitchEntry
             }
         }

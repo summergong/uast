@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUReturnExpression(
         override val psi: PsiReturnStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UReturnExpression, PsiElementBacked {
     override val returnExpression by lz { JavaConverter.convertOrNull(psi.returnValue, this) }
 }

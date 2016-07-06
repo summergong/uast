@@ -44,7 +44,7 @@ internal inline fun String?.orAnonymous(kind: String = ""): String {
 }
 
 internal tailrec fun UElement.getLanguagePlugin(): UastLanguagePlugin {
-    return if (this is UDeclaration) getLanguagePlugin() else parent!!.getLanguagePlugin()
+    return if (this is UDeclaration) getLanguagePlugin() else containingElement!!.getLanguagePlugin()
 }
 
 internal fun DeclarationDescriptor.toSource() = try {

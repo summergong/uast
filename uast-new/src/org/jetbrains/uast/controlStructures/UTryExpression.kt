@@ -15,6 +15,7 @@
  */
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiParameter
 import com.intellij.psi.PsiResourceListElement
 import com.intellij.psi.PsiType
 import com.intellij.psi.PsiVariable
@@ -47,6 +48,8 @@ interface UTryExpression : UExpression {
      * Returns the list of try resources, or null if this expression is not a `try-with-resources` expression.
      */
     val resources: List<PsiResourceListElement>?
+    
+    val isResources: Boolean
 
     /**
      * Returns the `try` clause expression.
@@ -93,7 +96,7 @@ interface UCatchClause : UElement {
     /**
      * Returns the exception parameter variables for this `catch` clause.
      */
-    val parameters: List<PsiVariable>
+    val parameters: List<PsiParameter>
 
     /**
      * Returns the exception types for this `catch` clause.

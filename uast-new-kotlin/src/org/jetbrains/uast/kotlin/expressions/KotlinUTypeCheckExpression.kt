@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUTypeCheckExpression(
         override val psi: KtIsExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UBinaryExpressionWithType, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override val operand by lz { KotlinConverter.convertExpression(psi.leftHandSide, this) }
     

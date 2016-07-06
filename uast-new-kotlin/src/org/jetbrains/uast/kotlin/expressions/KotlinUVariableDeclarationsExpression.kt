@@ -19,7 +19,7 @@ import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.kotlin.KotlinAbstractUElement
 
 class KotlinUVariableDeclarationsExpression(
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UVariableDeclarationsExpression {
     override lateinit var variables: List<UVariable>
         internal set

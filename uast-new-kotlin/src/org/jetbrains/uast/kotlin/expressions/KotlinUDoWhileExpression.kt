@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUDoWhileExpression(
         override val psi: KtDoWhileExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UDoWhileExpression, PsiElementBacked {
     override val condition by lz { KotlinConverter.convertOrEmpty(psi.condition, this) }
     override val body by lz { KotlinConverter.convertOrEmpty(psi.body, this) }

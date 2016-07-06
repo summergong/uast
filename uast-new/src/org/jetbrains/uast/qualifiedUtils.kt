@@ -21,7 +21,7 @@ fun UExpression.getQualifiedParentOrThis(): UExpression {
     fun findParent(current: UExpression?, previous: UExpression): UExpression? = when (current) {
         is UQualifiedReferenceExpression -> {
             if (current.selector == previous)
-                findParent(current.parent as? UExpression, current) ?: current
+                findParent(current.containingElement as? UExpression, current) ?: current
             else
                 previous
         }
@@ -29,7 +29,7 @@ fun UExpression.getQualifiedParentOrThis(): UExpression {
         else -> null
     }
 
-    return findParent(parent as? UExpression, this) ?: this
+    return findParent(containingElement as? UExpression, this) ?: this
 }
 
 
@@ -106,10 +106,54 @@ fun UExpression.getQualifiedChain(): List<UExpression> {
  */
 fun UExpression.getOutermostQualified(): UQualifiedReferenceExpression? {
     tailrec fun getOutermostQualified(current: UElement?, previous: UExpression): UQualifiedReferenceExpression? = when (current) {
-        is UQualifiedReferenceExpression -> getOutermostQualified(current.parent, current)
-        is UParenthesizedExpression -> getOutermostQualified(current.parent, previous)
+        is UQualifiedReferenceExpression -> getOutermostQualified(current.containingElement, current)
+        is UParenthesizedExpression -> getOutermostQualified(current.containingElement, previous)
         else -> if (previous is UQualifiedReferenceExpression) previous else null
     }
 
-    return getOutermostQualified(this.parent, this)
+    return getOutermostQualified(this.containingElement, this)
+}
+
+/**
+ * Checks if the received expression is a qualified chain of identifiers, and the trailing part of such chain is [fqName].
+ *
+ * @param fqName the chain part to check against. Sequence of identifiers, separated by dot ('.'). Example: "com.example".
+ * @return true, if the received expression is a qualified chain of identifiers, and the trailing part of such chain is [fqName].
+ */
+fun UExpression.matchesQualified(fqName: String): Boolean {
+    val identifiers = this.asQualifiedPath() ?: return false
+    val passedIdentifiers = fqName.trim('.').split('.')
+    return identifiers == passedIdentifiers
+}
+
+/**
+ * Checks if the received expression is a qualified chain of identifiers, and the leading part of such chain is [fqName].
+ *
+ * @param fqName the chain part to check against. Sequence of identifiers, separated by dot ('.'). Example: "com.example".
+ * @return true, if the received expression is a qualified chain of identifiers, and the leading part of such chain is [fqName].
+ */
+fun UExpression.startsWithQualified(fqName: String): Boolean {
+    val identifiers = this.asQualifiedPath() ?: return false
+    val passedIdentifiers = fqName.trim('.').split('.')
+    if (identifiers.size < passedIdentifiers.size) return false
+    passedIdentifiers.forEachIndexed { i, passedIdentifier ->
+        if (passedIdentifier != identifiers[i]) return false
+    }
+    return true
+}
+
+/**
+ * Checks if the received expression is a qualified chain of identifiers, and the trailing part of such chain is [fqName].
+ *
+ * @param fqName the chain part to check against. Sequence of identifiers, separated by dot ('.'). Example: "com.example".
+ * @return true, if the received expression is a qualified chain of identifiers, and the trailing part of such chain is [fqName].
+ */
+fun UExpression.endsWithQualified(fqName: String): Boolean {
+    val identifiers = this.asQualifiedPath()?.asReversed() ?: return false
+    val passedIdentifiers = fqName.trim('.').split('.').asReversed()
+    if (identifiers.size < passedIdentifiers.size) return false
+    passedIdentifiers.forEachIndexed { i, passedIdentifier ->
+        if (passedIdentifier != identifiers[i]) return false
+    }
+    return true
 }

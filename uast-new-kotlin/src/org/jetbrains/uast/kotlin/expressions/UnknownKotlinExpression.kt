@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class UnknownKotlinExpression(
         override val psi: KtExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UExpression, PsiElementBacked {
     override fun logString() = "[!] UnknownKotlinExpression ($psi)"
 }

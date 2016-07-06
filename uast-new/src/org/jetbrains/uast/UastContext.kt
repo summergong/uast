@@ -5,6 +5,10 @@ import com.intellij.psi.*
 abstract class UastContext : UastLanguagePlugin() {
     abstract val plugins: List<UastLanguagePlugin>
     
+    init {
+        this.context = this
+    }
+
     private val sortedPlugins by lazy { plugins.sortedByDescending { it.priority } }
 
     override fun isFileSupported(fileName: String) = plugins.any { it.isFileSupported(fileName) }
@@ -53,18 +57,25 @@ abstract class UastContext : UastLanguagePlugin() {
         return null
     }
 
-    override fun getMethodBody(e: PsiMethod): UExpression? {
+    override fun getMethodBody(e: PsiMethod): UExpression {
         for (plugin in sortedPlugins) {
             plugin.getMethodBody(e)?.let { return it }
         }
-        return null
+        return UastEmptyExpression
     }
 
-    override fun getInitializerBody(e: PsiVariable): UExpression? {
+    override fun getInitializerBody(e: PsiVariable): UExpression {
         for (plugin in sortedPlugins) {
             plugin.getInitializerBody(e)?.let { return it }
         }
-        return null
+        return UastEmptyExpression
+    }
+
+    override fun getInitializerBody(e: PsiClassInitializer): UExpression? {
+        for (plugin in sortedPlugins) {
+            plugin.getInitializerBody(e)?.let { return it }
+        }
+        return UastEmptyExpression
     }
 }
 

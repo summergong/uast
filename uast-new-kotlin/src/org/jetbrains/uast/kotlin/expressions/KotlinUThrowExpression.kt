@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUThrowExpression(
         override val psi: KtThrowExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UThrowExpression, PsiElementBacked, KotlinUElementWithType {
     override val thrownExpression by lz { KotlinConverter.convertOrEmpty(psi.thrownExpression, this) }
 }

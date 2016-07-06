@@ -46,12 +46,12 @@ class DelegatingUastVisitor(private val visitors: List<UastVisitor>): UastVisito
         return visitors.all { it.visitBlockExpression(node) }
     }
 
-    override fun visitQualifiedExpression(node: UQualifiedReferenceExpression): Boolean {
-        return visitors.all { it.visitQualifiedExpression(node) }
+    override fun visitQualifiedReferenceExpression(node: UQualifiedReferenceExpression): Boolean {
+        return visitors.all { it.visitQualifiedReferenceExpression(node) }
     }
 
-    override fun visitSimpleReferenceExpression(node: USimpleNameReferenceExpression): Boolean {
-        return visitors.all { it.visitSimpleReferenceExpression(node) }
+    override fun visitSimpleNameReferenceExpression(node: USimpleNameReferenceExpression): Boolean {
+        return visitors.all { it.visitSimpleNameReferenceExpression(node) }
     }
 
     override fun visitTypeReferenceExpression(node: UTypeReferenceExpression): Boolean {

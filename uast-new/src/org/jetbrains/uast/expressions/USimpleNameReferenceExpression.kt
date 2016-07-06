@@ -28,8 +28,8 @@ interface USimpleNameReferenceExpression : UReferenceExpression {
     val identifier: String
     
     override fun accept(visitor: UastVisitor) {
-        visitor.visitSimpleReferenceExpression(this)
-        visitor.afterVisitSimpleReferenceExpression(this)
+        visitor.visitSimpleNameReferenceExpression(this)
+        visitor.afterVisitSimpleNameReferenceExpression(this)
     }
 
     override fun logString() = "USimpleReferenceExpression ($identifier)"

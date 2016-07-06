@@ -24,7 +24,7 @@ interface UElement {
     /**
      * Returns the element parent.
      */
-    val parent: UElement?
+    val containingElement: UElement?
 
     /**
      * Returns true if this element is valid, false otherwise.

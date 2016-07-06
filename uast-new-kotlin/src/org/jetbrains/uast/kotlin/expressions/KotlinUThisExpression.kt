@@ -23,5 +23,5 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUThisExpression(
         override val psi: KtThisExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UThisExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement

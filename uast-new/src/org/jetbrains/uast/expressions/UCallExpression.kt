@@ -18,32 +18,35 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiType
+import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
- * Represents a call expression (function call, constructor call, array initializer).
+ * Represents a call expression (method/constructor call, array initializer).
  */
-interface UCallExpression : UExpression, UNamed, UResolvable {
+interface UCallExpression : UExpression, UResolvable {
     /**
      * Returns the call kind.
      */
     val kind: UastCallKind
+    
+    val methodName: String?
     
     val receiver: UExpression?
     
     val receiverType: PsiType?
 
     /**
-     * Returns the function reference expression if the call is a function call, null otherwise.
+     * Returns the function reference expression if the call is a non-constructor method call, null otherwise.
      */
-    val functionReference: USimpleNameReferenceExpression?
+    val methodReference: UReferenceExpression?
 
     /**
      * Returns the class reference if the call is a constructor call, null otherwise.
      */
-    val classReference: USimpleNameReferenceExpression?
+    val classReference: UReferenceExpression?
 
     /**
      * Returns the value argument count.
@@ -64,23 +67,25 @@ interface UCallExpression : UExpression, UNamed, UResolvable {
     val typeArgumentCount: Int
 
     /**
-     * Returns the function type arguments.
+     * Returns the type arguments for the call.
      */
     val typeArguments: List<PsiType>
+    
+    val returnType: PsiType?
     
     override fun resolve(): PsiMethod?
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitCallExpression(this)) return
-        functionReference?.accept(visitor)
+        methodReference?.accept(visitor)
         classReference?.accept(visitor)
         valueArguments.acceptList(visitor)
         visitor.afterVisitCallExpression(this)
     }
 
-    override fun logString() = log("UFunctionCallExpression ($kind, argCount = $valueArgumentCount)", functionReference, valueArguments)
+    override fun logString() = log("UCallExpression ($kind, argCount = $valueArgumentCount)", methodReference, valueArguments)
     override fun renderString(): String {
-        val ref = name ?: classReference?.renderString() ?: functionReference?.renderString() ?: "<noref>"
+        val ref = methodName ?: classReference?.renderString() ?: methodReference?.renderString() ?: "<noref>"
         return ref + "(" + valueArguments.joinToString { it.renderString() } + ")"
     }
 }

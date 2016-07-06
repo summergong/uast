@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUArrayAccessExpression(
         override val psi: KtArrayAccessExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UArrayAccessExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override val receiver by lz { KotlinConverter.convertOrEmpty(psi.arrayExpression, this) }
     override val indices by lz { psi.indexExpressions.map { KotlinConverter.convertExpression(it, this) } }

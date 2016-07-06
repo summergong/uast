@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinULambdaExpression(
         override val psi: KtLambdaExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), ULambdaExpression, PsiElementBacked, KotlinUElementWithType {
     override val body by lz { KotlinConverter.convertOrEmpty(psi.bodyExpression, this) }
     

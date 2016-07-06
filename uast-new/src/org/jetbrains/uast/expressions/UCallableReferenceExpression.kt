@@ -20,7 +20,7 @@ import com.intellij.psi.PsiType
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
- * Represents a callable reference expression, e.g. `Clazz::functionName`.
+ * Represents a callable reference expression, e.g. `Clazz::methodName`.
  */
 interface UCallableReferenceExpression : UExpression {
     /**

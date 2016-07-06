@@ -23,5 +23,5 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUSuperExpression(
         override val psi: KtSuperExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), USuperExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement

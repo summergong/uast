@@ -9,5 +9,14 @@ import org.jetbrains.uast.UastLanguagePlugin
 class SimpleUMethod(
         override val psi: PsiMethod,
         override val languagePlugin: UastLanguagePlugin,
-        override val parent: UElement?
-) : UMethod, PsiMethod by psi
+        override val containingElement: UElement?
+) : UMethod, PsiMethod by psi {
+    override val uastBody by lz { languagePlugin.getMethodBody(this) ?: UastEmptyExpression }
+    
+    override val uastParameters by lz {
+        psi.parameterList.parameters.map { SimpleUParameter(it, languagePlugin, this) } 
+    }
+    
+    override fun equals(other: Any?) = psi.equals(other)
+    override fun hashCode() = psi.hashCode()
+}

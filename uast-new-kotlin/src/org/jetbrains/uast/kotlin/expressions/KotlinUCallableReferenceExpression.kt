@@ -22,7 +22,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUCallableReferenceExpression(
         override val psi: KtCallableReferenceExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UCallableReferenceExpression, PsiElementBacked, KotlinUElementWithType {
     override val qualifierExpression = null
     override val qualifierType by lz { psi.typeReference.toPsiType() }

@@ -17,6 +17,7 @@
 package org.jetbrains.uast.kotlin
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import org.jetbrains.kotlin.asJava.LightClassUtil
 import org.jetbrains.kotlin.asJava.toLightElements
 import org.jetbrains.kotlin.asJava.toLightMethods
@@ -28,7 +29,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUQualifiedReferenceExpression(
         override val psi: KtDotQualifiedExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UQualifiedReferenceExpression,
         PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override val receiver by lz { KotlinConverter.convertOrEmpty(psi.receiverExpression, this) }
@@ -36,11 +37,14 @@ class KotlinUQualifiedReferenceExpression(
     override val accessType = UastQualifiedExpressionAccessType.SIMPLE
     
     override fun resolve() = psi.selectorExpression?.resolveCallToDeclaration()
+
+    override val resolvedName: String?
+        get() = (resolve() as? PsiNamedElement)?.name
 }
 
 class KotlinUComponentQualifiedReferenceExpression(
         override val psi: KtDestructuringDeclarationEntry,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UQualifiedReferenceExpression, 
         PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override val accessType = UastQualifiedExpressionAccessType.SIMPLE
@@ -50,6 +54,9 @@ class KotlinUComponentQualifiedReferenceExpression(
 
     override lateinit var selector: UExpression
         internal set
+
+    override val resolvedName: String?
+        get() = psi.analyze()[BindingContext.COMPONENT_RESOLVED_CALL, psi]?.resultingDescriptor?.name?.asString()
     
     override fun resolve(): PsiElement? {
         val bindingContext = psi.analyze()

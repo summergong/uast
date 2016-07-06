@@ -21,7 +21,7 @@ package org.jetbrains.uast
 open class UastCallKind(val name: String) {
     companion object {
         @JvmField
-        val FUNCTION_CALL = UastCallKind("function_call")
+        val METHOD_CALL = UastCallKind("method_call")
 
         @JvmField
         val CONSTRUCTOR_CALL = UastCallKind("constructor_call")

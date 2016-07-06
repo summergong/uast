@@ -23,9 +23,10 @@ import org.jetbrains.uast.expressions.UTypeReferenceExpression
 interface UastVisitor {
     fun visitElement(node: UElement): Boolean
     
-    fun visitFile(node: UFile): Boolean = visitFile(node)
+    fun visitFile(node: UFile): Boolean = visitElement(node)
+    fun visitImportStatement(node: UImportStatement): Boolean = visitElement(node)
     fun visitClass(node: UClass): Boolean = visitElement(node)
-    fun visitInitializer(node: UInitializer): Boolean = visitElement(node)
+    fun visitInitializer(node: UClassInitializer): Boolean = visitElement(node)
     fun visitMethod(node: UMethod): Boolean = visitElement(node)
     fun visitVariable(node: UVariable): Boolean = visitElement(node)
 
@@ -33,8 +34,8 @@ interface UastVisitor {
     fun visitLabeledExpression(node: ULabeledExpression) = visitElement(node)
     fun visitDeclarationsExpression(node: UVariableDeclarationsExpression) = visitElement(node)
     fun visitBlockExpression(node: UBlockExpression) = visitElement(node)
-    fun visitQualifiedExpression(node: UQualifiedReferenceExpression) = visitElement(node)
-    fun visitSimpleReferenceExpression(node: USimpleNameReferenceExpression) = visitElement(node)
+    fun visitQualifiedReferenceExpression(node: UQualifiedReferenceExpression) = visitElement(node)
+    fun visitSimpleNameReferenceExpression(node: USimpleNameReferenceExpression) = visitElement(node)
     fun visitTypeReferenceExpression(node: UTypeReferenceExpression) = visitElement(node)
     fun visitCallExpression(node: UCallExpression) = visitElement(node)
     fun visitBinaryExpression(node: UBinaryExpression) = visitElement(node)
@@ -71,8 +72,9 @@ interface UastVisitor {
     fun afterVisitElement(node: UElement) {}
 
     fun afterVisitFile(node: UFile) {}
+    fun afterVisitImportStatement(node: UImportStatement) {}
     fun afterVisitClass(node: UClass) {}
-    fun afterVisitInitializer(node: UInitializer) {}
+    fun afterVisitInitializer(node: UClassInitializer) {}
     fun afterVisitMethod(node: UMethod) {}
     fun afterVisitVariable(node: UVariable) {}
 
@@ -80,8 +82,8 @@ interface UastVisitor {
     fun afterVisitLabeledExpression(node: ULabeledExpression) { afterVisitElement(node) }
     fun afterVisitDeclarationsExpression(node: UVariableDeclarationsExpression) { afterVisitElement(node) }
     fun afterVisitBlockExpression(node: UBlockExpression) { afterVisitElement(node) }
-    fun afterVisitQualifiedExpression(node: UQualifiedReferenceExpression) { afterVisitElement(node) }
-    fun afterVisitSimpleReferenceExpression(node: USimpleNameReferenceExpression) { afterVisitElement(node) }
+    fun afterVisitQualifiedReferenceExpression(node: UQualifiedReferenceExpression) { afterVisitElement(node) }
+    fun afterVisitSimpleNameReferenceExpression(node: USimpleNameReferenceExpression) { afterVisitElement(node) }
     fun afterVisitTypeReferenceExpression(node: UTypeReferenceExpression) { afterVisitElement(node) }
     fun afterVisitCallExpression(node: UCallExpression) { afterVisitElement(node) }
     fun afterVisitBinaryExpression(node: UBinaryExpression) { afterVisitElement(node) }

@@ -23,14 +23,16 @@ import org.jetbrains.uast.psi.PsiElementBacked
 class JavaUSimpleReferenceExpression(
         override val psi: PsiElement,
         override val identifier: String,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
     override fun resolve() = (psi as? PsiReference)?.resolve()
+    override val resolvedName: String?
+        get() = ((psi as? PsiReference)?.resolve() as? PsiNamedElement)?.name
 }
 
 class JavaUTypeReferenceExpression(
         override val psi: PsiTypeElement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UTypeReferenceExpression, PsiElementBacked {
     override val type: PsiType
         get() = psi.type
@@ -40,7 +42,9 @@ class JavaClassUSimpleReferenceExpression(
         override val identifier: String,
         val ref: PsiJavaReference,
         override val psi: PsiElement?,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
     override fun resolve() = ref.resolve()
+    override val resolvedName: String?
+        get() = (ref.resolve() as? PsiNamedElement)?.name
 }

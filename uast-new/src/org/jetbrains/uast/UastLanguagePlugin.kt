@@ -1,9 +1,7 @@
 package org.jetbrains.uast
 
-import com.intellij.psi.PsiClass
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiMethod
-import com.intellij.psi.PsiVariable
+import com.intellij.psi.*
+import kotlin.properties.Delegates
 
 /**
  * Interface for the Uast element converter.
@@ -19,8 +17,7 @@ interface UastConverter {
 }
 
 abstract class UastLanguagePlugin {
-    lateinit var context: UastContext
-        internal set
+    open lateinit var context: UastContext
 
     /**
      * Checks if the file with the given [fileName] is supported.
@@ -60,6 +57,8 @@ abstract class UastLanguagePlugin {
     ) : Triple<UCallExpression, PsiMethod, PsiClass>?
 
     abstract fun getMethodBody(e: PsiMethod): UExpression?
+    
+    abstract fun getInitializerBody(e: PsiClassInitializer): UExpression?
 
     abstract fun getInitializerBody(e: PsiVariable): UExpression?
 }

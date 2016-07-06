@@ -21,7 +21,7 @@ import org.jetbrains.uast.*
 
 fun UElement.isConstructorCall() = (this as? UCallExpression)?.kind == UastCallKind.CONSTRUCTOR_CALL
 
-fun UElement.isFunctionCall() = (this as? UCallExpression)?.kind == UastCallKind.FUNCTION_CALL
+fun UElement.isMethodCall() = (this as? UCallExpression)?.kind == UastCallKind.METHOD_CALL
 
 fun UElement.isNewArray() = isNewArrayWithDimensions() || isNewArrayWithInitializer()
 

@@ -6,7 +6,7 @@ import org.jetbrains.uast.UVariable
 import org.jetbrains.uast.UVariableDeclarationsExpression
 
 class JavaUVariableDeclarationsExpression(
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : UVariableDeclarationsExpression {
     override lateinit var variables: List<UVariable>
         internal set

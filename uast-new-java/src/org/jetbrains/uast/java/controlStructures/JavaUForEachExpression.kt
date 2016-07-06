@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUForEachExpression(
         override val psi: PsiForeachStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UForEachExpression, PsiElementBacked {
     override val variable: PsiParameter
         get() = psi.iterationParameter

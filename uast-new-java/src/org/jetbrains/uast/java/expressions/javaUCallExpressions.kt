@@ -18,18 +18,22 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTypesUtil
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
+import org.jetbrains.uast.psi.UElementWithLocation
 
 class JavaUCallExpression(
         override val psi: PsiMethodCallExpression,
-        override val parent: UElement?
-) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
+        override val containingElement: UElement?
+) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked, UElementWithLocation {
     override val kind: UastCallKind
-        get() = UastCallKind.FUNCTION_CALL
+        get() = UastCallKind.METHOD_CALL
 
-    override val functionReference by lz { JavaConverter.convertExpression(psi.methodExpression, this) as? USimpleNameReferenceExpression }
+    override val methodReference by lz { 
+        JavaConverter.convertExpression(psi.methodExpression, this) as? UReferenceExpression 
+    }
 
-    override val classReference: USimpleNameReferenceExpression?
+    override val classReference: UReferenceExpression?
         get() = null
 
     override val valueArgumentCount by lz { psi.argumentList.expressions.size }
@@ -39,16 +43,25 @@ class JavaUCallExpression(
 
     override val typeArguments: List<PsiType>
         get() = psi.typeArguments.toList()
-    
-    override val name: String?
+
+    override val returnType: PsiType?
+        get() = psi.type
+
+    override val methodName: String?
         get() = psi.methodExpression.referenceName
 
     override fun resolve() = psi.resolveMethod()
 
+    override fun getStartOffset(): Int {
+        return psi.methodExpression.referenceNameElement?.textOffset ?: psi.methodExpression.textOffset
+    }
+
+    override fun getEndOffset() = psi.textRange.endOffset
+
     override val receiver: UExpression?
         get() {
-            return if (parent is UQualifiedReferenceExpression && parent.selector == this)
-                parent.receiver
+            return if (containingElement is UQualifiedReferenceExpression && containingElement.selector == this)
+                containingElement.receiver
             else
                 null
         }
@@ -68,7 +81,7 @@ class JavaUCallExpression(
 
 class JavaConstructorUCallExpression(
         override val psi: PsiNewExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
     override val kind by lz {
         when {
@@ -84,7 +97,7 @@ class JavaConstructorUCallExpression(
     override val receiverType: PsiType?
         get() = null
     
-    override val functionReference: USimpleNameReferenceExpression?
+    override val methodReference: UReferenceExpression?
         get() = null
 
     override val classReference by lz {
@@ -122,8 +135,11 @@ class JavaConstructorUCallExpression(
 
     override val typeArguments: List<PsiType>
         get() = psi.classReference?.typeParameters?.toList() ?: emptyList()
+
+    override val returnType: PsiType?
+        get() = (psi.classReference?.resolve() as? PsiClass)?.let { PsiTypesUtil.getClassType(it) } ?: psi.type
     
-    override val name: String?
+    override val methodName: String?
         get() = null
 
     override fun resolve() = psi.resolveMethod()
@@ -131,15 +147,15 @@ class JavaConstructorUCallExpression(
 
 class JavaArrayInitializerUCallExpression(
         override val psi: PsiArrayInitializerExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
-    override val functionReference: USimpleNameReferenceExpression?
+    override val methodReference: UReferenceExpression?
         get() = null
 
-    override val classReference: USimpleNameReferenceExpression?
+    override val classReference: UReferenceExpression?
         get() = null
 
-    override val name: String?
+    override val methodName: String?
         get() = null
     
     override val valueArgumentCount by lz { psi.initializers.size }
@@ -150,6 +166,9 @@ class JavaArrayInitializerUCallExpression(
 
     override val typeArguments: List<PsiType>
         get() = emptyList()
+
+    override val returnType: PsiType?
+        get() = psi.type
 
     override val kind: UastCallKind
         get() = UastCallKind.NESTED_ARRAY_INITIALIZER
@@ -165,18 +184,18 @@ class JavaArrayInitializerUCallExpression(
 
 class JavaAnnotationArrayInitializerUCallExpression(
         override val psi: PsiArrayInitializerMemberValue,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
     override val kind: UastCallKind
         get() = UastCallKind.NESTED_ARRAY_INITIALIZER
 
-    override val functionReference: USimpleNameReferenceExpression?
+    override val methodReference: UReferenceExpression?
         get() = null
 
-    override val classReference: USimpleNameReferenceExpression?
+    override val classReference: UReferenceExpression?
         get() = null
 
-    override val name: String?
+    override val methodName: String?
         get() = null
     
     override val valueArgumentCount by lz { psi.initializers.size }
@@ -192,6 +211,9 @@ class JavaAnnotationArrayInitializerUCallExpression(
 
     override val typeArguments: List<PsiType>
         get() = emptyList()
+
+    override val returnType: PsiType?
+        get() = null
 
     override fun resolve() = null
 

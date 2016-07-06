@@ -25,7 +25,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUPostfixExpression(
         override val psi: KtPostfixExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UPostfixExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
     override val operand by lz { KotlinConverter.convertOrEmpty(psi.baseExpression, this) }
 

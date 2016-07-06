@@ -9,5 +9,5 @@ import org.jetbrains.uast.psi.PsiElementBacked
 open class KotlinUTypeReferenceExpression(
         override val type: PsiType,
         override val psi: PsiElement?,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UTypeReferenceExpression, PsiElementBacked, KotlinUElementWithType

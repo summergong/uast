@@ -25,11 +25,12 @@ import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
 import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUFunctionCallExpression(
         override val psi: KtCallExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UCallExpression, PsiElementBacked, KotlinUElementWithType {
     private val resolvedCall by lz { psi.getResolvedCall(psi.analyze()) }
     
@@ -39,13 +40,13 @@ class KotlinUFunctionCallExpression(
         receiver.type.toPsiType(psi)
     }
 
-    override val name by lz { resolvedCall?.resultingDescriptor?.name?.asString() }
+    override val methodName by lz { resolvedCall?.resultingDescriptor?.name?.asString() }
 
     override val classReference by lz {
-        KotlinClassViaConstructorUSimpleReferenceExpression(psi, name.orAnonymous("class"), this)
+        KotlinClassViaConstructorUSimpleReferenceExpression(psi, methodName.orAnonymous("class"), this)
     }
 
-    override val functionReference by lz {
+    override val methodReference by lz {
         val calleeExpression = psi.calleeExpression ?: return@lz null
         val name = (calleeExpression as? KtSimpleNameExpression)?.getReferencedName() ?: return@lz null
         KotlinNameUSimpleReferenceExpression(calleeExpression, name, this)
@@ -61,10 +62,13 @@ class KotlinUFunctionCallExpression(
 
     override val typeArguments by lz { psi.typeArguments.map { it.typeReference.toPsiType() } }
 
+    override val returnType: PsiType?
+        get() = getExpressionType()
+
     override val kind by lz {
         when (resolvedCall?.resultingDescriptor) {
             is ConstructorDescriptor -> UastCallKind.CONSTRUCTOR_CALL
-            else -> UastCallKind.FUNCTION_CALL
+            else -> UastCallKind.METHOD_CALL
         }
     }
 
@@ -88,7 +92,7 @@ class KotlinUFunctionCallExpression(
 class KotlinUComponentFunctionCallExpression(
         override val psi: PsiElement,
         val n: Int,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : UCallExpression, PsiElementBacked {
     override val receiverType: PsiType?
         get() = null
@@ -102,15 +106,18 @@ class KotlinUComponentFunctionCallExpression(
     override val typeArgumentCount: Int
         get() = 0
     
-    override val name: String
+    override val methodName: String
         get() = "component$n"
+
+    override val returnType: PsiType?
+        get() = getExpressionType()
     
-    override val functionReference by lz { KotlinStringUSimpleReferenceExpression(name, this) }
+    override val methodReference by lz { KotlinStringUSimpleReferenceExpression(methodName, this) }
     
     override val kind: UastCallKind
-        get() = UastCallKind.FUNCTION_CALL
+        get() = UastCallKind.METHOD_CALL
 
-    override val classReference: USimpleNameReferenceExpression?
+    override val classReference: UReferenceExpression?
         get() = null
     
     override val typeArguments: List<PsiType>

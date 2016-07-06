@@ -60,6 +60,10 @@ class KotlinUastLanguagePlugin : UastLanguagePlugin() {
         TODO()
     }
 
+    override fun getInitializerBody(e: PsiClassInitializer): UExpression? {
+        TODO()
+    }
+
     override fun isFileSupported(fileName: String): Boolean {
         return fileName.endsWith(".kt", false) || fileName.endsWith(".kts", false)
     }
@@ -91,7 +95,7 @@ internal object KotlinConverter : UastConverter {
         is KtParameterList -> KotlinUVariableDeclarationsExpression(parent).apply {
             val languagePlugin = parent!!.getLanguagePlugin()
             variables = element.parameters.mapIndexed { i, p -> 
-                SimpleUVariable(UastKotlinPsiParameter.create(p, element, i), languagePlugin, this)
+                SimpleUVariable.create(UastKotlinPsiParameter.create(p, element, i), languagePlugin, this)
             }
         }
         is KtClassBody -> KotlinUExpressionList(element, KotlinSpecialExpressionKinds.CLASS_BODY, parent).apply {
@@ -114,7 +118,7 @@ internal object KotlinConverter : UastConverter {
     ): UVariableDeclarationsExpression {
         val languagePlugin = parent!!.getLanguagePlugin()
         val parentPsiElement = (parent as? PsiElementBacked)?.psi
-        val variable = SimpleUVariable(UastKotlinPsiVariable.create(psi, parentPsiElement), languagePlugin, parent)
+        val variable = SimpleUVariable.create(UastKotlinPsiVariable.create(psi, parentPsiElement), languagePlugin, parent)
         return KotlinUVariableDeclarationsExpression(parent).apply { variables = listOf(variable) }
     }
     
@@ -153,11 +157,11 @@ internal object KotlinConverter : UastConverter {
         }
         is KtDestructuringDeclaration -> KotlinUVariableDeclarationsExpression(parent).apply {
             val languagePlugin = parent!!.getLanguagePlugin()
-            val tempAssignment = SimpleUVariable(UastKotlinPsiVariable.create(expression), languagePlugin, parent)
+            val tempAssignment = SimpleUVariable.create(UastKotlinPsiVariable.create(expression), languagePlugin, parent)
             val destructuringAssignments = expression.entries.mapIndexed { i, entry ->
                 val psiFactory = KtPsiFactory(expression.project)
                 val initializer = psiFactory.createExpression("${tempAssignment.name}.component${i + 1}()")
-                SimpleUVariable(UastKotlinPsiVariable.create(
+                SimpleUVariable.create(UastKotlinPsiVariable.create(
                         entry, tempAssignment.psi, initializer), languagePlugin, parent) 
             }
             variables = listOf(tempAssignment) + destructuringAssignments

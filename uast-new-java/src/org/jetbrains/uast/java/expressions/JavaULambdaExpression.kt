@@ -26,7 +26,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaULambdaExpression(
         override val psi: PsiLambdaExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), ULambdaExpression, PsiElementBacked {
     override val valueParameters by lz {
         val languagePlugin = getLanguagePlugin()

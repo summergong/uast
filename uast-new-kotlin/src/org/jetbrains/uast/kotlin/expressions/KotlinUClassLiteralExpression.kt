@@ -24,7 +24,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUClassLiteralExpression(
         override val psi: KtClassLiteralExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UClassLiteralExpression, PsiElementBacked, KotlinUElementWithType {
     override val type by lz { psi.typeReference.toPsiType() }
     

@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUBlockExpression(
         override val psi: KtBlockExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UBlockExpression, PsiElementBacked, KotlinUElementWithType {
     override val expressions by lz { psi.statements.map { KotlinConverter.convertOrEmpty(it, this) } }
 }

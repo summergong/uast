@@ -19,23 +19,24 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiAssertStatement
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 
 class JavaUAssertExpression(
         override val psi: PsiAssertStatement,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
     val condition: UExpression by lz { JavaConverter.convertOrEmpty(psi.assertCondition, this) }
     val message: UExpression? by lz { JavaConverter.convertOrNull(psi.assertDescription, this) }
     
-    override val functionReference: USimpleNameReferenceExpression?
+    override val methodReference: UReferenceExpression?
         get() = null
 
-    override val classReference: USimpleNameReferenceExpression?
+    override val classReference: UReferenceExpression?
         get() = null
 
-    override val name: String
+    override val methodName: String
         get() = "assert"
 
     override val receiver: UExpression?
@@ -58,6 +59,9 @@ class JavaUAssertExpression(
     override val typeArguments: List<PsiType>
         get() = emptyList()
 
+    override val returnType: PsiType
+        get() = PsiType.VOID
+    
     override val kind: UastCallKind
         get() = JavaUastCallKinds.ASSERT
 

@@ -23,7 +23,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUObjectLiteralExpression(
         override val psi: PsiNewExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UObjectLiteralExpression, PsiElementBacked {
     // We won't create this class if anonymousClass is null
     override val declaration: PsiClass

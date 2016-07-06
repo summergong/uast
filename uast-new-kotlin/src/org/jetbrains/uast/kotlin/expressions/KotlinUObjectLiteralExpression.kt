@@ -25,7 +25,7 @@ import org.jetbrains.uast.psi.UastPsiClassNotResolved
 
 class KotlinUObjectLiteralExpression(
         override val psi: KtObjectLiteralExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : UObjectLiteralExpression, PsiElementBacked, KotlinUElementWithType {
     override val declaration by lz { psi.objectDeclaration.toLightClass() ?: UastPsiClassNotResolved(psi) }
     override fun getExpressionType() = psi.objectDeclaration.toPsiType()

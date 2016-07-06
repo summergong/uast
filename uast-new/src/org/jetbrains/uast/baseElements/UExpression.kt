@@ -74,7 +74,7 @@ interface NoAnnotations : UAnnotated {
  * Use [UastEmptyExpression] in this case.
  */
 object UastEmptyExpression : UExpression {
-    override val parent: UElement?
+    override val containingElement: UElement?
         get() = null
 
     override fun logString() = "EmptyExpression"

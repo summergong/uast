@@ -16,18 +16,22 @@
 package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiElement
+import com.intellij.psi.PsiNamedElement
 import org.jetbrains.uast.*
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUCompositeQualifiedExpression(
     override val psi: PsiElement,
-    override val parent: UElement?
+    override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UQualifiedReferenceExpression, PsiElementBacked {
     override lateinit var receiver: UExpression
         internal set
 
     override lateinit var selector: UExpression
         internal set
+
+    override val resolvedName: String?
+        get() = (resolve() as? PsiNamedElement)?.name
 
     override fun resolve() = (selector as? UResolvable)?.resolve()
 

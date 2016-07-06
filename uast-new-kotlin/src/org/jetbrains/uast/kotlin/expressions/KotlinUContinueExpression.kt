@@ -24,7 +24,7 @@ import org.jetbrains.uast.psi.PsiElementBacked
 
 class KotlinUContinueExpression(
         override val psi: KtContinueExpression,
-        override val parent: UElement?
+        override val containingElement: UElement?
 ) : KotlinAbstractUElement(), UContinueExpression, PsiElementBacked {
     override val label: String?
         get() = psi.getLabelName()
