@@ -10,6 +10,8 @@ interface UDeclaration : UElement, PsiElementBacked, PsiModifierListOwner {
     override fun getOriginalElement() = psi.originalElement
     
     val languagePlugin: UastLanguagePlugin
+    
+    val uastAnnotations: List<UAnnotation>
 
     val isStatic: Boolean
         get() = hasModifierProperty(PsiModifier.STATIC)

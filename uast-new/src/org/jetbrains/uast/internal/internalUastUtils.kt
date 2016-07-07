@@ -15,6 +15,8 @@
  */
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiAnnotation
+import com.intellij.psi.PsiModifierListOwner
 import com.intellij.psi.PsiType
 
 internal val ERROR_NAME = "<error>"
@@ -44,3 +46,6 @@ internal fun <T> lz(f: () -> T) = lazy(LazyThreadSafetyMode.NONE, f)
 
 internal val PsiType.name: String
     get() = getCanonicalText(false)
+
+internal val PsiModifierListOwner.annotations: Array<PsiAnnotation>
+    get() = modifierList?.annotations ?: emptyArray()

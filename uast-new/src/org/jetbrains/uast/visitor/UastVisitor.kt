@@ -17,6 +17,7 @@ package org.jetbrains.uast.visitor
 
 import com.intellij.psi.PsiParameter
 import com.intellij.psi.PsiVariable
+import com.sun.org.apache.xpath.internal.operations.Bool
 import org.jetbrains.uast.*
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 
@@ -29,6 +30,7 @@ interface UastVisitor {
     fun visitInitializer(node: UClassInitializer): Boolean = visitElement(node)
     fun visitMethod(node: UMethod): Boolean = visitElement(node)
     fun visitVariable(node: UVariable): Boolean = visitElement(node)
+    fun visitAnnotation(node: UAnnotation): Boolean = visitElement(node)
 
     // Expressions
     fun visitLabeledExpression(node: ULabeledExpression) = visitElement(node)
@@ -77,6 +79,7 @@ interface UastVisitor {
     fun afterVisitInitializer(node: UClassInitializer) {}
     fun afterVisitMethod(node: UMethod) {}
     fun afterVisitVariable(node: UVariable) {}
+    fun afterVisitAnnotation(node: UAnnotation) {}
 
     // Expressions
     fun afterVisitLabeledExpression(node: ULabeledExpression) { afterVisitElement(node) }

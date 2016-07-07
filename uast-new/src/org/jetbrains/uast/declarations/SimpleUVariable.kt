@@ -7,17 +7,20 @@ import org.jetbrains.uast.UastLanguagePlugin
 import org.jetbrains.uast.expressions.UReferenceExpression
 
 abstract class AbstractUVariable : PsiVariable, UVariable {
-    override val uastInitializer by lz { languagePlugin.getInitializerBody(psi) }
+    override val uastInitializer by lz { languagePlugin.getInitializerBody(this) }
+    override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
     
     override fun equals(other: Any?) = psi.equals(other)
     override fun hashCode() = psi.hashCode()
 }
 
 class SimpleUVariable(
-        override val psi: PsiVariable, 
+        psi: PsiVariable, 
         override val languagePlugin: UastLanguagePlugin, 
         override val containingElement: UElement?
 ) : AbstractUVariable(), UVariable, PsiVariable by psi {
+    override val psi = unwrap(psi)
+    
     companion object {
         fun create(psi: PsiVariable, languagePlugin: UastLanguagePlugin, containingElement: UElement?): UVariable {
             return when (psi) {
@@ -32,28 +35,36 @@ class SimpleUVariable(
 }
 
 class SimpleUParameter(
-        override val psi: PsiParameter,
+        psi: PsiParameter,
         override val languagePlugin: UastLanguagePlugin,
         override val containingElement: UElement?
-) : AbstractUVariable(), UParameter, PsiParameter by psi
+) : AbstractUVariable(), UParameter, PsiParameter by psi {
+    override val psi = unwrap(psi) as PsiParameter
+}
 
 class SimpleUField(
-        override val psi: PsiField,
+        psi: PsiField,
         override val languagePlugin: UastLanguagePlugin,
         override val containingElement: UElement?
-) : AbstractUVariable(), UField, PsiField by psi
+) : AbstractUVariable(), UField, PsiField by psi {
+    override val psi = unwrap(psi) as PsiField
+}
 
 class SimpleULocalVariable(
-        override val psi: PsiLocalVariable,
+        psi: PsiLocalVariable,
         override val languagePlugin: UastLanguagePlugin,
         override val containingElement: UElement?
-) : AbstractUVariable(), ULocalVariable, PsiLocalVariable by psi
+) : AbstractUVariable(), ULocalVariable, PsiLocalVariable by psi {
+    override val psi = unwrap(psi) as PsiLocalVariable
+}
 
 class SimpleUEnumConstant(
-        override val psi: PsiEnumConstant,
+        psi: PsiEnumConstant,
         override val languagePlugin: UastLanguagePlugin,
         override val containingElement: UElement?
 ) : AbstractUVariable(), UEnumConstant, PsiEnumConstant by psi {
+    override val psi = unwrap(psi) as PsiEnumConstant
+    
     override val kind: UastCallKind
         get() = UastCallKind.CONSTRUCTOR_CALL
     override val receiver: UExpression?
@@ -85,3 +96,6 @@ class SimpleUEnumConstant(
     override val methodName: String?
         get() = null
 }
+
+@Suppress("UNCHECKED_CAST")
+private tailrec fun <T : PsiVariable> unwrap(psi: T): PsiVariable = if (psi is UVariable) unwrap(psi.psi) else psi

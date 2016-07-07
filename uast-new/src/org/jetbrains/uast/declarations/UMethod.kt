@@ -1,6 +1,7 @@
 package org.jetbrains.uast
 
 import com.intellij.psi.*
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 interface UMethod : UDeclaration, PsiMethod {
@@ -14,6 +15,7 @@ interface UMethod : UDeclaration, PsiMethod {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitMethod(this)) return
+        uastAnnotations.acceptList(visitor)
         uastBody.accept(visitor)
         visitor.afterVisitMethod(this)
     }

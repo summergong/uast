@@ -108,6 +108,7 @@ class JavaUastLanguagePlugin : UastLanguagePlugin() {
             is PsiClass -> SimpleUClass.create(element, this, parent)
             is PsiMethod -> SimpleUMethod(element, this, parent)
             is PsiVariable -> SimpleUVariable.create(element, this, parent)
+            is UAnnotation -> SimpleUAnnotation(element, this, parent)
             else -> null
         }
     }

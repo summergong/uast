@@ -4,6 +4,7 @@ import com.intellij.psi.PsiClassInitializer
 import com.intellij.psi.PsiModifierListOwner
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 interface UClassInitializer : UDeclaration, PsiClassInitializer {
@@ -15,6 +16,7 @@ interface UClassInitializer : UDeclaration, PsiClassInitializer {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitInitializer(this)) return
+        uastAnnotations.acceptList(visitor)
         visitor.afterVisitInitializer(this)
     }
 

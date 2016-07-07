@@ -1,5 +1,6 @@
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -13,6 +14,8 @@ abstract class AbstractUClass : UClass {
             addAll(uastNestedClasses)
         }
     }
+
+    override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
     
     override val uastFields: List<UVariable> by lz { psi.fields.map { SimpleUVariable.create(it, languagePlugin, this) } }
     override val uastInitializers: List<UClassInitializer> by lz { psi.initializers.map { SimpleUClassInitializer(it, languagePlugin, this) } }
@@ -24,11 +27,15 @@ abstract class AbstractUClass : UClass {
 }
 
 class SimpleUClass private constructor(
-        override val psi: PsiClass, 
+        psi: PsiClass, 
         override val languagePlugin: UastLanguagePlugin, 
         override val containingElement: UElement?
 ) : AbstractUClass(), PsiClass by psi {
+    override val psi = unwrap(psi)
+    
     companion object {
+        private tailrec fun unwrap(psi: PsiClass): PsiClass = if (psi is UClass) unwrap(psi.psi) else psi
+        
         fun create(psi: PsiClass, languagePlugin: UastLanguagePlugin, containingElement: UElement?): UClass {
             return if (psi is PsiAnonymousClass) 
                 SimpleUAnonymousClass(psi, languagePlugin, containingElement)
@@ -39,7 +46,13 @@ class SimpleUClass private constructor(
 }
 
 class SimpleUAnonymousClass(
-        override val psi: PsiAnonymousClass,
+        psi: PsiAnonymousClass,
         override val languagePlugin: UastLanguagePlugin,
         override val containingElement: UElement?
-) : AbstractUClass(), UAnonymousClass, PsiAnonymousClass by psi
+) : AbstractUClass(), UAnonymousClass, PsiAnonymousClass by psi {
+    override val psi: PsiAnonymousClass = unwrap(psi)
+
+    private companion object {
+        tailrec fun unwrap(psi: PsiAnonymousClass): PsiAnonymousClass = if (psi is UAnonymousClass) unwrap(psi.psi) else psi
+    }
+}
