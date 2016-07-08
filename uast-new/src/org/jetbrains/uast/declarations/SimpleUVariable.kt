@@ -5,12 +5,14 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UVariable
 import org.jetbrains.uast.UastLanguagePlugin
 import org.jetbrains.uast.expressions.UReferenceExpression
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 
 abstract class AbstractUVariable : PsiVariable, UVariable {
     override val uastInitializer by lz { languagePlugin.getInitializerBody(this) }
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
-    
-    override fun equals(other: Any?) = psi.equals(other)
+    override val typeReference by lz { languagePlugin.convert(psi.typeElement, this) as? UTypeReferenceExpression }
+
+    override fun equals(other: Any?) = this === other
     override fun hashCode() = psi.hashCode()
 }
 

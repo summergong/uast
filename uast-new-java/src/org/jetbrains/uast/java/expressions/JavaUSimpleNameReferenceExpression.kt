@@ -20,14 +20,15 @@ import org.jetbrains.uast.*
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
-class JavaUSimpleReferenceExpression(
-        override val psi: PsiElement,
+class JavaUSimpleNameReferenceExpression(
+        override val psi: PsiElement?,
         override val identifier: String,
-        override val containingElement: UElement?
+        override val containingElement: UElement?,
+        val reference: PsiReference? = null 
 ) : JavaAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
-    override fun resolve() = (psi as? PsiReference)?.resolve()
+    override fun resolve() = (reference ?: psi as? PsiReference)?.resolve()
     override val resolvedName: String?
-        get() = ((psi as? PsiReference)?.resolve() as? PsiNamedElement)?.name
+        get() = ((reference ?: psi as? PsiReference)?.resolve() as? PsiNamedElement)?.name
 }
 
 class JavaUTypeReferenceExpression(

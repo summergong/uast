@@ -29,8 +29,11 @@ class JavaUCallExpression(
     override val kind: UastCallKind
         get() = UastCallKind.METHOD_CALL
 
-    override val methodReference by lz { 
-        JavaConverter.convertExpression(psi.methodExpression, this) as? UReferenceExpression 
+    override val methodReference by lz {
+        val methodExpression = psi.methodExpression
+        val nameElement = methodExpression.referenceNameElement ?: return@lz null
+        val name = methodExpression.referenceName ?: return@lz null
+        JavaUSimpleNameReferenceExpression(nameElement, name, this, methodExpression) 
     }
 
     override val classReference: UReferenceExpression?

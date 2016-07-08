@@ -17,6 +17,7 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.*
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUTryExpression(
@@ -38,9 +39,17 @@ class JavaUCatchClause(
 ) : JavaAbstractUElement(), UCatchClause, PsiElementBacked {
     override val body by lz { JavaConverter.convertOrEmpty(psi.catchBlock, this) }
     
-    override val parameters: List<PsiParameter>
-        get() = psi.parameter?.let { listOf(it) } ?: emptyList()
+    override val parameters by lz {
+        val languagePlugin = getLanguagePlugin()
+        (psi.parameter?.let { listOf(it) } ?: emptyList()).map { SimpleUParameter(it, languagePlugin, this) }
+    }
 
-    override val types: List<PsiType>
-        get() = psi.preciseCatchTypes
+    override val typeReferences by lz {
+        val typeElement = psi.parameter?.typeElement ?: return@lz emptyList<UTypeReferenceExpression>()
+        if (typeElement.type is PsiDisjunctionType) {
+            typeElement.children.filterIsInstance<PsiTypeElement>().map { JavaUTypeReferenceExpression(it, this) }
+        } else {
+            listOf(JavaUTypeReferenceExpression(typeElement, this))
+        }
+    }
 }

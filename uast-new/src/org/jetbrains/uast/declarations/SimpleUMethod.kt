@@ -19,8 +19,8 @@ class SimpleUMethod(
     override val uastParameters by lz {
         psi.parameterList.parameters.map { SimpleUParameter(it, languagePlugin, this) } 
     }
-    
-    override fun equals(other: Any?) = psi.equals(other)
+
+    override fun equals(other: Any?) = this === other
     override fun hashCode() = psi.hashCode()
 
     private companion object {

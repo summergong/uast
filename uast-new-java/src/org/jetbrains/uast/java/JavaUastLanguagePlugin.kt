@@ -140,7 +140,7 @@ internal object JavaConverter : UastConverter {
             is PsiResourceExpression -> convertExpression(el.expression, parent)
             is PsiExpression -> convertExpression(el, parent)
             is PsiStatement -> convertStatement(el, parent)
-            is PsiIdentifier -> JavaUSimpleReferenceExpression(el, el.text, parent)
+            is PsiIdentifier -> JavaUSimpleNameReferenceExpression(el, el.text, parent)
             is PsiNameValuePair -> convertNameValue(el, parent)
             is PsiArrayInitializerMemberValue -> JavaAnnotationArrayInitializerUCallExpression(el, parent)
             else -> null
@@ -162,7 +162,7 @@ internal object JavaConverter : UastConverter {
             JavaUQualifiedExpression(expression, parent)
         } else {
             val name = expression.referenceName ?: "<error name>"
-            JavaUSimpleReferenceExpression(expression, name, parent)
+            JavaUSimpleNameReferenceExpression(expression, name, parent, expression)
         }
     }
 

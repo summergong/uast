@@ -13,8 +13,8 @@ class SimpleUClassInitializer(
     
     override val uastBody by lz { languagePlugin.getInitializerBody(this) ?: UastEmptyExpression }
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
-    
-    override fun equals(other: Any?) = psi.equals(other)
+
+    override fun equals(other: Any?) = this === other
     override fun hashCode() = psi.hashCode()
 
     private companion object {

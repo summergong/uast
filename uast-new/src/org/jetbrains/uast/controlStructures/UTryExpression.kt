@@ -19,6 +19,7 @@ import com.intellij.psi.PsiParameter
 import com.intellij.psi.PsiResourceListElement
 import com.intellij.psi.PsiType
 import com.intellij.psi.PsiVariable
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
@@ -96,12 +97,15 @@ interface UCatchClause : UElement {
     /**
      * Returns the exception parameter variables for this `catch` clause.
      */
-    val parameters: List<PsiParameter>
+    val parameters: List<UParameter>
 
     /**
      * Returns the exception types for this `catch` clause.
      */
+    val typeReferences: List<UTypeReferenceExpression>
+    
     val types: List<PsiType>
+        get() = typeReferences.map { it.type }
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitCatchClause(this)) return

@@ -2,13 +2,16 @@ package org.jetbrains.uast
 
 import com.intellij.psi.*
 import org.jetbrains.uast.expressions.UReferenceExpression
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 interface UVariable : UDeclaration, PsiVariable {
     override val psi: PsiVariable
-
+    
     val uastInitializer: UExpression?
+    
+    val typeReference: UTypeReferenceExpression?
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitVariable(this)) return

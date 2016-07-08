@@ -32,7 +32,7 @@ interface UForEachExpression : ULoopExpression {
     /**
      * Returns the loop variable.
      */
-    val variable: PsiParameter
+    val variable: UParameter
 
     /**
      * Returns the iterated value (collection, sequence, iterable etc.)

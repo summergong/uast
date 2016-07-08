@@ -22,7 +22,7 @@ abstract class AbstractUClass : UClass {
     override val uastMethods: List<UMethod> by lz { psi.methods.map { SimpleUMethod(it, languagePlugin, this) } }
     override val uastNestedClasses: List<UClass> by lz { psi.innerClasses.map { SimpleUClass.create(it, languagePlugin, this) } }
 
-    override fun equals(other: Any?) = psi.equals(other)
+    override fun equals(other: Any?) = this === other
     override fun hashCode() = psi.hashCode()
 }
 
