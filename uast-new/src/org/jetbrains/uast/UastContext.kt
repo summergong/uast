@@ -29,9 +29,9 @@ abstract class UastContext : UastLanguagePlugin() {
     
     fun getClass(clazz: PsiClass): UClass = getDeclaration(clazz)
 
-    override fun convert(element: Any?, parent: UElement?): UElement? {
+    override fun convertElement(element: Any?, parent: UElement?): UElement? {
         for (plugin in sortedPlugins) {
-            plugin.convert(element, parent)?.let { return it }
+            plugin.convertElement(element, parent)?.let { return it }
         }
         return null
     }
@@ -57,21 +57,21 @@ abstract class UastContext : UastLanguagePlugin() {
         return null
     }
 
-    override fun getMethodBody(e: PsiMethod): UExpression {
+    override fun getMethodBody(e: PsiMethod): UExpression? {
         for (plugin in sortedPlugins) {
             plugin.getMethodBody(e)?.let { return it }
         }
-        return UastEmptyExpression
+        return null
     }
 
-    override fun getInitializerBody(e: PsiVariable): UExpression {
+    override fun getInitializerBody(e: PsiVariable): UExpression? {
         for (plugin in sortedPlugins) {
             plugin.getInitializerBody(e)?.let { return it }
         }
-        return UastEmptyExpression
+        return null
     }
 
-    override fun getInitializerBody(e: PsiClassInitializer): UExpression? {
+    override fun getInitializerBody(e: PsiClassInitializer): UExpression {
         for (plugin in sortedPlugins) {
             plugin.getInitializerBody(e)?.let { return it }
         }

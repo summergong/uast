@@ -1,10 +1,6 @@
 package org.jetbrains.uast
 
 import com.intellij.psi.PsiMethod
-import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UMethod
-import org.jetbrains.uast.UastConverter
-import org.jetbrains.uast.UastLanguagePlugin
 
 class SimpleUMethod(
         psi: PsiMethod,
@@ -13,7 +9,7 @@ class SimpleUMethod(
 ) : UMethod, PsiMethod by psi {
     override val psi = unwrap(psi)
     
-    override val uastBody by lz { languagePlugin.getMethodBody(this) ?: UastEmptyExpression }
+    override val uastBody by lz { languagePlugin.convertOpt<UExpression>(psi.body, this) }
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
     
     override val uastParameters by lz {

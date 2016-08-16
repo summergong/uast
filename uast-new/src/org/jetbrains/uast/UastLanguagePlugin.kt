@@ -38,7 +38,19 @@ abstract class UastLanguagePlugin {
      */
     abstract val priority: Int
 
-    abstract fun convert(element: Any?, parent: UElement?): UElement?
+    abstract fun convertElement(element: Any?, parent: UElement?): UElement?
+    
+    inline fun <reified T : UElement> convertOpt(element: Any?, parent: UElement?): T? {
+        return convertElement(element, parent) as? T
+    }
+
+    fun convertExpressionOrEmpty(element: Any?, parent: UElement?): UExpression {
+        return convertElement(element, parent) as? UExpression ?: UastEmptyExpression
+    }
+
+    inline fun <reified T : UElement> convert(element: Any?, parent: UElement?): T {
+        return convertElement(element, parent) as T
+    }
 
     /**
      * Convert [element] to the [UElement] with the given parent.
@@ -58,7 +70,7 @@ abstract class UastLanguagePlugin {
 
     abstract fun getMethodBody(e: PsiMethod): UExpression?
     
-    abstract fun getInitializerBody(e: PsiClassInitializer): UExpression?
+    abstract fun getInitializerBody(e: PsiClassInitializer): UExpression
 
     abstract fun getInitializerBody(e: PsiVariable): UExpression?
 }

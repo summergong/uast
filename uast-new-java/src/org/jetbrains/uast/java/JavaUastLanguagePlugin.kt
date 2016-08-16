@@ -44,7 +44,7 @@ class JavaUastLanguagePlugin : UastLanguagePlugin() {
         
         return Pair(callExpression, method)
     }
-
+    
     override fun getConstructorCallExpression(
             e: PsiElement, 
             fqName: String
@@ -63,21 +63,18 @@ class JavaUastLanguagePlugin : UastLanguagePlugin() {
     }
 
     override fun getMethodBody(e: PsiMethod): UExpression? {
-        val body = e.body ?: return UastEmptyExpression
-        val parent = if (e is UMethod) e else null
-        return JavaConverter.convertBlock(body, SimpleUMethod(e, this, parent))
+        if (e is UMethod) return e.uastBody
+        return (convertWithParent(e) as? UMethod)?.uastBody
+    }
+
+    override fun getInitializerBody(e: PsiClassInitializer): UExpression {
+        if (e is UClassInitializer) return e.uastBody
+        return (convertWithParent(e) as? UClassInitializer)?.uastBody ?: UastEmptyExpression
     }
 
     override fun getInitializerBody(e: PsiVariable): UExpression? {
-        val initializer = e.initializer ?: return null
-        val parent = if (e is UVariable) e else null
-        return JavaConverter.convertExpression(initializer, SimpleUVariable.create(e, this, parent))
-    }
-
-    override fun getInitializerBody(e: PsiClassInitializer): UExpression? {
-        val body = e.body
-        val parent = if (e is UClassInitializer) e else null
-        return JavaConverter.convertBlock(body, SimpleUClassInitializer(e, this, parent))
+        if (e is UVariable) return e.uastInitializer
+        return (convertWithParent(e) as? UVariable)?.uastInitializer
     }
 
     override val priority = 0
@@ -86,7 +83,7 @@ class JavaUastLanguagePlugin : UastLanguagePlugin() {
         return fileName.endsWith(".java", ignoreCase = true)
     }
 
-    override fun convert(element: Any?, parent: UElement?): UElement? {
+    override fun convertElement(element: Any?, parent: UElement?): UElement? {
         if (element !is PsiElement) return null
         return convertDeclaration(element, parent) ?: JavaConverter.convertPsiElement(element, parent)
     }
@@ -121,8 +118,9 @@ internal object JavaConverter : UastConverter {
 //    }
 
     internal inline fun <reified T : UElement> getCached(element: PsiElement): T? {
-        if (!element.isValid) return null
-        return element.getUserData(CACHED_UELEMENT_KEY)?.get() as? T
+        return null
+//        if (!element.isValid) return null
+//        return element.getUserData(CACHED_UELEMENT_KEY)?.get() as? T
     }
 
     internal tailrec fun unwrapParents(parent: PsiElement?): PsiElement? = when (parent) {

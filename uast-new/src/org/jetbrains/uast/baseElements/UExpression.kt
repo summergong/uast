@@ -25,6 +25,8 @@ import org.jetbrains.uast.visitor.UastVisitor
 interface UExpression : UElement {
     fun evaluate(): Any? = null
     fun evaluateString(): String? = evaluate() as? String
+    
+    val isUsedAsExpression: Boolean
 
     /**
      * Returns expression type.
@@ -76,6 +78,9 @@ interface NoAnnotations : UAnnotated {
 object UastEmptyExpression : UExpression {
     override val containingElement: UElement?
         get() = null
+
+    override val isUsedAsExpression: Boolean
+        get() = false
 
     override fun logString() = "EmptyExpression"
 }

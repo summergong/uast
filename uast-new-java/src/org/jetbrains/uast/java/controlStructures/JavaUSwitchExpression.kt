@@ -42,6 +42,9 @@ class DefaultUSwitchClauseExpression(override val containingElement: UElement?) 
     override val caseValues: List<UExpression>?
         get() = null
 
+    override val isUsedAsExpression: Boolean
+        get() = false
+
     override fun logString() = "DefaultUSwitchClauseExpression"
     override fun renderString() = "else -> "
 }

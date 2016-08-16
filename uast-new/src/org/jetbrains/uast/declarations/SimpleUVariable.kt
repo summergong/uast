@@ -8,9 +8,9 @@ import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 
 abstract class AbstractUVariable : PsiVariable, UVariable {
-    override val uastInitializer by lz { languagePlugin.getInitializerBody(this) }
+    override val uastInitializer by lz { languagePlugin.convertOpt<UExpression>(psi.initializer, this) }
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
-    override val typeReference by lz { languagePlugin.convert(psi.typeElement, this) as? UTypeReferenceExpression }
+    override val typeReference by lz { languagePlugin.convertOpt<UTypeReferenceExpression>(psi.typeElement, this) }
 
     override fun equals(other: Any?) = this === other
     override fun hashCode() = psi.hashCode()
@@ -66,6 +66,9 @@ class SimpleUEnumConstant(
         override val containingElement: UElement?
 ) : AbstractUVariable(), UEnumConstant, PsiEnumConstant by psi {
     override val psi = unwrap(psi) as PsiEnumConstant
+
+    override val isUsedAsExpression: Boolean
+        get() = true
     
     override val kind: UastCallKind
         get() = UastCallKind.CONSTRUCTOR_CALL
@@ -85,9 +88,7 @@ class SimpleUEnumConstant(
         get() = psi.argumentList?.expressions?.size ?: 0
 
     override val valueArguments by lz {
-        psi.argumentList?.expressions?.map { 
-            languagePlugin.convert(it, this) as? UExpression ?: UastEmptyExpression 
-        } ?: emptyList()
+        psi.argumentList?.expressions?.map { languagePlugin.convertExpressionOrEmpty(it, this) } ?: emptyList()
     }
 
     override val returnType: PsiType?

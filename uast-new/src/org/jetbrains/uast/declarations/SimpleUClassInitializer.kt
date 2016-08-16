@@ -11,7 +11,7 @@ class SimpleUClassInitializer(
 ) : UClassInitializer, PsiClassInitializer by psi {
     override val psi = unwrap(psi)
     
-    override val uastBody by lz { languagePlugin.getInitializerBody(this) ?: UastEmptyExpression }
+    override val uastBody by lz { languagePlugin.convertExpressionOrEmpty(psi.body, this) }
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, languagePlugin, this) } }
 
     override fun equals(other: Any?) = this === other

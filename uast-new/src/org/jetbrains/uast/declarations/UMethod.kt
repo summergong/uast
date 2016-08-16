@@ -6,7 +6,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 
 interface UMethod : UDeclaration, PsiMethod {
     override val psi: PsiMethod
-    val uastBody: UExpression
+    val uastBody: UExpression?
     
     val uastParameters: List<UParameter>
 
@@ -16,7 +16,7 @@ interface UMethod : UDeclaration, PsiMethod {
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitMethod(this)) return
         uastAnnotations.acceptList(visitor)
-        uastBody.accept(visitor)
+        uastBody?.accept(visitor)
         visitor.afterVisitMethod(this)
     }
 

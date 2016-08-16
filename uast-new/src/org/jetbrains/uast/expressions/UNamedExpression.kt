@@ -24,6 +24,9 @@ class UNamedExpression(
 ): UExpression, UNamed {
     lateinit var expression: UExpression
 
+    override val isUsedAsExpression: Boolean
+        get() = expression.isUsedAsExpression
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitElement(this)) return
         expression.accept(visitor)

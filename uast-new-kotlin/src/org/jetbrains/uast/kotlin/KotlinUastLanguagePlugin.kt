@@ -71,7 +71,7 @@ class KotlinUastLanguagePlugin : UastLanguagePlugin() {
     override val priority: Int
         get() = 10
 
-    override fun convert(element: Any?, parent: UElement?): UElement? {
+    override fun convertElement(element: Any?, parent: UElement?): UElement? {
         if (element !is KtElement) return null
         return KotlinConverter.convertKtElement(element, parent)
     }
