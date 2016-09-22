@@ -41,6 +41,9 @@ class KotlinUSwitchExpression(
         appendln(body.asRenderString())
         appendln("}")
     }
+
+    override val switchIdentifier: UIdentifier
+        get() = UIdentifier(null, this)
 }
 
 class KotlinUSwitchEntry(

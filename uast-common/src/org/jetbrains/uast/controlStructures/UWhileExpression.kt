@@ -33,6 +33,11 @@ interface UWhileExpression : ULoopExpression {
      */
     val condition: UExpression
 
+    /**
+     * Returns an identifier for the 'while' keyword.
+     */
+    val whileIdentifier: UIdentifier
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitWhileExpression(this)) return
         condition.accept(visitor)

@@ -17,10 +17,8 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiSwitchLabelStatement
 import com.intellij.psi.PsiSwitchStatement
-import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.USwitchClauseExpression
-import org.jetbrains.uast.USwitchExpression
+import com.intellij.psi.impl.source.tree.ChildRole
+import org.jetbrains.uast.*
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUSwitchExpression(
@@ -29,6 +27,9 @@ class JavaUSwitchExpression(
 ) : JavaAbstractUExpression(), USwitchExpression, PsiElementBacked {
     override val expression by lz { JavaConverter.convertOrEmpty(psi.expression, this) }
     override val body by lz { JavaConverter.convertOrEmpty(psi.body, this) }
+
+    override val switchIdentifier: UIdentifier
+        get() = UIdentifier(psi.getChildByRole(ChildRole.SWITCH_KEYWORD), this)
 }
 
 class JavaUCaseSwitchClauseExpression(

@@ -54,6 +54,16 @@ interface UIfExpression : UExpression {
      */
     val isTernary: Boolean
 
+    /**
+     * Returns an identifier for the 'if' keyword.
+     */
+    val ifIdentifier: UIdentifier
+
+    /**
+     * Returns an identifier for the 'else' keyword, or null if the conditional expression has not the 'else' part.
+     */
+    val elseIdentifier: UIdentifier?
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitIfExpression(this)) return
         condition.accept(visitor)

@@ -17,6 +17,7 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiConditionalExpression
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UIfExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
@@ -30,4 +31,10 @@ class JavaUTernaryIfExpression(
 
     override val isTernary: Boolean
         get() = true
+
+    override val ifIdentifier: UIdentifier
+        get() = UIdentifier(null, this)
+
+    override val elseIdentifier: UIdentifier?
+        get() = UIdentifier(null, this)
 }

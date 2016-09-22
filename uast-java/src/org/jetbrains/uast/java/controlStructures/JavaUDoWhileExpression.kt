@@ -16,8 +16,10 @@
 package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiDoWhileStatement
+import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.UDoWhileExpression
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUDoWhileExpression(
@@ -26,4 +28,9 @@ class JavaUDoWhileExpression(
 ) : JavaAbstractUExpression(), UDoWhileExpression, PsiElementBacked {
     override val condition by lz { JavaConverter.convertOrEmpty(psi.condition, this) }
     override val body by lz { JavaConverter.convertOrEmpty(psi.body, this) }
+
+    override val doIdentifier: UIdentifier
+        get() = UIdentifier(psi.getChildByRole(ChildRole.DO_KEYWORD), this)
+    override val whileIdentifier: UIdentifier
+        get() = UIdentifier(psi.getChildByRole(ChildRole.WHILE_KEYWORD), this)
 }

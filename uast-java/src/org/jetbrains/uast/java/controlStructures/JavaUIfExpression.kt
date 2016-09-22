@@ -16,7 +16,9 @@
 package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiIfStatement
+import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UIfExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
@@ -30,4 +32,10 @@ class JavaUIfExpression(
 
     override val isTernary: Boolean
         get() = false
+
+    override val ifIdentifier: UIdentifier
+        get() = UIdentifier(psi.getChildByRole(ChildRole.IF_KEYWORD), this)
+
+    override val elseIdentifier: UIdentifier?
+        get() = psi.getChildByRole(ChildRole.ELSE_KEYWORD)?.let { UIdentifier(it, this) }
 }

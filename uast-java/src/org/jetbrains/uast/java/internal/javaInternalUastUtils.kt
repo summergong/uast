@@ -20,6 +20,8 @@ import com.intellij.psi.JavaTokenType
 import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifierListOwner
+import com.intellij.psi.impl.source.tree.CompositeElement
+import com.intellij.psi.impl.source.tree.java.PsiDoWhileStatementImpl
 import com.intellij.psi.tree.IElementType
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UElement
@@ -78,3 +80,5 @@ internal inline fun <reified T : UDeclaration, reified P : PsiElement> unwrap(el
     assert(unwrapped !is UElement)
     return unwrapped as P
 }
+
+internal fun PsiElement.getChildByRole(role: Int) = (this as? CompositeElement)?.findChildByRoleAsPsiElement(role)

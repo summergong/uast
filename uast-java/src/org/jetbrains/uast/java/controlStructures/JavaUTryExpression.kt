@@ -16,8 +16,10 @@
 package org.jetbrains.uast.java
 
 import com.intellij.psi.*
+import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.UCatchClause
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UTryExpression
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
@@ -33,6 +35,12 @@ class JavaUTryExpression(
         get() = psi.resourceList?.toList() ?: emptyList<PsiResourceListElement>()
     override val isResources: Boolean
         get() = psi.resourceList != null
+
+    override val tryIdentifier: UIdentifier
+        get() = UIdentifier(psi.getChildByRole(ChildRole.TRY_KEYWORD), this)
+
+    override val finallyIdentifier: UIdentifier?
+        get() = psi.getChildByRole(ChildRole.FINALLY_KEYWORD)?.let { UIdentifier(it, this) }
 }
 
 class JavaUCatchClause(

@@ -19,6 +19,7 @@ package org.jetbrains.uast.kotlin
 import com.intellij.psi.PsiResourceListElement
 import org.jetbrains.kotlin.psi.KtTryExpression
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UTryExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
@@ -35,4 +36,10 @@ class KotlinUTryExpression(
 
     override val isResources: Boolean
         get() = false
+
+    override val tryIdentifier: UIdentifier
+        get() = UIdentifier(null, this)
+
+    override val finallyIdentifier: UIdentifier?
+        get() = null
 }

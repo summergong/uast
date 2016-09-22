@@ -43,6 +43,11 @@ interface USwitchExpression : UExpression {
      */
     val body: UExpression
 
+    /**
+     * Returns an identifier for the 'switch' ('case', 'when', ...) keyword.
+     */
+    val switchIdentifier: UIdentifier
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchExpression(this)) return
         expression?.accept(visitor)

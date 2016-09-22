@@ -38,6 +38,11 @@ interface UForEachExpression : ULoopExpression {
      */
     val iteratedValue: UExpression
 
+    /**
+     * Returns the identifier for the 'for' ('foreach') keyword.
+     */
+    val forIdentifier: UIdentifier
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitForEachExpression(this)) return
         iteratedValue.accept(visitor)

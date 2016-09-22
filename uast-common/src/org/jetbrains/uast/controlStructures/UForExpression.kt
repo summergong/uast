@@ -43,6 +43,11 @@ interface UForExpression : ULoopExpression {
      */
     val update: UExpression?
 
+    /**
+     * Returns the identifier for the 'for' keyword.
+     */
+    val forIdentifier: UIdentifier
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitForExpression(this)) return
         declaration?.accept(visitor)

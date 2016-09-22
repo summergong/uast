@@ -68,6 +68,16 @@ interface UTryExpression : UExpression {
      */
     val finallyClause: UExpression?
 
+    /**
+     * Returns an identifier for the 'try' keyword.
+     */
+    val tryIdentifier: UIdentifier
+
+    /**
+     * Returns an identifier for the 'finally' keyword, or null if the 'try' expression has not a 'finally' clause.
+     */
+    val finallyIdentifier: UIdentifier?
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitTryExpression(this)) return
         tryClause.accept(visitor)

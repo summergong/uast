@@ -18,6 +18,7 @@ package org.jetbrains.uast.kotlin
 
 import org.jetbrains.kotlin.psi.KtIfExpression
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UIfExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
@@ -29,4 +30,10 @@ class KotlinUIfExpression(
     override val thenExpression by lz { KotlinConverter.convertOrNull(psi.then, this) }
     override val elseExpression by lz { KotlinConverter.convertOrNull(psi.`else`, this) }
     override val isTernary = false
+
+    override val ifIdentifier: UIdentifier
+        get() = UIdentifier(null, this)
+
+    override val elseIdentifier: UIdentifier?
+        get() = null
 }
