@@ -8,7 +8,7 @@ import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.psi.PsiElementBacked
 
-class UastContext(val project: Project) : UastLanguagePlugin {
+class UastContext(override val project: Project) : UastLanguagePlugin {
     private companion object {
         private val CONTEXT_LANGUAGE = object : Language("UastContextLanguage") {}
     }

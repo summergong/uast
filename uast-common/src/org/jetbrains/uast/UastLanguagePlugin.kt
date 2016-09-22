@@ -22,6 +22,8 @@ interface UastLanguagePlugin {
 
     val language: Language
 
+    val project: Project
+
     /**
      * Checks if the file with the given [fileName] is supported.
      *

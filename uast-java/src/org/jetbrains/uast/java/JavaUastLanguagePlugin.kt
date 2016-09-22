@@ -24,7 +24,7 @@ import org.jetbrains.uast.*
 import org.jetbrains.uast.java.expressions.JavaUSynchronizedExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
-class JavaUastLanguagePlugin(val project: Project) : UastLanguagePlugin {
+class JavaUastLanguagePlugin(override val project: Project) : UastLanguagePlugin {
     override val priority = 0
 
     override fun isFileSupported(fileName: String) = fileName.endsWith(".java", ignoreCase = true)
