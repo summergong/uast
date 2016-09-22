@@ -22,7 +22,7 @@ import org.jetbrains.uast.UQualifiedReferenceExpression
 import org.jetbrains.uast.UastQualifiedExpressionAccessType
 import org.jetbrains.uast.psi.PsiElementBacked
 
-class JavaUQualifiedExpression(
+class JavaUQualifiedReferenceExpression(
         override val psi: PsiReferenceExpression,
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UQualifiedReferenceExpression, PsiElementBacked {

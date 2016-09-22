@@ -164,7 +164,7 @@ internal object JavaConverter {
     internal fun convertReference(expression: PsiReferenceExpression, parent: UElement?, requiredType: Class<out UElement>?): UExpression {
         return with (requiredType) {
             if (expression.isQualified) {
-                expr<UQualifiedReferenceExpression> { JavaUQualifiedExpression(expression, parent) }
+                expr<UQualifiedReferenceExpression> { JavaUQualifiedReferenceExpression(expression, parent) }
             } else {
                 val name = expression.referenceName ?: "<error name>"
                 expr<USimpleNameReferenceExpression> { JavaUSimpleNameReferenceExpression(expression, name, parent, expression) }
