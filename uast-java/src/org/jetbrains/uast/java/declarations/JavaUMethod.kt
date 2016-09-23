@@ -20,11 +20,12 @@ import com.intellij.psi.PsiAnnotationMethod
 import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiNameIdentifierOwner
 import org.jetbrains.uast.*
+import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
 open class JavaUMethod(
         psi: PsiMethod,
         override val containingElement: UElement?
-) : UMethod, PsiMethod by psi {
+) : UMethod, JavaUElementWithComments, PsiMethod by psi {
     override val psi = unwrap<UMethod, PsiMethod>(psi)
     
     override val uastBody by lz { getLanguagePlugin().convertOpt<UExpression>(psi.body, this) }

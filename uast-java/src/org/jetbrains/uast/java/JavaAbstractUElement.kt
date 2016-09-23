@@ -16,14 +16,15 @@
 
 package org.jetbrains.uast.java
 
-import com.intellij.psi.JavaPsiFacade
-import com.intellij.psi.PsiExpression
-import com.intellij.psi.PsiType
-import org.jetbrains.uast.UElement
+import com.intellij.psi.*
 import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.java.internal.JavaUElementWithComments
 import org.jetbrains.uast.psi.PsiElementBacked
 
-abstract class JavaAbstractUElement : UElement {
+abstract class JavaAbstractUElement : JavaUElementWithComments {
+    private val psiElement: PsiElement?
+        get() = (this as? PsiElementBacked)?.psi
+
     override fun equals(other: Any?): Boolean {
         if (this !is PsiElementBacked || other !is PsiElementBacked) {
             return this === other
@@ -35,9 +36,9 @@ abstract class JavaAbstractUElement : UElement {
 
     override fun asSourceString(): String {
         if (this is PsiElementBacked) {
-            return this.psi?.text ?: super.asSourceString()
+            return this.psi?.text ?: super<JavaUElementWithComments>.asSourceString()
         }
-        return super.asSourceString()
+        return super<JavaUElementWithComments>.asSourceString()
     }
 
     override fun toString() = asRenderString()

@@ -20,9 +20,10 @@ import com.intellij.psi.*
 import org.jetbrains.uast.*
 import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
+import org.jetbrains.uast.java.internal.JavaUElementWithComments
 import org.jetbrains.uast.psi.PsiElementBacked
 
-abstract class AbstractJavaUVariable : PsiVariable, UVariable {
+abstract class AbstractJavaUVariable : PsiVariable, UVariable, JavaUElementWithComments {
     override val uastInitializer by lz { getLanguagePlugin().convertOpt<UExpression>(psi.initializer, this) }
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, this) } }
     override val typeReference by lz { getLanguagePlugin().convertOpt<UTypeReferenceExpression>(psi.typeElement, this) }

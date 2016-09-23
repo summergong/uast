@@ -18,11 +18,12 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiClassInitializer
 import org.jetbrains.uast.*
+import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
 class JavaUClassInitializer(
         psi: PsiClassInitializer,
         override val containingElement: UElement?
-) : UClassInitializer, PsiClassInitializer by psi {
+) : UClassInitializer, JavaUElementWithComments, PsiClassInitializer by psi {
     override val psi = unwrap<UClassInitializer, PsiClassInitializer>(psi)
 
     override val uastAnchor: UElement?

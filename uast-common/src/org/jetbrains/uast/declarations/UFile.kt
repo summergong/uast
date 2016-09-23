@@ -34,6 +34,11 @@ interface UFile : UElement {
      */
     val languagePlugin: UastLanguagePlugin
 
+    /**
+     * Returns all comments in file.
+     */
+    val allCommentsInFile: List<UComment>
+
     override fun asLogString() = "UFile"
 
     /**

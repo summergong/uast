@@ -33,6 +33,12 @@ interface UElement {
         get() = true
 
     /**
+     * Returns the list of comments for this element.
+     */
+    val comments: List<UComment>
+        get() = emptyList()
+
+    /**
      * Returns the log string.
      *
      * Output example (should be something like this):

@@ -19,8 +19,9 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
 import org.jetbrains.uast.*
+import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
-abstract class AbstractJavaUClass : UClass {
+abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
     override val uastDeclarations by lz {
         mutableListOf<UDeclaration>().apply {
             addAll(uastFields)

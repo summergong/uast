@@ -16,15 +16,25 @@
 
 package org.jetbrains.uast.kotlin
 
+import com.intellij.psi.PsiComment
+import com.intellij.psi.PsiRecursiveElementWalkingVisitor
 import org.jetbrains.kotlin.psi.KtFile
-import org.jetbrains.uast.UClass
-import org.jetbrains.uast.UFile
-import org.jetbrains.uast.UastLanguagePlugin
-import org.jetbrains.uast.convert
+import org.jetbrains.uast.*
+import java.util.*
 
 class KotlinUFile(override val psi: KtFile, override val languagePlugin: UastLanguagePlugin) : UFile {
     override val packageName: String
         get() = psi.packageFqName.asString()
+
+    override val allCommentsInFile by lz {
+        val comments = ArrayList<UComment>(0)
+        psi.accept(object : PsiRecursiveElementWalkingVisitor() {
+            override fun visitComment(comment: PsiComment) {
+                comments += UComment(comment, this@KotlinUFile)
+            }
+        })
+        comments
+    }
     
     override val imports by lz { psi.importDirectives.map { KotlinUImportStatement(it, this) } }
     override val classes by lz { psi.classes.map { languagePlugin.convert<UClass>(it, this) } }
