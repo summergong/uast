@@ -24,7 +24,11 @@ import org.jetbrains.uast.java.internal.JavaUElementWithComments
 import org.jetbrains.uast.psi.PsiElementBacked
 
 abstract class AbstractJavaUVariable : PsiVariable, UVariable, JavaUElementWithComments {
-    override val uastInitializer by lz { getLanguagePlugin().convertOpt<UExpression>(psi.initializer, this) }
+    override val uastInitializer by lz {
+        val initializer = psi.initializer ?: return@lz null
+        getLanguagePlugin().convertElement(initializer, this) as? UExpression
+    }
+
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, this) } }
     override val typeReference by lz { getLanguagePlugin().convertOpt<UTypeReferenceExpression>(psi.typeElement, this) }
 
@@ -99,7 +103,9 @@ open class JavaUEnumConstant(
         get() = psi.argumentList?.expressions?.size ?: 0
 
     override val valueArguments by lz {
-        psi.argumentList?.expressions?.map { getLanguagePlugin().convertOpt(it, this) ?: UastEmptyExpression } ?: emptyList()
+        psi.argumentList?.expressions?.map {
+            getLanguagePlugin().convertElement(it, this) as? UExpression ?: UastEmptyExpression
+        } ?: emptyList()
     }
 
     override val returnType: PsiType?

@@ -29,7 +29,10 @@ class JavaUClassInitializer(
     override val uastAnchor: UElement?
         get() = null
     
-    override val uastBody by lz { getLanguagePlugin().convertOpt(psi.body, this) ?: UastEmptyExpression }
+    override val uastBody by lz {
+        getLanguagePlugin().convertElement(psi.body, this, null) as? UExpression ?: UastEmptyExpression
+    }
+
     override val uastAnnotations by lz { psi.annotations.map { SimpleUAnnotation(it, this) } }
 
     override fun equals(other: Any?) = this === other

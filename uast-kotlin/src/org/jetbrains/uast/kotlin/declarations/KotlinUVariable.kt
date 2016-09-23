@@ -39,7 +39,7 @@ abstract class AbstractKotlinUVariable : AbstractJavaUVariable() {
                 is KtLightElement<*, *> -> (psi.kotlinOrigin as? KtVariableDeclaration)?.initializer
                 else -> null
             } ?: return null
-            return getLanguagePlugin().convertOpt(initializerExpression, this) ?: UastEmptyExpression
+            return getLanguagePlugin().convertElement(initializerExpression, this) as? UExpression ?: UastEmptyExpression
         }
 }
 
@@ -110,7 +110,9 @@ open class KotlinUEnumConstant(
         get() = psi.argumentList?.expressions?.size ?: 0
 
     override val valueArguments by lz {
-        psi.argumentList?.expressions?.map { getLanguagePlugin().convertOpt(it, this) ?: UastEmptyExpression } ?: emptyList()
+        psi.argumentList?.expressions?.map {
+            getLanguagePlugin().convertElement(it, this) as? UExpression ?: UastEmptyExpression
+        } ?: emptyList()
     }
 
     override val returnType: PsiType?

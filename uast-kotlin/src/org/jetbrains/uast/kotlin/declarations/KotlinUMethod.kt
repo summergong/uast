@@ -35,7 +35,7 @@ open class KotlinUMethod(
 
     override val uastBody by lz {
         val bodyExpression = (kotlinOrigin as? KtFunction)?.bodyExpression ?: return@lz null
-        getLanguagePlugin().convertOpt<UExpression>(bodyExpression, this)
+        getLanguagePlugin().convertElement(bodyExpression, this) as? UExpression
     }
     
     companion object {
@@ -53,6 +53,6 @@ class KotlinUAnnotationMethod(
     override val uastDefaultValue by lz {
         val annotationParameter = psi.kotlinOrigin as? KtParameter ?: return@lz null
         val defaultValue = annotationParameter.defaultValue ?: return@lz null
-        getLanguagePlugin().convertOpt<UExpression>(defaultValue, this)
+        getLanguagePlugin().convertElement(defaultValue, this) as? UExpression
     }
 }

@@ -136,7 +136,7 @@ class KotlinUastLanguagePlugin(override val project: Project) : UastLanguagePlug
                 val lightMethod = LightClassUtil.getLightClassMethod(original) ?: return null
                 convertDeclaration(lightMethod, parent, requiredType)
             }
-            is KtPropertyAccessor -> javaPlugin.convertOpt(
+            is KtPropertyAccessor -> javaPlugin.convertOpt<UMethod>(
                     LightClassUtil.getLightClassAccessorMethod(original), parent)
             is KtProperty -> javaPlugin.convertOpt<UField>(
                     LightClassUtil.getLightClassBackingField(original), parent)
