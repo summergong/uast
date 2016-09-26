@@ -27,6 +27,7 @@ interface UMethod : UDeclaration, PsiMethod {
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitMethod(this)) return
         uastAnnotations.acceptList(visitor)
+        uastParameters.acceptList(visitor)
         uastBody?.accept(visitor)
         visitor.afterVisitMethod(this)
     }
@@ -47,6 +48,7 @@ interface UAnnotationMethod : UMethod, PsiAnnotationMethod {
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitMethod(this)) return
         uastAnnotations.acceptList(visitor)
+        uastParameters.acceptList(visitor)
         uastBody?.accept(visitor)
         uastDefaultValue?.accept(visitor)
         visitor.afterVisitMethod(this)
