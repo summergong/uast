@@ -70,13 +70,13 @@ interface UastVisitor {
 
     fun afterVisitElement(node: UElement) {}
 
-    fun afterVisitFile(node: UFile) {}
-    fun afterVisitImportStatement(node: UImportStatement) {}
-    fun afterVisitClass(node: UClass) {}
-    fun afterVisitInitializer(node: UClassInitializer) {}
-    fun afterVisitMethod(node: UMethod) {}
-    fun afterVisitVariable(node: UVariable) {}
-    fun afterVisitAnnotation(node: UAnnotation) {}
+    fun afterVisitFile(node: UFile) { afterVisitElement(node) }
+    fun afterVisitImportStatement(node: UImportStatement) { afterVisitElement(node) }
+    fun afterVisitClass(node: UClass) { afterVisitElement(node) }
+    fun afterVisitInitializer(node: UClassInitializer) { afterVisitElement(node) }
+    fun afterVisitMethod(node: UMethod) { afterVisitElement(node) }
+    fun afterVisitVariable(node: UVariable) { afterVisitElement(node) }
+    fun afterVisitAnnotation(node: UAnnotation) { afterVisitElement(node) }
 
     // Expressions
     fun afterVisitLabeledExpression(node: ULabeledExpression) { afterVisitElement(node) }
