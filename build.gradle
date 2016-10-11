@@ -12,7 +12,7 @@ buildscript {
 
 allprojects {
     group = 'org.jetbrains.uast'
-    version = ARTIFACT_VERSION
+    version = System.getenv("ARTIFACT_VERSION")
 
     apply plugin: 'java'
     apply plugin: 'kotlin'
@@ -56,7 +56,7 @@ allprojects {
             vcsUrl = SCM_URL
 
             version {
-                name = ARTIFACT_VERSION
+                name = System.getenv("ARTIFACT_VERSION")
                 released = new Date()
             }
         }
@@ -68,7 +68,7 @@ allprojects {
                 from components.java
                 groupId 'org.jetbrains.uast'
                 artifactId project.name
-                version ARTIFACT_VERSION
+                version System.getenv("ARTIFACT_VERSION")
             }
         }
     }
