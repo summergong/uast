@@ -3,6 +3,7 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -38,6 +39,9 @@ interface UClass : UDeclaration, PsiClass {
         uastDeclarations.acceptList(visitor)
         visitor.afterVisitClass(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitClass(this, data)
 }
 
 interface UAnonymousClass : UClass, PsiAnonymousClass {

@@ -2,6 +2,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiAnnotation
 import org.jetbrains.uast.psi.PsiElementBacked
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -21,4 +22,7 @@ interface UAnnotation : UElement, PsiAnnotation, PsiElementBacked {
         if (visitor.visitAnnotation(this)) return
         visitor.afterVisitAnnotation(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitAnnotation(this, data)
 }

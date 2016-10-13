@@ -4,6 +4,7 @@ import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.PsiModifierListOwner
 import org.jetbrains.uast.psi.PsiElementBacked
+import org.jetbrains.uast.visitor.UastTypedVisitor
 
 /**
  * A [PsiElement] declaration wrapper.
@@ -40,4 +41,6 @@ interface UDeclaration : UElement, PsiElementBacked, PsiModifierListOwner {
      */
     val visibility: UastVisibility
         get() = UastVisibility[this]
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitDeclaration(this, data)
 }

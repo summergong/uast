@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -71,6 +72,9 @@ interface UIfExpression : UExpression {
         elseExpression?.accept(visitor)
         visitor.afterVisitIfExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitIfExpression(this, data)
 
     override fun asLogString() = log("UIfExpression", condition, thenExpression, elseExpression)
 

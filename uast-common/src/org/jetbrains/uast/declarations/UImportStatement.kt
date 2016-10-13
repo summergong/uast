@@ -1,6 +1,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.psi.PsiElementBacked
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -23,4 +24,7 @@ interface UImportStatement : UResolvable, UElement, PsiElementBacked {
         if (visitor.visitImportStatement(this)) return
         visitor.afterVisitImportStatement(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitImportStatement(this, data)
 }

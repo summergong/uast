@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiType
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -37,6 +38,8 @@ interface UExpression : UElement {
         visitor.visitElement(this)
         visitor.afterVisitElement(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitExpression(this, data)
 }
 
 /**

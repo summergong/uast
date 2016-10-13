@@ -3,6 +3,7 @@ package org.jetbrains.uast
 import com.intellij.psi.*
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -28,6 +29,9 @@ interface UVariable : UDeclaration, PsiVariable {
         visitor.afterVisitVariable(this)
     }
 
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitVariable(this, data)
+
     @Deprecated("Use uastInitializer instead.", ReplaceWith("uastInitializer"))
     override fun getInitializer() = psi.initializer
 
@@ -42,14 +46,20 @@ interface UVariable : UDeclaration, PsiVariable {
 
 interface UParameter : UVariable, PsiParameter {
     override val psi: PsiParameter
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitParameter(this, data)
 }
 
 interface UField : UVariable, PsiField {
     override val psi: PsiField
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitField(this, data)
 }
 
 interface ULocalVariable : UVariable, PsiLocalVariable {
     override val psi: PsiLocalVariable
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitLocalVariable(this, data)
 }
 
 interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
@@ -65,6 +75,9 @@ interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
         valueArguments.acceptList(visitor)
         visitor.afterVisitVariable(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitEnumConstantExpression(this, data)
 
     override fun asRenderString() = name ?: "<ERROR>"
 }

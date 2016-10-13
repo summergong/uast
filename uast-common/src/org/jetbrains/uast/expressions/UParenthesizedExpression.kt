@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -32,6 +33,9 @@ interface UParenthesizedExpression : UExpression {
         expression.accept(visitor)
         visitor.afterVisitParenthesizedExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitParenthesizedExpression(this, data)
 
     override fun evaluate() = expression.evaluate()
 

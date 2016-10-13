@@ -20,6 +20,7 @@ import com.intellij.psi.PsiType
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -86,6 +87,9 @@ interface UTryExpression : UExpression {
         visitor.afterVisitTryExpression(this)
     }
 
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitTryExpression(this, data)
+
     override fun asRenderString() = buildString {
         append("try ")
         appendln(tryClause.asRenderString().trim('\n', '\r'))
@@ -126,6 +130,9 @@ interface UCatchClause : UElement {
         body.accept(visitor)
         visitor.afterVisitCatchClause(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitCatchClause(this, data)
 
     override fun asLogString() = log("UCatchClause", body)
     override fun asRenderString() = "catch (e) " + body.asRenderString()

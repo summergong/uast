@@ -15,6 +15,7 @@
  */
 package org.jetbrains.uast
 
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -88,4 +89,11 @@ interface UElement {
         visitor.visitElement(this)
         visitor.afterVisitElement(this)
     }
+
+    /**
+     * Passes the element to the specified typed visitor.
+     *
+     * @param visitor the visitor to pass the element to.
+     */
+    fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D): R = visitor.visitElement(this, data)
 }

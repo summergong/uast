@@ -21,6 +21,7 @@ import com.intellij.psi.PsiType
 import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -102,6 +103,9 @@ interface UCallExpression : UExpression, UResolvable {
         valueArguments.acceptList(visitor)
         visitor.afterVisitCallExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitCallExpression(this, data)
 
     override fun asLogString() = log("UCallExpression ($kind, argCount = $valueArgumentCount)", methodIdentifier, valueArguments)
     

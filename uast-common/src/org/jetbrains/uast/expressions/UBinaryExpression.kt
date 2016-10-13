@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import com.intellij.psi.PsiMethod
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -55,6 +56,9 @@ interface UBinaryExpression : UExpression {
         rightOperand.accept(visitor)
         visitor.afterVisitBinaryExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitBinaryExpression(this, data)
 
     override fun asLogString() =
             "UBinaryExpression (${operator.text})" + LINE_SEPARATOR +

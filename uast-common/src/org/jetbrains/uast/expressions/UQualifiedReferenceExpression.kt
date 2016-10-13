@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -46,6 +47,9 @@ interface UQualifiedReferenceExpression : UReferenceExpression {
         selector.accept(visitor)
         visitor.afterVisitQualifiedReferenceExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitQualifiedReferenceExpression(this, data)
 
     override fun asLogString() = log("UQualifiedExpression", receiver, selector)
 }

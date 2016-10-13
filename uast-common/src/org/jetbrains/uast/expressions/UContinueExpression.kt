@@ -16,6 +16,7 @@
 
 package org.jetbrains.uast
 
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -31,6 +32,9 @@ interface UContinueExpression : UExpression {
         visitor.visitContinueExpression(this)
         visitor.afterVisitContinueExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitContinueExpression(this, data)
 
     override fun asLogString() = "UContinueExpression (" + (label ?: "<no label>") + ")"
     override fun asRenderString() = label?.let { "continue@$it" } ?: "continue"

@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -39,6 +40,9 @@ interface UArrayAccessExpression : UExpression {
         indices.acceptList(visitor)
         visitor.afterVisitArrayAccessExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitArrayAccessExpression(this, data)
 
     override fun asLogString() = log("UArrayAccessExpression", receiver, indices)
     override fun asRenderString() = receiver.asRenderString() +

@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -37,6 +38,9 @@ interface ULabeledExpression : UExpression {
         expression.accept(visitor)
         visitor.afterVisitLabeledExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitLabeledExpression(this, data)
 
     override fun evaluate() = expression.evaluate()
 

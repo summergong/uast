@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 interface UUnaryExpression : UExpression {
@@ -47,6 +48,9 @@ interface UUnaryExpression : UExpression {
         operand.accept(visitor)
         visitor.afterVisitUnaryExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitUnaryExpression(this, data)
 }
 
 interface UPrefixExpression : UUnaryExpression {
@@ -57,6 +61,9 @@ interface UPrefixExpression : UUnaryExpression {
         operand.accept(visitor)
         visitor.afterVisitPrefixExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitPrefixExpression(this, data)
 
     override fun asLogString() = log("UPrefixExpression (${operator.text})", operand)
     override fun asRenderString() = operator.text + operand.asRenderString()
@@ -70,6 +77,9 @@ interface UPostfixExpression : UUnaryExpression {
         operand.accept(visitor)
         visitor.afterVisitPostfixExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitPostfixExpression(this, data)
 
     override fun asLogString() = log("UPostfixExpression (${operator.text})", operand)
     override fun asRenderString() = operand.asRenderString() + operator.text

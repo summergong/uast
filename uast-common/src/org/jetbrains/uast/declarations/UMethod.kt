@@ -3,6 +3,7 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiAnnotationMethod
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -31,6 +32,9 @@ interface UMethod : UDeclaration, PsiMethod {
         uastBody?.accept(visitor)
         visitor.afterVisitMethod(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitMethod(this, data)
 
     override fun asLogString() = "UMethod (name = $name)"
 }

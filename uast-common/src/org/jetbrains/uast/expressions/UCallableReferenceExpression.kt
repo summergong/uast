@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 
 import com.intellij.psi.PsiType
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -45,6 +46,9 @@ interface UCallableReferenceExpression : UExpression {
         qualifierExpression?.accept(visitor)
         visitor.afterVisitCallableReferenceExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitCallableReferenceExpression(this, data)
 
     override fun asLogString() = "UCallableReferenceExpression"
 

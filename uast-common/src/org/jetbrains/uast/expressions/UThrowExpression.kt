@@ -17,6 +17,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -33,6 +34,9 @@ interface UThrowExpression : UExpression {
         thrownExpression.accept(visitor)
         visitor.afterVisitThrowExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitThrowExpression(this, data)
 
     override fun asRenderString() = "throw " + thrownExpression.asRenderString()
     override fun asLogString() = log("UThrowExpression", thrownExpression)

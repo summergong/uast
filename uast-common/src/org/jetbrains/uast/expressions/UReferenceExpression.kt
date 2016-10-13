@@ -18,6 +18,7 @@ package org.jetbrains.uast.expressions
 
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UResolvable
+import org.jetbrains.uast.visitor.UastTypedVisitor
 
 interface UReferenceExpression : UExpression, UResolvable {
     /**
@@ -26,4 +27,6 @@ interface UReferenceExpression : UExpression, UResolvable {
     val resolvedName: String?
     
     override fun asLogString() = "UReferenceExpression"
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitReferenceExpression(this, data)
 }

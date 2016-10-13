@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -44,6 +45,9 @@ interface UWhileExpression : ULoopExpression {
         body.accept(visitor)
         visitor.afterVisitWhileExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitWhileExpression(this, data)
 
     override fun asRenderString() = buildString {
         append("while (${condition.asRenderString()}) ")

@@ -2,6 +2,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiFile
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -53,5 +54,8 @@ interface UFile : UElement {
         classes.acceptList(visitor)
         visitor.afterVisitFile(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitFile(this, data)
 }
 

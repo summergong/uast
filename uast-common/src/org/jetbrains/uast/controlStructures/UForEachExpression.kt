@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -49,6 +50,9 @@ interface UForEachExpression : ULoopExpression {
         body.accept(visitor)
         visitor.afterVisitForEachExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitForEachExpression(this, data)
 
     override fun asRenderString() = buildString {
         append("for (")

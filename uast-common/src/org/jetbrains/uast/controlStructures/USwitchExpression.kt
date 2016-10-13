@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -55,6 +56,9 @@ interface USwitchExpression : UExpression {
         visitor.afterVisitSwitchExpression(this)
     }
 
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitSwitchExpression(this, data)
+
     override fun asLogString() = log("USwitchExpression", expression, body)
     
     override fun asRenderString() = buildString {
@@ -81,6 +85,9 @@ interface USwitchClauseExpression : UExpression {
         caseValues?.acceptList(visitor)
         visitor.afterVisitSwitchClauseExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitSwitchClauseExpression(this, data)
 
     override fun asRenderString() = (caseValues?.joinToString { it.asRenderString() } ?: "else") + " -> "
     override fun asLogString() = log("USwitchClauseExpression", caseValues)

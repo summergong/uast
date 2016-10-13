@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -34,6 +35,9 @@ interface UVariableDeclarationsExpression : UExpression {
         variables.acceptList(visitor)
         visitor.afterVisitDeclarationsExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitDeclarationsExpression(this, data)
 
     override fun asRenderString() = variables.joinToString(LINE_SEPARATOR) { it.asRenderString() }
     override fun asLogString() = log("UDeclarationsExpression", variables)

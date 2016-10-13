@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -33,6 +34,9 @@ interface UBlockExpression : UExpression {
         expressions.acceptList(visitor)
         visitor.afterVisitBlockExpression(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitBlockExpression(this, data)
 
     override fun asLogString() = log("UBlockExpression", expressions)
 

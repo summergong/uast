@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -38,6 +39,9 @@ interface UExpressionList : UExpression {
         expressions.acceptList(visitor)
         visitor.afterVisitExpressionList(this)
     }
+
+    override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
+            visitor.visitExpressionList(this, data)
 
     fun firstOrNull(): UExpression? = expressions.firstOrNull()
 
