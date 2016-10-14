@@ -1,6 +1,7 @@
 package org.jetbrains.uast
 
 import com.intellij.psi.PsiAnnotation
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -8,18 +9,24 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * An annotation wrapper to be used in [UastVisitor].
  */
-interface UAnnotation : UElement, PsiAnnotation, PsiElementBacked {
+interface UAnnotation : UElement, PsiElementBacked {
     /**
-     * Returns the original annotation (which is *always* unwrapped [PsiAnnotation], never a [UAnnotation]).
+     * Returns the annotation qualified name.
      */
-    override val psi: PsiAnnotation
-    
-    override fun getOriginalElement() = psi.originalElement
+    val qualifiedName: String?
+
+    /**
+     * Returns the annotation values.
+     */
+    val attributeValues: List<UNamedExpression>
+
+    fun findDeclaredAttributeValue(name: String?): UNamedExpression?
 
     override fun asLogString() = "UAnnotation"
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitAnnotation(this)) return
+        attributeValues.acceptList(visitor)
         visitor.afterVisitAnnotation(this)
     }
 

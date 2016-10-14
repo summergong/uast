@@ -15,6 +15,7 @@
  */
 package org.jetbrains.uast
 
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -30,6 +31,7 @@ interface UParenthesizedExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitParenthesizedExpression(this)) return
+        annotations.acceptList(visitor)
         expression.accept(visitor)
         visitor.afterVisitParenthesizedExpression(this)
     }

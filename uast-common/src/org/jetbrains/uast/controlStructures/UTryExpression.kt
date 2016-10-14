@@ -81,6 +81,7 @@ interface UTryExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitTryExpression(this)) return
+        annotations.acceptList(visitor)
         tryClause.accept(visitor)
         catchClauses.acceptList(visitor)
         finallyClause?.accept(visitor)

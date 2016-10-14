@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.visitor.UastTypedVisitor
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -27,7 +28,8 @@ interface USuperExpression : UExpression {
     override fun asRenderString() = "super"
 
     override fun accept(visitor: UastVisitor) {
-        visitor.visitSuperExpression(this)
+        if (visitor.visitSuperExpression(this)) return
+        annotations.acceptList(visitor)
         visitor.afterVisitSuperExpression(this)
     }
 

@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.visitor.UastTypedVisitor
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -29,7 +30,8 @@ interface USimpleNameReferenceExpression : UReferenceExpression {
     val identifier: String
     
     override fun accept(visitor: UastVisitor) {
-        visitor.visitSimpleNameReferenceExpression(this)
+        if (visitor.visitSimpleNameReferenceExpression(this)) return
+        annotations.acceptList(visitor)
         visitor.afterVisitSimpleNameReferenceExpression(this)
     }
 

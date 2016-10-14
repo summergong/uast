@@ -36,6 +36,7 @@ interface ULambdaExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitLambdaExpression(this)) return
+        annotations.acceptList(visitor)
         valueParameters.acceptList(visitor)
         body.accept(visitor)
         visitor.afterVisitLambdaExpression(this)

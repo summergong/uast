@@ -51,6 +51,7 @@ interface USwitchExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchExpression(this)) return
+        annotations.acceptList(visitor)
         expression?.accept(visitor)
         body.accept(visitor)
         visitor.afterVisitSwitchExpression(this)
@@ -82,6 +83,7 @@ interface USwitchClauseExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchClauseExpression(this)) return
+        annotations.acceptList(visitor)
         caseValues?.acceptList(visitor)
         visitor.afterVisitSwitchClauseExpression(this)
     }
@@ -107,6 +109,7 @@ interface USwitchClauseExpressionWithBody : USwitchClauseExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchClauseExpression(this)) return
+        annotations.acceptList(visitor)
         caseValues?.acceptList(visitor)
         body.accept(visitor)
         visitor.afterVisitSwitchClauseExpression(this)

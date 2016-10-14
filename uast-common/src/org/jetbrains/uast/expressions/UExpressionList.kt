@@ -36,6 +36,7 @@ interface UExpressionList : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitExpressionList(this)) return
+        annotations.acceptList(visitor)
         expressions.acceptList(visitor)
         visitor.afterVisitExpressionList(this)
     }

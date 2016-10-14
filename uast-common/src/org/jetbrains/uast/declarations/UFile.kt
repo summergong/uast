@@ -8,7 +8,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents a Uast file.
  */
-interface UFile : UElement {
+interface UFile : UElement, UAnnotated {
     /**
      * Returns the original [PsiFile].
      */
@@ -50,6 +50,7 @@ interface UFile : UElement {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitFile(this)) return
+        annotations.acceptList(visitor)
         imports.acceptList(visitor)
         classes.acceptList(visitor)
         visitor.afterVisitFile(this)

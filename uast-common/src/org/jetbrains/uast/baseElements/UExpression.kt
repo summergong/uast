@@ -23,7 +23,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents an expression or statement (which is considered as an expression in Uast).
  */
-interface UExpression : UElement {
+interface UExpression : UElement, UAnnotated {
     /**
      * Returns the expression value or null if the value can't be calculated.
      */
@@ -49,7 +49,7 @@ interface UAnnotated : UElement {
     /**
      * Returns the list of annotations applied to the current element.
      */
-    val annotations: List<PsiAnnotation>
+    val annotations: List<UAnnotation>
 
     /**
      * Looks up for annotation element using the annotation qualified name.
@@ -57,7 +57,7 @@ interface UAnnotated : UElement {
      * @param fqName the qualified name to search
      * @return the first annotation element with the specified qualified name, or null if there is no annotation with such name.
      */
-    fun findAnnotation(fqName: String): PsiAnnotation? = annotations.firstOrNull { it.qualifiedName == fqName }
+    fun findAnnotation(fqName: String): UAnnotation? = annotations.firstOrNull { it.qualifiedName == fqName }
 }
 
 /**
@@ -71,6 +71,9 @@ interface UAnnotated : UElement {
 object UastEmptyExpression : UExpression {
     override val containingElement: UElement?
         get() = null
+
+    override val annotations: List<UAnnotation>
+        get() = emptyList()
 
     override fun asLogString() = "EmptyExpression"
 }

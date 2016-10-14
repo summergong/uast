@@ -32,6 +32,7 @@ interface UVariableDeclarationsExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitDeclarationsExpression(this)) return
+        annotations.acceptList(visitor)
         variables.acceptList(visitor)
         visitor.afterVisitDeclarationsExpression(this)
     }

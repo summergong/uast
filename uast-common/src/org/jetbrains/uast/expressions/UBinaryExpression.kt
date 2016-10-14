@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.visitor.UastTypedVisitor
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -52,6 +53,7 @@ interface UBinaryExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitBinaryExpression(this)) return
+        annotations.acceptList(visitor)
         leftOperand.accept(visitor)
         rightOperand.accept(visitor)
         visitor.afterVisitBinaryExpression(this)

@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.visitor.UastTypedVisitor
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -47,7 +48,8 @@ interface ULiteralExpression : UExpression {
         get() = evaluate() is Boolean
 
     override fun accept(visitor: UastVisitor) {
-        visitor.visitLiteralExpression(this)
+        if (visitor.visitLiteralExpression(this)) return
+        annotations.acceptList(visitor)
         visitor.afterVisitLiteralExpression(this)
     }
 

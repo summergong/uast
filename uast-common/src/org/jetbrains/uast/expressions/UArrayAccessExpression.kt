@@ -36,6 +36,7 @@ interface UArrayAccessExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitArrayAccessExpression(this)) return
+        annotations.acceptList(visitor)
         receiver.accept(visitor)
         indices.acceptList(visitor)
         visitor.afterVisitArrayAccessExpression(this)

@@ -16,6 +16,7 @@
 
 package org.jetbrains.uast
 
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -31,6 +32,7 @@ interface UThrowExpression : UExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitThrowExpression(this)) return
+        annotations.acceptList(visitor)
         thrownExpression.accept(visitor)
         visitor.afterVisitThrowExpression(this)
     }

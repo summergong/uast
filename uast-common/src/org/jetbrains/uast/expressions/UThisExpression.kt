@@ -16,6 +16,7 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.visitor.UastTypedVisitor
+import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -27,7 +28,8 @@ interface UThisExpression : UExpression {
     override fun asRenderString() = "this"
 
     override fun accept(visitor: UastVisitor) {
-        visitor.visitThisExpression(this)
+        if (visitor.visitThisExpression(this)) return
+        annotations.acceptList(visitor)
         visitor.afterVisitThisExpression(this)
     }
 
