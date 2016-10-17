@@ -1,6 +1,7 @@
 package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiAnnotation
+import com.intellij.psi.PsiClass
 import org.jetbrains.uast.*
 
 class JavaUAnnotation(
@@ -22,7 +23,9 @@ class JavaUAnnotation(
         }
     }
 
-    fun findAttributeValue(name: String?): UNamedExpression? {
+    override fun resolve(): PsiClass? = psi.nameReferenceElement?.resolve() as? PsiClass
+
+    override fun findAttributeValue(name: String?): UNamedExpression? {
         val context = getUastContext()
         val attributeValue = psi.findAttributeValue(name) ?: return null
         val value = context.convertElement(attributeValue, this, null)
@@ -34,5 +37,16 @@ class JavaUAnnotation(
         val attributeValue = psi.findDeclaredAttributeValue(name) ?: return null
         val value = context.convertElement(attributeValue, this, null)
         return UNamedExpression(name ?: "", value)
+    }
+
+    companion object {
+        @JvmStatic
+        fun wrap(annotation: PsiAnnotation): UAnnotation = JavaUAnnotation(annotation, null)
+
+        @JvmStatic
+        fun wrap(annotations: List<PsiAnnotation>): List<UAnnotation> = annotations.map { JavaUAnnotation(it, null) }
+
+        @JvmStatic
+        fun wrap(annotations: Array<PsiAnnotation>): List<UAnnotation> = annotations.map { JavaUAnnotation(it, null) }
     }
 }
