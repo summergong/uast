@@ -86,6 +86,24 @@ class TreeBasedEvaluator(
         return UValue.Undetermined to valueInfo.state
     }
 
+    override fun visitPrefixExpression(node: UPrefixExpression, data: UEvaluationState): UEvaluationInfo {
+        val operandInfo = node.operand.accept(this, data)
+        if (operandInfo.value == UValue.Nothing) return operandInfo
+        return when (node.operator) {
+            UastPrefixOperator.UNARY_PLUS -> operandInfo.value
+            UastPrefixOperator.UNARY_MINUS -> -operandInfo.value
+            else -> UValue.Undetermined
+        } to operandInfo.state
+    }
+
+    override fun visitPostfixExpression(node: UPostfixExpression, data: UEvaluationState): UEvaluationInfo {
+        val operandInfo = node.operand.accept(this, data)
+        if (operandInfo.value == UValue.Nothing) return operandInfo
+        return when (node.operator) {
+            else -> UValue.Undetermined
+        } to operandInfo.state
+    }
+
     override fun visitBinaryExpression(node: UBinaryExpression, data: UEvaluationState): UEvaluationInfo {
         if (node.operator == UastBinaryOperator.ASSIGN) return node.leftOperand.assign(node.rightOperand, data)
         val leftInfo = node.leftOperand.accept(this, data)
