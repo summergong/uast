@@ -7,7 +7,7 @@ import org.jetbrains.uast.values.UValue
 // Role: stores current values for all variables (and may be something else)
 // Immutable
 interface UEvaluationState {
-    val boundElement: UElement
+    val boundElement: UElement?
 
     operator fun get(variable: UVariable): UValue
 
@@ -18,4 +18,4 @@ interface UEvaluationState {
     fun merge(otherState: UEvaluationState): UEvaluationState
 }
 
-fun UElement.evaluationState(): UEvaluationState = TODO()
+fun UElement.evaluationState(): UEvaluationState = EmptyEvaluationState(this)
