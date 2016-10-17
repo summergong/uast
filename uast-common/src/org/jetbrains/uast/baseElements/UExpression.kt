@@ -15,7 +15,6 @@
  */
 package org.jetbrains.uast
 
-import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -58,6 +57,21 @@ interface UAnnotated : UElement {
      * @return the first annotation element with the specified qualified name, or null if there is no annotation with such name.
      */
     fun findAnnotation(fqName: String): UAnnotation? = annotations.firstOrNull { it.qualifiedName == fqName }
+}
+
+/**
+ * Represents a labeled element.
+ */
+interface ULabeled : UElement {
+    /**
+     * Returns the label name, or null if the label is empty.
+     */
+    val label: String?
+
+    /**
+     * Returns the label identifier, or null if the label is empty.
+     */
+    val labelIdentifier: UIdentifier?
 }
 
 /**

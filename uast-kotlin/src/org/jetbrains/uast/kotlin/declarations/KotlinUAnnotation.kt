@@ -1,5 +1,6 @@
 package org.jetbrains.uast.kotlin
 
+import com.intellij.psi.PsiClass
 import org.jetbrains.kotlin.psi.KtAnnotationEntry
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.descriptorUtil.fqNameSafe
@@ -24,6 +25,14 @@ class KotlinUAnnotation(
             }
         }
     }
+
+    override fun resolve(): PsiClass? {
+        val descriptor = resolvedAnnotation?.type?.constructor?.declarationDescriptor ?: return null
+        return descriptor.toSource()?.getMaybeLightElement(this) as? PsiClass
+    }
+
+    //TODO
+    override fun findAttributeValue(name: String?) = findDeclaredAttributeValue(name)
 
     override fun findDeclaredAttributeValue(name: String?): UNamedExpression? {
         return attributeValues.firstOrNull { it.matchesName(name ?: "value") }

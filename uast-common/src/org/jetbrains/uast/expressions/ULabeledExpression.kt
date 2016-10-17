@@ -23,11 +23,11 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents an expression with the label specified.
  */
-interface ULabeledExpression : UExpression {
+interface ULabeledExpression : UExpression, ULabeled {
     /**
      * Returns the expression label.
      */
-    val label: String
+    override val label: String
 
     /**
      * Returns the expression itself.

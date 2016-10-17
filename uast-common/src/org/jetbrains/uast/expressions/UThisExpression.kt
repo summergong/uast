@@ -23,7 +23,7 @@ import org.jetbrains.uast.visitor.UastVisitor
  * Represents a `this` expression.
  * Qualified `this` is not supported at the moment.
  */
-interface UThisExpression : UExpression {
+interface UThisExpression : UInstanceExpression {
     override fun asLogString() = "UThisExpression"
     override fun asRenderString() = "this"
 

@@ -23,7 +23,7 @@ import org.jetbrains.uast.visitor.UastVisitor
  * Represents a `super` expression.
  * Qualified `super` is not supported at the moment.
  */
-interface USuperExpression : UExpression {
+interface USuperExpression : UInstanceExpression {
     override fun asLogString() = "USuperExpression"
     override fun asRenderString() = "super"
 
