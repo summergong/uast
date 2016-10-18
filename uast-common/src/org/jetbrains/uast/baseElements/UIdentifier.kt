@@ -17,6 +17,7 @@
 package org.jetbrains.uast
 
 import com.intellij.psi.PsiElement
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class UIdentifier(
@@ -29,5 +30,5 @@ class UIdentifier(
     val name: String
         get() = psi?.text ?: "<error>"
     
-    override fun asOwnLogString() = "Identifier ($name)"
+    override fun asLogString() = log("Identifier ($name)")
 }

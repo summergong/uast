@@ -1,9 +1,9 @@
-UFile
-    UClass (name = ReturnX)
-        UMethod (name = foo)
-            UBlockExpression = Nothing
-                UDeclarationsExpression = Undetermined
-                    UVariable (name = x)
-                        ULiteralExpression (42) = 42 (8 bytes)
-                UReturnExpression = Nothing
-                    USimpleReferenceExpression (x) = 42 (8 bytes)
+UFile (package = ) [public class ReturnX : Object {...]
+    UClass (name = ReturnX) [public class ReturnX : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var x: int = 42] = Undetermined
+                    ULocalVariable (name = x) [var x: int = 42]
+                        ULiteralExpression (value = 42) [42] = 42 (8 bytes)
+                UReturnExpression [return x] = Nothing
+                    USimpleNameReferenceExpression [x] = 42 (8 bytes)

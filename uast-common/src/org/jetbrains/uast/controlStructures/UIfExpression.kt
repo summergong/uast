@@ -78,9 +78,7 @@ interface UIfExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitIfExpression(this, data)
 
-    override fun asOwnLogString() = "UIfExpression"
-
-    override fun asLogString() = log(asOwnLogString(), condition, thenExpression, elseExpression)
+    override fun asLogString() = log()
 
     override fun asRenderString() = buildString {
         if (isTernary) {

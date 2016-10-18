@@ -4,6 +4,7 @@ import com.intellij.psi.PsiType
 import com.intellij.psi.util.PsiTypesUtil
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.name
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -28,6 +29,5 @@ interface UTypeReferenceExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitTypeReferenceExpression(this, data)
 
-    override fun asOwnLogString() = "UTypeReferenceExpression (${type.name})"
-    override fun asRenderString() = type.name
+    override fun asLogString() = log("name = ${type.name}")
 }

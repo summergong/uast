@@ -10,6 +10,6 @@ class JavaUImportStatement(
 ) : UImportStatement {
     override val isOnDemand: Boolean
         get() = psi.isOnDemand
-    override val importReference by lz { psi.importReference?.let { JavaDumbUElement(it, this) } }
+    override val importReference by lz { psi.importReference?.let { JavaDumbUElement(it, this, it.qualifiedName) } }
     override fun resolve() = psi.resolve()
 }

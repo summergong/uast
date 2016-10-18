@@ -68,9 +68,7 @@ interface UPrefixExpression : UUnaryExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitPrefixExpression(this, data)
 
-    override fun asOwnLogString() = "UPrefixExpression (${operator.text})"
-
-    override fun asLogString() = log(asOwnLogString(), operand)
+    override fun asLogString() = log("operator = $operator")
 
     override fun asRenderString() = operator.text + operand.asRenderString()
 }
@@ -88,9 +86,7 @@ interface UPostfixExpression : UUnaryExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitPostfixExpression(this, data)
 
-    override fun asOwnLogString() = "UPostfixExpression (${operator.text})"
-
-    override fun asLogString() = log(asOwnLogString(), operand)
+    override fun asLogString() = log("operator = $operator")
 
     override fun asRenderString() = operand.asRenderString() + operator.text
 }

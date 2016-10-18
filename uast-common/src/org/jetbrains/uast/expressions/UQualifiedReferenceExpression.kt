@@ -53,7 +53,5 @@ interface UQualifiedReferenceExpression : UReferenceExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitQualifiedReferenceExpression(this, data)
 
-    override fun asOwnLogString() = "UQualifiedExpression"
-
-    override fun asLogString() = log(asOwnLogString(), receiver, selector)
+    override fun asLogString() = log()
 }

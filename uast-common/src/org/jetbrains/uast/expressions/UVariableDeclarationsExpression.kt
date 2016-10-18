@@ -42,7 +42,5 @@ interface UVariableDeclarationsExpression : UExpression {
 
     override fun asRenderString() = variables.joinToString(LINE_SEPARATOR) { it.asRenderString() }
 
-    override fun asOwnLogString() = "UDeclarationsExpression"
-
-    override fun asLogString() = log(asOwnLogString(), variables)
+    override fun asLogString() = log()
 }

@@ -19,6 +19,7 @@ import com.intellij.psi.PsiSwitchLabelStatement
 import com.intellij.psi.PsiSwitchStatement
 import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.*
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUSwitchExpression(
@@ -49,6 +50,7 @@ class DefaultUSwitchClauseExpression(override val containingElement: UElement?) 
     override val annotations: List<UAnnotation>
         get() = emptyList()
 
-    override fun asOwnLogString() = "DefaultUSwitchClauseExpression"
+    override fun asLogString() = log()
+
     override fun asRenderString() = "else -> "
 }

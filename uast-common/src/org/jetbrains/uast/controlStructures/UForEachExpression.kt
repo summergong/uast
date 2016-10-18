@@ -65,7 +65,5 @@ interface UForEachExpression : ULoopExpression {
         append(body.asRenderString())
     }
 
-    override fun asOwnLogString() = "UForEachExpression"
-
-    override fun asLogString() = log(asOwnLogString(), variable, iteratedValue, body)
+    override fun asLogString() = log()
 }

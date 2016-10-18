@@ -18,8 +18,8 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.internal.acceptList
-import org.jetbrains.uast.visitor.UastVisitor
 import org.jetbrains.uast.internal.log
+import org.jetbrains.uast.visitor.UastVisitor
 
 /**
  * Represents a binary expression (value1 op value2), eg. `2 + "A"`.
@@ -63,9 +63,7 @@ interface UBinaryExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitBinaryExpression(this, data)
 
-    override fun asOwnLogString() = "UBinaryExpression (${operator.text})"
-
-    override fun asLogString() = log(asOwnLogString(), leftOperand, rightOperand)
+    override fun asLogString() = log("operator = $operator")
 
     override fun asRenderString() = leftOperand.asRenderString() + ' ' + operator.text + ' ' + rightOperand.asRenderString()
 }

@@ -64,7 +64,7 @@ abstract class AbstractTestWithIntellijCore : TestCase() {
         myProjectEnvironment = null
     }
 
-    protected fun assertEqualsToFile(expected: File, actual: String) {
+    protected fun assertEqualsToFile(description: String, expected: File, actual: String) {
         if (!expected.exists()) {
             expected.writeText(actual)
             fail("File didn't exist. New file was created (${expected.canonicalPath}).")
@@ -73,7 +73,7 @@ abstract class AbstractTestWithIntellijCore : TestCase() {
         val expectedText = StringUtil.convertLineSeparators(expected.readText().trim())
         val actualText = StringUtil.convertLineSeparators(actual.trim())
         if (expectedText != actualText) {
-            throw FileComparisonFailure("", expectedText, actualText, expected.absolutePath)
+            throw FileComparisonFailure(description, expectedText, actualText, expected.absolutePath)
         }
     }
 }

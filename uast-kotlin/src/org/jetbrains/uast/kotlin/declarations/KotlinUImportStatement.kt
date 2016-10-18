@@ -32,7 +32,11 @@ class KotlinUImportStatement(
     override val isOnDemand: Boolean
         get() = psi.isAllUnder
     
-    private val importRef by lz { psi.importedReference?.let { ImportReference(it, psi.name ?: psi.text, this) } }
+    private val importRef by lz {
+        psi.importedReference?.let {
+            ImportReference(it, psi.name ?: psi.text, this, psi)
+        }
+    }
     
     override val importReference: UElement?
         get() = importRef
@@ -42,10 +46,13 @@ class KotlinUImportStatement(
     private class ImportReference(
             override val psi: KtExpression,
             override val identifier: String,
-            override val containingElement: UElement?
+            override val containingElement: UElement?,
+            private val importDirective: KtImportDirective
     ) : KotlinAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
         override val resolvedName: String?
             get() = identifier
+
+        override fun asRenderString(): String = importDirective.importedFqName?.asString() ?: psi.text
 
         override fun resolve() = psi.getQualifiedElementSelector()?.mainReference?.resolve()?.getMaybeLightElement(this)
     }

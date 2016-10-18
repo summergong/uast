@@ -39,12 +39,27 @@ interface UMethod : UDeclaration, PsiMethod {
         visitor.afterVisitMethod(this)
     }
 
+    override fun asRenderString() = buildString {
+        append(psi.renderModifiers())
+        append("fun ").append(name)
+
+        uastParameters.joinTo(this, prefix = "(", postfix = ")") {
+            it.name + ": " + it.type.canonicalText
+        }
+
+        psi.returnType?.let { append(" : " + it.canonicalText) }
+
+        val body = uastBody
+        append(when (body) {
+            is UBlockExpression -> " " + body.asRenderString()
+            else -> " = " + ((body ?: UastEmptyExpression).asRenderString())
+        })
+    }
+
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitMethod(this, data)
 
-    override fun asOwnLogString() = "UMethod (name = $name)"
-
-    override fun asLogString() = log(asOwnLogString(), annotations, uastParameters, uastBody)
+    override fun asLogString() = log("name = $name")
 }
 
 interface UAnnotationMethod : UMethod, PsiAnnotationMethod {
@@ -66,5 +81,5 @@ interface UAnnotationMethod : UMethod, PsiAnnotationMethod {
         visitor.afterVisitMethod(this)
     }
 
-    override fun asOwnLogString() = "UAnnotationMethod (name = $name)"
+    override fun asLogString() = log("name = $name")
 }

@@ -1,5 +1,6 @@
 package org.jetbrains.uast
 
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -18,7 +19,9 @@ interface UImportStatement : UResolvable, UElement, PsiElementBacked {
      */
     val importReference: UElement?
     
-    override fun asOwnLogString() = "UImportStatement (onDemand = $isOnDemand)"
+    override fun asLogString() = log("isOnDemand = $isOnDemand")
+
+    override fun asRenderString() = "import " + (importReference?.asRenderString() ?: "<error>")
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitImportStatement(this)) return

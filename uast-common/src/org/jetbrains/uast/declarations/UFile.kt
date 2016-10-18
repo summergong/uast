@@ -2,10 +2,10 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiFile
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
-import org.jetbrains.uast.internal.log
 
 /**
  * Represents a Uast file.
@@ -42,11 +42,23 @@ interface UFile : UElement, UAnnotated, PsiElementBacked {
      */
     val allCommentsInFile: List<UComment>
 
-    override fun asOwnLogString() = "UFile"
+    override fun asLogString() = log("package = $packageName")
 
-    override fun asLogString() = log(asOwnLogString(), annotations, imports, classes)
+    override fun asRenderString() = buildString {
+        val packageName = this@UFile.packageName
+        if (packageName.isNotEmpty()) appendln("package $packageName").appendln()
 
-    override fun asRenderString() = log(asOwnLogString(), annotations, imports, classes, preferPsi = true)
+        val imports = this@UFile.imports
+        if (imports.isNotEmpty()) {
+            imports.forEach { appendln(it.asRenderString()) }
+            appendln()
+        }
+
+        classes.forEachIndexed { index, clazz ->
+            if (index > 0) appendln()
+            appendln(clazz.asRenderString())
+        }
+    }
 
     /**
      * [UFile] is a top-level element of the Uast hierarchy, thus the [containingElement] always returns null for it.

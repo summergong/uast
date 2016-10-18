@@ -15,9 +15,9 @@
  */
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiModifier
+import com.intellij.psi.PsiModifierListOwner
 import com.intellij.psi.PsiType
-
-internal val ERROR_NAME = "<error>"
 
 internal val LINE_SEPARATOR = System.getProperty("line.separator") ?: "\n"
 
@@ -28,13 +28,6 @@ internal operator fun String.times(n: Int) = this.repeat(n)
 
 internal fun List<UElement>.asLogString() = joinToString(LINE_SEPARATOR) { it.asLogString().withMargin }
 
-internal fun StringBuilder.appendWithSpace(s: String) {
-    if (s.isNotEmpty()) {
-        append(s)
-        append(' ')
-    }
-}
-
 internal tailrec fun UExpression.unwrapParenthesis(): UExpression = when (this) {
     is UParenthesizedExpression -> expression.unwrapParenthesis()
     else -> this
@@ -44,3 +37,9 @@ internal fun <T> lz(f: () -> T) = lazy(LazyThreadSafetyMode.NONE, f)
 
 internal val PsiType.name: String
     get() = getCanonicalText(false)
+
+
+internal fun PsiModifierListOwner.renderModifiers(): String {
+    val modifiers = PsiModifier.MODIFIERS.filter { hasModifierProperty(it) }.joinToString(" ")
+    return if (modifiers.isEmpty()) "" else modifiers + " "
+}

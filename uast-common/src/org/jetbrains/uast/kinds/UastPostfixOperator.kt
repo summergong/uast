@@ -30,7 +30,5 @@ open class UastPostfixOperator(override val text: String): UastOperator {
         val UNKNOWN = UastPostfixOperator("<unknown>")
     }
 
-    override fun toString(): String{
-        return "UastPostfixOperator(text='$text')"
-    }
+    override fun toString() = text
 }

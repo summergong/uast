@@ -1,7 +1,9 @@
 package org.jetbrains.uast
 
 import com.intellij.psi.PsiClassInitializer
+
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
@@ -26,8 +28,13 @@ interface UClassInitializer : UDeclaration, PsiClassInitializer {
         visitor.afterVisitInitializer(this)
     }
 
+    override fun asRenderString() = buildString {
+        append(modifierList)
+        appendln(uastBody.asRenderString().withMargin)
+    }
+
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitClassInitializer(this, data)
 
-    override fun asOwnLogString() = "UMethod (name = ${psi.name}"
+    override fun asLogString() = log("isStatic = $isStatic")
 }

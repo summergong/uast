@@ -24,7 +24,7 @@ abstract class AbstractJavaValuesTest : AbstractJavaUastTest() {
     override fun check(testName: String, file: UFile) {
         val valuesFile = getValuesFile(testName)
 
-        assertEqualsToFile(valuesFile, file.asLogValues())
+        assertEqualsToFile("Log values", valuesFile, file.asLogValues())
     }
 
     class ValueLogger(val evaluationContext: UEvaluationContext) : UastVisitor {
@@ -34,7 +34,15 @@ abstract class AbstractJavaValuesTest : AbstractJavaUastTest() {
         var level = 0
 
         override fun visitElement(node: UElement): Boolean {
-            val initialLine = node.asOwnLogString()
+            val initialLine = node.asLogString() + " [" + run {
+                val renderString = node.asRenderString().lines()
+                if (renderString.size == 1) {
+                    renderString.single()
+                } else {
+                    renderString.first() + "..." + renderString.last()
+                }
+            } + "]"
+
             (1..level).forEach { builder.append("    ") }
             builder.append(initialLine)
             if (node is UExpression) {

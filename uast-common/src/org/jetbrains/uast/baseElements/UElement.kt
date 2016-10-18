@@ -40,28 +40,19 @@ interface UElement {
         get() = emptyList()
 
     /**
-     * Returns the log string for this element only (not including children).
-     */
-    fun asOwnLogString(): String
-
-    /**
-     * Returns the log string.
+     * Returns the log string (usually one line containing the class name and some additional information).
      *
-     * Output example (should be something like this):
+     * Examples:
      * UWhileExpression
-     *     UBinaryExpression (>)
-     *         USimpleReferenceExpression (i)
-     *         ULiteralExpression (5)
-     *     UBlockExpression
-     *         UCallExpression (println)
-     *             ULiteralExpression (ABC)
-     *         UPostfixExpression (--)
-     *             USimpleReferenceExpression(i)
+     * UBinaryExpression (>)
+     * UCallExpression (println)
+     * USimpleReferenceExpression (i)
+     * ULiteralExpression (5)
      *
      * @return the expression tree for this element.
      * @see [UIfExpression] for example.
      */
-    fun asLogString(): String = asOwnLogString()
+    fun asLogString(): String
 
     /**
      * Returns the string in pseudo-code.

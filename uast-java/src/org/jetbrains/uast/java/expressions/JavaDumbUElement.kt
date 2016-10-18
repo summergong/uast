@@ -17,12 +17,14 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.PsiElement
 import org.jetbrains.uast.UElement
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaDumbUElement(
         override val psi: PsiElement?,
-        override val containingElement: UElement?
+        override val containingElement: UElement?,
+        private val customRenderString: String? = null
 ) : JavaAbstractUElement(), UElement, PsiElementBacked {
-    override fun asOwnLogString() = "JavaDumbUElement"
-    override fun asRenderString() = "<stub@$psi>"
+    override fun asLogString() = log()
+    override fun asRenderString() = customRenderString ?: "<stub@$psi>"
 }

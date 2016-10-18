@@ -46,9 +46,7 @@ interface UExpressionList : UExpression {
 
     fun firstOrNull(): UExpression? = expressions.firstOrNull()
 
-    override fun asOwnLogString() = "USpecialExpressionList (${kind.name})"
-
-    override fun asLogString() = log(asOwnLogString(), expressions)
+    override fun asLogString() = log(kind.name)
 
     override fun asRenderString() = kind.name + " " + expressions.joinToString(" : ") { it.asRenderString() }
 }

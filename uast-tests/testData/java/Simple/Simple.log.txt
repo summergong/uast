@@ -1,2 +1,2 @@
-UFile
+UFile (package = )
     UClass (name = Simple)

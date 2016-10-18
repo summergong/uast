@@ -45,9 +45,7 @@ interface ULambdaExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitLambdaExpression(this, data)
 
-    override fun asOwnLogString() = "ULambdaExpression"
-
-    override fun asLogString() = log(asOwnLogString(), valueParameters, body)
+    override fun asLogString() = log()
     
     override fun asRenderString(): String {
         val renderedValueParameters = if (valueParameters.isEmpty())

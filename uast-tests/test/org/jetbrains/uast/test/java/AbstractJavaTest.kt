@@ -2,6 +2,7 @@ package org.jetbrains.uast.test
 
 import org.jetbrains.uast.test.java.AbstractJavaUastTest
 import org.jetbrains.uast.UFile
+import org.jetbrains.uast.asRecursiveLogString
 import java.io.File
 
 abstract class AbstractJavaTest : AbstractJavaUastTest() {
@@ -15,7 +16,7 @@ abstract class AbstractJavaTest : AbstractJavaUastTest() {
         val renderFile = getRenderFile(testName)
         val logFile = getLogFile(testName)
 
-        assertEqualsToFile(renderFile, file.asRenderString())
-        assertEqualsToFile(logFile, file.asLogString())
+        assertEqualsToFile("Render string", renderFile, file.asRenderString())
+        assertEqualsToFile("Log string", logFile, file.asRecursiveLogString())
     }
 }

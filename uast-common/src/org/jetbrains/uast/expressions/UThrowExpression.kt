@@ -42,7 +42,5 @@ interface UThrowExpression : UExpression {
 
     override fun asRenderString() = "throw " + thrownExpression.asRenderString()
 
-    override fun asOwnLogString() = "UThrowExpression"
-
-    override fun asLogString() = log(asOwnLogString(), thrownExpression)
+    override fun asLogString() = log()
 }

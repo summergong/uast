@@ -18,6 +18,7 @@ package org.jetbrains.uast
 
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
@@ -38,6 +39,7 @@ interface UBreakExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitBreakExpression(this, data)
 
-    override fun asOwnLogString() = "UBreakExpression (" + (label ?: "<no label>") + ")"
+    override fun asLogString() = log("label = $label")
+
     override fun asRenderString() = label?.let { "break@$it" } ?: "break"
 }

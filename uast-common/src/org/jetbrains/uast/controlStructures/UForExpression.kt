@@ -74,7 +74,5 @@ interface UForExpression : ULoopExpression {
         append(body.asRenderString())
     }
 
-    override fun asOwnLogString() = "UForExpression"
-
-    override fun asLogString() = log(asOwnLogString(), declaration, condition, update, body)
+    override fun asLogString() = log()
 }

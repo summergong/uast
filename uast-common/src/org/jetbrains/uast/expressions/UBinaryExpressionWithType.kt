@@ -47,9 +47,7 @@ interface UBinaryExpressionWithType : UExpression {
      */
     val type: PsiType
 
-    override fun asOwnLogString() = "UBinaryExpressionWithType (${getExpressionType()?.name}, ${operationKind.name})"
-
-    override fun asLogString() = log(asOwnLogString(), operand)
+    override fun asLogString() = log()
     
     override fun asRenderString() = "${operand.asRenderString()} ${operationKind.name} ${type.name}"
 

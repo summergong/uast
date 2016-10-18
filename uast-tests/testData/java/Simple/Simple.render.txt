@@ -1,3 +1,2 @@
-UFile
-public class Simple {
+public class Simple : Object {
 }

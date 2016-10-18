@@ -42,7 +42,5 @@ class UastPrefixOperator(override val text: String): UastOperator {
         val UNKNOWN = UastPrefixOperator("<unknown>")
     }
 
-    override fun toString(): String{
-        return "UastPrefixOperator(text='$text')"
-    }
+    override fun toString() = text
 }

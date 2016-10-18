@@ -36,19 +36,19 @@ interface UVariable : UDeclaration, PsiVariable {
     @Deprecated("Use uastInitializer instead.", ReplaceWith("uastInitializer"))
     override fun getInitializer() = psi.initializer
 
-    override fun asOwnLogString() = "UVariable (name = $name)"
-
-    override fun asLogString() = log(asOwnLogString(), annotations, uastInitializer)
+    override fun asLogString() = log("name = $name")
 
     override fun asRenderString() = buildString {
-        val modifiers = PsiModifier.MODIFIERS.filter { psi.hasModifierProperty(it) }.joinToString(" ")
-        if (modifiers.isNotEmpty()) append(modifiers).append(' ')
+        append(psi.renderModifiers())
         append("var ").append(psi.name).append(": ").append(psi.type.getCanonicalText(false))
+        uastInitializer?.let { initializer -> append(" = " + initializer.asRenderString()) }
     }
 }
 
 interface UParameter : UVariable, PsiParameter {
     override val psi: PsiParameter
+
+    override fun asLogString() = log("name = $name")
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitParameter(this, data)
 }
@@ -56,11 +56,15 @@ interface UParameter : UVariable, PsiParameter {
 interface UField : UVariable, PsiField {
     override val psi: PsiField
 
+    override fun asLogString() = log("name = $name")
+
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitField(this, data)
 }
 
 interface ULocalVariable : UVariable, PsiLocalVariable {
     override val psi: PsiLocalVariable
+
+    override fun asLogString() = log("name = $name")
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitLocalVariable(this, data)
 }
@@ -68,9 +72,7 @@ interface ULocalVariable : UVariable, PsiLocalVariable {
 interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
     override val psi: PsiEnumConstant
 
-    override fun asOwnLogString() = "UEnumConstant (name = ${psi.name}"
-
-    override fun asLogString() = super<UField>.asLogString()
+    override fun asLogString() = log("name = $name")
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitVariable(this)) return

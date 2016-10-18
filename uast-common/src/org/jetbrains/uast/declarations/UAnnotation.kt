@@ -2,6 +2,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiClass
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
@@ -29,7 +30,7 @@ interface UAnnotation : UElement, PsiElementBacked, UResolvable {
 
     fun findDeclaredAttributeValue(name: String?): UNamedExpression?
 
-    override fun asOwnLogString() = "UAnnotation"
+    override fun asLogString() = log("fqName = $qualifiedName")
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitAnnotation(this)) return

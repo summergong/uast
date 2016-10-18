@@ -1,0 +1,232 @@
+UFile (package = )
+    UClass (name = DataClass)
+        UField (name = STRING_CONSTANT)
+            ULiteralExpression (value = "ABC")
+        UField (name = firstName)
+        UField (name = lastName)
+        UField (name = age)
+        UMethod (name = DataClass)
+            UParameter (name = firstName)
+            UParameter (name = lastName)
+            UParameter (name = age)
+            UBlockExpression
+                UBinaryExpression (operator = =)
+                    UQualifiedReferenceExpression
+                        UThisExpression (label = null)
+                        USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression
+                UBinaryExpression (operator = =)
+                    UQualifiedReferenceExpression
+                        UThisExpression (label = null)
+                        USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression
+                UBinaryExpression (operator = =)
+                    UQualifiedReferenceExpression
+                        UThisExpression (label = null)
+                        USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression
+        UMethod (name = toString)
+            UAnnotation (fqName = Override)
+            UBlockExpression
+                UReturnExpression
+                    UBinaryExpression (operator = +)
+                        UBinaryExpression (operator = +)
+                            UBinaryExpression (operator = +)
+                                UBinaryExpression (operator = +)
+                                    UBinaryExpression (operator = +)
+                                        UBinaryExpression (operator = +)
+                                            UBinaryExpression (operator = +)
+                                                UBinaryExpression (operator = +)
+                                                    UBinaryExpression (operator = +)
+                                                        UBinaryExpression (operator = +)
+                                                            UBinaryExpression (operator = +)
+                                                                UBinaryExpression (operator = +)
+                                                                    UBinaryExpression (operator = +)
+                                                                        ULiteralExpression (value = "DataClass{")
+                                                                        ULiteralExpression (value = "STRING_CONSTANT='")
+                                                                    USimpleNameReferenceExpression
+                                                                ULiteralExpression (value = ''')
+                                                            ULiteralExpression (value = ", firstName='")
+                                                        USimpleNameReferenceExpression
+                                                    ULiteralExpression (value = ''')
+                                                ULiteralExpression (value = ", lastName='")
+                                            USimpleNameReferenceExpression
+                                        ULiteralExpression (value = ''')
+                                    ULiteralExpression (value = ", age='")
+                                USimpleNameReferenceExpression
+                            ULiteralExpression (value = ''')
+                        ULiteralExpression (value = '}')
+        UMethod (name = equals)
+            UAnnotation (fqName = Override)
+            UParameter (name = o)
+            UBlockExpression
+                UIfExpression
+                    UBinaryExpression (operator = ===)
+                        UThisExpression (label = null)
+                        USimpleNameReferenceExpression
+                    UReturnExpression
+                        ULiteralExpression (value = true)
+                    UastEmptyExpression
+                UIfExpression
+                    UBinaryExpression (operator = ||)
+                        UBinaryExpression (operator = ===)
+                            USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                        UBinaryExpression (operator = !==)
+                            UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                UIdentifier (Identifier (getClass))
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                    UIdentifier (Identifier (getClass))
+                    UReturnExpression
+                        ULiteralExpression (value = false)
+                    UastEmptyExpression
+                UVariableDeclarationsExpression
+                    ULocalVariable (name = dataClass)
+                        UBinaryExpressionWithType
+                            USimpleNameReferenceExpression
+                UIfExpression
+                    UIfExpression
+                        UBinaryExpression (operator = !==)
+                            USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                        UPrefixExpression (operator = !)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
+                                    UIdentifier (Identifier (equals))
+                                    UQualifiedReferenceExpression
+                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression
+                        UBinaryExpression (operator = !==)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                    UReturnExpression
+                        ULiteralExpression (value = false)
+                    UastEmptyExpression
+                UIfExpression
+                    UIfExpression
+                        UBinaryExpression (operator = !==)
+                            USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                        UPrefixExpression (operator = !)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
+                                    UIdentifier (Identifier (equals))
+                                    UQualifiedReferenceExpression
+                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression
+                        UBinaryExpression (operator = !==)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                    UReturnExpression
+                        ULiteralExpression (value = false)
+                    UastEmptyExpression
+                UIfExpression
+                    UIfExpression
+                        UBinaryExpression (operator = !==)
+                            USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                        UPrefixExpression (operator = !)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
+                                    UIdentifier (Identifier (equals))
+                                    UQualifiedReferenceExpression
+                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression
+                        UBinaryExpression (operator = !==)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                    UReturnExpression
+                        ULiteralExpression (value = false)
+                    UastEmptyExpression
+                UReturnExpression
+                    UIfExpression
+                        UBinaryExpression (operator = !==)
+                            USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+                        UQualifiedReferenceExpression
+                            USimpleNameReferenceExpression
+                            UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
+                                UIdentifier (Identifier (equals))
+                                UQualifiedReferenceExpression
+                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression
+                        UBinaryExpression (operator = ===)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression
+                            ULiteralExpression (value = null)
+        UMethod (name = hashCode)
+            UAnnotation (fqName = Override)
+            UBlockExpression
+                UVariableDeclarationsExpression
+                    ULocalVariable (name = result)
+                        UIfExpression
+                            UBinaryExpression (operator = !==)
+                                USimpleNameReferenceExpression
+                                ULiteralExpression (value = null)
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                    UIdentifier (Identifier (hashCode))
+                            ULiteralExpression (value = 0)
+                UBinaryExpression (operator = =)
+                    USimpleNameReferenceExpression
+                    UBinaryExpression (operator = +)
+                        UBinaryExpression (operator = *)
+                            ULiteralExpression (value = 31)
+                            USimpleNameReferenceExpression
+                        UParenthesizedExpression
+                            UIfExpression
+                                UBinaryExpression (operator = !==)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = null)
+                                UQualifiedReferenceExpression
+                                    USimpleNameReferenceExpression
+                                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                        UIdentifier (Identifier (hashCode))
+                                ULiteralExpression (value = 0)
+                UBinaryExpression (operator = =)
+                    USimpleNameReferenceExpression
+                    UBinaryExpression (operator = +)
+                        UBinaryExpression (operator = *)
+                            ULiteralExpression (value = 31)
+                            USimpleNameReferenceExpression
+                        UParenthesizedExpression
+                            UIfExpression
+                                UBinaryExpression (operator = !==)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = null)
+                                UQualifiedReferenceExpression
+                                    USimpleNameReferenceExpression
+                                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                        UIdentifier (Identifier (hashCode))
+                                ULiteralExpression (value = 0)
+                UBinaryExpression (operator = =)
+                    USimpleNameReferenceExpression
+                    UBinaryExpression (operator = +)
+                        UBinaryExpression (operator = *)
+                            ULiteralExpression (value = 31)
+                            USimpleNameReferenceExpression
+                        UParenthesizedExpression
+                            UIfExpression
+                                UBinaryExpression (operator = !==)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = null)
+                                UQualifiedReferenceExpression
+                                    USimpleNameReferenceExpression
+                                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                        UIdentifier (Identifier (hashCode))
+                                ULiteralExpression (value = 0)
+                UReturnExpression
+                    USimpleNameReferenceExpression

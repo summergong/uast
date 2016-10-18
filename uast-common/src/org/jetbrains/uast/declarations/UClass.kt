@@ -3,9 +3,9 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
-import org.jetbrains.uast.internal.log
 
 /**
  * A class wrapper to be used in [UastVisitor].
@@ -32,15 +32,34 @@ interface UClass : UDeclaration, PsiClass {
     val uastMethods: List<UMethod>
     val uastNestedClasses: List<UClass>
 
-    override fun asOwnLogString() = "UClass (name = $name)"
-
-    override fun asLogString() = log(asOwnLogString(), annotations, uastDeclarations)
+    override fun asLogString() = log("name = $name")
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitClass(this)) return
         annotations.acceptList(visitor)
         uastDeclarations.acceptList(visitor)
         visitor.afterVisitClass(this)
+    }
+
+    override fun asRenderString() = buildString {
+        append(psi.renderModifiers())
+        val kind = when {
+            psi.isAnnotationType -> "annotation"
+            psi.isInterface -> "interface"
+            psi.isEnum -> "enum"
+            else -> "class"
+        }
+        append(kind).append(' ').append(psi.name)
+        val superTypes = psi.superTypes
+        if (superTypes.isNotEmpty()) {
+            append(" : ")
+            append(superTypes.joinToString { it.className })
+        }
+        appendln(" {")
+        uastDeclarations.forEachIndexed { index, declaration ->
+            appendln(declaration.asRenderString().withMargin)
+        }
+        append("}")
     }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =

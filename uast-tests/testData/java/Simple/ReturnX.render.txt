@@ -1,7 +1,6 @@
-UFile
-public class ReturnX {
-    public static int foo() {
-        int x = 42;
-        return x;
+public class ReturnX : Object {
+    public static fun foo() : int {
+        var x: int = 42
+        return x
     }
 }

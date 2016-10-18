@@ -42,7 +42,5 @@ interface UReturnExpression : UExpression {
 
     override fun asRenderString() = returnExpression.let { if (it == null) "return" else "return " + it.asRenderString() }
 
-    override fun asOwnLogString() = "UReturnExpression"
-
-    override fun asLogString() = log(asOwnLogString(), returnExpression)
+    override fun asLogString() = log()
 }

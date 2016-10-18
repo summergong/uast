@@ -2,6 +2,8 @@
 @file:JvmName("UastUtils")
 package org.jetbrains.uast
 
+import org.jetbrains.uast.visitor.UastVisitor
+
 /**
  * Get the topmost parent qualified expression for the call expression.
  *
@@ -157,4 +159,26 @@ fun UExpression.endsWithQualified(fqName: String): Boolean {
         if (passedIdentifier != identifiers[i]) return false
     }
     return true
+}
+
+fun UElement.asRecursiveLogString(): String {
+    val stringBuilder = StringBuilder()
+    val indent = "    "
+
+    accept(object : UastVisitor {
+        private var level = 0
+
+        override fun visitElement(node: UElement): Boolean {
+            stringBuilder.append(indent.repeat(level))
+            stringBuilder.appendln(node.asLogString())
+            level++
+            return false
+        }
+
+        override fun afterVisitElement(node: UElement) {
+            super.afterVisitElement(node)
+            level--
+        }
+    })
+    return stringBuilder.toString()
 }

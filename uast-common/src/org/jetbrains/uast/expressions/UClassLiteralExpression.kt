@@ -19,13 +19,15 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
  * Represents the class literal expression, e.g. `Clazz.class`.
  */
 interface UClassLiteralExpression : UExpression {
-    override fun asOwnLogString() = "UClassLiteralExpression"
+    override fun asLogString() = log()
+
     override fun asRenderString() = (type?.name) ?: "(${expression?.asRenderString() ?: "<no expression>"})" + "::class"
 
     /**
