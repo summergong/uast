@@ -137,6 +137,29 @@ class TreeBasedEvaluator(
         } to rightInfo.state
     }
 
+    override fun visitDeclarationsExpression(
+            node: UVariableDeclarationsExpression,
+            data: UEvaluationState
+    ): UEvaluationInfo {
+        stateCache[node] = data
+        var currentInfo = UValue.Undetermined to data
+        for (variable in node.variables) {
+            currentInfo = variable.accept(this, currentInfo.state)
+        }
+        return currentInfo
+    }
+
+    override fun visitVariable(node: UVariable, data: UEvaluationState): UEvaluationInfo {
+        val initializer = node.uastInitializer
+        val initializerInfo = if (initializer != null) {
+            initializer.accept(this, data)
+        }
+        else {
+            UValue.Undetermined to data
+        }
+        return UValue.Undetermined to initializerInfo.state.assign(node, initializerInfo.value, node)
+    }
+
     // ----------------------- //
 
     override fun visitIfExpression(node: UIfExpression, data: UEvaluationState): UEvaluationInfo {
