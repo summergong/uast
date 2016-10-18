@@ -2,17 +2,18 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiFile
 import org.jetbrains.uast.internal.acceptList
+import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
  * Represents a Uast file.
  */
-interface UFile : UElement, UAnnotated {
+interface UFile : UElement, UAnnotated, PsiElementBacked {
     /**
      * Returns the original [PsiFile].
      */
-    val psi: PsiFile
+    override val psi: PsiFile
 
     /**
      * Returns the Java package name of this file.
