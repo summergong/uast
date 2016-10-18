@@ -11,6 +11,7 @@ class TreeBasedEvaluator(
         private val context: UastContext
 ) : UastTypedVisitor<UEvaluationState, UEvaluationInfo>, UEvaluator {
 
+    // Store AFTER evaluation and not BEFORE
     private val stateCache = mutableMapOf<UExpression, UEvaluationState>()
 
     override fun visitElement(node: UElement, data: UEvaluationState) = UEvaluationInfo(UValue.Undetermined, data)
@@ -20,7 +21,7 @@ class TreeBasedEvaluator(
     }
 
     override fun evaluate(expression: UExpression, state: UEvaluationState?): UValue {
-        val inputState = state ?: stateCache[expression] ?: expression.evaluationState()
+        val inputState = state ?: stateCache[expression] ?: expression.createEmptyState()
         return expression.accept(this, inputState).value
     }
 

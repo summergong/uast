@@ -8,13 +8,13 @@ interface UEvaluationContext {
 
     val uastContext: UastContext
 
-    fun analyzeAll(state: UEvaluationState = file.evaluationState()): UEvaluationContext
+    fun analyzeAll(state: UEvaluationState = file.createEmptyState()): UEvaluationContext
 
-    fun analyze(method: UMethod, state: UEvaluationState = method.evaluationState()): UEvaluator
+    fun analyze(declaration: UDeclaration, state: UEvaluationState = declaration.createEmptyState()): UEvaluator
 
     fun valueOf(expression: UExpression): UValue
 
-    fun getEvaluator(method: UMethod): UEvaluator
+    fun getEvaluator(declaration: UDeclaration): UEvaluator
 }
 
 fun UFile.analyzeAll(context: UastContext = getUastContext()): UEvaluationContext =

@@ -18,4 +18,4 @@ interface UEvaluationState {
     fun merge(otherState: UEvaluationState): UEvaluationState
 }
 
-fun UElement.evaluationState(): UEvaluationState = EmptyEvaluationState(this)
+fun UElement.createEmptyState(): UEvaluationState = EmptyEvaluationState(this)

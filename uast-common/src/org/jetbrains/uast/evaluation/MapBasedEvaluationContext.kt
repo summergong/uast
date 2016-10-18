@@ -8,7 +8,7 @@ class MapBasedEvaluationContext(
         override val file: UFile,
         override val uastContext: UastContext
 ) : UEvaluationContext {
-    private val evaluators = mutableMapOf<UMethod, UEvaluator>()
+    private val evaluators = mutableMapOf<UDeclaration, UEvaluator>()
 
     override fun analyzeAll(state: UEvaluationState): UEvaluationContext {
         file.accept(object: UastVisitor {
@@ -22,13 +22,17 @@ class MapBasedEvaluationContext(
         return this
     }
 
-    override fun analyze(method: UMethod, state: UEvaluationState) =
-            createEvaluator(uastContext).apply {
-                analyze(method, state)
-                evaluators[method] = this
+    private fun getOrCreateEvaluator(declaration: UDeclaration, state: UEvaluationState? = null) =
+            evaluators[declaration] ?: createEvaluator(uastContext).apply {
+                if (declaration is UMethod) {
+                    this.analyze(declaration, state ?: declaration.createEmptyState())
+                }
+                evaluators[declaration] = this
             }
 
-    override fun getEvaluator(method: UMethod) = evaluators[method] ?: analyze(method)
+    override fun analyze(declaration: UDeclaration, state: UEvaluationState) = getOrCreateEvaluator(declaration, state)
+
+    override fun getEvaluator(declaration: UDeclaration) = getOrCreateEvaluator(declaration)
 
     override fun valueOf(expression: UExpression): UValue {
         val method = expression.getContainingUMethod() ?: return UValue.Undetermined

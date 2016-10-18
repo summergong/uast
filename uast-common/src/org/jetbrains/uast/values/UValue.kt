@@ -16,13 +16,14 @@ sealed class UValue : UOperand {
     }
 
     abstract class AbstractConstant(override val value: Any?) : UValue(), Constant {
-        override fun equals(other: Any?) = other is AbstractConstant && value == other.value
+        override final fun equals(other: Any?) = other is AbstractConstant && value == other.value
 
-        override fun hashCode() = value?.hashCode() ?: 0
+        override final fun hashCode() = value?.hashCode() ?: 0
 
         override fun toString() = "$value"
     }
 
+    // IntValue?
     class NumericInt(override val value: Long, val bytes: Int = 8) : AbstractConstant(value) {
         override fun plus(other: UValue) = when (other) {
             is NumericInt -> NumericInt(value + other.value, Math.max(bytes, other.bytes))
@@ -61,23 +62,27 @@ sealed class UValue : UOperand {
 
     interface Dependency
 
-    open class Wrapped(
+    open class Dependent(
             val value: UValue,
             override val dependencies: List<Dependency> = emptyList()
     ) : UValue() {
 
-        override fun unwrap() = value.unwrap()
+        private fun UValue.unwrap() = (this as? Dependent)?.unwrap() ?: this
 
-        private fun wrapBinary(result: UValue, arg: UValue): Wrapped {
-            val resultDependencies = dependencies + ((arg as? Wrapped)?.dependencies ?: emptyList())
-            return Wrapped(result, resultDependencies)
+        private fun unwrap(): UValue = value.unwrap()
+
+        private fun wrapBinary(result: UValue, arg: UValue): Dependent {
+            val wrappedDependencies = (arg as? Dependent)?.dependencies ?: emptyList()
+            val resultDependencies =
+                    if (wrappedDependencies.isNotEmpty()) dependencies + wrappedDependencies else dependencies
+            return Dependent(result, resultDependencies)
         }
 
         override fun plus(other: UValue) = wrapBinary(unwrap() + other.unwrap(), other)
 
         override fun minus(other: UValue) = wrapBinary(unwrap() - other.unwrap(), other)
 
-        override fun unaryMinus() = Wrapped(-value, dependencies)
+        override fun unaryMinus() = Dependent(-value, dependencies)
 
         override fun merge(other: UValue) = when (other) {
             this -> this
@@ -86,8 +91,15 @@ sealed class UValue : UOperand {
             else -> Phi(this, other)
         }
 
+        override fun toConstant() = value.toConstant()
+
+        override fun toVariable() = value.toVariable()
+
         override fun toString() =
-                "$value" + dependencies.joinToString(prefix = " (depending on: ", postfix = ")", separator = ", ")
+                if (dependencies.isNotEmpty())
+                    "$value" + dependencies.joinToString(prefix = " (depending on: ", postfix = ")", separator = ", ")
+                else
+                    "$value"
     }
 
     // Value of some (possibly evaluable) variable
@@ -95,10 +107,10 @@ sealed class UValue : UOperand {
             val variable: UVariable,
             value: UValue,
             dependencies: List<Dependency> = emptyList()
-    ) : Wrapped(value, dependencies), Dependency {
+    ) : Dependent(value, dependencies), Dependency {
 
         override fun merge(other: UValue): UValue = when (other) {
-            is Wrapped -> merge(other.value)
+            is Dependent -> merge(other.value)
             else -> super.merge(other)
         }
 
@@ -144,13 +156,11 @@ sealed class UValue : UOperand {
 
     // Methods
 
-    override operator fun plus(other: UValue): UValue = if (other is Wrapped) other + this else Undetermined
+    override operator fun plus(other: UValue): UValue = if (other is Dependent) other + this else Undetermined
 
     override operator fun minus(other: UValue): UValue = this + (-other)
 
     override fun unaryMinus(): UValue = Undetermined
-
-    open fun unwrap(): UValue = this
 
     open fun merge(other: UValue): UValue = when (other) {
         this -> this
@@ -160,6 +170,10 @@ sealed class UValue : UOperand {
 
     open val dependencies: List<Dependency>
         get() = emptyList()
+
+    open fun toConstant(): Constant? = this as? Constant
+
+    open fun toVariable(): Variable? = this as? Variable
 
     override fun toString(): String = throw AssertionError("toString() is not overridden in ${this.javaClass} UValue")
 }
