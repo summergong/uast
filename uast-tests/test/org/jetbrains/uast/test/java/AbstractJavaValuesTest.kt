@@ -8,7 +8,7 @@ import org.jetbrains.uast.evaluation.analyzeAll
 import org.jetbrains.uast.visitor.UastVisitor
 import java.io.File
 
-open class AbstractJavaValuesTest : AbstractJavaUastTest() {
+abstract class AbstractJavaValuesTest : AbstractJavaUastTest() {
     private fun getTestFile(testName: String, ext: String) =
             File(File(TEST_JAVA_MODEL_DIR, testName).canonicalPath.substringBeforeLast('.') + '.' + ext)
 
