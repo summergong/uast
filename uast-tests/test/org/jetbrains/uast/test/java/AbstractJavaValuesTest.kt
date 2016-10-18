@@ -1,0 +1,52 @@
+package org.jetbrains.uast.test.java
+
+import org.jetbrains.uast.UElement
+import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.UFile
+import org.jetbrains.uast.evaluation.UEvaluationContext
+import org.jetbrains.uast.evaluation.analyzeAll
+import org.jetbrains.uast.visitor.UastVisitor
+import java.io.File
+
+open class AbstractJavaValuesTest : AbstractJavaUastTest() {
+    private fun getTestFile(testName: String, ext: String) =
+            File(File(TEST_JAVA_MODEL_DIR, testName).canonicalPath.substringBeforeLast('.') + '.' + ext)
+
+    private fun getValuesFile(testName: String) = getTestFile(testName, "values.txt")
+
+    private fun UFile.asLogValues(): String {
+        val log = asLogString()
+        val evaluationContext = analyzeAll()
+        return ValueLogger(log, evaluationContext).apply {
+            this@asLogValues.accept(this)
+        }.toString()
+    }
+
+    override fun check(testName: String, file: UFile) {
+        val valuesFile = getValuesFile(testName)
+
+        assertEqualsToFile(valuesFile, file.asLogValues())
+    }
+
+    class ValueLogger(initialLog: String, val evaluationContext: UEvaluationContext) : UastVisitor {
+
+        val initialLines = initialLog.lines()
+
+        val builder = StringBuilder()
+
+        var stringIndex = 0
+
+        override fun visitElement(node: UElement): Boolean {
+            val initialLine = initialLines[stringIndex++]
+            builder.append(initialLine)
+            if (node is UExpression) {
+                val value = evaluationContext.valueOf(node)
+                builder.append(" = ").append(value)
+            }
+            builder.appendln()
+            return stringIndex >= initialLines.size
+        }
+
+        override fun toString() = builder.toString()
+    }
+}

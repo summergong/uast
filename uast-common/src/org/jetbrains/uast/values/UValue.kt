@@ -2,8 +2,10 @@ package org.jetbrains.uast.values
 
 import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiType
+import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UResolvable
 import org.jetbrains.uast.UVariable
+import org.jetbrains.uast.name
 
 sealed class UValue : UOperand {
 
@@ -17,6 +19,8 @@ sealed class UValue : UOperand {
         override fun equals(other: Any?) = other is AbstractConstant && value == other.value
 
         override fun hashCode() = value?.hashCode() ?: 0
+
+        override fun toString() = "$value"
     }
 
     class NumericInt(override val value: Long, val bytes: Int = 8) : AbstractConstant(value) {
@@ -27,6 +31,8 @@ sealed class UValue : UOperand {
         }
 
         override fun unaryMinus() = NumericInt(-value, bytes)
+
+        override fun toString() = "$value ($bytes " + if (bytes == 1) "byte)" else "bytes)"
     }
 
     class NumericFloat(override val value: Double) : AbstractConstant(value) {
@@ -41,9 +47,13 @@ sealed class UValue : UOperand {
 
     class Bool(override val value: Boolean) : AbstractConstant(value)
 
-    class EnumEntry(override val value: PsiEnumConstant) : AbstractConstant(value)
+    class EnumEntry(override val value: PsiEnumConstant) : AbstractConstant(value) {
+        override fun toString() = value.name ?: "<unnamed enum entry>"
+    }
 
-    class ClassLiteral(override val value: PsiType) : AbstractConstant(value)
+    class ClassLiteral(override val value: PsiType) : AbstractConstant(value) {
+        override fun toString() = value.name
+    }
 
     object Null : AbstractConstant(null)
 
@@ -75,6 +85,9 @@ sealed class UValue : UOperand {
             value -> this
             else -> Phi(this, other)
         }
+
+        override fun toString() =
+                "$value" + dependencies.joinToString(prefix = " (depending on: ", postfix = ")", separator = ", ")
     }
 
     // Value of some (possibly evaluable) variable
@@ -88,6 +101,8 @@ sealed class UValue : UOperand {
             is Wrapped -> merge(other.value)
             else -> super.merge(other)
         }
+
+        override fun toString() = "var ${variable.name ?: "<unnamed>"} = " + super.toString()
     }
 
     // Value of something resolvable (e.g. call or property access)
@@ -96,6 +111,10 @@ sealed class UValue : UOperand {
         override fun equals(other: Any?) = other is External && resolvable == other.resolvable
 
         override fun hashCode() = resolvable.hashCode()
+
+        override fun toString(): String {
+            return "external ${(resolvable as? UElement)?.asRenderString() ?: "???"}"
+        }
     }
 
     class Phi(val values: List<UValue>): UValue() {
@@ -107,15 +126,21 @@ sealed class UValue : UOperand {
         override fun equals(other: Any?) = other is Phi && values == other.values
 
         override fun hashCode() = values.hashCode()
+
+        override fun toString() = values.joinToString(prefix = "Phi(", postfix = ")", separator = ", ")
     }
 
     // Miscellaneous
 
     // Something that never can be created
-    object Nothing : UValue()
+    object Nothing : UValue() {
+        override fun toString() = "Nothing"
+    }
 
     // Something with value that cannot be evaluated
-    object Undetermined : UValue()
+    object Undetermined : UValue() {
+        override fun toString() = "Undetermined"
+    }
 
     // Methods
 
@@ -135,4 +160,6 @@ sealed class UValue : UOperand {
 
     open val dependencies: List<Dependency>
         get() = emptyList()
+
+    override fun toString(): String = throw AssertionError("toString() is not overridden in ${this.javaClass} UValue")
 }

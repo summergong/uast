@@ -8,4 +8,9 @@ class SimpleJavaTest : AbstractJavaTest() {
     fun testJava() {
         doTest("Simple/Simple.java")
     }
+
+    @Test
+    fun testReturnX() {
+        doTest("Simple/ReturnX.java")
+    }
 }

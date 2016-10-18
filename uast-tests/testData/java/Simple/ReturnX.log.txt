@@ -1,0 +1,9 @@
+UFile
+    UClass (name = ReturnX)
+        UMethod (name = foo)
+            UBlockExpression
+                UDeclarationsExpression
+                    UVariable (name = x)
+                        ULiteralExpression (42)
+                UReturnExpression
+                    USimpleReferenceExpression (x)

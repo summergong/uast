@@ -1,0 +1,9 @@
+UFile
+    UClass (name = ReturnX)
+        UMethod (name = foo)
+            UBlockExpression = Nothing
+                UDeclarationsExpression = Undetermined
+                    UVariable (name = x)
+                        ULiteralExpression (42) = 42 (8 bytes)
+                UReturnExpression = Nothing
+                    USimpleReferenceExpression (x) = 42 (8 bytes)
