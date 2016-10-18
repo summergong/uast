@@ -6,6 +6,6 @@ import org.junit.Test
 class SimpleJavaTest : AbstractJavaTest() {
     @Test
     fun testJava() {
-        doTest("simple/Simple.java")
+        doTest("Simple/Simple.java")
     }
 }

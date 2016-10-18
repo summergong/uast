@@ -16,6 +16,6 @@ abstract class AbstractJavaTest : AbstractJavaUastTest() {
         val logFile = getLogFile(testName)
 
         assertEqualsToFile(renderFile, file.asRenderString())
-        assertEqualsToFile(logFile, file.asRenderString())
+        assertEqualsToFile(logFile, file.asLogString())
     }
 }
