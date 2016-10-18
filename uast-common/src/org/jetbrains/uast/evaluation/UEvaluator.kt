@@ -9,7 +9,7 @@ import org.jetbrains.uast.values.UValue
 interface UEvaluator {
     fun analyze(method: UMethod, state: UEvaluationState = method.evaluationState())
 
-    fun evaluate(expression: UExpression, state: UEvaluationState = expression.evaluationState()): UValue
+    fun evaluate(expression: UExpression, state: UEvaluationState? = null): UValue
 }
 
 fun createEvaluator(context: UastContext): UEvaluator =
