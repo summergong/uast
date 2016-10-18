@@ -5,6 +5,7 @@ import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
+import org.jetbrains.uast.internal.log
 
 /**
  * Represents a Uast file.
@@ -41,7 +42,9 @@ interface UFile : UElement, UAnnotated, PsiElementBacked {
      */
     val allCommentsInFile: List<UComment>
 
-    override fun asLogString() = "UFile"
+    override fun asLogString() = log("UFile", annotations, imports, classes)
+
+    override fun asRenderString() = log("UFile", annotations, imports, classes, preferPsi = true)
 
     /**
      * [UFile] is a top-level element of the Uast hierarchy, thus the [containingElement] always returns null for it.

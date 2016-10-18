@@ -15,23 +15,25 @@ import org.jetbrains.uast.withMargin
  * @throws IllegalStateException if the [nested] argument is invalid.
  * @return the rendered log string.
  */
-fun UElement.log(firstLine: String, vararg nested: Any?): String {
-    return (if (firstLine.isBlank()) "" else firstLine + LINE_SEPARATOR) + nested.joinToString(LINE_SEPARATOR) {
+fun UElement.log(firstLine: String, vararg nested: Any?, preferPsi: Boolean = false): String {
+    return (if (firstLine.isBlank()) "" else firstLine + LINE_SEPARATOR) + nested.map {
         when (it) {
             null -> "<no element>".withMargin
             is List<*> -> {
-                if (it.firstOrNull() is PsiElement) {
-                    @Suppress("UNCHECKED_CAST")
-                    (it as List<PsiElement>).joinToString(LINE_SEPARATOR) { it.text }
-                } else {
-                    @Suppress("UNCHECKED_CAST")
-                    (it as List<UElement>).asLogString()
+                val first = it.firstOrNull()
+                @Suppress("UNCHECKED_CAST")
+                when {
+                    first is UElement && !preferPsi -> (it as List<UElement>).asLogString()
+                    first is PsiElement -> (it as List<PsiElement>).joinToString(LINE_SEPARATOR) { it.text }
+                    first is UElement -> (it as List<UElement>).asLogString()
+                    first == null -> ""
+                    else -> error("Invalid element type: $first")
                 }
             }
             is UElement -> it.asLogString().withMargin
             else -> error("Invalid element type: $it")
         }
-    }
+    }.filter(String::isNotEmpty).joinToString(separator = LINE_SEPARATOR)
 }
 
 fun List<UElement>.acceptList(visitor: UastVisitor) {

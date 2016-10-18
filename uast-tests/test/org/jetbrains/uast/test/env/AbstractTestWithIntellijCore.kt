@@ -4,6 +4,7 @@ import com.intellij.core.JavaCoreProjectEnvironment
 import com.intellij.mock.MockProject
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.util.Disposer
+import com.intellij.openapi.util.text.StringUtil
 import com.intellij.psi.PsiManager
 import com.intellij.rt.execution.junit.FileComparisonFailure
 import junit.framework.TestCase
@@ -69,9 +70,10 @@ abstract class AbstractTestWithIntellijCore : TestCase() {
             fail("File didn't exist. New file was created (${expected.canonicalPath}).")
         }
 
-        val expectedText = expected.readText()
-        if (expectedText != actual) {
-            throw FileComparisonFailure("", expectedText, actual, expected.absolutePath)
+        val expectedText = StringUtil.convertLineSeparators(expected.readText().trim())
+        val actualText = StringUtil.convertLineSeparators(actual.trim())
+        if (expectedText != actualText) {
+            throw FileComparisonFailure("", expectedText, actualText, expected.absolutePath)
         }
     }
 }

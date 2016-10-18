@@ -5,6 +5,7 @@ import com.intellij.psi.PsiClass
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
+import org.jetbrains.uast.internal.log
 
 /**
  * A class wrapper to be used in [UastVisitor].
@@ -31,7 +32,7 @@ interface UClass : UDeclaration, PsiClass {
     val uastMethods: List<UMethod>
     val uastNestedClasses: List<UClass>
 
-    override fun asLogString() = "UClass (name = $name)"
+    override fun asLogString() = log("UClass (name = $name)", annotations, uastDeclarations)
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitClass(this)) return

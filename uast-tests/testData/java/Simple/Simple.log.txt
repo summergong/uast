@@ -1,1 +1,2 @@
 UFile
+    UClass (name = Simple)
