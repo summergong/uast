@@ -21,7 +21,6 @@ import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifierListOwner
 import com.intellij.psi.impl.source.tree.CompositeElement
-import com.intellij.psi.impl.source.tree.java.PsiDoWhileStatementImpl
 import com.intellij.psi.tree.IElementType
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UElement
@@ -37,6 +36,8 @@ internal fun IElementType.getOperatorType() = when (this) {
     JavaTokenType.ASTERISK -> UastBinaryOperator.MULTIPLY
     JavaTokenType.DIV -> UastBinaryOperator.DIV
     JavaTokenType.PERC -> UastBinaryOperator.MOD
+    JavaTokenType.ANDAND -> UastBinaryOperator.LOGICAL_AND
+    JavaTokenType.OROR -> UastBinaryOperator.LOGICAL_OR
     JavaTokenType.OR -> UastBinaryOperator.BITWISE_OR
     JavaTokenType.AND -> UastBinaryOperator.BITWISE_AND
     JavaTokenType.XOR -> UastBinaryOperator.BITWISE_XOR
