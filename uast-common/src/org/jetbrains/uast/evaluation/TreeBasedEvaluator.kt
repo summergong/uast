@@ -162,6 +162,15 @@ class TreeBasedEvaluator(
 
     // ----------------------- //
 
+    override fun visitBlockExpression(node: UBlockExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        var currentInfo = UValue.Undetermined to data
+        for (expression in node.expressions) {
+            currentInfo = expression.accept(this, currentInfo.state)
+        }
+        return currentInfo
+    }
+
     override fun visitIfExpression(node: UIfExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
         val conditionInfo = node.condition.accept(this, data)
