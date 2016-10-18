@@ -69,5 +69,5 @@ interface ULiteralExpression : UExpression {
         }
     }
 
-    override fun asLogString() = "ULiteralExpression (${asRenderString()})"
+    override fun asOwnLogString() = "ULiteralExpression (${asRenderString()})"
 }

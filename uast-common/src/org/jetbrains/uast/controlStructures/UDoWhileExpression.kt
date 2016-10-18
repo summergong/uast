@@ -62,5 +62,7 @@ interface UDoWhileExpression : ULoopExpression {
         appendln("while (${condition.asRenderString()})")
     }
 
-    override fun asLogString() = log("UDoWhileExpression", condition, body)
+    override fun asOwnLogString() = "UDoWhileExpression"
+
+    override fun asLogString() = log(asOwnLogString(), condition, body)
 }

@@ -24,7 +24,7 @@ import org.jetbrains.uast.visitor.UastVisitor
  * Qualified `this` is not supported at the moment.
  */
 interface UThisExpression : UInstanceExpression {
-    override fun asLogString() = "UThisExpression"
+    override fun asOwnLogString() = "UThisExpression"
     override fun asRenderString() = "this"
 
     override fun accept(visitor: UastVisitor) {

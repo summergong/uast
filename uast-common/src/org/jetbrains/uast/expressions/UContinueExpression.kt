@@ -38,6 +38,6 @@ interface UContinueExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitContinueExpression(this, data)
 
-    override fun asLogString() = "UContinueExpression (" + (label ?: "<no label>") + ")"
+    override fun asOwnLogString() = "UContinueExpression (" + (label ?: "<no label>") + ")"
     override fun asRenderString() = label?.let { "continue@$it" } ?: "continue"
 }

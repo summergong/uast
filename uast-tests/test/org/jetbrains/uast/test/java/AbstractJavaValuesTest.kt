@@ -15,9 +15,8 @@ open class AbstractJavaValuesTest : AbstractJavaUastTest() {
     private fun getValuesFile(testName: String) = getTestFile(testName, "values.txt")
 
     private fun UFile.asLogValues(): String {
-        val log = asLogString()
         val evaluationContext = analyzeAll()
-        return ValueLogger(log, evaluationContext).apply {
+        return ValueLogger(evaluationContext).apply {
             this@asLogValues.accept(this)
         }.toString()
     }
@@ -28,23 +27,27 @@ open class AbstractJavaValuesTest : AbstractJavaUastTest() {
         assertEqualsToFile(valuesFile, file.asLogValues())
     }
 
-    class ValueLogger(initialLog: String, val evaluationContext: UEvaluationContext) : UastVisitor {
-
-        val initialLines = initialLog.lines()
+    class ValueLogger(val evaluationContext: UEvaluationContext) : UastVisitor {
 
         val builder = StringBuilder()
 
-        var stringIndex = 0
+        var level = 0
 
         override fun visitElement(node: UElement): Boolean {
-            val initialLine = initialLines[stringIndex++]
+            val initialLine = node.asOwnLogString()
+            (1..level).forEach { builder.append("    ") }
             builder.append(initialLine)
             if (node is UExpression) {
                 val value = evaluationContext.valueOf(node)
                 builder.append(" = ").append(value)
             }
             builder.appendln()
-            return stringIndex >= initialLines.size
+            level++
+            return false
+        }
+
+        override fun afterVisitElement(node: UElement) {
+            level--
         }
 
         override fun toString() = builder.toString()

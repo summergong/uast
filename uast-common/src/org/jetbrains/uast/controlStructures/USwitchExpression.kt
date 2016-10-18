@@ -60,7 +60,9 @@ interface USwitchExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitSwitchExpression(this, data)
 
-    override fun asLogString() = log("USwitchExpression", expression, body)
+    override fun asOwnLogString() = "USwitchExpression"
+
+    override fun asLogString() = log(asOwnLogString(), expression, body)
     
     override fun asRenderString() = buildString {
         val expr = expression?.let { "(" + it.asRenderString() + ") " } ?: ""
@@ -92,7 +94,10 @@ interface USwitchClauseExpression : UExpression {
             visitor.visitSwitchClauseExpression(this, data)
 
     override fun asRenderString() = (caseValues?.joinToString { it.asRenderString() } ?: "else") + " -> "
-    override fun asLogString() = log("USwitchClauseExpression", caseValues)
+
+    override fun asOwnLogString() = "USwitchClauseExpression"
+
+    override fun asLogString() = log(asOwnLogString(), caseValues)
 }
 
 /**
@@ -116,5 +121,8 @@ interface USwitchClauseExpressionWithBody : USwitchClauseExpression {
     }
 
     override fun asRenderString() = (caseValues?.joinToString { it.asRenderString() } ?: "else") + " -> " + body.asRenderString()
-    override fun asLogString() = log("USwitchClauseExpressionWithBody", caseValues, body)
+
+    override fun asOwnLogString() = "USwitchClauseExpressionWithBody"
+
+    override fun asLogString() = log(asOwnLogString(), caseValues, body)
 }

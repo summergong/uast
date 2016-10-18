@@ -29,5 +29,5 @@ interface UClassInitializer : UDeclaration, PsiClassInitializer {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitClassInitializer(this, data)
 
-    override fun asLogString() = "UMethod (name = ${psi.name}"
+    override fun asOwnLogString() = "UMethod (name = ${psi.name}"
 }

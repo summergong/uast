@@ -26,7 +26,7 @@ interface UReferenceExpression : UExpression, UResolvable {
      */
     val resolvedName: String?
     
-    override fun asLogString() = "UReferenceExpression"
+    override fun asOwnLogString() = "UReferenceExpression"
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitReferenceExpression(this, data)
 }

@@ -52,7 +52,7 @@ interface UCallableReferenceExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitCallableReferenceExpression(this, data)
 
-    override fun asLogString() = "UCallableReferenceExpression"
+    override fun asOwnLogString() = "UCallableReferenceExpression"
 
     override fun asRenderString() = buildString {
         qualifierExpression?.let {

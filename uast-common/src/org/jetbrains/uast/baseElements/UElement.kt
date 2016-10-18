@@ -40,6 +40,11 @@ interface UElement {
         get() = emptyList()
 
     /**
+     * Returns the log string for this element only (not including children).
+     */
+    fun asOwnLogString(): String
+
+    /**
      * Returns the log string.
      *
      * Output example (should be something like this):
@@ -56,7 +61,7 @@ interface UElement {
      * @return the expression tree for this element.
      * @see [UIfExpression] for example.
      */
-    fun asLogString(): String
+    fun asLogString(): String = asOwnLogString()
 
     /**
      * Returns the string in pseudo-code.

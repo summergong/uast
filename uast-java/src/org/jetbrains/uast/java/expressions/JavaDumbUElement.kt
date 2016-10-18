@@ -23,6 +23,6 @@ class JavaDumbUElement(
         override val psi: PsiElement?,
         override val containingElement: UElement?
 ) : JavaAbstractUElement(), UElement, PsiElementBacked {
-    override fun asLogString() = "JavaDumbUElement"
+    override fun asOwnLogString() = "JavaDumbUElement"
     override fun asRenderString() = "<stub@$psi>"
 }

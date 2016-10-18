@@ -25,5 +25,5 @@ class UnknownKotlinExpression(
         override val psi: KtExpression,
         override val containingElement: UElement?
 ) : KotlinAbstractUExpression(), UExpression, PsiElementBacked {
-    override fun asLogString() = "[!] UnknownKotlinExpression ($psi)"
+    override fun asOwnLogString() = "[!] UnknownKotlinExpression ($psi)"
 }

@@ -28,6 +28,6 @@ interface UTypeReferenceExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitTypeReferenceExpression(this, data)
 
-    override fun asLogString() = "UTypeReferenceExpression (${type.name})"
+    override fun asOwnLogString() = "UTypeReferenceExpression (${type.name})"
     override fun asRenderString() = type.name
 }

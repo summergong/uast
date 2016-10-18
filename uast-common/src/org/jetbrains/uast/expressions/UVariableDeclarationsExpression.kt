@@ -41,5 +41,8 @@ interface UVariableDeclarationsExpression : UExpression {
             visitor.visitDeclarationsExpression(this, data)
 
     override fun asRenderString() = variables.joinToString(LINE_SEPARATOR) { it.asRenderString() }
-    override fun asLogString() = log("UDeclarationsExpression", variables)
+
+    override fun asOwnLogString() = "UDeclarationsExpression"
+
+    override fun asLogString() = log(asOwnLogString(), variables)
 }

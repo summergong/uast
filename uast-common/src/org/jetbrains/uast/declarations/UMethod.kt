@@ -42,7 +42,9 @@ interface UMethod : UDeclaration, PsiMethod {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitMethod(this, data)
 
-    override fun asLogString() = log("UMethod (name = $name)", annotations, uastParameters, uastBody)
+    override fun asOwnLogString() = "UMethod (name = $name)"
+
+    override fun asLogString() = log(asOwnLogString(), annotations, uastParameters, uastBody)
 }
 
 interface UAnnotationMethod : UMethod, PsiAnnotationMethod {
@@ -64,5 +66,5 @@ interface UAnnotationMethod : UMethod, PsiAnnotationMethod {
         visitor.afterVisitMethod(this)
     }
 
-    override fun asLogString() = "UAnnotationMethod (name = $name)"
+    override fun asOwnLogString() = "UAnnotationMethod (name = $name)"
 }

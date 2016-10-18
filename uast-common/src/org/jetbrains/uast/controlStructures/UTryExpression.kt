@@ -98,7 +98,9 @@ interface UTryExpression : UExpression {
         finallyClause?.let { append("finally ").append(it.asRenderString().trim('\n', '\r')) }
     }
 
-    override fun asLogString() = log("UTryExpression", tryClause, catchClauses, finallyClause)
+    override fun asOwnLogString() = "UTryExpression"
+
+    override fun asLogString() = log(asOwnLogString(), tryClause, catchClauses, finallyClause)
 }
 
 /**
@@ -135,6 +137,9 @@ interface UCatchClause : UElement {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitCatchClause(this, data)
 
-    override fun asLogString() = log("UCatchClause", body)
+    override fun asOwnLogString() = "UCatchClause"
+
+    override fun asLogString() = log(asOwnLogString(), body)
+
     override fun asRenderString() = "catch (e) " + body.asRenderString()
 }

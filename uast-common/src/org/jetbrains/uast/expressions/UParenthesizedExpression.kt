@@ -41,6 +41,9 @@ interface UParenthesizedExpression : UExpression {
 
     override fun evaluate() = expression.evaluate()
 
-    override fun asLogString() = log("UParenthesizedExpression", expression)
+    override fun asOwnLogString() = "UParenthesizedExpression"
+
+    override fun asLogString() = log(asOwnLogString(), expression)
+
     override fun asRenderString() = '(' + expression.asRenderString() + ')'
 }

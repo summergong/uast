@@ -36,7 +36,9 @@ interface UVariable : UDeclaration, PsiVariable {
     @Deprecated("Use uastInitializer instead.", ReplaceWith("uastInitializer"))
     override fun getInitializer() = psi.initializer
 
-    override fun asLogString() = log("UVariable (name = $name)", annotations, uastInitializer)
+    override fun asOwnLogString() = "UVariable (name = $name)"
+
+    override fun asLogString() = log(asOwnLogString(), annotations, uastInitializer)
 
     override fun asRenderString() = buildString {
         val modifiers = PsiModifier.MODIFIERS.filter { psi.hasModifierProperty(it) }.joinToString(" ")
@@ -66,7 +68,9 @@ interface ULocalVariable : UVariable, PsiLocalVariable {
 interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
     override val psi: PsiEnumConstant
 
-    override fun asLogString() = "UEnumConstant (name = ${psi.name}"
+    override fun asOwnLogString() = "UEnumConstant (name = ${psi.name}"
+
+    override fun asLogString() = super<UField>.asLogString()
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitVariable(this)) return

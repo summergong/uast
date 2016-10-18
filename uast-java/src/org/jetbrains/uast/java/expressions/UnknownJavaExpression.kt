@@ -25,7 +25,7 @@ class UnknownJavaExpression(
         override val psi: PsiElement,
         override val containingElement: UElement?
 ) : UExpression, PsiElementBacked {
-    override fun asLogString() = "[!] UnknownJavaExpression ($psi)"
+    override fun asOwnLogString() = "[!] UnknownJavaExpression ($psi)"
 
     override val annotations: List<UAnnotation>
         get() = emptyList()

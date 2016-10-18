@@ -32,7 +32,9 @@ interface UClass : UDeclaration, PsiClass {
     val uastMethods: List<UMethod>
     val uastNestedClasses: List<UClass>
 
-    override fun asLogString() = log("UClass (name = $name)", annotations, uastDeclarations)
+    override fun asOwnLogString() = "UClass (name = $name)"
+
+    override fun asLogString() = log(asOwnLogString(), annotations, uastDeclarations)
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitClass(this)) return

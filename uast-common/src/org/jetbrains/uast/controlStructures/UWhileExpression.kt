@@ -56,5 +56,7 @@ interface UWhileExpression : ULoopExpression {
         append(body.asRenderString())
     }
 
-    override fun asLogString() = log("UWhileExpression", condition, body)
+    override fun asOwnLogString() = "UWhileExpression"
+
+    override fun asLogString() = log(asOwnLogString(), condition, body)
 }

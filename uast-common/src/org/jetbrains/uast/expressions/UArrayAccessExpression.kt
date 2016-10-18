@@ -45,7 +45,7 @@ interface UArrayAccessExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitArrayAccessExpression(this, data)
 
-    override fun asLogString() = log("UArrayAccessExpression", receiver, indices)
+    override fun asOwnLogString() = log("UArrayAccessExpression", receiver, indices)
     override fun asRenderString() = receiver.asRenderString() +
             indices.joinToString(prefix = "[", postfix = "]") { it.asRenderString() }
 }

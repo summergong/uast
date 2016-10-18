@@ -41,5 +41,8 @@ interface UReturnExpression : UExpression {
             visitor.visitReturnExpression(this, data)
 
     override fun asRenderString() = returnExpression.let { if (it == null) "return" else "return " + it.asRenderString() }
-    override fun asLogString() = log("UReturnExpression", returnExpression)
+
+    override fun asOwnLogString() = "UReturnExpression"
+
+    override fun asLogString() = log(asOwnLogString(), returnExpression)
 }

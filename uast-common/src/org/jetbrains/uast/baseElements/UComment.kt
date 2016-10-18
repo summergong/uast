@@ -7,7 +7,7 @@ class UComment(override val psi: PsiElement, override val containingElement: UEl
     val text: String
         get() = asSourceString()
 
-    override fun asLogString() = "UComment"
+    override fun asOwnLogString() = "UComment"
     override fun asRenderString(): String = asSourceString()
     override fun asSourceString(): String = psi.text
 }

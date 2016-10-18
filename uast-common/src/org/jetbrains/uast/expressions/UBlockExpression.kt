@@ -39,7 +39,9 @@ interface UBlockExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitBlockExpression(this, data)
 
-    override fun asLogString() = log("UBlockExpression", expressions)
+    override fun asOwnLogString() = "UBlockExpression"
+
+    override fun asLogString() = log(asOwnLogString(), expressions)
 
     override fun asRenderString() = buildString {
         appendln("{")

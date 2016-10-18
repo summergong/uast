@@ -89,5 +89,5 @@ object UastEmptyExpression : UExpression {
     override val annotations: List<UAnnotation>
         get() = emptyList()
 
-    override fun asLogString() = "EmptyExpression"
+    override fun asOwnLogString() = "EmptyExpression"
 }

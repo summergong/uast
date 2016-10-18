@@ -29,7 +29,7 @@ interface UAnnotation : UElement, PsiElementBacked, UResolvable {
 
     fun findDeclaredAttributeValue(name: String?): UNamedExpression?
 
-    override fun asLogString() = "UAnnotation"
+    override fun asOwnLogString() = "UAnnotation"
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitAnnotation(this)) return

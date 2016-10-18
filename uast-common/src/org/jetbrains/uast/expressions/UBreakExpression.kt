@@ -38,6 +38,6 @@ interface UBreakExpression : UExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitBreakExpression(this, data)
 
-    override fun asLogString() = "UBreakExpression (" + (label ?: "<no label>") + ")"
+    override fun asOwnLogString() = "UBreakExpression (" + (label ?: "<no label>") + ")"
     override fun asRenderString() = label?.let { "break@$it" } ?: "break"
 }

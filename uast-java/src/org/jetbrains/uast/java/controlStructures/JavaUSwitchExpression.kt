@@ -49,6 +49,6 @@ class DefaultUSwitchClauseExpression(override val containingElement: UElement?) 
     override val annotations: List<UAnnotation>
         get() = emptyList()
 
-    override fun asLogString() = "DefaultUSwitchClauseExpression"
+    override fun asOwnLogString() = "DefaultUSwitchClauseExpression"
     override fun asRenderString() = "else -> "
 }

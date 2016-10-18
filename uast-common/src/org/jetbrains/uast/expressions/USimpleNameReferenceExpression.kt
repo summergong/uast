@@ -38,6 +38,6 @@ interface USimpleNameReferenceExpression : UReferenceExpression {
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitSimpleNameReferenceExpression(this, data)
 
-    override fun asLogString() = "USimpleReferenceExpression ($identifier)"
+    override fun asOwnLogString() = "USimpleReferenceExpression ($identifier)"
     override fun asRenderString() = identifier
 }

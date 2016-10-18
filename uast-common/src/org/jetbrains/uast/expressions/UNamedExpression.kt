@@ -35,7 +35,10 @@ class UNamedExpression(
         visitor.afterVisitElement(this)
     }
 
-    override fun asLogString() = log("UNamedExpression ($name)", expression)
+    override fun asOwnLogString() = "UNamedExpression ($name)"
+
+    override fun asLogString() = log(asOwnLogString(), expression)
+
     override fun asRenderString() = name + " = " + expression.asRenderString()
 
     override fun evaluate() = expression.evaluate()
