@@ -4,7 +4,7 @@ import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.*
 import org.jetbrains.uast.expressions.UReferenceExpression
-import org.jetbrains.uast.values.UValue
+import org.jetbrains.uast.values.*
 import org.jetbrains.uast.visitor.UastTypedVisitor
 
 class TreeBasedEvaluator(
@@ -42,13 +42,13 @@ class TreeBasedEvaluator(
         stateCache[node] = data
         val value = node.value
         return when (value) {
-            null -> UValue.Null
+            null -> UNullConstant
             is Number -> value.let {
-                if (it is Float || it is Double) UValue.NumericFloat(value.toDouble())
-                else UValue.NumericInt(value.toLong())
+                if (it is Float || it is Double) UFloatConstant(value.toDouble())
+                else UIntConstant(value.toLong())
             }
-            is Char -> UValue.NumericInt(value.toLong(), 2)
-            is Boolean -> UValue.Bool(value)
+            is Char -> UIntConstant(value.toLong(), 2)
+            is Boolean -> UBooleanConstant.valueOf(value)
             is String -> UValue.Undetermined
             else -> UValue.Undetermined
         } to data storeFor node
@@ -56,7 +56,7 @@ class TreeBasedEvaluator(
 
     override fun visitClassLiteralExpression(node: UClassLiteralExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
-        return (node.type?.let { UValue.ClassLiteral(it) } ?: UValue.Undetermined) to data storeFor node
+        return (node.type?.let(::UClassConstant) ?: UValue.Undetermined) to data storeFor node
     }
 
     override fun visitReturnExpression(node: UReturnExpression, data: UEvaluationState): UEvaluationInfo {
@@ -87,7 +87,7 @@ class TreeBasedEvaluator(
         stateCache[node] = data
         val resolvedElement = node.resolve()
         return when (resolvedElement) {
-            is PsiEnumConstant -> UValue.EnumEntry(resolvedElement)
+            is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement)
             is PsiVariable -> data[context.getVariable(resolvedElement)]
             else -> return visitReferenceExpression(node, data)
         } to data storeFor node
@@ -187,7 +187,7 @@ class TreeBasedEvaluator(
         val conditionValue = conditionInfo.value
         val defaultInfo = UValue.Undetermined to conditionInfo.state
         return when (conditionValue) {
-            is UValue.Bool -> {
+            is UBooleanConstant -> {
                 if (conditionValue.value) thenInfo ?: defaultInfo
                 else elseInfo ?: defaultInfo
             }

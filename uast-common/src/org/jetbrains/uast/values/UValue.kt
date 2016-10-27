@@ -1,62 +1,20 @@
 package org.jetbrains.uast.values
 
-import com.intellij.psi.PsiEnumConstant
-import com.intellij.psi.PsiType
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UResolvable
 import org.jetbrains.uast.UVariable
-import org.jetbrains.uast.name
 
 sealed class UValue : UOperand {
 
     // Constants
 
-    interface Constant {
-        val value: Any?
-    }
-
-    abstract class AbstractConstant(override val value: Any?) : UValue(), Constant {
+    abstract class AbstractConstant(override val value: Any?) : UValue(), UConstant {
         override final fun equals(other: Any?) = other is AbstractConstant && value == other.value
 
         override final fun hashCode() = value?.hashCode() ?: 0
 
         override fun toString() = "$value"
     }
-
-    // IntValue?
-    class NumericInt(override val value: Long, val bytes: Int = 8) : AbstractConstant(value) {
-        override fun plus(other: UValue) = when (other) {
-            is NumericInt -> NumericInt(value + other.value, Math.max(bytes, other.bytes))
-            is NumericFloat -> other + this
-            else -> super.plus(other)
-        }
-
-        override fun unaryMinus() = NumericInt(-value, bytes)
-
-        override fun toString() = "$value ($bytes " + if (bytes == 1) "byte)" else "bytes)"
-    }
-
-    class NumericFloat(override val value: Double) : AbstractConstant(value) {
-        override fun plus(other: UValue) = when (other) {
-            is NumericInt -> NumericFloat(value + other.value)
-            is NumericFloat -> NumericFloat(value + other.value)
-            else -> super.plus(other)
-        }
-
-        override fun unaryMinus() = NumericFloat(-value)
-    }
-
-    class Bool(override val value: Boolean) : AbstractConstant(value)
-
-    class EnumEntry(override val value: PsiEnumConstant) : AbstractConstant(value) {
-        override fun toString() = value.name ?: "<unnamed enum entry>"
-    }
-
-    class ClassLiteral(override val value: PsiType) : AbstractConstant(value) {
-        override fun toString() = value.name
-    }
-
-    object Null : AbstractConstant(null)
 
     // Dependencies and dependents
 
@@ -171,7 +129,7 @@ sealed class UValue : UOperand {
     open val dependencies: List<Dependency>
         get() = emptyList()
 
-    open fun toConstant(): Constant? = this as? Constant
+    open fun toConstant(): UConstant? = this as? UConstant
 
     open fun toVariable(): Variable? = this as? Variable
 
