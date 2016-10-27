@@ -1,0 +1,23 @@
+UFile (package = ) [public class ReturnSum : Object {...]
+    UClass (name = ReturnSum) [public class ReturnSum : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var x: int = 1 + 2] = Undetermined
+                    ULocalVariable (name = x) [var x: int = 1 + 2]
+                        UBinaryExpression (operator = +) [1 + 2] = 3 (8 bytes)
+                            ULiteralExpression (value = 1) [1] = 1 (8 bytes)
+                            ULiteralExpression (value = 2) [2] = 2 (8 bytes)
+                UVariableDeclarationsExpression [var y: int = 3 + 4] = Undetermined
+                    ULocalVariable (name = y) [var y: int = 3 + 4]
+                        UBinaryExpression (operator = +) [3 + 4] = 7 (8 bytes)
+                            ULiteralExpression (value = 3) [3] = 3 (8 bytes)
+                            ULiteralExpression (value = 4) [4] = 4 (8 bytes)
+                UVariableDeclarationsExpression [var z: int = x + y] = Undetermined
+                    ULocalVariable (name = z) [var z: int = x + y]
+                        UBinaryExpression (operator = +) [x + y] = 10 (8 bytes)
+                            USimpleNameReferenceExpression [x] = 3 (8 bytes)
+                            USimpleNameReferenceExpression [y] = 7 (8 bytes)
+                UReturnExpression [return z + z] = Nothing
+                    UBinaryExpression (operator = +) [z + z] = 20 (8 bytes)
+                        USimpleNameReferenceExpression [z] = 10 (8 bytes)
+                        USimpleNameReferenceExpression [z] = 10 (8 bytes)
