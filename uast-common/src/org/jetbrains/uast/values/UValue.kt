@@ -46,7 +46,7 @@ sealed class UValue : UOperand {
             this -> this
             is Variable -> other.merge(this)
             value -> this
-            else -> Phi(this, other)
+            else -> Phi.create(this, other)
         }
 
         override fun toConstant() = value.toConstant()
@@ -87,9 +87,7 @@ sealed class UValue : UOperand {
         }
     }
 
-    class Phi(val values: List<UValue>): UValue() {
-
-        constructor(vararg values: UValue) : this(values.toList())
+    class Phi private constructor(val values: List<UValue>): UValue() {
 
         override val dependencies: List<Dependency> = values.flatMap { it.dependencies }
 
@@ -98,6 +96,14 @@ sealed class UValue : UOperand {
         override fun hashCode() = values.hashCode()
 
         override fun toString() = values.joinToString(prefix = "Phi(", postfix = ")", separator = ", ")
+
+        companion object {
+            fun create(values: List<UValue>): Phi {
+                return Phi(values.map { (it as? Phi)?.values ?: listOf(it) }.flatten())
+            }
+
+            fun create(vararg values: UValue) = create(values.toList())
+        }
     }
 
     // Miscellaneous
@@ -123,7 +129,7 @@ sealed class UValue : UOperand {
     open fun merge(other: UValue): UValue = when (other) {
         this -> this
         is Variable -> other.merge(this)
-        else -> Phi(this, other)
+        else -> Phi.create(this, other)
     }
 
     open val dependencies: List<Dependency>

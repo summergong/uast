@@ -1,0 +1,45 @@
+UFile (package = ) [public class CascadeIf : Object {...]
+    UClass (name = CascadeIf) [public class CascadeIf : Object {...}]
+        UMethod (name = foo) [public static fun foo(f: boolean, g: boolean, h: boolean) : int {...}]
+            UParameter (name = f) [var f: boolean]
+            UParameter (name = g) [var g: boolean]
+            UParameter (name = h) [var h: boolean]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var x: int = 0] = Undetermined
+                    ULocalVariable (name = x) [var x: int = 0]
+                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                UVariableDeclarationsExpression [var y: int = 1] = Undetermined
+                    ULocalVariable (name = y) [var y: int = 1]
+                        ULiteralExpression (value = 1) [1] = 1 (8 bytes)
+                UVariableDeclarationsExpression [var v: int = 2] = Undetermined
+                    ULocalVariable (name = v) [var v: int = 2]
+                        ULiteralExpression (value = 2) [2] = 2 (8 bytes)
+                UVariableDeclarationsExpression [var w: int = 3] = Undetermined
+                    ULocalVariable (name = w) [var w: int = 3]
+                        ULiteralExpression (value = 3) [3] = 3 (8 bytes)
+                UVariableDeclarationsExpression [var z: int] = Undetermined
+                    ULocalVariable (name = z) [var z: int]
+                UIfExpression [if (f) {...}] = Undetermined
+                    USimpleNameReferenceExpression [f] = Undetermined
+                    UBlockExpression [{...}] = Undetermined
+                        UBinaryExpression (operator = =) [z = y] = Undetermined
+                            USimpleNameReferenceExpression [z] = Undetermined
+                            USimpleNameReferenceExpression [y] = 1 (8 bytes)
+                    UIfExpression [if (g) {...}] = Undetermined
+                        USimpleNameReferenceExpression [g] = Undetermined
+                        UBlockExpression [{...}] = Undetermined
+                            UBinaryExpression (operator = =) [z = x] = Undetermined
+                                USimpleNameReferenceExpression [z] = Undetermined
+                                USimpleNameReferenceExpression [x] = 0 (8 bytes)
+                        UIfExpression [if (h) {...}] = Undetermined
+                            USimpleNameReferenceExpression [h] = Undetermined
+                            UBlockExpression [{...}] = Undetermined
+                                UBinaryExpression (operator = =) [z = v] = Undetermined
+                                    USimpleNameReferenceExpression [z] = Undetermined
+                                    USimpleNameReferenceExpression [v] = 2 (8 bytes)
+                            UBlockExpression [{...}] = Undetermined
+                                UBinaryExpression (operator = =) [z = w] = Undetermined
+                                    USimpleNameReferenceExpression [z] = Undetermined
+                                    USimpleNameReferenceExpression [w] = 3 (8 bytes)
+                UReturnExpression [return z] = Nothing
+                    USimpleNameReferenceExpression [z] = Phi(1 (8 bytes), 0 (8 bytes), 2 (8 bytes), 3 (8 bytes))

@@ -10,4 +10,6 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testDeadElse() = doTest("Simple/DeadElse.java")
 
     @Test fun testAliveThenElse() = doTest("Simple/AliveThenElse.java")
+
+    @Test fun testCascadeIf() = doTest("Simple/CascadeIf.java")
 }
