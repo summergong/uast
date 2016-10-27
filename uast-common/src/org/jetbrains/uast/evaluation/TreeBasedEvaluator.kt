@@ -164,12 +164,7 @@ class TreeBasedEvaluator(
 
     override fun visitVariable(node: UVariable, data: UEvaluationState): UEvaluationInfo {
         val initializer = node.uastInitializer
-        val initializerInfo = if (initializer != null) {
-            initializer.accept(this, data)
-        }
-        else {
-            UValue.Undetermined to data
-        }
+        val initializerInfo = initializer?.accept(this, data) ?: UValue.Undetermined to data
         return UValue.Undetermined to initializerInfo.state.assign(node, initializerInfo.value, node)
     }
 
