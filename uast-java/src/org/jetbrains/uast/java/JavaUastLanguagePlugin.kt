@@ -240,11 +240,6 @@ internal object JavaConverter {
             is PsiExpressionStatement -> convertExpression(el.expression, parent, requiredType)
             is PsiIfStatement -> expr<UIfExpression> { JavaUIfExpression(el, parent) }
             is PsiSwitchStatement -> expr<USwitchExpression> { JavaUSwitchExpression(el, parent) }
-            is PsiSwitchLabelStatement -> expr<USwitchClauseExpression> {
-                if (el.isDefaultCase)
-                    DefaultUSwitchClauseExpression(parent)
-                else JavaUCaseSwitchClauseExpression(el, parent)
-            }
             is PsiWhileStatement -> expr<UWhileExpression> { JavaUWhileExpression(el, parent) }
             is PsiDoWhileStatement -> expr<UDoWhileExpression> { JavaUDoWhileExpression(el, parent) }
             is PsiForStatement -> expr<UForExpression> { JavaUForExpression(el, parent) }

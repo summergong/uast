@@ -1,0 +1,46 @@
+UFile (package = )
+    UClass (name = EnumSwitch)
+        UEnumConstant (name = FIRST)
+            USimpleNameReferenceExpression
+        UEnumConstant (name = SECOND)
+            USimpleNameReferenceExpression
+        UEnumConstant (name = THIRD)
+            USimpleNameReferenceExpression
+        UMethod (name = foo)
+            UParameter (name = key)
+            UBlockExpression
+                UVariableDeclarationsExpression
+                    ULocalVariable (name = result)
+                USwitchExpression
+                    USimpleNameReferenceExpression
+                    UExpressionList (switch)
+                        USwitchClauseExpressionWithBody
+                            USimpleNameReferenceExpression
+                            UExpressionList (switch_entry)
+                                UBinaryExpression (operator = =)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = 3)
+                                UBreakExpression (label = null)
+                        USwitchClauseExpressionWithBody
+                            USimpleNameReferenceExpression
+                            UExpressionList (switch_entry)
+                                UBinaryExpression (operator = =)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = 7)
+                                UBreakExpression (label = null)
+                        USwitchClauseExpressionWithBody
+                            USimpleNameReferenceExpression
+                            UExpressionList (switch_entry)
+                                UBinaryExpression (operator = =)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = 13)
+                                UBreakExpression (label = null)
+                        USwitchClauseExpressionWithBody
+                            UDefaultCaseExpression
+                            UExpressionList (switch_entry)
+                                UBinaryExpression (operator = =)
+                                    USimpleNameReferenceExpression
+                                    ULiteralExpression (value = 66)
+                                UBreakExpression (label = null)
+                UReturnExpression
+                    USimpleNameReferenceExpression

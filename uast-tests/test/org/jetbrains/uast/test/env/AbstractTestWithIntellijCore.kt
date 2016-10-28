@@ -64,14 +64,21 @@ abstract class AbstractTestWithIntellijCore : TestCase() {
         myProjectEnvironment = null
     }
 
+    fun String.trimTrailingWhitespacesAndAddNewlineAtEOF(): String =
+            this.split('\n').map(String::trimEnd).joinToString(separator = "\n").let {
+                result -> if (result.endsWith("\n")) result else result + "\n"
+            }
+
     protected fun assertEqualsToFile(description: String, expected: File, actual: String) {
         if (!expected.exists()) {
             expected.writeText(actual)
             fail("File didn't exist. New file was created (${expected.canonicalPath}).")
         }
 
-        val expectedText = StringUtil.convertLineSeparators(expected.readText().trim())
-        val actualText = StringUtil.convertLineSeparators(actual.trim())
+        val expectedText =
+                StringUtil.convertLineSeparators(expected.readText().trim()).trimTrailingWhitespacesAndAddNewlineAtEOF()
+        val actualText =
+                StringUtil.convertLineSeparators(actual.trim()).trimTrailingWhitespacesAndAddNewlineAtEOF()
         if (expectedText != actualText) {
             throw FileComparisonFailure(description, expectedText, actualText, expected.absolutePath)
         }
