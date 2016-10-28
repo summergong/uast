@@ -199,4 +199,23 @@ class TreeBasedEvaluator(
             }
         } storeFor node
     }
+
+    override fun visitSwitchExpression(node: USwitchExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        val expressionInfo = node.expression?.accept(this, data) ?: UValue.Undetermined to data
+        var resultInfo: UEvaluationInfo? = null
+        val switchList = node.body
+        for (expression in switchList.expressions) {
+            val switchClauseWithBody = expression as USwitchClauseExpressionWithBody
+            var clauseInfo = expressionInfo
+            for (caseValue in switchClauseWithBody.caseValues) {
+                clauseInfo = caseValue.accept(this, clauseInfo.state)
+            }
+            for (bodyExpression in switchClauseWithBody.body.expressions) {
+                clauseInfo = bodyExpression.accept(this, clauseInfo.state)
+            }
+            resultInfo = resultInfo?.merge(clauseInfo) ?: clauseInfo
+        }
+        return (resultInfo ?: expressionInfo) storeFor node
+    }
 }
