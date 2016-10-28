@@ -42,7 +42,7 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
 }
 
 class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.AbstractConstant(value) {
-    override fun toString() = value.name ?: "<unnamed enum entry>"
+    override fun toString() = value.name?.let { "$it (enum entry)" }?: "<unnamed enum entry>"
 }
 
 class UClassConstant(override val value: PsiType) : UValue.AbstractConstant(value) {
