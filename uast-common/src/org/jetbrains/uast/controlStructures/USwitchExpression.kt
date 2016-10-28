@@ -42,7 +42,7 @@ interface USwitchExpression : UExpression {
         Returns the switch body.
         The body should contain [USwitchClauseExpression] expressions.
      */
-    val body: UExpression
+    val body: UExpressionList
 
     /**
      * Returns an identifier for the 'switch' ('case', 'when', ...) keyword.

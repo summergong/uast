@@ -32,7 +32,7 @@ class JavaUSwitchExpression(
 ) : JavaAbstractUExpression(), USwitchExpression, PsiElementBacked {
     override val expression by lz { JavaConverter.convertOrEmpty(psi.expression, this) }
 
-    override val body: UExpression by lz {
+    override val body: UExpressionList by lz {
         object : JavaUExpressionList(psi, JavaSpecialExpressionKinds.SWITCH, this) {
             override fun asRenderString() = expressions.joinToString("\n") { it.asRenderString().withMargin }
         }.apply {
