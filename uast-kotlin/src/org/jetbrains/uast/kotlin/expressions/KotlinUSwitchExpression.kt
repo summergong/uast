@@ -76,7 +76,7 @@ class KotlinUSwitchEntry(
         }}
     }
 
-    override val body: UExpression by lz {
+    override val body: UExpressionList by lz {
         object : KotlinUExpressionList(psi, KotlinSpecialExpressionKinds.WHEN_ENTRY, this) {
             override fun asRenderString() = buildString {
                 appendln("{")

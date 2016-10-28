@@ -21,7 +21,6 @@ import com.intellij.psi.PsiSwitchLabelStatement
 import com.intellij.psi.PsiSwitchStatement
 import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.*
-import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.java.expressions.JavaUExpressionList
 import org.jetbrains.uast.java.kinds.JavaSpecialExpressionKinds
 import org.jetbrains.uast.psi.PsiElementBacked
@@ -34,7 +33,9 @@ class JavaUSwitchExpression(
 
     override val body: UExpressionList by lz {
         object : JavaUExpressionList(psi, JavaSpecialExpressionKinds.SWITCH, this) {
-            override fun asRenderString() = expressions.joinToString("\n") { it.asRenderString().withMargin }
+            override fun asRenderString() = expressions.joinToString("\n") {
+                it.asRenderString().withMargin
+            }
         }.apply {
             expressions = this@JavaUSwitchExpression.psi.body?.convertToSwitchEntryList(this) ?: emptyList()
         }
@@ -78,18 +79,18 @@ class JavaUSwitchEntry(
     override val psi: PsiSwitchLabelStatement = labels.first()
 
     override val caseValues by lz {
-        labels.map {
+        labels.mapNotNull {
             if (it.isDefaultCase) {
-                listOf(JavaUDefaultCaseExpression)
+                JavaUDefaultCaseExpression
             }
             else {
                 val value = it.caseValue
-                value?.let { listOf(JavaConverter.convertExpression(it, this)) } ?: emptyList()
+                value?.let { JavaConverter.convertExpression(it, this) }
             }
-        }.flatten()
+        }
     }
 
-    override val body: UExpression by lz {
+    override val body: UExpressionList by lz {
         object : JavaUExpressionList(psi, JavaSpecialExpressionKinds.SWITCH_ENTRY, this) {
             override fun asRenderString() = buildString {
                 appendln("{")

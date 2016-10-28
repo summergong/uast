@@ -106,7 +106,7 @@ interface USwitchClauseExpressionWithBody : USwitchClauseExpression {
     /**
      * Returns the body expression for this clause.
      */
-    val body: UExpression
+    val body: UExpressionList
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchClauseExpression(this)) return
