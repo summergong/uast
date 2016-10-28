@@ -20,7 +20,7 @@ sealed class UValue : UOperand {
 
     interface Dependency
 
-    open class Dependent(
+    open class Dependent protected constructor(
             val value: UValue,
             override val dependencies: List<Dependency> = emptyList()
     ) : UValue() {
@@ -32,17 +32,17 @@ sealed class UValue : UOperand {
         private val dependenciesWithThis: List<Dependency>
             get() = (this as? Dependency)?.let { dependencies + it } ?: dependencies
 
-        private fun wrapBinary(result: UValue, arg: UValue): Dependent {
+        private fun wrapBinary(result: UValue, arg: UValue): UValue {
             val wrappedDependencies = (arg as? Dependent)?.dependenciesWithThis ?: emptyList()
             val resultDependencies = dependenciesWithThis + wrappedDependencies
-            return Dependent(result, resultDependencies)
+            return create(result, resultDependencies)
         }
 
         override fun plus(other: UValue) = wrapBinary(unwrap() + other.unwrap(), other)
 
         override fun minus(other: UValue) = wrapBinary(unwrap() - other.unwrap(), other)
 
-        override fun unaryMinus() = Dependent(-value, dependenciesWithThis)
+        override fun unaryMinus() = create(-value, dependenciesWithThis)
 
         override fun merge(other: UValue) = when (other) {
             this -> this
@@ -59,6 +59,12 @@ sealed class UValue : UOperand {
                     "$value" + dependencies.joinToString(prefix = " (depending on: ", postfix = ")", separator = ", ")
                 else
                     "$value"
+
+        companion object {
+            fun create(value: UValue, dependencies: List<Dependency>): UValue =
+                    if (dependencies.isNotEmpty()) Dependent(value, dependencies)
+                    else value
+        }
     }
 
     // Value of some (possibly evaluable) variable
