@@ -79,19 +79,19 @@ interface USwitchClauseExpression : UExpression {
      * Returns the list of values for this clause, or null if the are no values for this close
      *     (for example, for the `else` clause).
      */
-    val caseValues: List<UExpression>?
+    val caseValues: List<UExpression>
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchClauseExpression(this)) return
         annotations.acceptList(visitor)
-        caseValues?.acceptList(visitor)
+        caseValues.acceptList(visitor)
         visitor.afterVisitSwitchClauseExpression(this)
     }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitSwitchClauseExpression(this, data)
 
-    override fun asRenderString() = (caseValues?.joinToString { it.asRenderString() } ?: "else") + " -> "
+    override fun asRenderString() = caseValues.joinToString { it.asRenderString() } + " -> "
 
     override fun asLogString() = "USwitchClauseExpression"
 }
@@ -111,12 +111,12 @@ interface USwitchClauseExpressionWithBody : USwitchClauseExpression {
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitSwitchClauseExpression(this)) return
         annotations.acceptList(visitor)
-        caseValues?.acceptList(visitor)
+        caseValues.acceptList(visitor)
         body.accept(visitor)
         visitor.afterVisitSwitchClauseExpression(this)
     }
 
-    override fun asRenderString() = (caseValues?.joinToString { it.asRenderString() } ?: "else") + " -> " + body.asRenderString()
+    override fun asRenderString() = caseValues.joinToString { it.asRenderString() }  + " -> " + body.asRenderString()
 
     override fun asLogString() = log()
 }
