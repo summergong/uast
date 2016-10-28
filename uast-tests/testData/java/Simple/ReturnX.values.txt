@@ -6,4 +6,4 @@ UFile (package = ) [public class ReturnX : Object {...]
                     ULocalVariable (name = x) [var x: int = 42]
                         ULiteralExpression (value = 42) [42] = 42 (8 bytes)
                 UReturnExpression [return x] = Nothing
-                    USimpleNameReferenceExpression [x] = 42 (8 bytes)
+                    USimpleNameReferenceExpression [x] = (var x = 42 (8 bytes))

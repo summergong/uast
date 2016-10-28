@@ -29,10 +29,12 @@ sealed class UValue : UOperand {
 
         private fun unwrap(): UValue = value.unwrap()
 
+        private val dependenciesWithThis: List<Dependency>
+            get() = (this as? Dependency)?.let { dependencies + it } ?: dependencies
+
         private fun wrapBinary(result: UValue, arg: UValue): Dependent {
-            val wrappedDependencies = (arg as? Dependent)?.dependencies ?: emptyList()
-            val resultDependencies =
-                    if (wrappedDependencies.isNotEmpty()) dependencies + wrappedDependencies else dependencies
+            val wrappedDependencies = (arg as? Dependent)?.dependenciesWithThis ?: emptyList()
+            val resultDependencies = dependenciesWithThis + wrappedDependencies
             return Dependent(result, resultDependencies)
         }
 
@@ -40,11 +42,10 @@ sealed class UValue : UOperand {
 
         override fun minus(other: UValue) = wrapBinary(unwrap() - other.unwrap(), other)
 
-        override fun unaryMinus() = Dependent(-value, dependencies)
+        override fun unaryMinus() = Dependent(-value, dependenciesWithThis)
 
         override fun merge(other: UValue) = when (other) {
             this -> this
-            is Variable -> other.merge(this)
             value -> this
             else -> Phi.create(this, other)
         }
@@ -67,12 +68,7 @@ sealed class UValue : UOperand {
             dependencies: List<Dependency> = emptyList()
     ) : Dependent(value, dependencies), Dependency {
 
-        override fun merge(other: UValue): UValue = when (other) {
-            is Dependent -> merge(other.value)
-            else -> super.merge(other)
-        }
-
-        override fun toString() = "var ${variable.name ?: "<unnamed>"} = " + super.toString()
+        override fun toString() = "(var ${variable.name ?: "<unnamed>"} = ${super.toString()})"
     }
 
     // Value of something resolvable (e.g. call or property access)

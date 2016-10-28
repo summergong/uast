@@ -12,4 +12,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testAliveThenElse() = doTest("Simple/AliveThenElse.java")
 
     @Test fun testCascadeIf() = doTest("Simple/CascadeIf.java")
+
+    @Test fun testDependents() = doTest("Simple/Dependents.java")
+
+    @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 }

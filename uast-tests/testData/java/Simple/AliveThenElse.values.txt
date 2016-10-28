@@ -16,10 +16,10 @@ UFile (package = ) [public class AliveThenElse : Object {...]
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = y] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [y] = 1 (8 bytes)
+                            USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = x] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [x] = 0 (8 bytes)
+                            USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
                 UReturnExpression [return z] = Nothing
-                    USimpleNameReferenceExpression [z] = Phi(1 (8 bytes), 0 (8 bytes))
+                    USimpleNameReferenceExpression [z] = Phi((var z = (var y = 1 (8 bytes))), (var z = (var x = 0 (8 bytes))))

@@ -14,14 +14,14 @@ UFile (package = ) [public class DeadElse : Object {...]
                 UVariableDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (f) {...}] = Undetermined
-                    USimpleNameReferenceExpression [f] = true
+                    USimpleNameReferenceExpression [f] = (var f = true)
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = y] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [y] = 1 (8 bytes)
+                            USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = x] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [x] = 0 (8 bytes)
+                            USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
                 UReturnExpression [return z] = Nothing
-                    USimpleNameReferenceExpression [z] = 1 (8 bytes)
+                    USimpleNameReferenceExpression [z] = (var z = (var y = 1 (8 bytes)))

@@ -11,5 +11,5 @@ class DelegatingEvaluationState(
 ) : AbstractEvaluationState(boundElement) {
 
     override fun get(variable: UVariable) =
-            if (variable.psi === variableValue.variable.psi) variableValue.value else baseState[variable]
+            if (variable.psi === variableValue.variable.psi) variableValue else baseState[variable]
 }

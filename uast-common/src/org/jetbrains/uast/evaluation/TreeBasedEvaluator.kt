@@ -186,9 +186,10 @@ class TreeBasedEvaluator(
         val elseInfo = node.elseExpression?.accept(this, conditionInfo.state)
         val conditionValue = conditionInfo.value
         val defaultInfo = UValue.Undetermined to conditionInfo.state
-        return when (conditionValue) {
+        val constantConditionValue = conditionValue.toConstant()
+        return when (constantConditionValue) {
             is UBooleanConstant -> {
-                if (conditionValue.value) thenInfo ?: defaultInfo
+                if (constantConditionValue.value) thenInfo ?: defaultInfo
                 else elseInfo ?: defaultInfo
             }
             else -> {

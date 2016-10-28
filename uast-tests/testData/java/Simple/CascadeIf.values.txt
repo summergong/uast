@@ -24,22 +24,22 @@ UFile (package = ) [public class CascadeIf : Object {...]
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = y] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [y] = 1 (8 bytes)
+                            USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
                     UIfExpression [if (g) {...}] = Undetermined
                         USimpleNameReferenceExpression [g] = Undetermined
                         UBlockExpression [{...}] = Undetermined
                             UBinaryExpression (operator = =) [z = x] = Undetermined
                                 USimpleNameReferenceExpression [z] = Undetermined
-                                USimpleNameReferenceExpression [x] = 0 (8 bytes)
+                                USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
                         UIfExpression [if (h) {...}] = Undetermined
                             USimpleNameReferenceExpression [h] = Undetermined
                             UBlockExpression [{...}] = Undetermined
                                 UBinaryExpression (operator = =) [z = v] = Undetermined
                                     USimpleNameReferenceExpression [z] = Undetermined
-                                    USimpleNameReferenceExpression [v] = 2 (8 bytes)
+                                    USimpleNameReferenceExpression [v] = (var v = 2 (8 bytes))
                             UBlockExpression [{...}] = Undetermined
                                 UBinaryExpression (operator = =) [z = w] = Undetermined
                                     USimpleNameReferenceExpression [z] = Undetermined
-                                    USimpleNameReferenceExpression [w] = 3 (8 bytes)
+                                    USimpleNameReferenceExpression [w] = (var w = 3 (8 bytes))
                 UReturnExpression [return z] = Nothing
-                    USimpleNameReferenceExpression [z] = Phi(1 (8 bytes), 0 (8 bytes), 2 (8 bytes), 3 (8 bytes))
+                    USimpleNameReferenceExpression [z] = Phi((var z = (var y = 1 (8 bytes))), (var z = (var x = 0 (8 bytes))), (var z = (var v = 2 (8 bytes))), (var z = (var w = 3 (8 bytes))))
