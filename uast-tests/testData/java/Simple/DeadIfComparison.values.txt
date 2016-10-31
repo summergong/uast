@@ -1,0 +1,26 @@
+UFile (package = ) [public class DeadIfComparison : Object {...]
+    UClass (name = DeadIfComparison) [public class DeadIfComparison : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var x: int = 0] = Undetermined
+                    ULocalVariable (name = x) [var x: int = 0]
+                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                UVariableDeclarationsExpression [var y: int = 1] = Undetermined
+                    ULocalVariable (name = y) [var y: int = 1]
+                        ULiteralExpression (value = 1) [1] = 1 (8 bytes)
+                UVariableDeclarationsExpression [var z: int] = Undetermined
+                    ULocalVariable (name = z) [var z: int]
+                UIfExpression [if (x === y) {...}] = Undetermined
+                    UBinaryExpression (operator = ===) [x === y] = false (depending on: (var x = 0 (8 bytes)), (var y = 1 (8 bytes)))
+                        USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
+                        USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
+                    UBlockExpression [{...}] = Undetermined
+                        UBinaryExpression (operator = =) [z = y] = Undetermined
+                            USimpleNameReferenceExpression [z] = Undetermined
+                            USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
+                    UBlockExpression [{...}] = Undetermined
+                        UBinaryExpression (operator = =) [z = x] = Undetermined
+                            USimpleNameReferenceExpression [z] = Undetermined
+                            USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
+                UReturnExpression [return z] = Nothing
+                    USimpleNameReferenceExpression [z] = (var z = (var x = 0 (8 bytes)))

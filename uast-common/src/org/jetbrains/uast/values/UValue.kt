@@ -9,9 +9,15 @@ sealed class UValue : UOperand {
     // Constants
 
     abstract class AbstractConstant(override val value: Any?) : UValue(), UConstant {
-        override final fun equals(other: Any?) = other is AbstractConstant && value == other.value
+        override fun same(other: UValue) = when (other) {
+            this -> UBooleanConstant.True
+            is UValue.AbstractConstant -> UBooleanConstant.False
+            else -> super.same(other)
+        }
 
-        override final fun hashCode() = value?.hashCode() ?: 0
+        override fun equals(other: Any?) = other is AbstractConstant && value == other.value
+
+        override fun hashCode() = value?.hashCode() ?: 0
 
         override fun toString() = "$value"
     }
@@ -38,11 +44,19 @@ sealed class UValue : UOperand {
             return create(result, resultDependencies)
         }
 
+        private fun wrapUnary(result: UValue) = create(result, dependenciesWithThis)
+
         override fun plus(other: UValue) = wrapBinary(unwrap() + other.unwrap(), other)
 
         override fun minus(other: UValue) = wrapBinary(unwrap() - other.unwrap(), other)
 
-        override fun unaryMinus() = create(-value, dependenciesWithThis)
+        override fun unaryMinus() = wrapUnary(-value)
+
+        override fun same(other: UValue) = wrapBinary(unwrap() same other.unwrap(), other)
+
+        override fun notSame(other: UValue) = wrapBinary(unwrap() notSame other.unwrap(), other)
+
+        override fun not() = wrapUnary(!value)
 
         override fun merge(other: UValue) = when (other) {
             this -> this
@@ -127,6 +141,12 @@ sealed class UValue : UOperand {
     override operator fun minus(other: UValue): UValue = this + (-other)
 
     override fun unaryMinus(): UValue = Undetermined
+
+    override fun same(other: UValue): UValue = if (other is Dependent) other same this else Undetermined
+
+    override fun notSame(other: UValue): UValue = !this.same(other)
+
+    override fun not(): UValue = Undetermined
 
     open fun merge(other: UValue): UValue = when (other) {
         this -> this

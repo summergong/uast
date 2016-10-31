@@ -32,9 +32,13 @@ class UFloatConstant(override val value: Double) : UValue.AbstractConstant(value
 }
 
 sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant(value) {
-    object True : UBooleanConstant(true)
+    object True : UBooleanConstant(true) {
+        override fun not() = False
+    }
 
-    object False : UBooleanConstant(false)
+    object False : UBooleanConstant(false) {
+        override fun not() = True
+    }
 
     companion object {
         fun valueOf(value: Boolean) = if (value) True else False
@@ -42,6 +46,18 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
 }
 
 class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.AbstractConstant(value) {
+    override fun equals(other: Any?) =
+            other is UEnumEntryValueConstant &&
+            value.nameIdentifier.text == other.value.nameIdentifier.text &&
+            value.containingClass?.qualifiedName == other.value.containingClass?.qualifiedName
+
+    override fun hashCode(): Int {
+        var result = 19
+        result = result * 13 + value.nameIdentifier.text.hashCode()
+        result = result * 13 + (value.containingClass?.qualifiedName?.hashCode() ?: 0)
+        return result
+    }
+
     override fun toString() = value.name?.let { "$it (enum entry)" }?: "<unnamed enum entry>"
 }
 

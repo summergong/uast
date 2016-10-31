@@ -122,6 +122,7 @@ class TreeBasedEvaluator(
         return when (node.operator) {
             UastPrefixOperator.UNARY_PLUS -> operandInfo.value
             UastPrefixOperator.UNARY_MINUS -> -operandInfo.value
+            UastPrefixOperator.LOGICAL_NOT -> !operandInfo.value
             else -> UValue.Undetermined
         } to operandInfo.state storeFor node
     }
@@ -146,6 +147,10 @@ class TreeBasedEvaluator(
         return when (node.operator) {
             UastBinaryOperator.PLUS -> leftInfo.value + rightInfo.value
             UastBinaryOperator.MINUS -> leftInfo.value - rightInfo.value
+            UastBinaryOperator.EQUALS -> leftInfo.value same rightInfo.value
+            UastBinaryOperator.NOT_EQUALS -> leftInfo.value notSame rightInfo.value
+            UastBinaryOperator.IDENTITY_EQUALS -> leftInfo.value identitySame rightInfo.value
+            UastBinaryOperator.IDENTITY_NOT_EQUALS -> leftInfo.value identityNotSame rightInfo.value
             else -> UValue.Undetermined
         } to rightInfo.state storeFor node
     }
@@ -202,20 +207,27 @@ class TreeBasedEvaluator(
 
     override fun visitSwitchExpression(node: USwitchExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
-        val expressionInfo = node.expression?.accept(this, data) ?: UValue.Undetermined to data
+        val subjectInfo = node.expression?.accept(this, data) ?: UValue.Undetermined to data
+        val subjectValue = subjectInfo.value
         var resultInfo: UEvaluationInfo? = null
         val switchList = node.body
         for (expression in switchList.expressions) {
             val switchClauseWithBody = expression as USwitchClauseExpressionWithBody
-            var clauseInfo = expressionInfo
-            for (caseValue in switchClauseWithBody.caseValues) {
-                clauseInfo = caseValue.accept(this, clauseInfo.state)
+            var clauseInfo = subjectInfo
+            val caseValueComparisons = switchClauseWithBody.caseValues.map {
+                clauseInfo = it.accept(this, clauseInfo.state)
+                (clauseInfo.value same subjectValue).toConstant()
             }
-            for (bodyExpression in switchClauseWithBody.body.expressions) {
-                clauseInfo = bodyExpression.accept(this, clauseInfo.state)
+            val mustBeTrue = UBooleanConstant.True in caseValueComparisons
+            val canBeTrue = mustBeTrue || null in caseValueComparisons
+            if (canBeTrue) {
+                for (bodyExpression in switchClauseWithBody.body.expressions) {
+                    clauseInfo = bodyExpression.accept(this, clauseInfo.state)
+                }
+                resultInfo = resultInfo?.merge(clauseInfo) ?: clauseInfo
+                if (mustBeTrue) break
             }
-            resultInfo = resultInfo?.merge(clauseInfo) ?: clauseInfo
         }
-        return (resultInfo ?: expressionInfo) storeFor node
+        return (resultInfo ?: subjectInfo) storeFor node
     }
 }

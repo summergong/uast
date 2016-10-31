@@ -9,6 +9,12 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testDeadElse() = doTest("Simple/DeadElse.java")
 
+    @Test fun testDeadIfComparison() = doTest("Simple/DeadIfComparison.java")
+
+    @Test fun testDeadSwitchEntries() = doTest("Simple/DeadSwitchEntries.java")
+
+    @Test fun testDeadThen() = doTest("Simple/DeadThen.java")
+
     @Test fun testDependents() = doTest("Simple/Dependents.java")
 
     @Test fun testEnumChoice() = doTest("Simple/EnumChoice.java")
