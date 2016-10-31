@@ -21,6 +21,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")
 
+    @Test fun testFor() = doTest("Simple/For.java")
+
     @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 
     @Test fun testReturnSum() = doTest("Simple/ReturnSum.java")

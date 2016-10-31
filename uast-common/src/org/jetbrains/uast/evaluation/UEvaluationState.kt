@@ -9,6 +9,8 @@ import org.jetbrains.uast.values.UValue
 interface UEvaluationState {
     val boundElement: UElement?
 
+    val variables: Set<UVariable>
+
     operator fun get(variable: UVariable): UValue
 
     // Creates new evaluation state with state[variable] = value and boundElement = at

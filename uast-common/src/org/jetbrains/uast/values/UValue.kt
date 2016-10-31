@@ -28,18 +28,18 @@ sealed class UValue : UOperand {
 
     open class Dependent protected constructor(
             val value: UValue,
-            override val dependencies: List<Dependency> = emptyList()
+            override val dependencies: Set<Dependency> = emptySet()
     ) : UValue() {
 
         private fun UValue.unwrap() = (this as? Dependent)?.unwrap() ?: this
 
         private fun unwrap(): UValue = value.unwrap()
 
-        private val dependenciesWithThis: List<Dependency>
+        private val dependenciesWithThis: Set<Dependency>
             get() = (this as? Dependency)?.let { dependencies + it } ?: dependencies
 
         private fun wrapBinary(result: UValue, arg: UValue): UValue {
-            val wrappedDependencies = (arg as? Dependent)?.dependenciesWithThis ?: emptyList()
+            val wrappedDependencies = (arg as? Dependent)?.dependenciesWithThis ?: emptySet()
             val resultDependencies = dependenciesWithThis + wrappedDependencies
             return create(result, resultDependencies)
         }
@@ -61,12 +61,29 @@ sealed class UValue : UOperand {
         override fun merge(other: UValue) = when (other) {
             this -> this
             value -> this
+            is Dependent -> {
+                if (value != other.value) Phi.create(this, other)
+                else Dependent(value, dependencies + other.dependencies)
+            }
             else -> Phi.create(this, other)
         }
 
         override fun toConstant() = value.toConstant()
 
         override fun toVariable() = value.toVariable()
+
+        override fun equals(other: Any?) =
+                other is Dependent
+                && javaClass == other.javaClass
+                && value == other.value
+                && dependencies == other.dependencies
+
+        override fun hashCode(): Int {
+            var result = 31
+            result = result * 19 + value.hashCode()
+            result = result * 19 + dependencies.hashCode()
+            return result
+        }
 
         override fun toString() =
                 if (dependencies.isNotEmpty())
@@ -75,20 +92,73 @@ sealed class UValue : UOperand {
                     "$value"
 
         companion object {
-            fun create(value: UValue, dependencies: List<Dependency>): UValue =
+            fun create(value: UValue, dependencies: Set<Dependency>): UValue =
                     if (dependencies.isNotEmpty()) Dependent(value, dependencies)
                     else value
         }
     }
 
     // Value of some (possibly evaluable) variable
-    class Variable(
+    class Variable private constructor(
             val variable: UVariable,
             value: UValue,
-            dependencies: List<Dependency> = emptyList()
+            dependencies: Set<Dependency>
     ) : Dependent(value, dependencies), Dependency {
 
+        override fun merge(other: UValue) = when (other) {
+            this -> this
+            value -> this
+            is Variable -> {
+                if (variable != other.variable || value != other.value) Phi.create(this, other)
+                else create(variable, value, dependencies + other.dependencies)
+            }
+            is Dependent -> {
+                if (value != other.value) Phi.create(this, other)
+                else create(variable, value, dependencies + other.dependencies)
+            }
+            else -> Phi.create(this, other)
+        }
+
+        override fun equals(other: Any?) =
+                other is Variable
+                && variable == other.variable
+                && value == other.value
+                && dependencies == other.dependencies
+
+        override fun hashCode(): Int {
+            var result = 31
+            result = result * 19 + variable.hashCode()
+            result = result * 19 + value.hashCode()
+            result = result * 19 + dependencies.hashCode()
+            return result
+        }
+
         override fun toString() = "(var ${variable.name ?: "<unnamed>"} = ${super.toString()})"
+
+        companion object {
+            fun create(variable: UVariable, value: UValue, dependencies: Set<Dependency> = emptySet()): Variable {
+                val dependenciesWithoutSelf = dependencies.filterTo(linkedSetOf()) {
+                    it !is Variable || variable != it.variable
+                }
+                return when {
+                    value is Variable
+                    && variable == value.variable
+                    && dependenciesWithoutSelf == value.dependencies -> value
+
+                    value is Dependent -> {
+                        val valueDependencies = value.dependencies.filterTo(linkedSetOf()) {
+                            it !is Variable || variable != it.variable
+                        }
+                        val modifiedValue =
+                                if (value is Variable) Variable.create(value.variable, value.value, valueDependencies)
+                                else Dependent.create(value.value, valueDependencies)
+                        Variable(variable, modifiedValue, dependenciesWithoutSelf)
+                    }
+
+                    else -> Variable(variable, value, dependenciesWithoutSelf)
+                }
+            }
+        }
     }
 
     // Value of something resolvable (e.g. call or property access)
@@ -103,9 +173,9 @@ sealed class UValue : UOperand {
         }
     }
 
-    class Phi private constructor(val values: List<UValue>): UValue() {
+    class Phi private constructor(val values: Set<UValue>): UValue() {
 
-        override val dependencies: List<Dependency> = values.flatMap { it.dependencies }
+        override val dependencies: Set<Dependency> = values.flatMapTo(linkedSetOf()) { it.dependencies }
 
         override fun equals(other: Any?) = other is Phi && values == other.values
 
@@ -115,7 +185,7 @@ sealed class UValue : UOperand {
 
         companion object {
             fun create(values: List<UValue>): Phi {
-                return Phi(values.map { (it as? Phi)?.values ?: listOf(it) }.flatten())
+                return Phi(values.flatMapTo(linkedSetOf<UValue>()) { (it as? Phi)?.values ?: listOf(it) })
             }
 
             fun create(vararg values: UValue) = create(values.toList())
@@ -154,8 +224,8 @@ sealed class UValue : UOperand {
         else -> Phi.create(this, other)
     }
 
-    open val dependencies: List<Dependency>
-        get() = emptyList()
+    open val dependencies: Set<Dependency>
+        get() = emptySet()
 
     open fun toConstant(): UConstant? = this as? UConstant
 

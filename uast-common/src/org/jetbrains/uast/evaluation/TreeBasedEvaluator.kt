@@ -15,7 +15,13 @@ class TreeBasedEvaluator(
 
     private val resultCache = mutableMapOf<UExpression, UEvaluationInfo>()
 
-    override fun visitElement(node: UElement, data: UEvaluationState) = UEvaluationInfo(UValue.Undetermined, data)
+    override fun visitElement(node: UElement, data: UEvaluationState): UEvaluationInfo {
+        return UEvaluationInfo(UValue.Undetermined, data).apply {
+            if (node is UExpression) {
+                this storeFor node
+            }
+        }
+    }
 
     override fun analyze(method: UMethod, state: UEvaluationState) {
         method.uastBody?.accept(this, state)
@@ -229,5 +235,21 @@ class TreeBasedEvaluator(
             }
         }
         return (resultInfo ?: subjectInfo) storeFor node
+    }
+
+    override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        val initialInfo = node.declaration?.accept(this, data) ?: UValue.Undetermined to data
+        var resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
+        val conditionConstant = resultInfo.value.toConstant()
+        if (conditionConstant == UBooleanConstant.False) {
+            return resultInfo storeFor node
+        }
+        do {
+            val bodyInfo = node.body.accept(this, resultInfo.state)
+            val previousInfo = resultInfo
+            resultInfo = bodyInfo.merge(previousInfo)
+        } while (previousInfo != resultInfo)
+        return resultInfo.changeValue(UValue.Undetermined) storeFor node
     }
 }

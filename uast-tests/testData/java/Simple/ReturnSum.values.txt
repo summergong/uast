@@ -18,6 +18,6 @@ UFile (package = ) [public class ReturnSum : Object {...]
                             USimpleNameReferenceExpression [x] = (var x = 3 (8 bytes))
                             USimpleNameReferenceExpression [y] = (var y = 7 (8 bytes))
                 UReturnExpression [return z + z] = Nothing
-                    UBinaryExpression (operator = +) [z + z] = 20 (8 bytes) (depending on: (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes)))), (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes)))))
+                    UBinaryExpression (operator = +) [z + z] = 20 (8 bytes) (depending on: (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes)))))
                         USimpleNameReferenceExpression [z] = (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes))))
                         USimpleNameReferenceExpression [z] = (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes))))
