@@ -55,7 +55,7 @@ class TreeBasedEvaluator(
             }
             is Char -> UIntConstant(value.toLong(), 2)
             is Boolean -> UBooleanConstant.valueOf(value)
-            is String -> UValue.Undetermined
+            is String -> UStringConstant(value)
             else -> UValue.Undetermined
         } to data storeFor node
     }

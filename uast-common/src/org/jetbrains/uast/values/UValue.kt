@@ -20,6 +20,8 @@ sealed class UValue : UOperand {
         override fun hashCode() = value?.hashCode() ?: 0
 
         override fun toString() = "$value"
+
+        open fun asString() = toString()
     }
 
     // Dependencies and dependents

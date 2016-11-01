@@ -29,4 +29,6 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testReturnX() = doTest("Simple/ReturnX.java")
 
+    @Test fun testStrings() = doTest("Simple/Strings.java")
+
 }

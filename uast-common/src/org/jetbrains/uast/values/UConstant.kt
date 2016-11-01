@@ -19,6 +19,8 @@ class UIntConstant(override val value: Long, val bytes: Int = 8) : UValue.Abstra
     override fun unaryMinus() = UIntConstant(-value, bytes)
 
     override fun toString() = "$value ($bytes " + if (bytes == 1) "byte)" else "bytes)"
+
+    override fun asString() = "$value"
 }
 
 class UFloatConstant(override val value: Double) : UValue.AbstractConstant(value) {
@@ -45,6 +47,18 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
     }
 }
 
+class UStringConstant(override val value: String) : UValue.AbstractConstant(value) {
+
+    override fun plus(other: UValue) = when (other) {
+        is UValue.AbstractConstant -> UStringConstant(value + other.asString())
+        else -> super.plus(other)
+    }
+
+    override fun asString() = value
+
+    override fun toString() = "\"$value\""
+}
+
 class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.AbstractConstant(value) {
     override fun equals(other: Any?) =
             other is UEnumEntryValueConstant &&
@@ -59,6 +73,8 @@ class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.Abst
     }
 
     override fun toString() = value.name?.let { "$it (enum entry)" }?: "<unnamed enum entry>"
+
+    override fun asString() = value.name ?: ""
 }
 
 class UClassConstant(override val value: PsiType) : UValue.AbstractConstant(value) {
