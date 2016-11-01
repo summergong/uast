@@ -45,7 +45,7 @@ open class JavaUMethod(
     override val uastAnchor: UElement
         get() = UIdentifier((psi.originalElement as? PsiNameIdentifierOwner)?.nameIdentifier ?: psi.nameIdentifier, this)
 
-    override fun equals(other: Any?) = this === other
+    override fun equals(other: Any?) = other is JavaUMethod && psi == other.psi
     override fun hashCode() = psi.hashCode()
 
     companion object {

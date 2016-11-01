@@ -35,7 +35,7 @@ abstract class AbstractJavaUVariable : PsiVariable, UVariable, JavaUElementWithC
     override val uastAnchor: UElement
         get() = UIdentifier(psi.nameIdentifier, this)
 
-    override fun equals(other: Any?) = this === other
+    override fun equals(other: Any?) = other is AbstractJavaUVariable && psi == other.psi
     override fun hashCode() = psi.hashCode()
 }
 

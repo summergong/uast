@@ -53,7 +53,7 @@ abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
         psi.innerClasses.map { getLanguagePlugin().convert<UClass>(it, this) }
     }
 
-    override fun equals(other: Any?) = this === other
+    override fun equals(other: Any?) = other is AbstractJavaUClass && psi == other.psi
     override fun hashCode() = psi.hashCode()
 }
 
