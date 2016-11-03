@@ -44,9 +44,9 @@ internal fun IElementType.getOperatorType() = when (this) {
     JavaTokenType.EQEQ -> UastBinaryOperator.IDENTITY_EQUALS
     JavaTokenType.NE -> UastBinaryOperator.IDENTITY_NOT_EQUALS
     JavaTokenType.GT -> UastBinaryOperator.GREATER
-    JavaTokenType.GE -> UastBinaryOperator.GREATER_OR_EQUAL
+    JavaTokenType.GE -> UastBinaryOperator.GREATER_OR_EQUALS
     JavaTokenType.LT -> UastBinaryOperator.LESS
-    JavaTokenType.LE -> UastBinaryOperator.LESS_OR_EQUAL
+    JavaTokenType.LE -> UastBinaryOperator.LESS_OR_EQUALS
     JavaTokenType.LTLT -> UastBinaryOperator.SHIFT_LEFT
     JavaTokenType.GTGT -> UastBinaryOperator.SHIFT_RIGHT
     JavaTokenType.GTGTGT -> UastBinaryOperator.UNSIGNED_SHIFT_RIGHT

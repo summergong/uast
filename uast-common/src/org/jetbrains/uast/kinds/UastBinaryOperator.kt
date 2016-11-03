@@ -75,13 +75,13 @@ open class UastBinaryOperator(override val text: String): UastOperator {
         val GREATER = ComparisonOperator(">")
 
         @JvmField
-        val GREATER_OR_EQUAL = ComparisonOperator(">=")
+        val GREATER_OR_EQUALS = ComparisonOperator(">=")
 
         @JvmField
         val LESS = ComparisonOperator("<")
 
         @JvmField
-        val LESS_OR_EQUAL = ComparisonOperator("<=")
+        val LESS_OR_EQUALS = ComparisonOperator("<=")
 
         @JvmField
         val SHIFT_LEFT = BitwiseOperator("<<")
