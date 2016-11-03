@@ -34,4 +34,10 @@ interface UOperand {
     fun inc(): UValue
 
     fun dec(): UValue
+
+    infix fun and(other: UValue): UValue
+
+    infix fun or(other: UValue): UValue
+
+    infix fun xor(other: UValue): UValue
 }

@@ -78,6 +78,12 @@ sealed class UValue : UOperand {
 
         override fun dec() = wrapUnary(unwrap().dec())
 
+        override fun and(other: UValue) = wrapBinary(unwrap() and other.unwrap(), other)
+
+        override fun or(other: UValue) = wrapBinary(unwrap() or other.unwrap(), other)
+
+        override fun xor(other: UValue) = wrapBinary(unwrap() xor other.unwrap(), other)
+
         override fun merge(other: UValue) = when (other) {
             this -> this
             value -> this
@@ -255,6 +261,12 @@ sealed class UValue : UOperand {
     override fun inc(): UValue = Undetermined
 
     override fun dec(): UValue = Undetermined
+
+    override fun and(other: UValue): UValue = if (other is Dependent) other and this else Undetermined
+
+    override fun or(other: UValue): UValue = if (other is Dependent) other or this else Undetermined
+
+    override fun xor(other: UValue): UValue = if (other is Dependent) other xor this else Undetermined
 
     open fun merge(other: UValue): UValue = when (other) {
         this -> this

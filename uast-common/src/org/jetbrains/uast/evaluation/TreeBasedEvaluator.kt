@@ -187,6 +187,8 @@ class TreeBasedEvaluator(
             UastBinaryOperator.LESS -> leftInfo.value less rightInfo.value
             UastBinaryOperator.GREATER_OR_EQUALS -> leftInfo.value greaterOrEquals rightInfo.value
             UastBinaryOperator.LESS_OR_EQUALS -> leftInfo.value lessOrEquals rightInfo.value
+            UastBinaryOperator.LOGICAL_AND -> leftInfo.value and rightInfo.value
+            UastBinaryOperator.LOGICAL_OR -> leftInfo.value or rightInfo.value
             else -> UValue.Undetermined
         } to rightInfo.state storeFor node
     }

@@ -150,10 +150,22 @@ class UFloatConstant(override val value: Double) : UNumericConstant(value) {
 sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant(value) {
     object True : UBooleanConstant(true) {
         override fun not() = False
+
+        override fun and(other: UValue) = other as? UBooleanConstant ?: super.and(other)
+
+        override fun or(other: UValue) = True
+
+        override fun xor(other: UValue) = (other as? UBooleanConstant)?.not() ?: super.xor(other)
     }
 
     object False : UBooleanConstant(false) {
         override fun not() = True
+
+        override fun and(other: UValue) = False
+
+        override fun or(other: UValue) = other as? UBooleanConstant ?: super.or(other)
+
+        override fun xor(other: UValue) = other as? UBooleanConstant ?: super.xor(other)
     }
 
     companion object {
