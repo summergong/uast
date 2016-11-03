@@ -24,4 +24,8 @@ interface UOperand {
     infix fun greaterOrEquals(other: UValue): UValue
 
     infix fun lessOrEquals(other: UValue): UValue
+
+    fun inc(): UValue
+
+    fun dec(): UValue
 }

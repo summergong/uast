@@ -24,6 +24,10 @@ class UIntConstant(override val value: Long, val bytes: Int = 8) : UValue.Abstra
         else -> super.greater(other)
     }
 
+    override fun inc() = UIntConstant(value + 1)
+
+    override fun dec() = UIntConstant(value - 1)
+
     override fun toString() = "$value ($bytes " + if (bytes == 1) "byte)" else "bytes)"
 
     override fun asString() = "$value"
@@ -43,6 +47,10 @@ class UFloatConstant(override val value: Double) : UValue.AbstractConstant(value
     }
 
     override fun unaryMinus() = UFloatConstant(-value)
+
+    override fun inc() = UFloatConstant(value + 1)
+
+    override fun dec() = UFloatConstant(value - 1)
 }
 
 sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant(value) {

@@ -1,0 +1,27 @@
+UFile (package = ) [public class IncDec : Object {...]
+    UClass (name = IncDec) [public class IncDec : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var i1: int = 1] = Undetermined
+                    ULocalVariable (name = i1) [var i1: int = 1]
+                        ULiteralExpression (value = 1) [1] = 1 (8 bytes)
+                UVariableDeclarationsExpression [var i2: int = ++i1] = Undetermined
+                    ULocalVariable (name = i2) [var i2: int = ++i1]
+                        UPrefixExpression (operator = ++) [++i1] = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes)))
+                            USimpleNameReferenceExpression [i1] = (var i1 = 1 (8 bytes))
+                UVariableDeclarationsExpression [var i3: int = i2++] = Undetermined
+                    ULocalVariable (name = i3) [var i3: int = i2++]
+                        UPostfixExpression (operator = ++) [i2++] = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes))))
+                            USimpleNameReferenceExpression [i2] = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes))))
+                UVariableDeclarationsExpression [var i4: int = --i3] = Undetermined
+                    ULocalVariable (name = i4) [var i4: int = --i3]
+                        UPrefixExpression (operator = --) [--i3] = 1 (8 bytes) (depending on: (var i3 = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes))))))
+                            USimpleNameReferenceExpression [i3] = (var i3 = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes)))))
+                UVariableDeclarationsExpression [var i5: int = i4--] = Undetermined
+                    ULocalVariable (name = i5) [var i5: int = i4--]
+                        UPostfixExpression (operator = --) [i4--] = (var i4 = 1 (8 bytes) (depending on: (var i3 = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes)))))))
+                            USimpleNameReferenceExpression [i4] = (var i4 = 1 (8 bytes) (depending on: (var i3 = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes)))))))
+                UReturnExpression [return i4 + i5] = Nothing
+                    UBinaryExpression (operator = +) [i4 + i5] = 1 (8 bytes) (depending on: (var i4 = 0 (8 bytes)), (var i5 = (var i4 = 1 (8 bytes) (depending on: (var i3 = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes)))))))))
+                        USimpleNameReferenceExpression [i4] = (var i4 = 0 (8 bytes))
+                        USimpleNameReferenceExpression [i5] = (var i5 = (var i4 = 1 (8 bytes) (depending on: (var i3 = (var i2 = 2 (8 bytes) (depending on: (var i1 = 1 (8 bytes))))))))

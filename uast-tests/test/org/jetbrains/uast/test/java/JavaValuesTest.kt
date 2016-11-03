@@ -27,6 +27,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testForEach() = doTest("Simple/ForEach.java")
 
+    @Test fun testIncDec() = doTest("Simple/IncDec.java")
+
     @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 
     @Test fun testReturnSum() = doTest("Simple/ReturnSum.java")
@@ -34,5 +36,7 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testReturnX() = doTest("Simple/ReturnX.java")
 
     @Test fun testStrings() = doTest("Simple/Strings.java")
+
+    @Test fun testWhile() = doTest("Simple/WHile.java")
 
 }
