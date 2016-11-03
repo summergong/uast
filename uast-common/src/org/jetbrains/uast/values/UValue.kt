@@ -60,6 +60,10 @@ sealed class UValue : UOperand {
 
         override fun not() = wrapUnary(!value)
 
+        override fun greater(other: UValue) = wrapBinary(unwrap() greater other.unwrap(), other)
+
+        override fun less(other: UValue) = wrapBinary(other.unwrap() greater unwrap(), other)
+
         override fun merge(other: UValue) = when (other) {
             this -> this
             value -> this
@@ -219,6 +223,14 @@ sealed class UValue : UOperand {
     override fun notSame(other: UValue): UValue = !this.same(other)
 
     override fun not(): UValue = Undetermined
+
+    override fun greater(other: UValue): UValue = if (other is Dependent) other less this else Undetermined
+
+    override fun less(other: UValue): UValue = other.greater(this)
+
+    override fun greaterOrEquals(other: UValue) = !other.greater(this)
+
+    override fun lessOrEquals(other: UValue) = !this.greater(other)
 
     open fun merge(other: UValue): UValue = when (other) {
         this -> this

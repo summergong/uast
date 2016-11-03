@@ -157,6 +157,10 @@ class TreeBasedEvaluator(
             UastBinaryOperator.NOT_EQUALS -> leftInfo.value notSame rightInfo.value
             UastBinaryOperator.IDENTITY_EQUALS -> leftInfo.value identitySame rightInfo.value
             UastBinaryOperator.IDENTITY_NOT_EQUALS -> leftInfo.value identityNotSame rightInfo.value
+            UastBinaryOperator.GREATER -> leftInfo.value greater rightInfo.value
+            UastBinaryOperator.LESS -> leftInfo.value less rightInfo.value
+            UastBinaryOperator.GREATER_OR_EQUALS -> leftInfo.value greaterOrEquals rightInfo.value
+            UastBinaryOperator.LESS_OR_EQUALS -> leftInfo.value lessOrEquals rightInfo.value
             else -> UValue.Undetermined
         } to rightInfo.state storeFor node
     }
@@ -253,7 +257,7 @@ class TreeBasedEvaluator(
         val resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo storeFor node
+            return resultInfo.changeValue(UValue.Undetermined) storeFor node
         }
         return evaluateLoop(node, resultInfo.state)
     }

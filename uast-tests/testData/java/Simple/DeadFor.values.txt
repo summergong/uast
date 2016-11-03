@@ -1,0 +1,24 @@
+UFile (package = ) [public class DeadFor : Object {...]
+    UClass (name = DeadFor) [public class DeadFor : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var result: int = 0] = Undetermined
+                    ULocalVariable (name = result) [var result: int = 0]
+                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                UForExpression [for (var i: int = 9; i < 5; i++) {...}] = Undetermined
+                    UVariableDeclarationsExpression [var i: int = 9] = Undetermined
+                        ULocalVariable (name = i) [var i: int = 9]
+                            ULiteralExpression (value = 9) [9] = 9 (8 bytes)
+                    UBinaryExpression (operator = <) [i < 5] = false (depending on: (var i = 9 (8 bytes)))
+                        USimpleNameReferenceExpression [i] = (var i = 9 (8 bytes))
+                        ULiteralExpression (value = 5) [5] = 5 (8 bytes)
+                    UPostfixExpression (operator = ++) [i++] = Undetermined
+                        USimpleNameReferenceExpression [i] = Undetermined
+                    UBlockExpression [{...}] = Undetermined
+                        UBinaryExpression (operator = =) [result = result + i] = Undetermined
+                            USimpleNameReferenceExpression [result] = Undetermined
+                            UBinaryExpression (operator = +) [result + i] = Undetermined
+                                USimpleNameReferenceExpression [result] = Undetermined
+                                USimpleNameReferenceExpression [i] = Undetermined
+                UReturnExpression [return result] = Nothing
+                    USimpleNameReferenceExpression [result] = (var result = 0 (8 bytes))

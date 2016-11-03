@@ -18,6 +18,12 @@ class UIntConstant(override val value: Long, val bytes: Int = 8) : UValue.Abstra
 
     override fun unaryMinus() = UIntConstant(-value, bytes)
 
+    override fun greater(other: UValue) = when (other) {
+        is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        else -> super.greater(other)
+    }
+
     override fun toString() = "$value ($bytes " + if (bytes == 1) "byte)" else "bytes)"
 
     override fun asString() = "$value"
@@ -28,6 +34,12 @@ class UFloatConstant(override val value: Double) : UValue.AbstractConstant(value
         is UIntConstant -> UFloatConstant(value + other.value)
         is UFloatConstant -> UFloatConstant(value + other.value)
         else -> super.plus(other)
+    }
+
+    override fun greater(other: UValue) = when (other) {
+        is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        else -> super.greater(other)
     }
 
     override fun unaryMinus() = UFloatConstant(-value)
@@ -52,6 +64,11 @@ class UStringConstant(override val value: String) : UValue.AbstractConstant(valu
     override fun plus(other: UValue) = when (other) {
         is UValue.AbstractConstant -> UStringConstant(value + other.asString())
         else -> super.plus(other)
+    }
+
+    override fun greater(other: UValue) = when (other) {
+        is UStringConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        else -> super.greater(other)
     }
 
     override fun asString() = value
