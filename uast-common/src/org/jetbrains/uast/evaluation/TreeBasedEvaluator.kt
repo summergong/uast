@@ -381,4 +381,14 @@ class TreeBasedEvaluator(
         val bodyInfo = node.body.accept(this, data)
         return evaluateLoopWithCondition(node, node.condition, bodyInfo.state)
     }
+
+    override fun visitTryExpression(node: UTryExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        val tryInfo = node.tryClause.accept(this, data)
+        val mergedTryInfo = tryInfo.merge(UValue.Undetermined to data)
+        val catchInfoList = node.catchClauses.map { it.accept(this, mergedTryInfo.state) }
+        val mergedTryCatchInfo = catchInfoList.fold(mergedTryInfo, UEvaluationInfo::merge)
+        val finallyInfo = node.finallyClause?.accept(this, mergedTryCatchInfo.state) ?: mergedTryCatchInfo
+        return finallyInfo storeFor node
+    }
 }
