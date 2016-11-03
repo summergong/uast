@@ -16,6 +16,24 @@ class UIntConstant(override val value: Long, val bytes: Int = 8) : UValue.Abstra
         else -> super.plus(other)
     }
 
+    override fun times(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value * other.value, Math.max(bytes, other.bytes))
+        is UFloatConstant -> other * this
+        else -> super.times(other)
+    }
+
+    override fun div(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value / other.value, Math.max(bytes, other.bytes))
+        is UFloatConstant -> UFloatConstant(value / other.value)
+        else -> super.div(other)
+    }
+
+    override fun mod(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value % other.value, Math.max(bytes, other.bytes))
+        is UFloatConstant -> UFloatConstant(value % other.value)
+        else -> super.mod(other)
+    }
+
     override fun unaryMinus() = UIntConstant(-value, bytes)
 
     override fun greater(other: UValue) = when (other) {
@@ -38,6 +56,24 @@ class UFloatConstant(override val value: Double) : UValue.AbstractConstant(value
         is UIntConstant -> UFloatConstant(value + other.value)
         is UFloatConstant -> UFloatConstant(value + other.value)
         else -> super.plus(other)
+    }
+
+    override fun times(other: UValue) = when (other) {
+        is UIntConstant -> UFloatConstant(value * other.value)
+        is UFloatConstant -> UFloatConstant(value * other.value)
+        else -> super.times(other)
+    }
+
+    override fun div(other: UValue) = when (other) {
+        is UIntConstant -> UFloatConstant(value / other.value)
+        is UFloatConstant -> UFloatConstant(value / other.value)
+        else -> super.div(other)
+    }
+
+    override fun mod(other: UValue) = when (other) {
+        is UIntConstant -> UFloatConstant(value % other.value)
+        is UFloatConstant -> UFloatConstant(value % other.value)
+        else -> super.mod(other)
     }
 
     override fun greater(other: UValue) = when (other) {

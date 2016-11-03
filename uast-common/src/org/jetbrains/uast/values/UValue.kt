@@ -52,6 +52,16 @@ sealed class UValue : UOperand {
 
         override fun minus(other: UValue) = wrapBinary(unwrap() - other.unwrap(), other)
 
+        override fun times(other: UValue) = wrapBinary(unwrap() * other.unwrap(), other)
+
+        override fun div(other: UValue) = wrapBinary(unwrap() / other.unwrap(), other)
+
+        internal fun inverseDiv(other: UValue) = wrapBinary(other.unwrap() / unwrap(), other)
+
+        override fun mod(other: UValue) = wrapBinary(unwrap() % other.unwrap(), other)
+
+        internal fun inverseMod(other: UValue) = wrapBinary(other.unwrap() % unwrap(), other)
+
         override fun unaryMinus() = wrapUnary(-unwrap())
 
         override fun same(other: UValue) = wrapBinary(unwrap() same other.unwrap(), other)
@@ -219,6 +229,12 @@ sealed class UValue : UOperand {
     override operator fun plus(other: UValue): UValue = if (other is Dependent) other + this else Undetermined
 
     override operator fun minus(other: UValue): UValue = this + (-other)
+
+    override operator fun times(other: UValue): UValue = if (other is Dependent) other * this else Undetermined
+
+    override operator fun div(other: UValue): UValue = (other as? Dependent)?.inverseDiv(this) ?: Undetermined
+
+    override operator fun mod(other: UValue): UValue = (other as? Dependent)?.inverseMod(this) ?: Undetermined
 
     override fun unaryMinus(): UValue = Undetermined
 

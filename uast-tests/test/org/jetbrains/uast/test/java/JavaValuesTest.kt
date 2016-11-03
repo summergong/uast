@@ -19,6 +19,10 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testDependents() = doTest("Simple/Dependents.java")
 
+    @Test fun testDoWhile() = doTest("Simple/DoWhile.java")
+
+    @Test fun testDoWhileInfinite() = doTest("Simple/DoWhileInfinite.java")
+
     @Test fun testEnumChoice() = doTest("Simple/EnumChoice.java")
 
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")

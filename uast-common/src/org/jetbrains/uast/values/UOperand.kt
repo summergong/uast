@@ -5,6 +5,12 @@ interface UOperand {
 
     operator fun minus(other: UValue): UValue
 
+    operator fun times(other: UValue): UValue
+
+    operator fun div(other: UValue): UValue
+
+    operator fun mod(other: UValue): UValue
+
     operator fun unaryMinus(): UValue
 
     operator fun not(): UValue

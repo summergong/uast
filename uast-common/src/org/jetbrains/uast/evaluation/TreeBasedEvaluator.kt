@@ -175,6 +175,9 @@ class TreeBasedEvaluator(
         return when (node.operator) {
             UastBinaryOperator.PLUS -> leftInfo.value + rightInfo.value
             UastBinaryOperator.MINUS -> leftInfo.value - rightInfo.value
+            UastBinaryOperator.MULTIPLY -> leftInfo.value * rightInfo.value
+            UastBinaryOperator.DIV -> leftInfo.value / rightInfo.value
+            UastBinaryOperator.MOD -> leftInfo.value % rightInfo.value
             UastBinaryOperator.EQUALS -> leftInfo.value same rightInfo.value
             UastBinaryOperator.NOT_EQUALS -> leftInfo.value notSame rightInfo.value
             UastBinaryOperator.IDENTITY_EQUALS -> leftInfo.value identitySame rightInfo.value
@@ -289,13 +292,27 @@ class TreeBasedEvaluator(
         return evaluateLoop(node, data)
     }
 
-    override fun visitWhileExpression(node: UWhileExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        val resultInfo = node.condition.accept(this, data)
+    private fun evaluateLoopWithCondition(
+            loop: ULoopExpression,
+            condition: UExpression,
+            inputState: UEvaluationState
+    ): UEvaluationInfo {
+        val resultInfo = condition.accept(this, inputState)
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.changeValue(UValue.Undetermined) storeFor node
+            return resultInfo.changeValue(UValue.Undetermined) storeFor loop
         }
-        return evaluateLoop(node, resultInfo.state)
+        return evaluateLoop(loop, resultInfo.state)
+    }
+
+    override fun visitWhileExpression(node: UWhileExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        return evaluateLoopWithCondition(node, node.condition, data)
+    }
+
+    override fun visitDoWhileExpression(node: UDoWhileExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        val bodyInfo = node.body.accept(this, data)
+        return evaluateLoopWithCondition(node, node.condition, bodyInfo.state)
     }
 }

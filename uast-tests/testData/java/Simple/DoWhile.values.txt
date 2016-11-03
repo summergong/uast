@@ -1,0 +1,32 @@
+UFile (package = ) [public class DoWhile : Object {...]
+    UClass (name = DoWhile) [public class DoWhile : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var count: int = 0] = Undetermined
+                    ULocalVariable (name = count) [var count: int = 0]
+                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                UVariableDeclarationsExpression [var number: int = 42] = Undetermined
+                    ULocalVariable (name = number) [var number: int = 42]
+                        ULiteralExpression (value = 42) [42] = 42 (8 bytes)
+                UDoWhileExpression [do {...] = Undetermined
+                    UBinaryExpression (operator = >) [number > 0] = true (depending on: (var number = 4 (8 bytes)))
+                        USimpleNameReferenceExpression [number] = (var number = 4 (8 bytes))
+                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                    UBlockExpression [{...}] = Undetermined
+                        UIfExpression [if (number % 10 === 7) {...}] = Phi((var count = Undetermined), (var count = 0 (8 bytes)), (var count = 1 (8 bytes)), Undetermined)
+                            UBinaryExpression (operator = ===) [number % 10 === 7] = Undetermined
+                                UBinaryExpression (operator = %) [number % 10] = Undetermined
+                                    USimpleNameReferenceExpression [number] = Phi((var number = Undetermined), (var number = 0 (8 bytes)), (var number = 4 (8 bytes)))
+                                    ULiteralExpression (value = 10) [10] = 10 (8 bytes)
+                                ULiteralExpression (value = 7) [7] = 7 (8 bytes)
+                            UBlockExpression [{...}] = Phi((var count = Undetermined), (var count = 0 (8 bytes)), (var count = 1 (8 bytes)))
+                                UPostfixExpression (operator = ++) [count++] = Phi((var count = Undetermined), (var count = 0 (8 bytes)), (var count = 1 (8 bytes)))
+                                    USimpleNameReferenceExpression [count] = Phi((var count = Undetermined), (var count = 0 (8 bytes)), (var count = 1 (8 bytes)))
+                            UastEmptyExpression [UastEmptyExpression] = Undetermined
+                        UBinaryExpression (operator = =) [number = number / 10] = Undetermined
+                            USimpleNameReferenceExpression [number] = Undetermined
+                            UBinaryExpression (operator = /) [number / 10] = Undetermined
+                                USimpleNameReferenceExpression [number] = Phi((var number = Undetermined), (var number = 0 (8 bytes)), (var number = 4 (8 bytes)))
+                                ULiteralExpression (value = 10) [10] = 10 (8 bytes)
+                UReturnExpression [return count] = Nothing
+                    USimpleNameReferenceExpression [count] = Phi((var count = Undetermined), (var count = 0 (8 bytes)), (var count = 1 (8 bytes)))
