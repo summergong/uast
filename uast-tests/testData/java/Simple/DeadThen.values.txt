@@ -7,10 +7,10 @@ UFile (package = ) [public class DeadThen : Object {...]
                         ULiteralExpression (value = true) [true] = true
                 UVariableDeclarationsExpression [var x: int = 0] = Undetermined
                     ULocalVariable (name = x) [var x: int = 0]
-                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                        ULiteralExpression (value = 0) [0] = 0
                 UVariableDeclarationsExpression [var y: int = 1] = Undetermined
                     ULocalVariable (name = y) [var y: int = 1]
-                        ULiteralExpression (value = 1) [1] = 1 (8 bytes)
+                        ULiteralExpression (value = 1) [1] = 1
                 UVariableDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (!f) {...}] = Undetermined
@@ -19,10 +19,10 @@ UFile (package = ) [public class DeadThen : Object {...]
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = y] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
+                            USimpleNameReferenceExpression [y] = (var y = 1)
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = x] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
+                            USimpleNameReferenceExpression [x] = (var x = 0)
                 UReturnExpression [return z] = Nothing
-                    USimpleNameReferenceExpression [z] = (var z = (var x = 0 (8 bytes)))
+                    USimpleNameReferenceExpression [z] = (var z = (var x = 0))

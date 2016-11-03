@@ -1,6 +1,7 @@
 package org.jetbrains.uast.evaluation
 
 import com.intellij.psi.PsiEnumConstant
+import com.intellij.psi.PsiType
 import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.*
 import org.jetbrains.uast.expressions.UReferenceExpression
@@ -49,11 +50,11 @@ class TreeBasedEvaluator(
         val value = node.value
         return when (value) {
             null -> UNullConstant
-            is Number -> value.let {
-                if (it is Float || it is Double) UFloatConstant(value.toDouble())
-                else UIntConstant(value.toLong())
-            }
-            is Char -> UIntConstant(value.toLong(), 2)
+            is Float -> UFloatConstant(value.toDouble())
+            is Double -> UFloatConstant(value.toDouble())
+            is Long -> ULongConstant(value.toLong())
+            is Number -> UIntConstant(value.toInt())
+            is Char -> UIntConstant(value.toInt())
             is Boolean -> UBooleanConstant.valueOf(value)
             is String -> UStringConstant(value)
             else -> UValue.Undetermined
@@ -188,6 +189,69 @@ class TreeBasedEvaluator(
             UastBinaryOperator.LESS_OR_EQUALS -> leftInfo.value lessOrEquals rightInfo.value
             else -> UValue.Undetermined
         } to rightInfo.state storeFor node
+    }
+
+    private fun evaluateTypeCast(operandInfo: UEvaluationInfo, type: PsiType): UEvaluationInfo {
+        val constant = operandInfo.value.toConstant() ?: return UValue.Undetermined to operandInfo.state
+        val resultConstant = when (type) {
+            PsiType.BOOLEAN -> {
+                constant as? UBooleanConstant
+            }
+            PsiType.LONG -> {
+                (constant as? UNumericConstant)?.value?.toLong()?.let(::ULongConstant)
+            }
+            PsiType.BYTE, PsiType.SHORT, PsiType.INT, PsiType.CHAR -> {
+                (constant as? UNumericConstant)?.value?.toInt()?.let(::UIntConstant)
+            }
+            PsiType.FLOAT, PsiType.DOUBLE -> {
+                (constant as? UNumericConstant)?.value?.toDouble()?.let(::UFloatConstant)
+            }
+            else -> when (type.name) {
+                "java.lang.String", "kotlin.String" -> UStringConstant(constant.asString())
+                else -> null
+            }
+        } ?: return UValue.Undetermined to operandInfo.state
+        return when (operandInfo.value) {
+            resultConstant -> return operandInfo
+            is UValue.AbstractConstant -> resultConstant
+            is UValue.Dependent -> UValue.Dependent.create(resultConstant, operandInfo.value.dependencies)
+            else -> UValue.Undetermined
+        } to operandInfo.state
+    }
+
+    private fun evaluateTypeCheck(operandInfo: UEvaluationInfo, type: PsiType): UEvaluationInfo {
+        val constant = operandInfo.value.toConstant() ?: return UValue.Undetermined to operandInfo.state
+        val valid = when (type) {
+            PsiType.BOOLEAN -> constant is UBooleanConstant
+            PsiType.LONG -> constant is ULongConstant
+            PsiType.BYTE, PsiType.SHORT, PsiType.INT, PsiType.CHAR -> constant is UIntConstant
+            PsiType.FLOAT, PsiType.DOUBLE -> constant is UFloatConstant
+            else -> when (type.name) {
+                "java.lang.String", "kotlin.String" -> constant is UStringConstant
+                else -> false
+            }
+        }
+        return UBooleanConstant.valueOf(valid) to operandInfo.state
+    }
+
+    override fun visitBinaryExpressionWithType(
+            node: UBinaryExpressionWithType, data: UEvaluationState
+    ): UEvaluationInfo {
+        stateCache[node] = data
+        val operandInfo = node.operand.accept(this, data)
+        return when (operandInfo.value) {
+            UValue.Nothing, UValue.Undetermined -> operandInfo storeFor node
+            else -> when (node.operationKind) {
+                UastBinaryExpressionWithTypeKind.TYPE_CAST -> evaluateTypeCast(operandInfo, node.type)
+                UastBinaryExpressionWithTypeKind.INSTANCE_CHECK -> evaluateTypeCheck(operandInfo, node.type)
+                else -> UValue.Undetermined to operandInfo.state
+            } storeFor node
+        }
+    }
+
+    override fun visitParenthesizedExpression(node: UParenthesizedExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        return node.expression.accept(this, data) storeFor node
     }
 
     override fun visitDeclarationsExpression(

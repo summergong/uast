@@ -5,14 +5,14 @@ UFile (package = ) [public class For : Object {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var result: int = 0] = Undetermined
                     ULocalVariable (name = result) [var result: int = 0]
-                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                        ULiteralExpression (value = 0) [0] = 0
                 UForEachExpression [for (number : numbers) {...}] = Undetermined
                     USimpleNameReferenceExpression [numbers] = Undetermined
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [result = result + number] = Undetermined
                             USimpleNameReferenceExpression [result] = Undetermined
                             UBinaryExpression (operator = +) [result + number] = Undetermined
-                                USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0 (8 bytes)))
+                                USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))
                                 USimpleNameReferenceExpression [number] = Undetermined
                 UReturnExpression [return result] = Nothing
-                    USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0 (8 bytes)))
+                    USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))

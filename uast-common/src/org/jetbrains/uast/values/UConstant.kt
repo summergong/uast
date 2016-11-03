@@ -8,36 +8,42 @@ interface UConstant {
     val value: Any?
 }
 
-// IntValue?
-class UIntConstant(override val value: Long, val bytes: Int = 8) : UValue.AbstractConstant(value) {
+abstract class UNumericConstant(override val value: Number) : UValue.AbstractConstant(value)
+
+class UIntConstant(override val value: Int) : UNumericConstant(value) {
     override fun plus(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value + other.value, Math.max(bytes, other.bytes))
+        is UIntConstant -> UIntConstant(value + other.value)
+        is ULongConstant -> other + this
         is UFloatConstant -> other + this
         else -> super.plus(other)
     }
 
     override fun times(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value * other.value, Math.max(bytes, other.bytes))
+        is UIntConstant -> UIntConstant(value * other.value)
+        is ULongConstant -> other * this
         is UFloatConstant -> other * this
         else -> super.times(other)
     }
 
     override fun div(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value / other.value, Math.max(bytes, other.bytes))
+        is UIntConstant -> UIntConstant(value / other.value)
+        is ULongConstant -> ULongConstant(value / other.value)
         is UFloatConstant -> UFloatConstant(value / other.value)
         else -> super.div(other)
     }
 
     override fun mod(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value % other.value, Math.max(bytes, other.bytes))
+        is UIntConstant -> UIntConstant(value % other.value)
+        is ULongConstant -> ULongConstant(value % other.value)
         is UFloatConstant -> UFloatConstant(value % other.value)
         else -> super.mod(other)
     }
 
-    override fun unaryMinus() = UIntConstant(-value, bytes)
+    override fun unaryMinus() = UIntConstant(-value)
 
     override fun greater(other: UValue) = when (other) {
         is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is ULongConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
         is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
         else -> super.greater(other)
     }
@@ -46,37 +52,89 @@ class UIntConstant(override val value: Long, val bytes: Int = 8) : UValue.Abstra
 
     override fun dec() = UIntConstant(value - 1)
 
-    override fun toString() = "$value ($bytes " + if (bytes == 1) "byte)" else "bytes)"
+    override fun toString() = "$value"
 
     override fun asString() = "$value"
 }
 
-class UFloatConstant(override val value: Double) : UValue.AbstractConstant(value) {
+class ULongConstant(override val value: Long) : UNumericConstant(value) {
     override fun plus(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value + other.value)
+        is UIntConstant -> ULongConstant(value + other.value)
+        is UFloatConstant -> other + this
+        else -> super.plus(other)
+    }
+
+    override fun times(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value * other.value)
+        is UIntConstant -> ULongConstant(value * other.value)
+        is UFloatConstant -> other * this
+        else -> super.times(other)
+    }
+
+    override fun div(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value / other.value)
+        is UIntConstant -> ULongConstant(value / other.value)
+        is UFloatConstant -> UFloatConstant(value / other.value)
+        else -> super.div(other)
+    }
+
+    override fun mod(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value % other.value)
+        is UIntConstant -> ULongConstant(value % other.value)
+        is UFloatConstant -> UFloatConstant(value % other.value)
+        else -> super.mod(other)
+    }
+
+    override fun unaryMinus() = ULongConstant(-value)
+
+    override fun greater(other: UValue) = when (other) {
+        is ULongConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        else -> super.greater(other)
+    }
+
+    override fun inc() = ULongConstant(value + 1)
+
+    override fun dec() = ULongConstant(value - 1)
+
+    override fun toString() = "${value}L"
+
+    override fun asString() = "$value"
+}
+
+class UFloatConstant(override val value: Double) : UNumericConstant(value) {
+    override fun plus(other: UValue) = when (other) {
+        is ULongConstant -> UFloatConstant(value + other.value)
         is UIntConstant -> UFloatConstant(value + other.value)
         is UFloatConstant -> UFloatConstant(value + other.value)
         else -> super.plus(other)
     }
 
     override fun times(other: UValue) = when (other) {
+        is ULongConstant -> UFloatConstant(value * other.value)
         is UIntConstant -> UFloatConstant(value * other.value)
         is UFloatConstant -> UFloatConstant(value * other.value)
         else -> super.times(other)
     }
 
     override fun div(other: UValue) = when (other) {
+        is ULongConstant -> UFloatConstant(value / other.value)
         is UIntConstant -> UFloatConstant(value / other.value)
         is UFloatConstant -> UFloatConstant(value / other.value)
         else -> super.div(other)
     }
 
     override fun mod(other: UValue) = when (other) {
+        is ULongConstant -> UFloatConstant(value % other.value)
         is UIntConstant -> UFloatConstant(value % other.value)
         is UFloatConstant -> UFloatConstant(value % other.value)
         else -> super.mod(other)
     }
 
     override fun greater(other: UValue) = when (other) {
+        is ULongConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
         is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
         is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
         else -> super.greater(other)

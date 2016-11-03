@@ -7,16 +7,16 @@ UFile (package = ) [public class CascadeIf : Object {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var x: int = 0] = Undetermined
                     ULocalVariable (name = x) [var x: int = 0]
-                        ULiteralExpression (value = 0) [0] = 0 (8 bytes)
+                        ULiteralExpression (value = 0) [0] = 0
                 UVariableDeclarationsExpression [var y: int = 1] = Undetermined
                     ULocalVariable (name = y) [var y: int = 1]
-                        ULiteralExpression (value = 1) [1] = 1 (8 bytes)
+                        ULiteralExpression (value = 1) [1] = 1
                 UVariableDeclarationsExpression [var v: int = 2] = Undetermined
                     ULocalVariable (name = v) [var v: int = 2]
-                        ULiteralExpression (value = 2) [2] = 2 (8 bytes)
+                        ULiteralExpression (value = 2) [2] = 2
                 UVariableDeclarationsExpression [var w: int = 3] = Undetermined
                     ULocalVariable (name = w) [var w: int = 3]
-                        ULiteralExpression (value = 3) [3] = 3 (8 bytes)
+                        ULiteralExpression (value = 3) [3] = 3
                 UVariableDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (f) {...}] = Undetermined
@@ -24,22 +24,22 @@ UFile (package = ) [public class CascadeIf : Object {...]
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [z = y] = Undetermined
                             USimpleNameReferenceExpression [z] = Undetermined
-                            USimpleNameReferenceExpression [y] = (var y = 1 (8 bytes))
+                            USimpleNameReferenceExpression [y] = (var y = 1)
                     UIfExpression [if (g) {...}] = Undetermined
                         USimpleNameReferenceExpression [g] = Undetermined
                         UBlockExpression [{...}] = Undetermined
                             UBinaryExpression (operator = =) [z = x] = Undetermined
                                 USimpleNameReferenceExpression [z] = Undetermined
-                                USimpleNameReferenceExpression [x] = (var x = 0 (8 bytes))
+                                USimpleNameReferenceExpression [x] = (var x = 0)
                         UIfExpression [if (h) {...}] = Undetermined
                             USimpleNameReferenceExpression [h] = Undetermined
                             UBlockExpression [{...}] = Undetermined
                                 UBinaryExpression (operator = =) [z = v] = Undetermined
                                     USimpleNameReferenceExpression [z] = Undetermined
-                                    USimpleNameReferenceExpression [v] = (var v = 2 (8 bytes))
+                                    USimpleNameReferenceExpression [v] = (var v = 2)
                             UBlockExpression [{...}] = Undetermined
                                 UBinaryExpression (operator = =) [z = w] = Undetermined
                                     USimpleNameReferenceExpression [z] = Undetermined
-                                    USimpleNameReferenceExpression [w] = (var w = 3 (8 bytes))
+                                    USimpleNameReferenceExpression [w] = (var w = 3)
                 UReturnExpression [return z] = Nothing
-                    USimpleNameReferenceExpression [z] = Phi((var z = (var y = 1 (8 bytes))), (var z = (var x = 0 (8 bytes))), (var z = (var v = 2 (8 bytes))), (var z = (var w = 3 (8 bytes))))
+                    USimpleNameReferenceExpression [z] = Phi((var z = (var y = 1)), (var z = (var x = 0)), (var z = (var v = 2)), (var z = (var w = 3)))

@@ -265,7 +265,7 @@ sealed class UValue : UOperand {
     open val dependencies: Set<Dependency>
         get() = emptySet()
 
-    open fun toConstant(): UConstant? = this as? UConstant
+    open fun toConstant(): AbstractConstant? = this as? AbstractConstant
 
     open fun toVariable(): Variable? = this as? Variable
 

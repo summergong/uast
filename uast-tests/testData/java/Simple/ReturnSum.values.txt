@@ -4,20 +4,20 @@ UFile (package = ) [public class ReturnSum : Object {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var x: int = 1 + 2] = Undetermined
                     ULocalVariable (name = x) [var x: int = 1 + 2]
-                        UBinaryExpression (operator = +) [1 + 2] = 3 (8 bytes)
-                            ULiteralExpression (value = 1) [1] = 1 (8 bytes)
-                            ULiteralExpression (value = 2) [2] = 2 (8 bytes)
+                        UBinaryExpression (operator = +) [1 + 2] = 3
+                            ULiteralExpression (value = 1) [1] = 1
+                            ULiteralExpression (value = 2) [2] = 2
                 UVariableDeclarationsExpression [var y: int = 3 + 4] = Undetermined
                     ULocalVariable (name = y) [var y: int = 3 + 4]
-                        UBinaryExpression (operator = +) [3 + 4] = 7 (8 bytes)
-                            ULiteralExpression (value = 3) [3] = 3 (8 bytes)
-                            ULiteralExpression (value = 4) [4] = 4 (8 bytes)
+                        UBinaryExpression (operator = +) [3 + 4] = 7
+                            ULiteralExpression (value = 3) [3] = 3
+                            ULiteralExpression (value = 4) [4] = 4
                 UVariableDeclarationsExpression [var z: int = x + y] = Undetermined
                     ULocalVariable (name = z) [var z: int = x + y]
-                        UBinaryExpression (operator = +) [x + y] = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes)))
-                            USimpleNameReferenceExpression [x] = (var x = 3 (8 bytes))
-                            USimpleNameReferenceExpression [y] = (var y = 7 (8 bytes))
+                        UBinaryExpression (operator = +) [x + y] = 10 (depending on: (var x = 3), (var y = 7))
+                            USimpleNameReferenceExpression [x] = (var x = 3)
+                            USimpleNameReferenceExpression [y] = (var y = 7)
                 UReturnExpression [return z + z] = Nothing
-                    UBinaryExpression (operator = +) [z + z] = 20 (8 bytes) (depending on: (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes)))))
-                        USimpleNameReferenceExpression [z] = (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes))))
-                        USimpleNameReferenceExpression [z] = (var z = 10 (8 bytes) (depending on: (var x = 3 (8 bytes)), (var y = 7 (8 bytes))))
+                    UBinaryExpression (operator = +) [z + z] = 20 (depending on: (var z = 10 (depending on: (var x = 3), (var y = 7))))
+                        USimpleNameReferenceExpression [z] = (var z = 10 (depending on: (var x = 3), (var y = 7)))
+                        USimpleNameReferenceExpression [z] = (var z = 10 (depending on: (var x = 3), (var y = 7)))

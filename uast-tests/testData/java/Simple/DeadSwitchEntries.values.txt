@@ -21,28 +21,28 @@ UFile (package = ) [public final enum DeadSwitchEntries : Enum {...]
                             UExpressionList (switch_entry) [{...] = Undetermined
                                 UBinaryExpression (operator = =) [result = 3] = Undetermined
                                     USimpleNameReferenceExpression [result] = Undetermined
-                                    ULiteralExpression (value = 3) [3] = 3 (8 bytes)
+                                    ULiteralExpression (value = 3) [3] = 3
                                 UBreakExpression (label = null) [break] = Nothing
                         USwitchClauseExpressionWithBody [SECOND -> {...] = Undetermined
                             USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
                             UExpressionList (switch_entry) [{...] = Undetermined
                                 UBinaryExpression (operator = =) [result = 7] = Undetermined
                                     USimpleNameReferenceExpression [result] = Undetermined
-                                    ULiteralExpression (value = 7) [7] = 7 (8 bytes)
+                                    ULiteralExpression (value = 7) [7] = 7
                                 UBreakExpression (label = null) [break] = Nothing
                         USwitchClauseExpressionWithBody [THIRD -> {...] = Undetermined
                             USimpleNameReferenceExpression [THIRD] = THIRD (enum entry)
                             UExpressionList (switch_entry) [{...] = Undetermined
                                 UBinaryExpression (operator = =) [result = 13] = Undetermined
                                     USimpleNameReferenceExpression [result] = Undetermined
-                                    ULiteralExpression (value = 13) [13] = 13 (8 bytes)
+                                    ULiteralExpression (value = 13) [13] = 13
                                 UBreakExpression (label = null) [break] = Nothing
                         USwitchClauseExpressionWithBody [else -> {...] = Undetermined
                             UDefaultCaseExpression [else] = Undetermined
                             UExpressionList (switch_entry) [{...] = Undetermined
                                 UBinaryExpression (operator = =) [result = 66] = Undetermined
                                     USimpleNameReferenceExpression [result] = Undetermined
-                                    ULiteralExpression (value = 66) [66] = 66 (8 bytes)
+                                    ULiteralExpression (value = 66) [66] = 66
                                 UBreakExpression (label = null) [break] = Nothing
                 UReturnExpression [return result] = Nothing
-                    USimpleNameReferenceExpression [result] = (var result = 13 (8 bytes))
+                    USimpleNameReferenceExpression [result] = (var result = 13)
