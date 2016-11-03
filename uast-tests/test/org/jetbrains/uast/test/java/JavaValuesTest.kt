@@ -23,6 +23,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testFor() = doTest("Simple/For.java")
 
+    @Test fun testForEach() = doTest("Simple/ForEach.java")
+
     @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 
     @Test fun testReturnSum() = doTest("Simple/ReturnSum.java")

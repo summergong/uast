@@ -237,19 +237,29 @@ class TreeBasedEvaluator(
         return (resultInfo ?: subjectInfo) storeFor node
     }
 
+    private fun evaluateLoop(loop: ULoopExpression, inputState: UEvaluationState): UEvaluationInfo {
+        var resultInfo = UValue.Undetermined to inputState
+        do {
+            val bodyInfo = loop.body.accept(this, resultInfo.state)
+            val previousInfo = resultInfo
+            resultInfo = bodyInfo.merge(previousInfo)
+        } while (previousInfo != resultInfo)
+        return resultInfo.changeValue(UValue.Undetermined) storeFor loop
+    }
+
     override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
         val initialInfo = node.declaration?.accept(this, data) ?: UValue.Undetermined to data
-        var resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
+        val resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
             return resultInfo storeFor node
         }
-        do {
-            val bodyInfo = node.body.accept(this, resultInfo.state)
-            val previousInfo = resultInfo
-            resultInfo = bodyInfo.merge(previousInfo)
-        } while (previousInfo != resultInfo)
-        return resultInfo.changeValue(UValue.Undetermined) storeFor node
+        return evaluateLoop(node, resultInfo.state)
+    }
+
+    override fun visitForEachExpression(node: UForEachExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        return evaluateLoop(node, data)
     }
 }
