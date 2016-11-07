@@ -1,0 +1,25 @@
+UFile (package = ) [public class Labeled : Object {...]
+    UClass (name = Labeled) [public class Labeled : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var first: int = 1] = Undetermined
+                    ULocalVariable (name = first) [var first: int = 1]
+                        ULiteralExpression (value = 1) [1] = 1
+                UVariableDeclarationsExpression [var second: int = 2] = Undetermined
+                    ULocalVariable (name = second) [var second: int = 2]
+                        ULiteralExpression (value = 2) [2] = 2
+                ULabeledExpression (label = labeled) [labeled@ while (true) {...}] = Undetermined
+                    UWhileExpression [while (true) {...}] = Undetermined
+                        ULiteralExpression (value = true) [true] = true
+                        UBlockExpression [{...}] = Nothing
+                            UBinaryExpression (operator = =) [second = 3] = 3
+                                USimpleNameReferenceExpression [second] = Phi((var second = 3), (var second = 2))
+                                ULiteralExpression (value = 3) [3] = 3
+                            UIfExpression [if (first > 0) break@labeled] = Nothing
+                                UBinaryExpression (operator = >) [first > 0] = true (depending on: (var first = 1))
+                                    USimpleNameReferenceExpression [first] = (var first = 1)
+                                    ULiteralExpression (value = 0) [0] = 0
+                                UBreakExpression (label = labeled) [break@labeled] = Nothing
+                                UastEmptyExpression [UastEmptyExpression] = Undetermined
+                UReturnExpression [return second] = Nothing
+                    USimpleNameReferenceExpression [second] = Phi((var second = 3), (var second = 2))

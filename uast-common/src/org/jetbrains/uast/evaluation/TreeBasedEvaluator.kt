@@ -281,6 +281,11 @@ class TreeBasedEvaluator(
         return node.expression.accept(this, data) storeFor node
     }
 
+    override fun visitLabeledExpression(node: ULabeledExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        return node.expression.accept(this, data) storeFor node
+    }
+
     override fun visitCallExpression(node: UCallExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
 
