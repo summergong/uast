@@ -1,0 +1,46 @@
+UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...]
+    UClass (name = DeadSwitchEntriesWithoutBreaks) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...}]
+        UEnumConstant (name = FIRST) [FIRST] = Undetermined
+            USimpleNameReferenceExpression [DeadSwitchEntriesWithoutBreaks] = Undetermined
+        UEnumConstant (name = SECOND) [SECOND] = Undetermined
+            USimpleNameReferenceExpression [DeadSwitchEntriesWithoutBreaks] = Undetermined
+        UEnumConstant (name = THIRD) [THIRD] = Undetermined
+            USimpleNameReferenceExpression [DeadSwitchEntriesWithoutBreaks] = Undetermined
+        UMethod (name = bar) [public static fun bar() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var key: DeadSwitchEntriesWithoutBreaks = SECOND] = Undetermined
+                    ULocalVariable (name = key) [var key: DeadSwitchEntriesWithoutBreaks = SECOND]
+                        USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
+                UVariableDeclarationsExpression [var result: int] = Undetermined
+                    ULocalVariable (name = result) [var result: int]
+                USwitchExpression [switch (key) ...] = Nothing
+                    USimpleNameReferenceExpression [key] = (var key = SECOND (enum entry))
+                    UExpressionList (switch) [    FIRST -> {...    ] = Undetermined
+                        USwitchClauseExpressionWithBody [FIRST -> {...] = Undetermined
+                            USimpleNameReferenceExpression [FIRST] = FIRST (enum entry)
+                            UExpressionList (switch_entry) [{...] = Undetermined
+                                UBinaryExpression (operator = =) [result = 3] = 3
+                                    USimpleNameReferenceExpression [result] = Undetermined
+                                    ULiteralExpression (value = 3) [3] = 3
+                                UBreakExpression (label = null) [break] = Nothing
+                        USwitchClauseExpressionWithBody [SECOND -> {...] = Undetermined
+                            USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
+                            UExpressionList (switch_entry) [{...] = Undetermined
+                                UBinaryExpression (operator = =) [result = 7] = 7
+                                    USimpleNameReferenceExpression [result] = (var result = Undetermined)
+                                    ULiteralExpression (value = 7) [7] = 7
+                        USwitchClauseExpressionWithBody [THIRD -> {...] = Undetermined
+                            USimpleNameReferenceExpression [THIRD] = THIRD (enum entry)
+                            UExpressionList (switch_entry) [{...] = Undetermined
+                                UBinaryExpression (operator = =) [result = 13] = 13
+                                    USimpleNameReferenceExpression [result] = Phi((var result = 7), (var result = Undetermined))
+                                    ULiteralExpression (value = 13) [13] = 13
+                        USwitchClauseExpressionWithBody [else -> {...] = Undetermined
+                            UDefaultCaseExpression [else] = Undetermined
+                            UExpressionList (switch_entry) [{...] = Undetermined
+                                UBinaryExpression (operator = =) [result = 66] = 66
+                                    USimpleNameReferenceExpression [result] = Phi((var result = 13), (var result = Undetermined))
+                                    ULiteralExpression (value = 66) [66] = 66
+                                UBreakExpression (label = null) [break] = Nothing
+                UReturnExpression [return result] = Nothing
+                    USimpleNameReferenceExpression [result] = (var result = 66)

@@ -17,6 +17,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testDeadSwitchEntries() = doTest("Simple/DeadSwitchEntries.java")
 
+    @Test fun testDeadSwitchEntriesWithoutBreaks() = doTest("Simple/DeadSwitchEntriesWithoutBreaks.java")
+
     @Test fun testDeadThen() = doTest("Simple/DeadThen.java")
 
     @Test fun testDependents() = doTest("Simple/Dependents.java")
@@ -28,6 +30,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testEnumChoice() = doTest("Simple/EnumChoice.java")
 
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")
+
+    @Test fun testEnumSwitchWithoutBreaks() = doTest("Simple/EnumSwitchWithoutBreaks.java")
 
     @Test fun testFor() = doTest("Simple/For.java")
 
