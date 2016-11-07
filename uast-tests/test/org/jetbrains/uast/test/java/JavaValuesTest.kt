@@ -5,6 +5,8 @@ import org.junit.Test
 class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testAliveThenElse() = doTest("Simple/AliveThenElse.java")
 
+    @Test fun testAnonymous() = doTest("Simple/Anonymous.java")
+
     @Test fun testCascadeIf() = doTest("Simple/CascadeIf.java")
 
     @Test fun testCharacters() = doTest("Simple/Characters.java")

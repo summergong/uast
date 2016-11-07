@@ -438,4 +438,26 @@ class TreeBasedEvaluator(
         val finallyInfo = node.finallyClause?.accept(this, mergedTryCatchInfo.state) ?: mergedTryCatchInfo
         return finallyInfo storeFor node
     }
+
+    // ----------------------- //
+
+    override fun visitObjectLiteralExpression(node: UObjectLiteralExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        val objectInfo = node.declaration.accept(this, data)
+        val resultState = data.merge(objectInfo.state)
+        return UValue.Undetermined to resultState storeFor node
+    }
+
+    override fun visitClass(node: UClass, data: UEvaluationState): UEvaluationInfo {
+        // fields / initializers / nested classes?
+        var resultState = data
+        for (method in node.uastMethods) {
+            resultState = resultState.merge(method.accept(this, resultState).state)
+        }
+        return UValue.Undetermined to resultState
+    }
+
+    override fun visitMethod(node: UMethod, data: UEvaluationState): UEvaluationInfo {
+        return UValue.Undetermined to (node.uastBody?.accept(this, data)?.state ?: data)
+    }
 }
