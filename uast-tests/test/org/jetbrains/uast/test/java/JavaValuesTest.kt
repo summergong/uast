@@ -51,6 +51,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testLogicals() = doTest("Simple/Logicals.java")
 
+    @Test fun testMethodReference() = doTest("Simple/MethodReference.java")
+
     @Test fun testModification() = doTest("Simple/Modification.java")
 
     @Test fun testMutableField() = doTest("Simple/MutableField.java")
