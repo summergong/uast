@@ -1,0 +1,30 @@
+UFile (package = ) [public class Characters : Object {...]
+    UClass (name = Characters) [public class Characters : Object {...}]
+        UMethod (name = foo) [public static fun foo() : char {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var a: char = 'a'] = Undetermined
+                    ULocalVariable (name = a) [var a: char = 'a']
+                        ULiteralExpression (value = 'a') ['a'] = 97
+                UVariableDeclarationsExpression [var c: char = (a + 2) as char] = Undetermined
+                    ULocalVariable (name = c) [var c: char = (a + 2) as char]
+                        UBinaryExpressionWithType [(a + 2) as char] = 99 (depending on: (var a = 97))
+                            UParenthesizedExpression [(a + 2)] = 99 (depending on: (var a = 97))
+                                UBinaryExpression (operator = +) [a + 2] = 99 (depending on: (var a = 97))
+                                    USimpleNameReferenceExpression [a] = (var a = 97)
+                                    ULiteralExpression (value = 2) [2] = 2
+                UVariableDeclarationsExpression [var f: char = (c + 3) as char] = Undetermined
+                    ULocalVariable (name = f) [var f: char = (c + 3) as char]
+                        UBinaryExpressionWithType [(c + 3) as char] = 102 (depending on: (var c = 99 (depending on: (var a = 97))))
+                            UParenthesizedExpression [(c + 3)] = 102 (depending on: (var c = 99 (depending on: (var a = 97))))
+                                UBinaryExpression (operator = +) [c + 3] = 102 (depending on: (var c = 99 (depending on: (var a = 97))))
+                                    USimpleNameReferenceExpression [c] = (var c = 99 (depending on: (var a = 97)))
+                                    ULiteralExpression (value = 3) [3] = 3
+                UVariableDeclarationsExpression [var d: char = (f - 2) as char] = Undetermined
+                    ULocalVariable (name = d) [var d: char = (f - 2) as char]
+                        UBinaryExpressionWithType [(f - 2) as char] = 100 (depending on: (var f = 102 (depending on: (var c = 99 (depending on: (var a = 97))))))
+                            UParenthesizedExpression [(f - 2)] = 100 (depending on: (var f = 102 (depending on: (var c = 99 (depending on: (var a = 97))))))
+                                UBinaryExpression (operator = -) [f - 2] = 100 (depending on: (var f = 102 (depending on: (var c = 99 (depending on: (var a = 97))))))
+                                    USimpleNameReferenceExpression [f] = (var f = 102 (depending on: (var c = 99 (depending on: (var a = 97)))))
+                                    ULiteralExpression (value = 2) [2] = 2
+                UReturnExpression [return d] = Nothing
+                    USimpleNameReferenceExpression [d] = (var d = 100 (depending on: (var f = 102 (depending on: (var c = 99 (depending on: (var a = 97)))))))

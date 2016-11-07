@@ -7,6 +7,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testCascadeIf() = doTest("Simple/CascadeIf.java")
 
+    @Test fun testCharacters() = doTest("Simple/Characters.java")
+
     @Test fun testDeadElse() = doTest("Simple/DeadElse.java")
 
     @Test fun testDeadFor() = doTest("Simple/DeadFor.java")
