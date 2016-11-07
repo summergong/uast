@@ -61,6 +61,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testStrings() = doTest("Simple/Strings.java")
 
+    @Test fun testTernary() = doTest("Simple/Ternary.java")
+
     @Test fun testTryCatch() = doTest("Simple/TryCatch.java")
 
     @Test fun testWhile() = doTest("Simple/WHile.java")
