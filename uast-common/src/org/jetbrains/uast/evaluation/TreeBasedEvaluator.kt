@@ -1,6 +1,7 @@
 package org.jetbrains.uast.evaluation
 
 import com.intellij.psi.PsiEnumConstant
+import com.intellij.psi.PsiField
 import com.intellij.psi.PsiType
 import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.*
@@ -95,6 +96,12 @@ class TreeBasedEvaluator(
         val resolvedElement = node.resolve()
         return when (resolvedElement) {
             is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement)
+            is PsiField -> if (resolvedElement.hasModifierProperty("final")) {
+                data[context.getVariable(resolvedElement)]
+            }
+            else {
+                return visitReferenceExpression(node, data)
+            }
             is PsiVariable -> data[context.getVariable(resolvedElement)]
             else -> return visitReferenceExpression(node, data)
         } to data storeFor node
@@ -272,6 +279,18 @@ class TreeBasedEvaluator(
     override fun visitParenthesizedExpression(node: UParenthesizedExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
         return node.expression.accept(this, data) storeFor node
+    }
+
+    override fun visitCallExpression(node: UCallExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+
+        var currentInfo = UValue.Undetermined to data
+        currentInfo = node.receiver?.accept(this, currentInfo.state) ?: currentInfo
+        for (valueArgument in node.valueArguments) {
+            currentInfo = valueArgument.accept(this, currentInfo.state)
+        }
+
+        return UValue.Undetermined to currentInfo.state storeFor node
     }
 
     override fun visitDeclarationsExpression(

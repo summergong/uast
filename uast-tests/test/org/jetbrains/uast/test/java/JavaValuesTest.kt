@@ -37,6 +37,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testForEach() = doTest("Simple/ForEach.java")
 
+    @Test fun testImmutableField() = doTest("Simple/ImmutableField.java")
+
     @Test fun testIncDec() = doTest("Simple/IncDec.java")
 
     @Test fun testIntLong() = doTest("Simple/IntLong.java")
@@ -44,6 +46,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testLogicals() = doTest("Simple/Logicals.java")
 
     @Test fun testModification() = doTest("Simple/Modification.java")
+
+    @Test fun testMutableField() = doTest("Simple/MutableField.java")
 
     @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 
