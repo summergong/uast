@@ -453,6 +453,13 @@ class TreeBasedEvaluator(
         return UValue.Undetermined to resultState storeFor node
     }
 
+    override fun visitLambdaExpression(node: ULambdaExpression, data: UEvaluationState): UEvaluationInfo {
+        stateCache[node] = data
+        val lambdaInfo = node.body.accept(this, data)
+        val resultState = data.merge(lambdaInfo.state)
+        return UValue.Undetermined to resultState storeFor node
+    }
+
     override fun visitClass(node: UClass, data: UEvaluationState): UEvaluationInfo {
         // fields / initializers / nested classes?
         var resultState = data

@@ -47,6 +47,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testLabeled() = doTest("Simple/Labeled.java")
 
+    @Test fun testLambda() = doTest("Simple/Lambda.java")
+
     @Test fun testLogicals() = doTest("Simple/Logicals.java")
 
     @Test fun testModification() = doTest("Simple/Modification.java")
