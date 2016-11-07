@@ -110,19 +110,36 @@ class TreeBasedEvaluator(
 
     // ----------------------- //
 
-    private fun UExpression.assign(valueInfo: UEvaluationInfo): UEvaluationInfo {
+    private fun UExpression.assign(
+            valueInfo: UEvaluationInfo,
+            operator: UastBinaryOperator.AssignOperator = UastBinaryOperator.ASSIGN
+    ): UEvaluationInfo {
+        this.accept(this@TreeBasedEvaluator, valueInfo.state)
         if (this is UResolvable) {
             val resolvedElement = resolve()
             if (resolvedElement is PsiVariable) {
                 val variable = context.getVariable(resolvedElement)
-                return UValue.Undetermined to valueInfo.state.assign(variable, valueInfo.value, this)
+                val currentValue = valueInfo.state[variable]
+                val result = when (operator) {
+                    UastBinaryOperator.ASSIGN -> valueInfo.value
+                    UastBinaryOperator.PLUS_ASSIGN -> currentValue + valueInfo.value
+                    UastBinaryOperator.MINUS_ASSIGN -> currentValue - valueInfo.value
+                    UastBinaryOperator.MULTIPLY_ASSIGN -> currentValue * valueInfo.value
+                    UastBinaryOperator.DIVIDE_ASSIGN -> currentValue / valueInfo.value
+                    UastBinaryOperator.REMAINDER_ASSIGN -> currentValue % valueInfo.value
+                    else -> UValue.Undetermined
+                }
+                return result to valueInfo.state.assign(variable, result, this)
             }
         }
         return UValue.Undetermined to valueInfo.state
     }
 
-    private fun UExpression.assign(value: UExpression, data: UEvaluationState) =
-            assign(value.accept(this@TreeBasedEvaluator, data))
+    private fun UExpression.assign(
+            operator: UastBinaryOperator.AssignOperator,
+            value: UExpression,
+            data: UEvaluationState
+    ) = assign(value.accept(this@TreeBasedEvaluator, data), operator)
 
     override fun visitPrefixExpression(node: UPrefixExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
@@ -167,13 +184,14 @@ class TreeBasedEvaluator(
 
     override fun visitBinaryExpression(node: UBinaryExpression, data: UEvaluationState): UEvaluationInfo {
         stateCache[node] = data
-        if (node.operator == UastBinaryOperator.ASSIGN) {
-            return node.leftOperand.assign(node.rightOperand, data) storeFor node
+        val operator = node.operator
+        if (operator is UastBinaryOperator.AssignOperator) {
+            return node.leftOperand.assign(operator, node.rightOperand, data) storeFor node
         }
         val leftInfo = node.leftOperand.accept(this, data)
         if (leftInfo.value == UValue.Nothing) return leftInfo storeFor node
         val rightInfo = node.rightOperand.accept(this, leftInfo.state)
-        return when (node.operator) {
+        return when (operator) {
             UastBinaryOperator.PLUS -> leftInfo.value + rightInfo.value
             UastBinaryOperator.MINUS -> leftInfo.value - rightInfo.value
             UastBinaryOperator.MULTIPLY -> leftInfo.value * rightInfo.value

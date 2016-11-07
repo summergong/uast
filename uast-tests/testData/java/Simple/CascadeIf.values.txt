@@ -19,27 +19,27 @@ UFile (package = ) [public class CascadeIf : Object {...]
                         ULiteralExpression (value = 3) [3] = 3
                 UVariableDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
-                UIfExpression [if (f) {...}] = Undetermined
+                UIfExpression [if (f) {...}] = Phi((var y = 1), (var x = 0), (var v = 2), (var w = 3))
                     USimpleNameReferenceExpression [f] = Undetermined
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [z = y] = Undetermined
-                            USimpleNameReferenceExpression [z] = Undetermined
+                    UBlockExpression [{...}] = (var y = 1)
+                        UBinaryExpression (operator = =) [z = y] = (var y = 1)
+                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
                             USimpleNameReferenceExpression [y] = (var y = 1)
-                    UIfExpression [if (g) {...}] = Undetermined
+                    UIfExpression [if (g) {...}] = Phi((var x = 0), (var v = 2), (var w = 3))
                         USimpleNameReferenceExpression [g] = Undetermined
-                        UBlockExpression [{...}] = Undetermined
-                            UBinaryExpression (operator = =) [z = x] = Undetermined
-                                USimpleNameReferenceExpression [z] = Undetermined
+                        UBlockExpression [{...}] = (var x = 0)
+                            UBinaryExpression (operator = =) [z = x] = (var x = 0)
+                                USimpleNameReferenceExpression [z] = (var z = Undetermined)
                                 USimpleNameReferenceExpression [x] = (var x = 0)
-                        UIfExpression [if (h) {...}] = Undetermined
+                        UIfExpression [if (h) {...}] = Phi((var v = 2), (var w = 3))
                             USimpleNameReferenceExpression [h] = Undetermined
-                            UBlockExpression [{...}] = Undetermined
-                                UBinaryExpression (operator = =) [z = v] = Undetermined
-                                    USimpleNameReferenceExpression [z] = Undetermined
+                            UBlockExpression [{...}] = (var v = 2)
+                                UBinaryExpression (operator = =) [z = v] = (var v = 2)
+                                    USimpleNameReferenceExpression [z] = (var z = Undetermined)
                                     USimpleNameReferenceExpression [v] = (var v = 2)
-                            UBlockExpression [{...}] = Undetermined
-                                UBinaryExpression (operator = =) [z = w] = Undetermined
-                                    USimpleNameReferenceExpression [z] = Undetermined
+                            UBlockExpression [{...}] = (var w = 3)
+                                UBinaryExpression (operator = =) [z = w] = (var w = 3)
+                                    USimpleNameReferenceExpression [z] = (var z = Undetermined)
                                     USimpleNameReferenceExpression [w] = (var w = 3)
                 UReturnExpression [return z] = Nothing
                     USimpleNameReferenceExpression [z] = Phi((var z = (var y = 1)), (var z = (var x = 0)), (var z = (var v = 2)), (var z = (var w = 3)))

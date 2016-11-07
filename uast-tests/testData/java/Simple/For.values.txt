@@ -14,9 +14,9 @@ UFile (package = ) [public class For : Object {...]
                         ULiteralExpression (value = 10) [10] = 10
                     UPostfixExpression (operator = ++) [i++] = Undetermined
                         USimpleNameReferenceExpression [i] = Undetermined
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [result = result + i] = Undetermined
-                            USimpleNameReferenceExpression [result] = Undetermined
+                    UBlockExpression [{...}] = Undetermined (depending on: (var i = 0))
+                        UBinaryExpression (operator = =) [result = result + i] = Undetermined (depending on: (var i = 0))
+                            USimpleNameReferenceExpression [result] = Phi((var result = Undetermined (depending on: (var i = 0))), (var result = 0 (depending on: (var i = 0))), (var result = 0))
                             UBinaryExpression (operator = +) [result + i] = Undetermined (depending on: (var i = 0))
                                 USimpleNameReferenceExpression [result] = Phi((var result = Undetermined (depending on: (var i = 0))), (var result = 0 (depending on: (var i = 0))), (var result = 0))
                                 USimpleNameReferenceExpression [i] = (var i = 0)

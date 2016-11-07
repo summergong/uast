@@ -13,16 +13,16 @@ UFile (package = ) [public class DeadThen : Object {...]
                         ULiteralExpression (value = 1) [1] = 1
                 UVariableDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
-                UIfExpression [if (!f) {...}] = Undetermined
+                UIfExpression [if (!f) {...}] = (var x = 0)
                     UPrefixExpression (operator = !) [!f] = false (depending on: (var f = true))
                         USimpleNameReferenceExpression [f] = (var f = true)
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [z = y] = Undetermined
-                            USimpleNameReferenceExpression [z] = Undetermined
+                    UBlockExpression [{...}] = (var y = 1)
+                        UBinaryExpression (operator = =) [z = y] = (var y = 1)
+                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
                             USimpleNameReferenceExpression [y] = (var y = 1)
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [z = x] = Undetermined
-                            USimpleNameReferenceExpression [z] = Undetermined
+                    UBlockExpression [{...}] = (var x = 0)
+                        UBinaryExpression (operator = =) [z = x] = (var x = 0)
+                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
                             USimpleNameReferenceExpression [x] = (var x = 0)
                 UReturnExpression [return z] = Nothing
                     USimpleNameReferenceExpression [z] = (var z = (var x = 0))

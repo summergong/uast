@@ -37,6 +37,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testLogicals() = doTest("Simple/Logicals.java")
 
+    @Test fun testModification() = doTest("Simple/Modification.java")
+
     @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 
     @Test fun testReturnSum() = doTest("Simple/ReturnSum.java")

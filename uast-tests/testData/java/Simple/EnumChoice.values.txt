@@ -9,15 +9,15 @@ UFile (package = ) [public final enum EnumChoice : Enum {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var result: EnumChoice] = Undetermined
                     ULocalVariable (name = result) [var result: EnumChoice]
-                UIfExpression [if (flag) {...}] = Undetermined
+                UIfExpression [if (flag) {...}] = Phi(FIRST (enum entry), SECOND (enum entry))
                     USimpleNameReferenceExpression [flag] = Undetermined
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [result = FIRST] = Undetermined
-                            USimpleNameReferenceExpression [result] = Undetermined
+                    UBlockExpression [{...}] = FIRST (enum entry)
+                        UBinaryExpression (operator = =) [result = FIRST] = FIRST (enum entry)
+                            USimpleNameReferenceExpression [result] = (var result = Undetermined)
                             USimpleNameReferenceExpression [FIRST] = FIRST (enum entry)
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [result = SECOND] = Undetermined
-                            USimpleNameReferenceExpression [result] = Undetermined
+                    UBlockExpression [{...}] = SECOND (enum entry)
+                        UBinaryExpression (operator = =) [result = SECOND] = SECOND (enum entry)
+                            USimpleNameReferenceExpression [result] = (var result = Undetermined)
                             USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
                 UReturnExpression [return result] = Nothing
                     USimpleNameReferenceExpression [result] = Phi((var result = FIRST (enum entry)), (var result = SECOND (enum entry)))

@@ -10,17 +10,17 @@ UFile (package = ) [public class DeadIfComparison : Object {...]
                         ULiteralExpression (value = 1) [1] = 1
                 UVariableDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
-                UIfExpression [if (x === y) {...}] = Undetermined
+                UIfExpression [if (x === y) {...}] = (var x = 0)
                     UBinaryExpression (operator = ===) [x === y] = false (depending on: (var x = 0), (var y = 1))
                         USimpleNameReferenceExpression [x] = (var x = 0)
                         USimpleNameReferenceExpression [y] = (var y = 1)
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [z = y] = Undetermined
-                            USimpleNameReferenceExpression [z] = Undetermined
+                    UBlockExpression [{...}] = (var y = 1)
+                        UBinaryExpression (operator = =) [z = y] = (var y = 1)
+                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
                             USimpleNameReferenceExpression [y] = (var y = 1)
-                    UBlockExpression [{...}] = Undetermined
-                        UBinaryExpression (operator = =) [z = x] = Undetermined
-                            USimpleNameReferenceExpression [z] = Undetermined
+                    UBlockExpression [{...}] = (var x = 0)
+                        UBinaryExpression (operator = =) [z = x] = (var x = 0)
+                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
                             USimpleNameReferenceExpression [x] = (var x = 0)
                 UReturnExpression [return z] = Nothing
                     USimpleNameReferenceExpression [z] = (var z = (var x = 0))

@@ -10,7 +10,7 @@ UFile (package = ) [public class For : Object {...]
                     USimpleNameReferenceExpression [numbers] = Undetermined
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [result = result + number] = Undetermined
-                            USimpleNameReferenceExpression [result] = Undetermined
+                            USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))
                             UBinaryExpression (operator = +) [result + number] = Undetermined
                                 USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))
                                 USimpleNameReferenceExpression [number] = Undetermined

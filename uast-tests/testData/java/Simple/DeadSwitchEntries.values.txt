@@ -19,28 +19,28 @@ UFile (package = ) [public final enum DeadSwitchEntries : Enum {...]
                         USwitchClauseExpressionWithBody [FIRST -> {...] = Undetermined
                             USimpleNameReferenceExpression [FIRST] = FIRST (enum entry)
                             UExpressionList (switch_entry) [{...] = Undetermined
-                                UBinaryExpression (operator = =) [result = 3] = Undetermined
+                                UBinaryExpression (operator = =) [result = 3] = 3
                                     USimpleNameReferenceExpression [result] = Undetermined
                                     ULiteralExpression (value = 3) [3] = 3
                                 UBreakExpression (label = null) [break] = Nothing
                         USwitchClauseExpressionWithBody [SECOND -> {...] = Undetermined
                             USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
                             UExpressionList (switch_entry) [{...] = Undetermined
-                                UBinaryExpression (operator = =) [result = 7] = Undetermined
+                                UBinaryExpression (operator = =) [result = 7] = 7
                                     USimpleNameReferenceExpression [result] = Undetermined
                                     ULiteralExpression (value = 7) [7] = 7
                                 UBreakExpression (label = null) [break] = Nothing
                         USwitchClauseExpressionWithBody [THIRD -> {...] = Undetermined
                             USimpleNameReferenceExpression [THIRD] = THIRD (enum entry)
                             UExpressionList (switch_entry) [{...] = Undetermined
-                                UBinaryExpression (operator = =) [result = 13] = Undetermined
-                                    USimpleNameReferenceExpression [result] = Undetermined
+                                UBinaryExpression (operator = =) [result = 13] = 13
+                                    USimpleNameReferenceExpression [result] = (var result = Undetermined)
                                     ULiteralExpression (value = 13) [13] = 13
                                 UBreakExpression (label = null) [break] = Nothing
                         USwitchClauseExpressionWithBody [else -> {...] = Undetermined
                             UDefaultCaseExpression [else] = Undetermined
                             UExpressionList (switch_entry) [{...] = Undetermined
-                                UBinaryExpression (operator = =) [result = 66] = Undetermined
+                                UBinaryExpression (operator = =) [result = 66] = 66
                                     USimpleNameReferenceExpression [result] = Undetermined
                                     ULiteralExpression (value = 66) [66] = 66
                                 UBreakExpression (label = null) [break] = Nothing
