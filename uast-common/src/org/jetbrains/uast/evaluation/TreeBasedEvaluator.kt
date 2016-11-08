@@ -13,14 +13,14 @@ class TreeBasedEvaluator(
         private val context: UastContext
 ) : UastTypedVisitor<UEvaluationState, UEvaluationInfo>, UEvaluator {
 
-    private val stateCache = mutableMapOf<UExpression, UEvaluationState>()
+    private val inputStateCache = mutableMapOf<UExpression, UEvaluationState>()
 
     private val resultCache = mutableMapOf<UExpression, UEvaluationInfo>()
 
     override fun visitElement(node: UElement, data: UEvaluationState): UEvaluationInfo {
         return UEvaluationInfo(UValue.Undetermined, data).apply {
             if (node is UExpression) {
-                this storeFor node
+                this storeResultFor node
             }
         }
     }
@@ -34,7 +34,7 @@ class TreeBasedEvaluator(
             val result = resultCache[expression]
             if (result != null) return result.value
         }
-        val inputState = state ?: stateCache[expression] ?: expression.createEmptyState()
+        val inputState = state ?: inputStateCache[expression] ?: expression.createEmptyState()
         return expression.accept(this, inputState).value
     }
 
@@ -42,12 +42,12 @@ class TreeBasedEvaluator(
 
     private infix fun UValue.to(state: UEvaluationState) = UEvaluationInfo(this, state)
 
-    private infix fun UEvaluationInfo.storeFor(expression: UExpression) = apply {
+    private infix fun UEvaluationInfo.storeResultFor(expression: UExpression) = apply {
         resultCache[expression] = this
     }
 
     override fun visitLiteralExpression(node: ULiteralExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val value = node.value
         return when (value) {
             null -> UNullConstant
@@ -59,32 +59,32 @@ class TreeBasedEvaluator(
             is Boolean -> UBooleanConstant.valueOf(value)
             is String -> UStringConstant(value)
             else -> UValue.Undetermined
-        } to data storeFor node
+        } to data storeResultFor node
     }
 
     override fun visitClassLiteralExpression(node: UClassLiteralExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        return (node.type?.let(::UClassConstant) ?: UValue.Undetermined) to data storeFor node
+        inputStateCache[node] = data
+        return (node.type?.let(::UClassConstant) ?: UValue.Undetermined) to data storeResultFor node
     }
 
     override fun visitReturnExpression(node: UReturnExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val argument = node.returnExpression
-        return UValue.Nothing to (argument?.accept(this, data)?.state ?: data) storeFor node
+        return UValue.Nothing to (argument?.accept(this, data)?.state ?: data) storeResultFor node
     }
 
     override fun visitBreakExpression(node: UBreakExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        return UValue.Nothing to data storeFor node
+        inputStateCache[node] = data
+        return UValue.Nothing to data storeResultFor node
     }
     override fun visitContinueExpression(node: UContinueExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        return UValue.Nothing to data storeFor node
+        inputStateCache[node] = data
+        return UValue.Nothing to data storeResultFor node
     }
 
     override fun visitThrowExpression(node: UThrowExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        return UValue.Nothing to data storeFor node
+        inputStateCache[node] = data
+        return UValue.Nothing to data storeResultFor node
     }
     // ----------------------- //
 
@@ -92,7 +92,7 @@ class TreeBasedEvaluator(
             node: USimpleNameReferenceExpression,
             data: UEvaluationState
     ): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val resolvedElement = node.resolve()
         return when (resolvedElement) {
             is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement)
@@ -100,19 +100,19 @@ class TreeBasedEvaluator(
                 data[context.getVariable(resolvedElement)]
             }
             else {
-                return visitReferenceExpression(node, data)
+                return super.visitSimpleNameReferenceExpression(node, data)
             }
             is PsiVariable -> data[context.getVariable(resolvedElement)]
-            else -> return visitReferenceExpression(node, data)
-        } to data storeFor node
+            else -> return super.visitSimpleNameReferenceExpression(node, data)
+        } to data storeResultFor node
     }
 
     override fun visitReferenceExpression(
             node: UReferenceExpression,
             data: UEvaluationState
     ): UEvaluationInfo {
-        stateCache[node] = data
-        return UValue.CallResult(node) to data storeFor node
+        inputStateCache[node] = data
+        return UValue.CallResult(node) to data storeResultFor node
     }
 
     // ----------------------- //
@@ -149,10 +149,10 @@ class TreeBasedEvaluator(
     ) = assign(value.accept(this@TreeBasedEvaluator, data), operator)
 
     override fun visitPrefixExpression(node: UPrefixExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val operandInfo = node.operand.accept(this, data)
         val operandValue = operandInfo.value
-        if (operandValue == UValue.Nothing) return operandInfo storeFor node
+        if (operandValue == UValue.Nothing) return operandInfo storeResultFor node
         return when (node.operator) {
             UastPrefixOperator.UNARY_PLUS -> operandInfo.value
             UastPrefixOperator.UNARY_MINUS -> -operandInfo.value
@@ -160,22 +160,22 @@ class TreeBasedEvaluator(
             UastPrefixOperator.INC -> {
                 val resultValue = operandValue.inc()
                 val newState = node.operand.assign(resultValue to operandInfo.state).state
-                return resultValue to newState storeFor node
+                return resultValue to newState storeResultFor node
             }
             UastPrefixOperator.DEC -> {
                 val resultValue = operandValue.dec()
                 val newState = node.operand.assign(resultValue to operandInfo.state).state
-                return resultValue to newState storeFor node
+                return resultValue to newState storeResultFor node
             }
             else -> UValue.Undetermined
-        } to operandInfo.state storeFor node
+        } to operandInfo.state storeResultFor node
     }
 
     override fun visitPostfixExpression(node: UPostfixExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val operandInfo = node.operand.accept(this, data)
         val operandValue = operandInfo.value
-        if (operandValue == UValue.Nothing) return operandInfo storeFor node
+        if (operandValue == UValue.Nothing) return operandInfo storeResultFor node
         return when (node.operator) {
             UastPostfixOperator.INC -> {
                 operandValue to node.operand.assign(operandValue.inc() to operandInfo.state).state
@@ -186,17 +186,17 @@ class TreeBasedEvaluator(
             else -> {
                 UValue.Undetermined to operandInfo.state
             }
-        } storeFor node
+        } storeResultFor node
     }
 
     override fun visitBinaryExpression(node: UBinaryExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val operator = node.operator
         if (operator is UastBinaryOperator.AssignOperator) {
-            return node.leftOperand.assign(operator, node.rightOperand, data) storeFor node
+            return node.leftOperand.assign(operator, node.rightOperand, data) storeResultFor node
         }
         val leftInfo = node.leftOperand.accept(this, data)
-        if (leftInfo.value == UValue.Nothing) return leftInfo storeFor node
+        if (leftInfo.value == UValue.Nothing) return leftInfo storeResultFor node
         val rightInfo = node.rightOperand.accept(this, leftInfo.state)
         return when (operator) {
             UastBinaryOperator.PLUS -> leftInfo.value + rightInfo.value
@@ -215,7 +215,7 @@ class TreeBasedEvaluator(
             UastBinaryOperator.LOGICAL_AND -> leftInfo.value and rightInfo.value
             UastBinaryOperator.LOGICAL_OR -> leftInfo.value or rightInfo.value
             else -> UValue.Undetermined
-        } to rightInfo.state storeFor node
+        } to rightInfo.state storeResultFor node
     }
 
     private fun evaluateTypeCast(operandInfo: UEvaluationInfo, type: PsiType): UEvaluationInfo {
@@ -234,7 +234,7 @@ class TreeBasedEvaluator(
                 (constant as? UNumericConstant)?.value?.toDouble()?.let(::UFloatConstant)
             }
             else -> when (type.name) {
-                "java.lang.String", "kotlin.String" -> UStringConstant(constant.asString())
+                "java.lang.String" -> UStringConstant(constant.asString())
                 else -> null
             }
         } ?: return UValue.Undetermined to operandInfo.state
@@ -254,7 +254,7 @@ class TreeBasedEvaluator(
             PsiType.BYTE, PsiType.SHORT, PsiType.INT, PsiType.CHAR -> constant is UIntConstant
             PsiType.FLOAT, PsiType.DOUBLE -> constant is UFloatConstant
             else -> when (type.name) {
-                "java.lang.String", "kotlin.String" -> constant is UStringConstant
+                "java.lang.String" -> constant is UStringConstant
                 else -> false
             }
         }
@@ -264,30 +264,30 @@ class TreeBasedEvaluator(
     override fun visitBinaryExpressionWithType(
             node: UBinaryExpressionWithType, data: UEvaluationState
     ): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val operandInfo = node.operand.accept(this, data)
         return when (operandInfo.value) {
-            UValue.Nothing, UValue.Undetermined -> operandInfo storeFor node
+            UValue.Nothing, UValue.Undetermined -> operandInfo storeResultFor node
             else -> when (node.operationKind) {
                 UastBinaryExpressionWithTypeKind.TYPE_CAST -> evaluateTypeCast(operandInfo, node.type)
                 UastBinaryExpressionWithTypeKind.INSTANCE_CHECK -> evaluateTypeCheck(operandInfo, node.type)
                 else -> UValue.Undetermined to operandInfo.state
-            } storeFor node
+            } storeResultFor node
         }
     }
 
     override fun visitParenthesizedExpression(node: UParenthesizedExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        return node.expression.accept(this, data) storeFor node
+        inputStateCache[node] = data
+        return node.expression.accept(this, data) storeResultFor node
     }
 
     override fun visitLabeledExpression(node: ULabeledExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
-        return node.expression.accept(this, data) storeFor node
+        inputStateCache[node] = data
+        return node.expression.accept(this, data) storeResultFor node
     }
 
     override fun visitCallExpression(node: UCallExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
 
         var currentInfo = UValue.Undetermined to data
         currentInfo = node.receiver?.accept(this, currentInfo.state) ?: currentInfo
@@ -295,19 +295,19 @@ class TreeBasedEvaluator(
             currentInfo = valueArgument.accept(this, currentInfo.state)
         }
 
-        return UValue.Undetermined to currentInfo.state storeFor node
+        return UValue.Undetermined to currentInfo.state storeResultFor node
     }
 
     override fun visitDeclarationsExpression(
             node: UVariableDeclarationsExpression,
             data: UEvaluationState
     ): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         var currentInfo = UValue.Undetermined to data
         for (variable in node.variables) {
             currentInfo = variable.accept(this, currentInfo.state)
         }
-        return currentInfo storeFor node
+        return currentInfo storeResultFor node
     }
 
     override fun visitVariable(node: UVariable, data: UEvaluationState): UEvaluationInfo {
@@ -319,16 +319,16 @@ class TreeBasedEvaluator(
     // ----------------------- //
 
     override fun visitBlockExpression(node: UBlockExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         var currentInfo = UValue.Undetermined to data
         for (expression in node.expressions) {
             currentInfo = expression.accept(this, currentInfo.state)
         }
-        return currentInfo storeFor node
+        return currentInfo storeResultFor node
     }
 
     override fun visitIfExpression(node: UIfExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val conditionInfo = node.condition.accept(this, data)
         val thenInfo = node.thenExpression?.accept(this, conditionInfo.state)
         val elseInfo = node.elseExpression?.accept(this, conditionInfo.state)
@@ -345,11 +345,11 @@ class TreeBasedEvaluator(
                 else if (elseInfo == null) thenInfo.merge(defaultInfo)
                 else thenInfo.merge(elseInfo)
             }
-        } storeFor node
+        } storeResultFor node
     }
 
     override fun visitSwitchExpression(node: USwitchExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val subjectInfo = node.expression?.accept(this, data) ?: UValue.Undetermined to data
         val subjectValue = subjectInfo.value
         var resultInfo: UEvaluationInfo? = null
@@ -381,7 +381,7 @@ class TreeBasedEvaluator(
                 }
             }
         }
-        return (resultInfo ?: subjectInfo) storeFor node
+        return (resultInfo ?: subjectInfo) storeResultFor node
     }
 
     private fun evaluateLoop(loop: ULoopExpression, inputState: UEvaluationState): UEvaluationInfo {
@@ -391,22 +391,22 @@ class TreeBasedEvaluator(
             val previousInfo = resultInfo
             resultInfo = bodyInfo.merge(previousInfo)
         } while (previousInfo != resultInfo)
-        return resultInfo.copy(UValue.Undetermined) storeFor loop
+        return resultInfo.copy(UValue.Undetermined) storeResultFor loop
     }
 
     override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val initialInfo = node.declaration?.accept(this, data) ?: UValue.Undetermined to data
         val resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.copy(UValue.Undetermined) storeFor node
+            return resultInfo.copy(UValue.Undetermined) storeResultFor node
         }
         return evaluateLoop(node, resultInfo.state)
     }
 
     override fun visitForEachExpression(node: UForEachExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         return evaluateLoop(node, data)
     }
 
@@ -418,46 +418,46 @@ class TreeBasedEvaluator(
         val resultInfo = condition.accept(this, inputState)
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.copy(UValue.Undetermined) storeFor loop
+            return resultInfo.copy(UValue.Undetermined) storeResultFor loop
         }
         return evaluateLoop(loop, resultInfo.state)
     }
 
     override fun visitWhileExpression(node: UWhileExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         return evaluateLoopWithCondition(node, node.condition, data)
     }
 
     override fun visitDoWhileExpression(node: UDoWhileExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val bodyInfo = node.body.accept(this, data)
         return evaluateLoopWithCondition(node, node.condition, bodyInfo.state)
     }
 
     override fun visitTryExpression(node: UTryExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val tryInfo = node.tryClause.accept(this, data)
         val mergedTryInfo = tryInfo.merge(UValue.Undetermined to data)
         val catchInfoList = node.catchClauses.map { it.accept(this, mergedTryInfo.state) }
         val mergedTryCatchInfo = catchInfoList.fold(mergedTryInfo, UEvaluationInfo::merge)
         val finallyInfo = node.finallyClause?.accept(this, mergedTryCatchInfo.state) ?: mergedTryCatchInfo
-        return finallyInfo storeFor node
+        return finallyInfo storeResultFor node
     }
 
     // ----------------------- //
 
     override fun visitObjectLiteralExpression(node: UObjectLiteralExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val objectInfo = node.declaration.accept(this, data)
         val resultState = data.merge(objectInfo.state)
-        return UValue.Undetermined to resultState storeFor node
+        return UValue.Undetermined to resultState storeResultFor node
     }
 
     override fun visitLambdaExpression(node: ULambdaExpression, data: UEvaluationState): UEvaluationInfo {
-        stateCache[node] = data
+        inputStateCache[node] = data
         val lambdaInfo = node.body.accept(this, data)
         val resultState = data.merge(lambdaInfo.state)
-        return UValue.Undetermined to resultState storeFor node
+        return UValue.Undetermined to resultState storeResultFor node
     }
 
     override fun visitClass(node: UClass, data: UEvaluationState): UEvaluationInfo {
