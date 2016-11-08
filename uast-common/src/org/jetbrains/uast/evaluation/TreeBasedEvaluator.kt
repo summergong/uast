@@ -394,17 +394,6 @@ class TreeBasedEvaluator(
         return resultInfo.copy(UValue.Undetermined) storeResultFor loop
     }
 
-    override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
-        inputStateCache[node] = data
-        val initialInfo = node.declaration?.accept(this, data) ?: UValue.Undetermined to data
-        val resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
-        val conditionConstant = resultInfo.value.toConstant()
-        if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.copy(UValue.Undetermined) storeResultFor node
-        }
-        return evaluateLoop(node, resultInfo.state)
-    }
-
     override fun visitForEachExpression(node: UForEachExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         return evaluateLoop(node, data)
@@ -412,15 +401,21 @@ class TreeBasedEvaluator(
 
     private fun evaluateLoopWithCondition(
             loop: ULoopExpression,
-            condition: UExpression,
+            condition: UExpression?,
             inputState: UEvaluationState
     ): UEvaluationInfo {
-        val resultInfo = condition.accept(this, inputState)
+        val resultInfo = condition?.accept(this, inputState) ?: UBooleanConstant.True to inputState
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
             return resultInfo.copy(UValue.Undetermined) storeResultFor loop
         }
         return evaluateLoop(loop, resultInfo.state)
+    }
+
+    override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
+        inputStateCache[node] = data
+        val initialState = node.declaration?.accept(this, data)?.state ?: data
+        return evaluateLoopWithCondition(node, node.condition, initialState)
     }
 
     override fun visitWhileExpression(node: UWhileExpression, data: UEvaluationState): UEvaluationInfo {
