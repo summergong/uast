@@ -10,8 +10,7 @@ class DelegatingEvaluationState(
         private val baseState: UEvaluationState
 ) : AbstractEvaluationState(boundElement) {
 
-    override val variables: Set<UVariable>
-        get() = baseState.variables + variableValue.variable
+    override val variables = baseState.variables + variableValue.variable
 
     override fun get(variable: UVariable) =
             if (variable == variableValue.variable) variableValue else baseState[variable]

@@ -9,5 +9,5 @@ data class UEvaluationInfo(val value: UValue, val state: UEvaluationState) {
         return UEvaluationInfo(mergedValue, mergedState)
     }
 
-    fun changeValue(newValue: UValue) = UEvaluationInfo(newValue, state)
+    fun copy(value: UValue) = if (value != this.value) UEvaluationInfo(value, state) else this
 }

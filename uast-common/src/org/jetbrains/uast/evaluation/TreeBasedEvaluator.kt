@@ -391,7 +391,7 @@ class TreeBasedEvaluator(
             val previousInfo = resultInfo
             resultInfo = bodyInfo.merge(previousInfo)
         } while (previousInfo != resultInfo)
-        return resultInfo.changeValue(UValue.Undetermined) storeFor loop
+        return resultInfo.copy(UValue.Undetermined) storeFor loop
     }
 
     override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
@@ -400,7 +400,7 @@ class TreeBasedEvaluator(
         val resultInfo = node.condition?.accept(this, initialInfo.state) ?: UBooleanConstant.True to data
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.changeValue(UValue.Undetermined) storeFor node
+            return resultInfo.copy(UValue.Undetermined) storeFor node
         }
         return evaluateLoop(node, resultInfo.state)
     }
@@ -418,7 +418,7 @@ class TreeBasedEvaluator(
         val resultInfo = condition.accept(this, inputState)
         val conditionConstant = resultInfo.value.toConstant()
         if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.changeValue(UValue.Undetermined) storeFor loop
+            return resultInfo.copy(UValue.Undetermined) storeFor loop
         }
         return evaluateLoop(loop, resultInfo.state)
     }
