@@ -69,6 +69,7 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testTryCatch() = doTest("Simple/TryCatch.java")
 
-    @Test fun testWhile() = doTest("Simple/WHile.java")
+    @Test fun testWhile() = doTest("Simple/While.java")
 
+    @Test fun testWhileWithIncrement() = doTest("Simple/WhileWithIncrement.java")
 }
