@@ -355,28 +355,28 @@ class TreeBasedEvaluator(
         var resultInfo: UEvaluationInfo? = null
         val switchList = node.body
         var clauseInfo = subjectInfo
-        var fallThrough = false
-        var mustFallThrough = false
+        var fallsThrough = false
+        var alwaysFallsThrough = false
         for (expression in switchList.expressions) {
             val switchClauseWithBody = expression as USwitchClauseExpressionWithBody
             val caseValueComparisons = switchClauseWithBody.caseValues.map {
                 clauseInfo = it.accept(this, clauseInfo.state)
                 (clauseInfo.value same subjectValue).toConstant()
             }
-            val mustBeTrue = UBooleanConstant.True in caseValueComparisons
-            val canBeTrue = mustBeTrue || null in caseValueComparisons
-            if (canBeTrue || fallThrough) {
+            val alwaysTrue = UBooleanConstant.True in caseValueComparisons
+            val canBeTrue = alwaysTrue || null in caseValueComparisons
+            if (canBeTrue || fallsThrough) {
                 for (bodyExpression in switchClauseWithBody.body.expressions) {
                     clauseInfo = bodyExpression.accept(this, clauseInfo.state)
                 }
-                fallThrough = clauseInfo.value != UValue.Nothing
-                if (!fallThrough) {
+                fallsThrough = clauseInfo.value != UValue.Nothing
+                if (!fallsThrough) {
                     resultInfo = resultInfo?.merge(clauseInfo) ?: clauseInfo
-                    if (mustBeTrue || mustFallThrough) break
+                    if (alwaysTrue || alwaysFallsThrough) break
                     clauseInfo = subjectInfo
                 }
                 else {
-                    mustFallThrough = mustFallThrough || mustBeTrue
+                    alwaysFallsThrough = alwaysFallsThrough || alwaysTrue
                     clauseInfo = clauseInfo.merge(subjectInfo)
                 }
             }
