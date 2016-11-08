@@ -112,7 +112,7 @@ class TreeBasedEvaluator(
             data: UEvaluationState
     ): UEvaluationInfo {
         stateCache[node] = data
-        return UValue.External(node) to data storeFor node
+        return UValue.CallResult(node) to data storeFor node
     }
 
     // ----------------------- //
@@ -204,10 +204,10 @@ class TreeBasedEvaluator(
             UastBinaryOperator.MULTIPLY -> leftInfo.value * rightInfo.value
             UastBinaryOperator.DIV -> leftInfo.value / rightInfo.value
             UastBinaryOperator.MOD -> leftInfo.value % rightInfo.value
-            UastBinaryOperator.EQUALS -> leftInfo.value same rightInfo.value
-            UastBinaryOperator.NOT_EQUALS -> leftInfo.value notSame rightInfo.value
-            UastBinaryOperator.IDENTITY_EQUALS -> leftInfo.value identitySame rightInfo.value
-            UastBinaryOperator.IDENTITY_NOT_EQUALS -> leftInfo.value identityNotSame rightInfo.value
+            UastBinaryOperator.EQUALS -> leftInfo.value valueEquals rightInfo.value
+            UastBinaryOperator.NOT_EQUALS -> leftInfo.value valueNotEquals rightInfo.value
+            UastBinaryOperator.IDENTITY_EQUALS -> leftInfo.value identityEquals rightInfo.value
+            UastBinaryOperator.IDENTITY_NOT_EQUALS -> leftInfo.value identityNotEquals rightInfo.value
             UastBinaryOperator.GREATER -> leftInfo.value greater rightInfo.value
             UastBinaryOperator.LESS -> leftInfo.value less rightInfo.value
             UastBinaryOperator.GREATER_OR_EQUALS -> leftInfo.value greaterOrEquals rightInfo.value
@@ -361,7 +361,7 @@ class TreeBasedEvaluator(
             val switchClauseWithBody = expression as USwitchClauseExpressionWithBody
             val caseValueComparisons = switchClauseWithBody.caseValues.map {
                 clauseInfo = it.accept(this, clauseInfo.state)
-                (clauseInfo.value same subjectValue).toConstant()
+                (clauseInfo.value valueEquals subjectValue).toConstant()
             }
             val alwaysTrue = UBooleanConstant.True in caseValueComparisons
             val canBeTrue = alwaysTrue || null in caseValueComparisons

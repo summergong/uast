@@ -9,10 +9,10 @@ sealed class UValue : UOperand {
     // Constants
 
     abstract class AbstractConstant(override val value: Any?) : UValue(), UConstant {
-        override fun same(other: UValue) = when (other) {
+        override fun valueEquals(other: UValue) = when (other) {
             this -> UBooleanConstant.True
             is UValue.AbstractConstant -> UBooleanConstant.False
-            else -> super.same(other)
+            else -> super.valueEquals(other)
         }
 
         override fun equals(other: Any?) = other is AbstractConstant && value == other.value
@@ -21,7 +21,7 @@ sealed class UValue : UOperand {
 
         override fun toString() = "$value"
 
-        open fun asString() = toString()
+        override fun asString() = toString()
     }
 
     // Dependencies and dependents
@@ -64,9 +64,9 @@ sealed class UValue : UOperand {
 
         override fun unaryMinus() = wrapUnary(-unwrap())
 
-        override fun same(other: UValue) = wrapBinary(unwrap() same other.unwrap(), other)
+        override fun valueEquals(other: UValue) = wrapBinary(unwrap() valueEquals other.unwrap(), other)
 
-        override fun notSame(other: UValue) = wrapBinary(unwrap() notSame other.unwrap(), other)
+        override fun valueNotEquals(other: UValue) = wrapBinary(unwrap() valueNotEquals other.unwrap(), other)
 
         override fun not() = wrapUnary(!unwrap())
 
@@ -189,8 +189,8 @@ sealed class UValue : UOperand {
 
     // Value of something resolvable (e.g. call or property access)
     // that we cannot or do not want to evaluate
-    class External(val resolvable: UResolvable) : UValue(), Dependency {
-        override fun equals(other: Any?) = other is External && resolvable == other.resolvable
+    class CallResult(val resolvable: UResolvable) : UValue(), Dependency {
+        override fun equals(other: Any?) = other is CallResult && resolvable == other.resolvable
 
         override fun hashCode() = resolvable.hashCode()
 
@@ -210,11 +210,15 @@ sealed class UValue : UOperand {
         override fun toString() = values.joinToString(prefix = "Phi(", postfix = ")", separator = ", ")
 
         companion object {
-            fun create(values: List<UValue>): Phi {
-                return Phi(values.flatMapTo(linkedSetOf<UValue>()) { (it as? Phi)?.values ?: listOf(it) })
+            fun create(values: Iterable<UValue>): Phi {
+                val flattenedValues = values.flatMapTo(linkedSetOf<UValue>()) { (it as? Phi)?.values ?: listOf(it) }
+                if (flattenedValues.size <= 1) {
+                    throw AssertionError("Phi should contain two or more values: $flattenedValues")
+                }
+                return Phi(flattenedValues)
             }
 
-            fun create(vararg values: UValue) = create(values.toList())
+            fun create(vararg values: UValue) = create(values.asIterable())
         }
     }
 
@@ -244,9 +248,9 @@ sealed class UValue : UOperand {
 
     override fun unaryMinus(): UValue = Undetermined
 
-    override fun same(other: UValue): UValue = if (other is Dependent) other same this else Undetermined
+    override fun valueEquals(other: UValue): UValue = if (other is Dependent) other valueEquals this else Undetermined
 
-    override fun notSame(other: UValue): UValue = !this.same(other)
+    override fun valueNotEquals(other: UValue): UValue = !this.valueEquals(other)
 
     override fun not(): UValue = Undetermined
 
@@ -277,9 +281,9 @@ sealed class UValue : UOperand {
     open val dependencies: Set<Dependency>
         get() = emptySet()
 
-    open fun toConstant(): AbstractConstant? = this as? AbstractConstant
+    open fun toConstant(): UConstant? = this as? AbstractConstant
 
     open fun toVariable(): Variable? = this as? Variable
 
-    override fun toString(): String = throw AssertionError("toString() is not overridden in ${this.javaClass} UValue")
+    override abstract fun toString(): String
 }

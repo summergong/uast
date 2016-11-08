@@ -6,6 +6,12 @@ import org.jetbrains.uast.name
 
 interface UConstant {
     val value: Any?
+
+    // Used for string concatenation
+    fun asString(): String
+
+    // Used for logging / debugging purposes
+    override fun toString(): String
 }
 
 abstract class UNumericConstant(override val value: Number) : UValue.AbstractConstant(value)
@@ -42,9 +48,9 @@ class UIntConstant(override val value: Int) : UNumericConstant(value) {
     override fun unaryMinus() = UIntConstant(-value)
 
     override fun greater(other: UValue) = when (other) {
-        is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
-        is ULongConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
-        is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is UIntConstant -> UBooleanConstant.valueOf(value > other.value)
+        is ULongConstant -> UBooleanConstant.valueOf(value > other.value)
+        is UFloatConstant -> UBooleanConstant.valueOf(value > other.value)
         else -> super.greater(other)
     }
 
@@ -89,9 +95,9 @@ class ULongConstant(override val value: Long) : UNumericConstant(value) {
     override fun unaryMinus() = ULongConstant(-value)
 
     override fun greater(other: UValue) = when (other) {
-        is ULongConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
-        is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
-        is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is ULongConstant -> UBooleanConstant.valueOf(value > other.value)
+        is UIntConstant -> UBooleanConstant.valueOf(value > other.value)
+        is UFloatConstant -> UBooleanConstant.valueOf(value > other.value)
         else -> super.greater(other)
     }
 
@@ -134,9 +140,9 @@ class UFloatConstant(override val value: Double) : UNumericConstant(value) {
     }
 
     override fun greater(other: UValue) = when (other) {
-        is ULongConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
-        is UIntConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
-        is UFloatConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is ULongConstant -> UBooleanConstant.valueOf(value > other.value)
+        is UIntConstant -> UBooleanConstant.valueOf(value > other.value)
+        is UFloatConstant -> UBooleanConstant.valueOf(value > other.value)
         else -> super.greater(other)
     }
 
@@ -181,7 +187,7 @@ class UStringConstant(override val value: String) : UValue.AbstractConstant(valu
     }
 
     override fun greater(other: UValue) = when (other) {
-        is UStringConstant -> if (value > other.value) UBooleanConstant.True else UBooleanConstant.False
+        is UStringConstant -> UBooleanConstant.valueOf(value > other.value)
         else -> super.greater(other)
     }
 

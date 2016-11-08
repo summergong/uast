@@ -15,13 +15,13 @@ interface UOperand {
 
     operator fun not(): UValue
 
-    infix fun same(other: UValue): UValue
+    infix fun valueEquals(other: UValue): UValue
 
-    infix fun notSame(other: UValue): UValue
+    infix fun valueNotEquals(other: UValue): UValue
 
-    infix fun identitySame(other: UValue): UValue = same(other)
+    infix fun identityEquals(other: UValue): UValue = valueEquals(other)
 
-    infix fun identityNotSame(other: UValue): UValue = notSame(other)
+    infix fun identityNotEquals(other: UValue): UValue = valueNotEquals(other)
 
     infix fun greater(other: UValue): UValue
 
