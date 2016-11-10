@@ -1,5 +1,6 @@
 package org.jetbrains.uast.values
 
+import com.intellij.psi.PsiType
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UResolvable
 import org.jetbrains.uast.UVariable
@@ -98,8 +99,12 @@ sealed class UValue : UOperand {
 
         override fun toVariable() = value.toVariable()
 
-        open fun copy(dependencies: Set<Dependency>) =
+        open internal fun copy(dependencies: Set<Dependency>) =
                 if (dependencies == this.dependencies) this else create(value, dependencies)
+
+        override fun replaceConstant(constant: AbstractConstant): UValue =
+                if (toConstant() == constant) this
+                else create(value.replaceConstant(constant), dependencies)
 
         override fun equals(other: Any?) =
                 other is Dependent
@@ -151,6 +156,10 @@ sealed class UValue : UOperand {
         override fun copy(dependencies: Set<Dependency>) =
                 if (dependencies == this.dependencies) this else create(variable, value, dependencies)
 
+        override fun replaceConstant(constant: AbstractConstant): UValue =
+                if (constant == toConstant()) this
+                else create(variable, value.replaceConstant(constant), dependencies)
+
         override fun equals(other: Any?) =
                 other is Variable
                 && variable == other.variable
@@ -173,6 +182,15 @@ sealed class UValue : UOperand {
                     filterTo(linkedSetOf()) { it !is Variable || variable != it.variable }
 
             fun create(variable: UVariable, value: UValue, dependencies: Set<Dependency> = emptySet()): Variable {
+                when (variable.psi.type) {
+                    PsiType.BYTE, PsiType.SHORT -> {
+                        val constant = value.toConstant()
+                        if (constant is UIntConstant && constant.type == UNumericType.INT) {
+                            val castConstant = UIntConstant(constant.value, variable.psi.type)
+                            return create(variable, value.replaceConstant(castConstant), dependencies)
+                        }
+                    }
+                }
                 val dependenciesWithoutSelf = dependencies.filterNotVariable(variable)
                 return when {
                     value is Variable
@@ -286,6 +304,8 @@ sealed class UValue : UOperand {
         get() = emptySet()
 
     open fun toConstant(): UConstant? = this as? AbstractConstant
+
+    internal open fun replaceConstant(constant: AbstractConstant): UValue = constant
 
     open fun toVariable(): Variable? = this as? Variable
 

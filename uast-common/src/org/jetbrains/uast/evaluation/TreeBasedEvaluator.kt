@@ -51,11 +51,13 @@ class TreeBasedEvaluator(
         val value = node.value
         return when (value) {
             null -> UNullConstant
-            is Float -> UFloatConstant(value.toDouble())
-            is Double -> UFloatConstant(value.toDouble())
-            is Long -> ULongConstant(value.toLong())
-            is Number -> UIntConstant(value.toInt())
-            is Char -> UIntConstant(value.toInt())
+            is Float -> UFloatConstant(value.toDouble(), UNumericType.FLOAT)
+            is Double -> UFloatConstant(value, UNumericType.DOUBLE)
+            is Long -> ULongConstant(value)
+            is Int -> UIntConstant(value, UNumericType.INT)
+            is Short -> UIntConstant(value.toInt(), UNumericType.SHORT)
+            is Byte -> UIntConstant(value.toInt(), UNumericType.BYTE)
+            is Char -> UCharConstant(value)
             is Boolean -> UBooleanConstant.valueOf(value)
             is String -> UStringConstant(value)
             else -> UValue.Undetermined
@@ -224,14 +226,19 @@ class TreeBasedEvaluator(
             PsiType.BOOLEAN -> {
                 constant as? UBooleanConstant
             }
+            PsiType.CHAR -> when (constant) {
+                is UNumericConstant -> constant.value.toChar().let(::UCharConstant)
+                is UCharConstant -> constant
+                else -> null
+            }
             PsiType.LONG -> {
                 (constant as? UNumericConstant)?.value?.toLong()?.let(::ULongConstant)
             }
-            PsiType.BYTE, PsiType.SHORT, PsiType.INT, PsiType.CHAR -> {
-                (constant as? UNumericConstant)?.value?.toInt()?.let(::UIntConstant)
+            PsiType.BYTE, PsiType.SHORT, PsiType.INT -> {
+                (constant as? UNumericConstant)?.value?.toInt()?.let { UIntConstant(it, type) }
             }
             PsiType.FLOAT, PsiType.DOUBLE -> {
-                (constant as? UNumericConstant)?.value?.toDouble()?.let(::UFloatConstant)
+                (constant as? UNumericConstant)?.value?.toDouble()?.let { UFloatConstant(it, type) }
             }
             else -> when (type.name) {
                 "java.lang.String" -> UStringConstant(constant.asString())
