@@ -270,19 +270,21 @@ sealed class UValue : UOperand {
 
     override fun unaryMinus(): UValue = Undetermined
 
-    override fun valueEquals(other: UValue): UValue = if (other is Dependent) other valueEquals this else Undetermined
+    override fun valueEquals(other: UValue): UValue =
+            if (other is Dependent || other is UNaNConstant) other.valueEquals(this) else Undetermined
 
     override fun valueNotEquals(other: UValue): UValue = !this.valueEquals(other)
 
     override fun not(): UValue = Undetermined
 
-    override fun greater(other: UValue): UValue = if (other is Dependent) other less this else Undetermined
+    override fun greater(other: UValue): UValue =
+            if (other is Dependent || other is UNaNConstant) other.less(this) else Undetermined
 
     override fun less(other: UValue): UValue = other.greater(this)
 
-    override fun greaterOrEquals(other: UValue) = !other.greater(this)
+    override fun greaterOrEquals(other: UValue) = this.greater(other) or this.valueEquals(other)
 
-    override fun lessOrEquals(other: UValue) = !this.greater(other)
+    override fun lessOrEquals(other: UValue) = this.less(other) or this.valueEquals(other)
 
     override fun inc(): UValue = Undetermined
 

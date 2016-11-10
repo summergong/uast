@@ -51,8 +51,8 @@ class TreeBasedEvaluator(
         val value = node.value
         return when (value) {
             null -> UNullConstant
-            is Float -> UFloatConstant(value.toDouble(), UNumericType.FLOAT)
-            is Double -> UFloatConstant(value, UNumericType.DOUBLE)
+            is Float -> UFloatConstant.create(value.toDouble(), UNumericType.FLOAT)
+            is Double -> UFloatConstant.create(value, UNumericType.DOUBLE)
             is Long -> ULongConstant(value)
             is Int -> UIntConstant(value, UNumericType.INT)
             is Short -> UIntConstant(value.toInt(), UNumericType.SHORT)
@@ -238,7 +238,7 @@ class TreeBasedEvaluator(
                 (constant as? UNumericConstant)?.value?.toInt()?.let { UIntConstant(it, type) }
             }
             PsiType.FLOAT, PsiType.DOUBLE -> {
-                (constant as? UNumericConstant)?.value?.toDouble()?.let { UFloatConstant(it, type) }
+                (constant as? UNumericConstant)?.value?.toDouble()?.let { UFloatConstant.create(it, type) }
             }
             else -> when (type.name) {
                 "java.lang.String" -> UStringConstant(constant.asString())
