@@ -16,10 +16,12 @@
 
 package org.jetbrains.uast.kotlin
 
-import org.jetbrains.kotlin.idea.references.mainReference
+import com.intellij.psi.PsiElement
 import org.jetbrains.kotlin.psi.KtExpression
 import org.jetbrains.kotlin.psi.KtImportDirective
+import org.jetbrains.kotlin.psi.KtReferenceExpression
 import org.jetbrains.kotlin.psi.psiUtil.getQualifiedElementSelector
+import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UImportStatement
 import org.jetbrains.uast.USimpleNameReferenceExpression
@@ -54,6 +56,11 @@ class KotlinUImportStatement(
 
         override fun asRenderString(): String = importDirective.importedFqName?.asString() ?: psi.text
 
-        override fun resolve() = psi.getQualifiedElementSelector()?.mainReference?.resolve()?.getMaybeLightElement(this)
+        override fun resolve(): PsiElement? {
+            val reference = psi.getQualifiedElementSelector() as? KtReferenceExpression ?: return null
+            val bindingContext = reference.analyze()
+            val referenceTarget = bindingContext[BindingContext.REFERENCE_TARGET, reference] ?: return null
+            return referenceTarget.toSource()?.getMaybeLightElement(this)
+        }
     }
 }
