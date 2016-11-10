@@ -3,14 +3,14 @@ package org.jetbrains.uast.evaluation
 import org.jetbrains.uast.*
 import org.jetbrains.uast.values.UValue
 import org.jetbrains.uast.visitor.UastVisitor
+import java.util.*
 
 class MapBasedEvaluationContext(
-        override val file: UFile,
         override val uastContext: UastContext
 ) : UEvaluationContext {
-    private val evaluators = mutableMapOf<UDeclaration, UEvaluator>()
+    private val evaluators = WeakHashMap<UDeclaration, UEvaluator>()
 
-    override fun analyzeAll(state: UEvaluationState): UEvaluationContext {
+    override fun analyzeAll(file: UFile, state: UEvaluationState): UEvaluationContext {
         file.accept(object: UastVisitor {
             override fun visitElement(node: UElement) = false
 
