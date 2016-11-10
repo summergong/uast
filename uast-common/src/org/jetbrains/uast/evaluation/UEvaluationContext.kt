@@ -4,11 +4,9 @@ import org.jetbrains.uast.*
 import org.jetbrains.uast.values.UValue
 
 interface UEvaluationContext {
-    val file: UFile
-
     val uastContext: UastContext
 
-    fun analyzeAll(state: UEvaluationState = file.createEmptyState()): UEvaluationContext
+    fun analyzeAll(file: UFile, state: UEvaluationState = file.createEmptyState()): UEvaluationContext
 
     fun analyze(declaration: UDeclaration, state: UEvaluationState = declaration.createEmptyState()): UEvaluator
 
@@ -18,4 +16,4 @@ interface UEvaluationContext {
 }
 
 fun UFile.analyzeAll(context: UastContext = getUastContext()): UEvaluationContext =
-        MapBasedEvaluationContext(this, context).analyzeAll()
+        MapBasedEvaluationContext(context).analyzeAll(this)
