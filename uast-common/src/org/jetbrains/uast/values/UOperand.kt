@@ -19,9 +19,9 @@ interface UOperand {
 
     infix fun valueNotEquals(other: UValue): UValue
 
-    infix fun identityEquals(other: UValue): UValue = valueEquals(other)
+    infix fun identityEquals(other: UValue): UValue
 
-    infix fun identityNotEquals(other: UValue): UValue = valueNotEquals(other)
+    infix fun identityNotEquals(other: UValue): UValue
 
     infix fun greater(other: UValue): UValue
 
