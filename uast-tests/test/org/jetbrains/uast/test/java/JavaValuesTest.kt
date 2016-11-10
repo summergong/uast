@@ -7,6 +7,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testAnonymous() = doTest("Simple/Anonymous.java")
 
+    @Test fun testByteShort() = doTest("Simple/ByteShort.java")
+
     @Test fun testCascadeIf() = doTest("Simple/CascadeIf.java")
 
     @Test fun testCharacters() = doTest("Simple/Characters.java")
@@ -34,6 +36,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")
 
     @Test fun testEnumSwitchWithoutBreaks() = doTest("Simple/EnumSwitchWithoutBreaks.java")
+
+    @Test fun testFloatDouble() = doTest("Simple/FloatDouble.java")
 
     @Test fun testFor() = doTest("Simple/For.java")
 

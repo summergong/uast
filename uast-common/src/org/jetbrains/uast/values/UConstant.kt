@@ -14,38 +14,78 @@ interface UConstant {
     override fun toString(): String
 }
 
-abstract class UNumericConstant(override val value: Number) : UValue.AbstractConstant(value)
+enum class UNumericType(val suffix: String = "") {
+    BYTE("(b)"),
+    SHORT("(s)"),
+    INT(),
+    LONG("L"),
+    FLOAT("F"),
+    DOUBLE();
 
-class UIntConstant(override val value: Int) : UNumericConstant(value) {
+    fun merge(other: UNumericType): UNumericType {
+        if (this == DOUBLE || other == DOUBLE) return DOUBLE
+        if (this == FLOAT || other == FLOAT) return FLOAT
+        if (this == LONG || other == LONG) return LONG
+        return INT
+    }
+}
+
+abstract class UNumericConstant(override val value: Number, val type: UNumericType) : UValue.AbstractConstant(value)
+
+private fun PsiType.toNumeric(): UNumericType = when (this) {
+    PsiType.LONG -> UNumericType.LONG
+    PsiType.INT -> UNumericType.INT
+    PsiType.SHORT -> UNumericType.SHORT
+    PsiType.BYTE -> UNumericType.BYTE
+    PsiType.DOUBLE -> UNumericType.DOUBLE
+    PsiType.FLOAT -> UNumericType.FLOAT
+    else -> throw AssertionError("Conversion is impossible for type $canonicalText")
+}
+
+private fun Int.asType(type: UNumericType): Number = when (type) {
+    UNumericType.BYTE -> toByte()
+    UNumericType.SHORT -> toShort()
+    else -> this
+}
+
+class UIntConstant(
+        value: Int, type: UNumericType = UNumericType.INT
+) : UNumericConstant(value.asType(type), type) {
+
+    override val value: Int
+        get() = super.value.toInt()
+
+    constructor(value: Int, type: PsiType): this(value, type.toNumeric())
+
     override fun plus(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value + other.value)
+        is UIntConstant -> UIntConstant(value + other.value, type.merge(other.type))
         is ULongConstant -> other + this
         is UFloatConstant -> other + this
         else -> super.plus(other)
     }
 
     override fun times(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value * other.value)
+        is UIntConstant -> UIntConstant(value * other.value, type.merge(other.type))
         is ULongConstant -> other * this
         is UFloatConstant -> other * this
         else -> super.times(other)
     }
 
     override fun div(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value / other.value)
+        is UIntConstant -> UIntConstant(value / other.value, type.merge(other.type))
         is ULongConstant -> ULongConstant(value / other.value)
-        is UFloatConstant -> UFloatConstant(value / other.value)
+        is UFloatConstant -> UFloatConstant(value / other.value, type.merge(other.type))
         else -> super.div(other)
     }
 
     override fun mod(other: UValue) = when (other) {
-        is UIntConstant -> UIntConstant(value % other.value)
+        is UIntConstant -> UIntConstant(value % other.value, type.merge(other.type))
         is ULongConstant -> ULongConstant(value % other.value)
-        is UFloatConstant -> UFloatConstant(value % other.value)
+        is UFloatConstant -> UFloatConstant(value % other.value, type.merge(other.type))
         else -> super.mod(other)
     }
 
-    override fun unaryMinus() = UIntConstant(-value)
+    override fun unaryMinus() = UIntConstant(-value, type)
 
     override fun greater(other: UValue) = when (other) {
         is UIntConstant -> UBooleanConstant.valueOf(value > other.value)
@@ -54,16 +94,18 @@ class UIntConstant(override val value: Int) : UNumericConstant(value) {
         else -> super.greater(other)
     }
 
-    override fun inc() = UIntConstant(value + 1)
+    override fun inc() = UIntConstant(value + 1, type)
 
-    override fun dec() = UIntConstant(value - 1)
+    override fun dec() = UIntConstant(value - 1, type)
 
-    override fun toString() = "$value"
+    private fun castValue() = super.value
 
-    override fun asString() = "$value"
+    override fun toString() = "${castValue()}${type.suffix}"
+
+    override fun asString() = "${castValue()}"
 }
 
-class ULongConstant(override val value: Long) : UNumericConstant(value) {
+class ULongConstant(override val value: Long) : UNumericConstant(value, UNumericType.LONG) {
     override fun plus(other: UValue) = when (other) {
         is ULongConstant -> ULongConstant(value + other.value)
         is UIntConstant -> ULongConstant(value + other.value)
@@ -81,14 +123,14 @@ class ULongConstant(override val value: Long) : UNumericConstant(value) {
     override fun div(other: UValue) = when (other) {
         is ULongConstant -> ULongConstant(value / other.value)
         is UIntConstant -> ULongConstant(value / other.value)
-        is UFloatConstant -> UFloatConstant(value / other.value)
+        is UFloatConstant -> UFloatConstant(value / other.value, type.merge(other.type))
         else -> super.div(other)
     }
 
     override fun mod(other: UValue) = when (other) {
         is ULongConstant -> ULongConstant(value % other.value)
         is UIntConstant -> ULongConstant(value % other.value)
-        is UFloatConstant -> UFloatConstant(value % other.value)
+        is UFloatConstant -> UFloatConstant(value % other.value, type.merge(other.type))
         else -> super.mod(other)
     }
 
@@ -110,32 +152,37 @@ class ULongConstant(override val value: Long) : UNumericConstant(value) {
     override fun asString() = "$value"
 }
 
-class UFloatConstant(override val value: Double) : UNumericConstant(value) {
+class UFloatConstant(
+        override val value: Double, type: UNumericType = UNumericType.DOUBLE
+) : UNumericConstant(value, type) {
+
+    constructor(value: Double, type: PsiType): this(value, type.toNumeric())
+
     override fun plus(other: UValue) = when (other) {
-        is ULongConstant -> UFloatConstant(value + other.value)
-        is UIntConstant -> UFloatConstant(value + other.value)
-        is UFloatConstant -> UFloatConstant(value + other.value)
+        is ULongConstant -> UFloatConstant(value + other.value, type.merge(other.type))
+        is UIntConstant -> UFloatConstant(value + other.value, type.merge(other.type))
+        is UFloatConstant -> UFloatConstant(value + other.value, type.merge(other.type))
         else -> super.plus(other)
     }
 
     override fun times(other: UValue) = when (other) {
-        is ULongConstant -> UFloatConstant(value * other.value)
-        is UIntConstant -> UFloatConstant(value * other.value)
-        is UFloatConstant -> UFloatConstant(value * other.value)
+        is ULongConstant -> UFloatConstant(value * other.value, type.merge(other.type))
+        is UIntConstant -> UFloatConstant(value * other.value, type.merge(other.type))
+        is UFloatConstant -> UFloatConstant(value * other.value, type.merge(other.type))
         else -> super.times(other)
     }
 
     override fun div(other: UValue) = when (other) {
-        is ULongConstant -> UFloatConstant(value / other.value)
-        is UIntConstant -> UFloatConstant(value / other.value)
-        is UFloatConstant -> UFloatConstant(value / other.value)
+        is ULongConstant -> UFloatConstant(value / other.value, type.merge(other.type))
+        is UIntConstant -> UFloatConstant(value / other.value, type.merge(other.type))
+        is UFloatConstant -> UFloatConstant(value / other.value, type.merge(other.type))
         else -> super.div(other)
     }
 
     override fun mod(other: UValue) = when (other) {
-        is ULongConstant -> UFloatConstant(value % other.value)
-        is UIntConstant -> UFloatConstant(value % other.value)
-        is UFloatConstant -> UFloatConstant(value % other.value)
+        is ULongConstant -> UFloatConstant(value % other.value, type.merge(other.type))
+        is UIntConstant -> UFloatConstant(value % other.value, type.merge(other.type))
+        is UFloatConstant -> UFloatConstant(value % other.value, type.merge(other.type))
         else -> super.mod(other)
     }
 
@@ -146,11 +193,41 @@ class UFloatConstant(override val value: Double) : UNumericConstant(value) {
         else -> super.greater(other)
     }
 
-    override fun unaryMinus() = UFloatConstant(-value)
+    override fun unaryMinus() = UFloatConstant(-value, type)
 
-    override fun inc() = UFloatConstant(value + 1)
+    override fun inc() = UFloatConstant(value + 1, type)
 
-    override fun dec() = UFloatConstant(value - 1)
+    override fun dec() = UFloatConstant(value - 1, type)
+
+    override fun toString() = "$value${type.suffix}"
+
+    override fun asString() = "$value"
+}
+
+class UCharConstant(override val value: Char) : UValue.AbstractConstant(value) {
+    override fun plus(other: UValue) = when (other) {
+        is UIntConstant -> UCharConstant(value + other.value)
+        else -> super.plus(other)
+    }
+
+    override fun minus(other: UValue) = when (other) {
+        is UIntConstant -> UCharConstant(value - other.value)
+        is UCharConstant -> UIntConstant(value - other.value)
+        else -> super.plus(other)
+    }
+
+    override fun greater(other: UValue) = when (other) {
+        is UCharConstant -> UBooleanConstant.valueOf(value > other.value)
+        else -> super.greater(other)
+    }
+
+    override fun inc() = this + UIntConstant(1)
+
+    override fun dec() = this - UIntConstant(1)
+
+    override fun toString() = "\'$value\'"
+
+    override fun asString() = "$value"
 }
 
 sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant(value) {
