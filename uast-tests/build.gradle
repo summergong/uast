@@ -1,10 +1,9 @@
 dependencies {
-    testCompile fileTree(dir: '../lib', include: ['intellij-core.jar'])
-    testRuntime fileTree(dir: '../lib', include: ['picocontainer.jar'])
-    testRuntime fileTree(dir: '../lib', include: ['trove4j.jar'])
+    testCompile fileTree(dir: '../lib/intellij-core',
+            include: ['intellij-core.jar', 'picocontainer.jar', 'trove4j.jar'])
     testRuntime 'com.google.guava:guava:17.0'
 
-    testCompile fileTree(dir: '../lib', include: ['kotlin-plugin-1.0.4-newlint.jar'])
+    testCompile fileTree(dir: '../lib/kotlin-plugin/Kotlin/lib', include: ['kotlin-plugin.jar'])
     compile project(':uast-common')
     compile project(':uast-java')
     compile project(':uast-kotlin')

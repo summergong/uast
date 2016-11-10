@@ -41,7 +41,7 @@ class UastAnalysisCompletedHandlerExtension : AnalysisCompletedHandlerExtension 
         val bindingContext = context ?: return null
 
         val typeMapper = KotlinTypeMapper(bindingContext, ClassBuilderMode.LIGHT_CLASSES, NoResolveFileClassesProvider,
-                null, IncompatibleClassTracker.DoNothing, JvmAbi.DEFAULT_MODULE_NAME)
+                IncompatibleClassTracker.DoNothing, JvmAbi.DEFAULT_MODULE_NAME)
         this.typeMapper = typeMapper
         return typeMapper
     }

@@ -32,6 +32,6 @@ class IdeaKotlinUastBindingContextProviderService : KotlinUastBindingContextProv
     override fun getTypeMapper(element: KtElement): KotlinTypeMapper? {
         return KotlinTypeMapper(getBindingContext(element),
                          ClassBuilderMode.LIGHT_CLASSES, NoResolveFileClassesProvider,
-                         null, IncompatibleClassTracker.DoNothing, JvmAbi.DEFAULT_MODULE_NAME)
+                         IncompatibleClassTracker.DoNothing, JvmAbi.DEFAULT_MODULE_NAME)
     }
 }

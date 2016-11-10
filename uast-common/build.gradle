@@ -1,4 +1,4 @@
 dependencies {
-    provided fileTree(dir: '../lib', include: ['intellij-core.jar'])
+    provided fileTree(dir: '../lib/intellij-core', include: ['intellij-core.jar'])
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 }

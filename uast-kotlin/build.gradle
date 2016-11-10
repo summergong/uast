@@ -1,6 +1,6 @@
 dependencies {
-    provided fileTree(dir: '../lib', include: ['intellij-core.jar'])
-    provided fileTree(dir: '../lib', include: ['kotlin-plugin-1.0.4-newlint.jar'])
+    provided fileTree(dir: '../lib/kotlin-plugin/Kotlin/lib', include: ['kotlin-plugin.jar'])
+    provided fileTree(dir: '../lib/intellij-core', include: ['intellij-core.jar'])
     provided fileTree(dir: '../lib', include: ['asm-all.jar'])
     compile project(':uast-common')
     compile project(':uast-java')

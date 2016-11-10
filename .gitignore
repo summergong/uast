@@ -3,4 +3,7 @@ build/
 .DS_Store
 local.properties
 /repo
+/lib/download
+/lib/intellij-core
+/lib/kotlin-plugin
 .idea/
