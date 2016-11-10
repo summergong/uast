@@ -9,7 +9,7 @@ sealed class UValue : UOperand {
 
     // Constants
 
-    abstract class AbstractConstant(override val value: Any?) : UValue(), UConstant {
+    abstract class AbstractConstant : UValue(), UConstant {
         override fun valueEquals(other: UValue) = when (other) {
             this -> UBooleanConstant.True
             is UValue.AbstractConstant -> UBooleanConstant.False
