@@ -30,7 +30,9 @@ enum class UNumericType(val suffix: String = "") {
     }
 }
 
-abstract class UNumericConstant(override val value: Number, val type: UNumericType) : UValue.AbstractConstant(value)
+abstract class UNumericConstant(val type: UNumericType) : UValue.AbstractConstant() {
+    override abstract val value: Number
+}
 
 private fun PsiType.toNumeric(): UNumericType = when (this) {
     PsiType.LONG -> UNumericType.LONG
@@ -49,11 +51,12 @@ private fun Int.asType(type: UNumericType): Number = when (type) {
 }
 
 class UIntConstant(
-        value: Int, type: UNumericType = UNumericType.INT
-) : UNumericConstant(value.asType(type), type) {
+        rawValue: Int, type: UNumericType = UNumericType.INT
+) : UNumericConstant(type) {
 
-    override val value: Int
-        get() = super.value.toInt()
+    val typedValue: Number = rawValue.asType(type)
+
+    override val value: Int = typedValue.toInt()
 
     constructor(value: Int, type: PsiType): this(value, type.toNumeric())
 
@@ -98,14 +101,12 @@ class UIntConstant(
 
     override fun dec() = UIntConstant(value - 1, type)
 
-    private fun castValue() = super.value
+    override fun toString() = "$typedValue${type.suffix}"
 
-    override fun toString() = "${castValue()}${type.suffix}"
-
-    override fun asString() = "${castValue()}"
+    override fun asString() = "$typedValue"
 }
 
-class ULongConstant(override val value: Long) : UNumericConstant(value, UNumericType.LONG) {
+class ULongConstant(override val value: Long) : UNumericConstant(UNumericType.LONG) {
     override fun plus(other: UValue) = when (other) {
         is ULongConstant -> ULongConstant(value + other.value)
         is UIntConstant -> ULongConstant(value + other.value)
@@ -154,7 +155,7 @@ class ULongConstant(override val value: Long) : UNumericConstant(value, UNumeric
 
 class UFloatConstant(
         override val value: Double, type: UNumericType = UNumericType.DOUBLE
-) : UNumericConstant(value, type) {
+) : UNumericConstant(type) {
 
     constructor(value: Double, type: PsiType): this(value, type.toNumeric())
 
@@ -204,7 +205,7 @@ class UFloatConstant(
     override fun asString() = "$value"
 }
 
-class UCharConstant(override val value: Char) : UValue.AbstractConstant(value) {
+class UCharConstant(override val value: Char) : UValue.AbstractConstant() {
     override fun plus(other: UValue) = when (other) {
         is UIntConstant -> UCharConstant(value + other.value)
         else -> super.plus(other)
@@ -230,7 +231,7 @@ class UCharConstant(override val value: Char) : UValue.AbstractConstant(value) {
     override fun asString() = "$value"
 }
 
-sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant(value) {
+sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant() {
     object True : UBooleanConstant(true) {
         override fun not() = False
 
@@ -256,7 +257,7 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
     }
 }
 
-class UStringConstant(override val value: String) : UValue.AbstractConstant(value) {
+class UStringConstant(override val value: String) : UValue.AbstractConstant() {
 
     override fun plus(other: UValue) = when (other) {
         is UValue.AbstractConstant -> UStringConstant(value + other.asString())
@@ -273,7 +274,7 @@ class UStringConstant(override val value: String) : UValue.AbstractConstant(valu
     override fun toString() = "\"$value\""
 }
 
-class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.AbstractConstant(value) {
+class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.AbstractConstant() {
     override fun equals(other: Any?) =
             other is UEnumEntryValueConstant &&
             value.nameIdentifier.text == other.value.nameIdentifier.text &&
@@ -291,8 +292,10 @@ class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.Abst
     override fun asString() = value.name ?: ""
 }
 
-class UClassConstant(override val value: PsiType) : UValue.AbstractConstant(value) {
+class UClassConstant(override val value: PsiType) : UValue.AbstractConstant() {
     override fun toString() = value.name
 }
 
-object UNullConstant : UValue.AbstractConstant(null)
+object UNullConstant : UValue.AbstractConstant() {
+    override val value = null
+}
