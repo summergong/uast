@@ -98,6 +98,9 @@ sealed class UValue : UOperand {
 
         override fun toVariable() = value.toVariable()
 
+        open fun copy(dependencies: Set<Dependency>) =
+                if (dependencies == this.dependencies) this else create(value, dependencies)
+
         override fun equals(other: Any?) =
                 other is Dependent
                 && javaClass == other.javaClass
@@ -145,6 +148,9 @@ sealed class UValue : UOperand {
             else -> Phi.create(this, other)
         }
 
+        override fun copy(dependencies: Set<Dependency>) =
+                if (dependencies == this.dependencies) this else create(variable, value, dependencies)
+
         override fun equals(other: Any?) =
                 other is Variable
                 && variable == other.variable
@@ -162,22 +168,20 @@ sealed class UValue : UOperand {
         override fun toString() = "(var ${variable.name ?: "<unnamed>"} = ${super.toString()})"
 
         companion object {
+
+            private fun Set<Dependency>.filterNotVariable(variable: UVariable) =
+                    filterTo(linkedSetOf()) { it !is Variable || variable != it.variable }
+
             fun create(variable: UVariable, value: UValue, dependencies: Set<Dependency> = emptySet()): Variable {
-                val dependenciesWithoutSelf = dependencies.filterTo(linkedSetOf()) {
-                    it !is Variable || variable != it.variable
-                }
+                val dependenciesWithoutSelf = dependencies.filterNotVariable(variable)
                 return when {
                     value is Variable
                     && variable == value.variable
                     && dependenciesWithoutSelf == value.dependencies -> value
 
                     value is Dependent -> {
-                        val valueDependencies = value.dependencies.filterTo(linkedSetOf()) {
-                            it !is Variable || variable != it.variable
-                        }
-                        val modifiedValue =
-                                if (value is Variable) Variable.create(value.variable, value.value, valueDependencies)
-                                else Dependent.create(value.value, valueDependencies)
+                        val valueDependencies = value.dependencies.filterNotVariable(variable)
+                        val modifiedValue = value.copy(valueDependencies)
                         Variable(variable, modifiedValue, dependenciesWithoutSelf)
                     }
 
