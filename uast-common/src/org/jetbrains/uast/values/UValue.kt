@@ -139,6 +139,14 @@ sealed class UValue : UOperand {
             dependencies: Set<Dependency>
     ) : Dependent(value, dependencies), Dependency {
 
+        override fun identityEquals(other: UValue): UValue =
+                when (variable.psi.type) {
+                    PsiType.BYTE, PsiType.FLOAT, PsiType.DOUBLE, PsiType.LONG,
+                    PsiType.SHORT, PsiType.INT, PsiType.CHAR, PsiType.BOOLEAN -> super.identityEquals(other)
+
+                    else -> Undetermined
+                }
+
         override fun merge(other: UValue) = when (other) {
             this -> this
             value -> this
@@ -274,6 +282,10 @@ sealed class UValue : UOperand {
             if (other is Dependent || other is UNaNConstant) other.valueEquals(this) else Undetermined
 
     override fun valueNotEquals(other: UValue): UValue = !this.valueEquals(other)
+
+    override fun identityEquals(other: UValue): UValue = valueEquals(other)
+
+    override fun identityNotEquals(other: UValue): UValue = !this.identityEquals(other)
 
     override fun not(): UValue = Undetermined
 
