@@ -61,6 +61,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testMutableField() = doTest("Simple/MutableField.java")
 
+    @Test fun testNotANumber() = doTest("Simple/NotANumber.java")
+
     @Test fun testReturnMinusX() = doTest("Simple/ReturnMinusX.java")
 
     @Test fun testReturnSum() = doTest("Simple/ReturnSum.java")
