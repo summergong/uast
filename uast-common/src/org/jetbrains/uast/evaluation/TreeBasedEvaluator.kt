@@ -360,8 +360,8 @@ class TreeBasedEvaluator(
                 else elseInfo ?: defaultInfo
             }
             else -> {
-                if (thenInfo == null) elseInfo?.merge(defaultInfo) ?: defaultInfo
-                else if (elseInfo == null) thenInfo.merge(defaultInfo)
+                if (thenInfo == null || thenInfo.value == UValue.Nothing) elseInfo?.merge(defaultInfo) ?: defaultInfo
+                else if (elseInfo == null || elseInfo.value == UValue.Nothing) thenInfo.merge(defaultInfo)
                 else thenInfo.merge(elseInfo)
             }
         } storeResultFor node

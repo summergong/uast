@@ -7,10 +7,10 @@ UFile (package = ) [public class WhileWithIncrement : Object {...]
                         ULiteralExpression (value = 0) [0] = 0
                 UWhileExpression [while (true) {...}] = Undetermined
                     ULiteralExpression (value = true) [true] = true
-                    UBlockExpression [{...}] = Phi(Nothing, Undetermined)
+                    UBlockExpression [{...}] = Undetermined
                         UPostfixExpression (operator = ++) [i++] = Phi((var i = Undetermined), (var i = 1), (var i = 0))
                             USimpleNameReferenceExpression [i] = Phi((var i = Undetermined), (var i = 1), (var i = 0))
-                        UIfExpression [if (i % 42 === 0) break] = Phi(Nothing, Undetermined)
+                        UIfExpression [if (i % 42 === 0) break] = Undetermined
                             UBinaryExpression (operator = ===) [i % 42 === 0] = Undetermined (depending on: (var i = Undetermined))
                                 UBinaryExpression (operator = %) [i % 42] = Undetermined (depending on: (var i = Undetermined))
                                     USimpleNameReferenceExpression [i] = (var i = Undetermined)
