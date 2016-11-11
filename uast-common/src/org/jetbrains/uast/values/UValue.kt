@@ -1,9 +1,7 @@
 package org.jetbrains.uast.values
 
 import com.intellij.psi.PsiType
-import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UResolvable
-import org.jetbrains.uast.UVariable
+import org.jetbrains.uast.*
 
 sealed class UValue : UOperand {
 
@@ -272,8 +270,52 @@ sealed class UValue : UOperand {
     // Miscellaneous
 
     // Something that never can be created
-    object Nothing : UValue() {
-        override fun toString() = "Nothing"
+    class Nothing private constructor(val containingLoopOrSwitch: UExpression?, val kind: JumpKind) : UValue() {
+
+        constructor(jump: UExpression?) : this(jump?.containingLoopOrSwitch(), jump?.kind() ?: JumpKind.OTHER)
+
+        enum class JumpKind {
+            BREAK,
+            CONTINUE,
+            OTHER;
+        }
+
+        override fun reachable() = false
+
+        override fun merge(other: UValue) = when (other) {
+            is Nothing -> {
+                val mergedLoopOrSwitch =
+                        if (containingLoopOrSwitch == other.containingLoopOrSwitch) containingLoopOrSwitch
+                        else null
+                val mergedKind = if (mergedLoopOrSwitch == null || kind != other.kind) JumpKind.OTHER else kind
+                Nothing(mergedLoopOrSwitch, mergedKind)
+            }
+            else -> super.merge(other)
+        }
+
+        override fun toString() = "Nothing" + when (kind) {
+            JumpKind.BREAK -> "(break)"
+            JumpKind.CONTINUE -> "(continue)"
+            else -> ""
+        }
+
+        companion object {
+            private fun UExpression.containingLoopOrSwitch(): UExpression? {
+                var containingElement = containingElement
+                while (containingElement != null) {
+                    if (this is UBreakExpression && containingElement is USwitchExpression) return containingElement
+                    if (containingElement is ULoopExpression) return containingElement
+                    containingElement = containingElement.containingElement
+                }
+                return null
+            }
+
+            private fun UExpression.kind(): JumpKind = when (this) {
+                is UBreakExpression -> JumpKind.BREAK
+                is UContinueExpression -> JumpKind.CONTINUE
+                else -> JumpKind.OTHER
+            }
+        }
     }
 
     // Something with value that cannot be evaluated
@@ -350,6 +392,8 @@ sealed class UValue : UOperand {
     internal open fun replaceConstant(constant: AbstractConstant): UValue = constant
 
     open fun toVariable(): Variable? = this as? Variable
+
+    open fun reachable() = true
 
     override abstract fun toString(): String
 }
