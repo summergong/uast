@@ -5,6 +5,7 @@ import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UFile
 import org.jetbrains.uast.evaluation.UEvaluationContext
 import org.jetbrains.uast.evaluation.analyzeAll
+import org.jetbrains.uast.test.env.assertEqualsToFile
 import org.jetbrains.uast.visitor.UastVisitor
 import java.io.File
 
