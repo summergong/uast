@@ -33,6 +33,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testDoWhileInfinite() = doTest("Simple/DoWhileInfinite.java")
 
+    @Test fun testDoWhileWithReturn() = doTest("Simple/DoWhileWithReturn.java")
+
     @Test fun testEnumChoice() = doTest("Simple/EnumChoice.java")
 
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")
@@ -58,6 +60,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testIntLong() = doTest("Simple/IntLong.java")
 
     @Test fun testLabeled() = doTest("Simple/Labeled.java")
+
+    @Test fun testLabeledOuter() = doTest("Simple/LabeledOuter.java")
 
     @Test fun testLambda() = doTest("Simple/Lambda.java")
 
@@ -90,6 +94,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testWhileWithContinue() = doTest("Simple/WhileWithContinue.java")
 
     @Test fun testWhileWithIncrement() = doTest("Simple/WhileWithIncrement.java")
+
+    @Test fun testWhileWithMutableCondition() = doTest("Simple/WhileWithMutableCondition.java")
 
     @Test fun testWhileWithReturn() = doTest("Simple/WhileWithReturn.java")
 }

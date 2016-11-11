@@ -301,10 +301,18 @@ sealed class UValue : UOperand {
 
         companion object {
             private fun UExpression.containingLoopOrSwitch(): UExpression? {
+                val label = (this as? UJumpExpression)?.label
                 var containingElement = containingElement
                 while (containingElement != null) {
-                    if (this is UBreakExpression && containingElement is USwitchExpression) return containingElement
-                    if (containingElement is ULoopExpression) return containingElement
+                    if (this is UBreakExpression && label == null && containingElement is USwitchExpression) {
+                        return containingElement
+                    }
+                    if (containingElement is ULoopExpression) {
+                        val containingLabeled = containingElement.containingElement as? ULabeledExpression
+                        if (label == null || label == containingLabeled?.label) {
+                            return containingElement
+                        }
+                    }
                     containingElement = containingElement.containingElement
                 }
                 return null
