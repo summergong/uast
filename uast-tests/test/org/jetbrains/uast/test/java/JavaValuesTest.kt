@@ -47,6 +47,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testForEach() = doTest("Simple/ForEach.java")
 
+    @Test fun testForEachMutableIterable() = doTest("Simple/ForEachMutableIterable.java")
+
     @Test fun testIdentityEquals() = doTest("Simple/IdentityEquals.java")
 
     @Test fun testImmutableField() = doTest("Simple/ImmutableField.java")
