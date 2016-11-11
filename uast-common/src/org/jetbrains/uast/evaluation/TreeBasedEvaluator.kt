@@ -136,6 +136,12 @@ class TreeBasedEvaluator(
                     UastBinaryOperator.MULTIPLY_ASSIGN -> currentValue * valueInfo.value
                     UastBinaryOperator.DIVIDE_ASSIGN -> currentValue / valueInfo.value
                     UastBinaryOperator.REMAINDER_ASSIGN -> currentValue % valueInfo.value
+                    UastBinaryOperator.AND_ASSIGN -> currentValue bitwiseAnd valueInfo.value
+                    UastBinaryOperator.OR_ASSIGN -> currentValue bitwiseOr valueInfo.value
+                    UastBinaryOperator.XOR_ASSIGN -> currentValue bitwiseXor valueInfo.value
+                    UastBinaryOperator.SHIFT_LEFT_ASSIGN -> currentValue shl valueInfo.value
+                    UastBinaryOperator.SHIFT_RIGHT_ASSIGN -> currentValue shr valueInfo.value
+                    UastBinaryOperator.UNSIGNED_SHIFT_RIGHT_ASSIGN -> currentValue ushr valueInfo.value
                     else -> UValue.Undetermined
                 }
                 return result to valueInfo.state.assign(variable, result, this)
@@ -216,6 +222,12 @@ class TreeBasedEvaluator(
             UastBinaryOperator.LESS_OR_EQUALS -> leftInfo.value lessOrEquals rightInfo.value
             UastBinaryOperator.LOGICAL_AND -> leftInfo.value and rightInfo.value
             UastBinaryOperator.LOGICAL_OR -> leftInfo.value or rightInfo.value
+            UastBinaryOperator.BITWISE_AND -> leftInfo.value bitwiseAnd rightInfo.value
+            UastBinaryOperator.BITWISE_OR -> leftInfo.value bitwiseOr rightInfo.value
+            UastBinaryOperator.BITWISE_XOR -> leftInfo.value bitwiseXor rightInfo.value
+            UastBinaryOperator.SHIFT_LEFT -> leftInfo.value shl rightInfo.value
+            UastBinaryOperator.SHIFT_RIGHT -> leftInfo.value shr rightInfo.value
+            UastBinaryOperator.UNSIGNED_SHIFT_RIGHT -> leftInfo.value ushr rightInfo.value
             else -> UValue.Undetermined
         } to rightInfo.state storeResultFor node
     }

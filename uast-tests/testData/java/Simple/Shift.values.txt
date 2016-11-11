@@ -1,0 +1,70 @@
+UFile (package = ) [public class Shift : Object {...]
+    UClass (name = Shift) [public class Shift : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var one: int = 1] = Undetermined
+                    ULocalVariable (name = one) [var one: int = 1]
+                        ULiteralExpression (value = 1) [1] = 1
+                UVariableDeclarationsExpression [var two: int = one << 1] = Undetermined
+                    ULocalVariable (name = two) [var two: int = one << 1]
+                        UBinaryExpression (operator = <<) [one << 1] = 2 (depending on: (var one = 1))
+                            USimpleNameReferenceExpression [one] = (var one = 1)
+                            ULiteralExpression (value = 1) [1] = 1
+                UVariableDeclarationsExpression [var sixteen: int = two << 3] = Undetermined
+                    ULocalVariable (name = sixteen) [var sixteen: int = two << 3]
+                        UBinaryExpression (operator = <<) [two << 3] = 16 (depending on: (var two = 2 (depending on: (var one = 1))))
+                            USimpleNameReferenceExpression [two] = (var two = 2 (depending on: (var one = 1)))
+                            ULiteralExpression (value = 3) [3] = 3
+                UVariableDeclarationsExpression [var minInt: int = -2147483648] = Undetermined
+                    ULocalVariable (name = minInt) [var minInt: int = -2147483648]
+                        ULiteralExpression (value = -2147483648) [-2147483648] = -2147483648
+                UVariableDeclarationsExpression [var quarter: int = minInt >> 2] = Undetermined
+                    ULocalVariable (name = quarter) [var quarter: int = minInt >> 2]
+                        UBinaryExpression (operator = >>) [minInt >> 2] = -536870912 (depending on: (var minInt = -2147483648))
+                            USimpleNameReferenceExpression [minInt] = (var minInt = -2147483648)
+                            ULiteralExpression (value = 2) [2] = 2
+                UVariableDeclarationsExpression [var unsignedQuarter: int = minInt >>> 2] = Undetermined
+                    ULocalVariable (name = unsignedQuarter) [var unsignedQuarter: int = minInt >>> 2]
+                        UBinaryExpression (operator = >>>) [minInt >>> 2] = 536870912 (depending on: (var minInt = -2147483648))
+                            USimpleNameReferenceExpression [minInt] = (var minInt = -2147483648)
+                            ULiteralExpression (value = 2) [2] = 2
+                UReturnExpression [return sixteen + quarter + unsignedQuarter] = Nothing
+                    UBinaryExpression (operator = +) [sixteen + quarter + unsignedQuarter] = 16 (depending on: (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1))))), (var quarter = -536870912 (depending on: (var minInt = -2147483648))), (var unsignedQuarter = 536870912 (depending on: (var minInt = -2147483648))))
+                        UBinaryExpression (operator = +) [sixteen + quarter] = -536870896 (depending on: (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1))))), (var quarter = -536870912 (depending on: (var minInt = -2147483648))))
+                            USimpleNameReferenceExpression [sixteen] = (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1)))))
+                            USimpleNameReferenceExpression [quarter] = (var quarter = -536870912 (depending on: (var minInt = -2147483648)))
+                        USimpleNameReferenceExpression [unsignedQuarter] = (var unsignedQuarter = 536870912 (depending on: (var minInt = -2147483648)))
+        UMethod (name = bar) [public static fun bar() : long {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var one: long = 1] = Undetermined
+                    ULocalVariable (name = one) [var one: long = 1]
+                        ULiteralExpression (value = 1) [1] = 1L
+                UVariableDeclarationsExpression [var two: long = one << 1] = Undetermined
+                    ULocalVariable (name = two) [var two: long = one << 1]
+                        UBinaryExpression (operator = <<) [one << 1] = 2L (depending on: (var one = 1L))
+                            USimpleNameReferenceExpression [one] = (var one = 1L)
+                            ULiteralExpression (value = 1) [1] = 1
+                UVariableDeclarationsExpression [var large: long = two << 61] = Undetermined
+                    ULocalVariable (name = large) [var large: long = two << 61]
+                        UBinaryExpression (operator = <<) [two << 61] = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L))))
+                            USimpleNameReferenceExpression [two] = (var two = 2L (depending on: (var one = 1L)))
+                            ULiteralExpression (value = 61) [61] = 61
+                UVariableDeclarationsExpression [var minLong: long = -9223372036854775808] = Undetermined
+                    ULocalVariable (name = minLong) [var minLong: long = -9223372036854775808]
+                        ULiteralExpression (value = -9223372036854775808) [-9223372036854775808] = -9223372036854775808L
+                UVariableDeclarationsExpression [var eighth: long = minLong >> 3] = Undetermined
+                    ULocalVariable (name = eighth) [var eighth: long = minLong >> 3]
+                        UBinaryExpression (operator = >>) [minLong >> 3] = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L))
+                            USimpleNameReferenceExpression [minLong] = (var minLong = -9223372036854775808L)
+                            ULiteralExpression (value = 3) [3] = 3
+                UVariableDeclarationsExpression [var unsignedEighth: long = minLong >>> 3] = Undetermined
+                    ULocalVariable (name = unsignedEighth) [var unsignedEighth: long = minLong >>> 3]
+                        UBinaryExpression (operator = >>>) [minLong >>> 3] = 1152921504606846976L (depending on: (var minLong = -9223372036854775808L))
+                            USimpleNameReferenceExpression [minLong] = (var minLong = -9223372036854775808L)
+                            ULiteralExpression (value = 3) [3] = 3
+                UReturnExpression [return large + eighth + unsignedEighth] = Nothing
+                    UBinaryExpression (operator = +) [large + eighth + unsignedEighth] = 4611686018427387904L (depending on: (var large = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L))))), (var eighth = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L))), (var unsignedEighth = 1152921504606846976L (depending on: (var minLong = -9223372036854775808L))))
+                        UBinaryExpression (operator = +) [large + eighth] = 3458764513820540928L (depending on: (var large = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L))))), (var eighth = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L))))
+                            USimpleNameReferenceExpression [large] = (var large = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L)))))
+                            USimpleNameReferenceExpression [eighth] = (var eighth = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L)))
+                        USimpleNameReferenceExpression [unsignedEighth] = (var unsignedEighth = 1152921504606846976L (depending on: (var minLong = -9223372036854775808L)))
