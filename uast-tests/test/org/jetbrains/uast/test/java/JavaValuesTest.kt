@@ -87,5 +87,9 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testWhile() = doTest("Simple/While.java")
 
+    @Test fun testWhileWithContinue() = doTest("Simple/WhileWithContinue.java")
+
     @Test fun testWhileWithIncrement() = doTest("Simple/WhileWithIncrement.java")
+
+    @Test fun testWhileWithReturn() = doTest("Simple/WhileWithReturn.java")
 }

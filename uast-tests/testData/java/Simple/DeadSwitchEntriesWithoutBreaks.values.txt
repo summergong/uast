@@ -13,7 +13,7 @@ UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...
                         USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
                 UVariableDeclarationsExpression [var result: int] = Undetermined
                     ULocalVariable (name = result) [var result: int]
-                USwitchExpression [switch (key) ...] = Nothing
+                USwitchExpression [switch (key) ...] = Undetermined
                     USimpleNameReferenceExpression [key] = (var key = SECOND (enum entry))
                     UExpressionList (switch) [    FIRST -> {...    ] = Undetermined
                         USwitchClauseExpressionWithBody [FIRST -> {...] = Undetermined
@@ -22,7 +22,7 @@ UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...
                                 UBinaryExpression (operator = =) [result = 3] = 3
                                     USimpleNameReferenceExpression [result] = Undetermined
                                     ULiteralExpression (value = 3) [3] = 3
-                                UBreakExpression (label = null) [break] = Nothing
+                                UBreakExpression (label = null) [break] = Nothing(break)
                         USwitchClauseExpressionWithBody [SECOND -> {...] = Undetermined
                             USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
                             UExpressionList (switch_entry) [{...] = Undetermined
@@ -41,6 +41,6 @@ UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...
                                 UBinaryExpression (operator = =) [result = 66] = 66
                                     USimpleNameReferenceExpression [result] = Phi((var result = 13), (var result = Undetermined))
                                     ULiteralExpression (value = 66) [66] = 66
-                                UBreakExpression (label = null) [break] = Nothing
+                                UBreakExpression (label = null) [break] = Nothing(break)
                 UReturnExpression [return result] = Nothing
                     USimpleNameReferenceExpression [result] = (var result = 66)
