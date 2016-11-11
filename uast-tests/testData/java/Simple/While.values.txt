@@ -8,8 +8,8 @@ UFile (package = ) [public class While : Object {...]
                     ULocalVariable (name = i) [var i: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 UWhileExpression [while (i < 10) {...}] = Undetermined
-                    UBinaryExpression (operator = <) [i < 10] = true (depending on: (var i = 0))
-                        USimpleNameReferenceExpression [i] = (var i = 0)
+                    UBinaryExpression (operator = <) [i < 10] = Undetermined
+                        USimpleNameReferenceExpression [i] = Phi((var i = Undetermined), (var i = 1), (var i = 0))
                         ULiteralExpression (value = 10) [10] = 10
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [result = result + i++] = Undetermined

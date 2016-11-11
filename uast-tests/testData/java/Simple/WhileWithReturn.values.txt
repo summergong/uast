@@ -8,7 +8,7 @@ UFile (package = ) [public class WhileWithReturn : Object {...]
                 UVariableDeclarationsExpression [var second: int = 2] = Undetermined
                     ULocalVariable (name = second) [var second: int = 2]
                         ULiteralExpression (value = 2) [2] = 2
-                UWhileExpression [while (first === 1) {...}] = Undetermined
+                UWhileExpression [while (first === 1) {...}] = Nothing
                     UBinaryExpression (operator = ===) [first === 1] = true (depending on: (var first = 1))
                         USimpleNameReferenceExpression [first] = (var first = 1)
                         ULiteralExpression (value = 1) [1] = 1
@@ -24,4 +24,4 @@ UFile (package = ) [public class WhileWithReturn : Object {...]
                                 USimpleNameReferenceExpression [second] = (var second = 3)
                             UastEmptyExpression [UastEmptyExpression] = Undetermined
                 UReturnExpression [return second] = Nothing
-                    USimpleNameReferenceExpression [second] = (var second = 2)
+                    USimpleNameReferenceExpression [second] = Undetermined

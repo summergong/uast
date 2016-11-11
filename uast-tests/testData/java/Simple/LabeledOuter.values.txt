@@ -1,0 +1,37 @@
+UFile (package = ) [public class LabeledOuter : Object {...]
+    UClass (name = LabeledOuter) [public class LabeledOuter : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var second: int = 2] = Undetermined
+                    ULocalVariable (name = second) [var second: int = 2]
+                        ULiteralExpression (value = 2) [2] = 2
+                ULabeledExpression (label = labeled) [labeled@ for (var first: int = 1; first < 4; first++) {...}] = Undetermined
+                    UForExpression [for (var first: int = 1; first < 4; first++) {...}] = Undetermined
+                        UVariableDeclarationsExpression [var first: int = 1] = Undetermined
+                            ULocalVariable (name = first) [var first: int = 1]
+                                ULiteralExpression (value = 1) [1] = 1
+                        UBinaryExpression (operator = <) [first < 4] = true (depending on: (var first = 1))
+                            USimpleNameReferenceExpression [first] = (var first = 1)
+                            ULiteralExpression (value = 4) [4] = 4
+                        UPostfixExpression (operator = ++) [first++] = Undetermined
+                            USimpleNameReferenceExpression [first] = Undetermined
+                        UBlockExpression [{...}] = Nothing(break)
+                            UWhileExpression [while (second < 10) {...}] = Nothing(break)
+                                UBinaryExpression (operator = <) [second < 10] = true (depending on: (var second = 2))
+                                    USimpleNameReferenceExpression [second] = (var second = 2)
+                                    ULiteralExpression (value = 10) [10] = 10
+                                UBlockExpression [{...}] = Nothing(break)
+                                    UBinaryExpression (operator = =) [second = 3] = 3
+                                        USimpleNameReferenceExpression [second] = (var second = 2)
+                                        ULiteralExpression (value = 3) [3] = 3
+                                    UIfExpression [if (first > 0) break@labeled] = Nothing(break)
+                                        UBinaryExpression (operator = >) [first > 0] = true (depending on: (var first = 1))
+                                            USimpleNameReferenceExpression [first] = (var first = 1)
+                                            ULiteralExpression (value = 0) [0] = 0
+                                        UBreakExpression (label = labeled) [break@labeled] = Nothing(break)
+                                        UastEmptyExpression [UastEmptyExpression] = Undetermined
+                            UBinaryExpression (operator = =) [second = 4] = 4
+                                USimpleNameReferenceExpression [second] = Undetermined
+                                ULiteralExpression (value = 4) [4] = 4
+                UReturnExpression [return second] = Nothing
+                    USimpleNameReferenceExpression [second] = Phi((var second = 3), (var second = 2))

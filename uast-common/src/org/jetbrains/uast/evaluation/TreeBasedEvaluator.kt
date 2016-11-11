@@ -416,21 +416,41 @@ class TreeBasedEvaluator(
         return resultInfo storeResultFor node
     }
 
-    private fun evaluateLoop(loop: ULoopExpression, inputState: UEvaluationState): UEvaluationInfo {
+    private fun evaluateLoop(
+            loop: ULoopExpression,
+            inputState: UEvaluationState,
+            condition: UExpression? = null,
+            infinite: Boolean = false
+    ): UEvaluationInfo {
+
+        fun evaluateCondition(inputState: UEvaluationState): UEvaluationInfo =
+                condition?.accept(this, inputState)
+                ?: (if (infinite) UBooleanConstant.True else UValue.Undetermined) to inputState
+
         var resultInfo = UValue.Undetermined to inputState
         do {
+            val previousInfo = resultInfo
+            resultInfo = evaluateCondition(resultInfo.state)
+            val conditionConstant = resultInfo.value.toConstant()
+            if (conditionConstant == UBooleanConstant.False) {
+                return resultInfo.copy(UValue.Undetermined) storeResultFor loop
+            }
             val bodyInfo = loop.body.accept(this, resultInfo.state)
             val bodyValue = bodyInfo.value
-            val previousInfo = resultInfo
             if (bodyValue is UValue.Nothing) {
                 if (bodyValue.kind == BREAK && bodyValue.containingLoopOrSwitch == loop) {
                     return bodyInfo.copy(UValue.Undetermined).merge(previousInfo) storeResultFor loop
                 }
-                else if (bodyValue.kind != CONTINUE || bodyValue.containingLoopOrSwitch != loop) {
-                    return resultInfo storeResultFor loop
+                else if (bodyValue.kind == CONTINUE && bodyValue.containingLoopOrSwitch == loop) {
+                    resultInfo = bodyInfo.copy(UValue.Undetermined).merge(previousInfo)
                 }
                 else {
-                    resultInfo = bodyInfo.copy(UValue.Undetermined).merge(previousInfo)
+                    return if (conditionConstant == UBooleanConstant.True) {
+                        bodyInfo
+                    }
+                    else {
+                        resultInfo.copy(UValue.Undetermined)
+                    } storeResultFor loop
                 }
             }
             else {
@@ -446,34 +466,21 @@ class TreeBasedEvaluator(
         return evaluateLoop(node, iterableInfo.state)
     }
 
-    private fun evaluateLoopWithCondition(
-            loop: ULoopExpression,
-            condition: UExpression?,
-            inputState: UEvaluationState
-    ): UEvaluationInfo {
-        val resultInfo = condition?.accept(this, inputState) ?: UBooleanConstant.True to inputState
-        val conditionConstant = resultInfo.value.toConstant()
-        if (conditionConstant == UBooleanConstant.False) {
-            return resultInfo.copy(UValue.Undetermined) storeResultFor loop
-        }
-        return evaluateLoop(loop, resultInfo.state)
-    }
-
     override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val initialState = node.declaration?.accept(this, data)?.state ?: data
-        return evaluateLoopWithCondition(node, node.condition, initialState)
+        return evaluateLoop(node, initialState, node.condition, node.condition == null)
     }
 
     override fun visitWhileExpression(node: UWhileExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
-        return evaluateLoopWithCondition(node, node.condition, data)
+        return evaluateLoop(node, data, node.condition)
     }
 
     override fun visitDoWhileExpression(node: UDoWhileExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val bodyInfo = node.body.accept(this, data)
-        return evaluateLoopWithCondition(node, node.condition, bodyInfo.state)
+        return evaluateLoop(node, bodyInfo.state, node.condition)
     }
 
     override fun visitTryExpression(node: UTryExpression, data: UEvaluationState): UEvaluationInfo {

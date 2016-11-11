@@ -1,0 +1,17 @@
+UFile (package = ) [public class WhileWithMutableCondition : Object {...]
+    UClass (name = WhileWithMutableCondition) [public class WhileWithMutableCondition : Object {...}]
+        UMethod (name = foo) [public static fun foo() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var i: int = 0] = Undetermined
+                    ULocalVariable (name = i) [var i: int = 0]
+                        ULiteralExpression (value = 0) [0] = 0
+                UWhileExpression [while (++i < 2) {...}] = Undetermined
+                    UBinaryExpression (operator = <) [++i < 2] = true (depending on: (var i = 0))
+                        UPrefixExpression (operator = ++) [++i] = 1 (depending on: (var i = 0))
+                            USimpleNameReferenceExpression [i] = (var i = 0)
+                        ULiteralExpression (value = 2) [2] = 2
+                    UBlockExpression [{...}] = (var i = 1)
+                        UPostfixExpression (operator = --) [i--] = (var i = 1)
+                            USimpleNameReferenceExpression [i] = (var i = 1)
+                UReturnExpression [return i] = Nothing
+                    USimpleNameReferenceExpression [i] = (var i = 0)
