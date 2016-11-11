@@ -29,6 +29,9 @@ import com.intellij.openapi.extensions.Extensions;
 import com.intellij.openapi.extensions.ExtensionsArea;
 import com.intellij.openapi.fileTypes.FileTypeExtensionPoint;
 import com.intellij.openapi.util.Disposer;
+import com.intellij.openapi.vfs.StandardFileSystems;
+import com.intellij.openapi.vfs.VirtualFile;
+import com.intellij.openapi.vfs.VirtualFileSystem;
 import com.intellij.openapi.vfs.impl.ZipHandler;
 import com.intellij.psi.FileContextProvider;
 import com.intellij.psi.PsiElementFinder;
@@ -42,12 +45,16 @@ import com.intellij.psi.impl.file.impl.JavaFileManager;
 import com.intellij.psi.meta.MetaDataContributor;
 import com.intellij.psi.stubs.BinaryFileStubBuilders;
 import com.intellij.psi.util.JavaClassSupers;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.uast.UastContext;
 import org.jetbrains.uast.UastLanguagePlugin;
 import org.jetbrains.uast.java.JavaUastLanguagePlugin;
 import org.jetbrains.uast.kotlin.KotlinUastLanguagePlugin;
 
-public class TestCoreEnvironment {
+import java.io.File;
+import java.io.IOException;
+
+public class TestCoreEnvironment extends AbstractCoreEnvironment {
     private static final Object APPLICATION_LOCK = new Object();
     private static volatile JavaCoreApplicationEnvironment sEnvironment = null;
 
@@ -58,16 +65,34 @@ public class TestCoreEnvironment {
         mDisposable = disposable;
     }
 
+    @Override
     public void dispose() {
         Disposer.dispose(mDisposable);
     }
 
+    @Override
     public MockProject getProject() {
-        JavaCoreProjectEnvironment projectEnvironment = mProjectEnvironment;
+        JavaCoreProjectEnvironment projectEnvironment = getProjectEnvironment();
         if (projectEnvironment == null) {
             return null;
         }
         return projectEnvironment.getProject();
+    }
+
+    @Override
+    public void addJavaSourceRoot(@NotNull File root) {
+        VirtualFileSystem vfs = StandardFileSystems.local();
+        try {
+            addDirectoryToClassPath(vfs, root);
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    private void addDirectoryToClassPath(VirtualFileSystem vfs, File root) throws IOException {
+        VirtualFile virtualFile = vfs.findFileByPath(root.getCanonicalPath());
+        assert virtualFile != null;
+        getProjectEnvironment().addSourcesToClasspath(virtualFile);
     }
 
     public JavaCoreProjectEnvironment getProjectEnvironment() {
@@ -79,9 +104,6 @@ public class TestCoreEnvironment {
                 return mProjectEnvironment;
             }
             JavaCoreApplicationEnvironment coreEnvironment = getCoreEnvironment();
-
-            //coreEnvironment.registerApplicationService(
-            //        JavaClassSupers.class, new JavaClassSupersImpl());
 
             mProjectEnvironment = new TestJavaCoreProjectEnvironment(coreEnvironment);
 

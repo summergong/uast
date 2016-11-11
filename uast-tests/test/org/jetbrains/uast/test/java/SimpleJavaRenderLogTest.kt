@@ -1,9 +1,8 @@
 package org.jetbrains.uast.test.java
 
-import org.jetbrains.uast.test.AbstractJavaTest
 import org.junit.Test
 
-class SimpleJavaTest : AbstractJavaTest() {
+class SimpleJavaRenderLogTest : AbstractJavaRenderLogTest() {
     @Test fun testDataClass() = doTest("DataClass/DataClass.java")
 
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")

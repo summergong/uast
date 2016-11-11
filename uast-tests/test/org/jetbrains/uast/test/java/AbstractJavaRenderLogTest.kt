@@ -1,11 +1,11 @@
-package org.jetbrains.uast.test
+package org.jetbrains.uast.test.java
 
 import org.jetbrains.uast.test.java.AbstractJavaUastTest
 import org.jetbrains.uast.UFile
 import org.jetbrains.uast.asRecursiveLogString
 import java.io.File
 
-abstract class AbstractJavaTest : AbstractJavaUastTest() {
+abstract class AbstractJavaRenderLogTest : AbstractJavaUastTest() {
     private fun getTestFile(testName: String, ext: String) =
             File(File(TEST_JAVA_MODEL_DIR, testName).canonicalPath.substringBeforeLast('.') + '.' + ext)
 
