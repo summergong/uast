@@ -415,7 +415,8 @@ class TreeBasedEvaluator(
 
     override fun visitForEachExpression(node: UForEachExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
-        return evaluateLoop(node, data)
+        val iterableInfo = node.iteratedValue.accept(this, data)
+        return evaluateLoop(node, iterableInfo.state)
     }
 
     private fun evaluateLoopWithCondition(
