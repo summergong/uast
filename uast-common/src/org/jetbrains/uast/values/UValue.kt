@@ -83,7 +83,24 @@ sealed class UValue : UOperand {
 
         override fun or(other: UValue) = wrapBinary(unwrap() or other.unwrap(), other)
 
-        override fun xor(other: UValue) = wrapBinary(unwrap() xor other.unwrap(), other)
+        override fun bitwiseAnd(other: UValue) = wrapBinary(unwrap() bitwiseAnd other.unwrap(), other)
+
+        override fun bitwiseOr(other: UValue) = wrapBinary(unwrap() bitwiseOr other.unwrap(), other)
+
+        override fun bitwiseXor(other: UValue) = wrapBinary(unwrap() bitwiseXor other.unwrap(), other)
+
+        override fun shl(other: UValue) = wrapBinary(unwrap() shl other.unwrap(), other)
+
+        internal fun inverseShiftLeft(other: UValue) = wrapBinary(other.unwrap() shl unwrap(), other)
+
+        override fun shr(other: UValue) = wrapBinary(unwrap() shr other.unwrap(), other)
+
+        internal fun inverseShiftRight(other: UValue) = wrapBinary(other.unwrap() shr unwrap(), other)
+
+        override fun ushr(other: UValue) = wrapBinary(unwrap() ushr other.unwrap(), other)
+
+        internal fun inverseShiftRightUnsigned(other: UValue) =
+                wrapBinary(other.unwrap() ushr unwrap(), other)
 
         override fun merge(other: UValue) = when (other) {
             this -> this
@@ -306,7 +323,18 @@ sealed class UValue : UOperand {
 
     override fun or(other: UValue): UValue = if (other is Dependent) other or this else Undetermined
 
-    override fun xor(other: UValue): UValue = if (other is Dependent) other xor this else Undetermined
+    override fun bitwiseAnd(other: UValue): UValue = if (other is Dependent) other bitwiseAnd this else Undetermined
+
+    override fun bitwiseOr(other: UValue): UValue = if (other is Dependent) other bitwiseOr this else Undetermined
+
+    override fun bitwiseXor(other: UValue): UValue = if (other is Dependent) other bitwiseXor this else Undetermined
+
+    override fun shl(other: UValue): UValue = (other as? Dependent)?.inverseShiftLeft(this) ?: Undetermined
+
+    override fun shr(other: UValue): UValue = (other as? Dependent)?.inverseShiftRight(this) ?: Undetermined
+
+    override fun ushr(other: UValue): UValue =
+            (other as? Dependent)?.inverseShiftRightUnsigned(this) ?: Undetermined
 
     open fun merge(other: UValue): UValue = when (other) {
         this -> this

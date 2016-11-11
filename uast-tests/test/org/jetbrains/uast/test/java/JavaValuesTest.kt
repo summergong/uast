@@ -7,6 +7,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testAnonymous() = doTest("Simple/Anonymous.java")
 
+    @Test fun testBitwise() = doTest("Simple/Bitwise.java")
+
     @Test fun testByteShort() = doTest("Simple/ByteShort.java")
 
     @Test fun testCascadeIf() = doTest("Simple/CascadeIf.java")
@@ -70,6 +72,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testReturnSum() = doTest("Simple/ReturnSum.java")
 
     @Test fun testReturnX() = doTest("Simple/ReturnX.java")
+
+    @Test fun testShift() = doTest("Simple/Shift.java")
 
     @Test fun testStrings() = doTest("Simple/Strings.java")
 

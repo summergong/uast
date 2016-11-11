@@ -39,5 +39,15 @@ interface UOperand {
 
     infix fun or(other: UValue): UValue
 
-    infix fun xor(other: UValue): UValue
+    infix fun bitwiseAnd(other: UValue): UValue
+
+    infix fun bitwiseOr(other: UValue): UValue
+
+    infix fun bitwiseXor(other: UValue): UValue
+
+    infix fun shl(other: UValue): UValue
+
+    infix fun shr(other: UValue): UValue
+
+    infix fun ushr(other: UValue): UValue
 }

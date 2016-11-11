@@ -101,6 +101,36 @@ class UIntConstant(
 
     override fun dec() = UIntConstant(value - 1, type)
 
+    override fun bitwiseAnd(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value and other.value, type.merge(other.type))
+        else -> super.bitwiseAnd(other)
+    }
+
+    override fun bitwiseOr(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value or other.value, type.merge(other.type))
+        else -> super.bitwiseOr(other)
+    }
+
+    override fun bitwiseXor(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value xor other.value, type.merge(other.type))
+        else -> super.bitwiseXor(other)
+    }
+
+    override fun shl(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value shl other.value, type.merge(other.type))
+        else -> super.shl(other)
+    }
+
+    override fun shr(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value shr other.value, type.merge(other.type))
+        else -> super.shr(other)
+    }
+
+    override fun ushr(other: UValue) = when (other) {
+        is UIntConstant -> UIntConstant(value ushr other.value, type.merge(other.type))
+        else -> super.ushr(other)
+    }
+
     override fun toString() = "$typedValue${type.suffix}"
 
     override fun asString() = "$typedValue"
@@ -147,6 +177,36 @@ class ULongConstant(override val value: Long) : UNumericConstant(UNumericType.LO
     override fun inc() = ULongConstant(value + 1)
 
     override fun dec() = ULongConstant(value - 1)
+
+    override fun bitwiseAnd(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value and other.value)
+        else -> super.bitwiseAnd(other)
+    }
+
+    override fun bitwiseOr(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value or other.value)
+        else -> super.bitwiseOr(other)
+    }
+
+    override fun bitwiseXor(other: UValue) = when (other) {
+        is ULongConstant -> ULongConstant(value xor other.value)
+        else -> super.bitwiseXor(other)
+    }
+
+    override fun shl(other: UValue) = when (other) {
+        is UIntConstant -> ULongConstant(value shl other.value)
+        else -> super.shl(other)
+    }
+
+    override fun shr(other: UValue) = when (other) {
+        is UIntConstant -> ULongConstant(value shr other.value)
+        else -> super.shr(other)
+    }
+
+    override fun ushr(other: UValue) = when (other) {
+        is UIntConstant -> ULongConstant(value ushr other.value)
+        else -> super.ushr(other)
+    }
 
     override fun toString() = "${value}L"
 
@@ -268,8 +328,6 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
         override fun and(other: UValue) = other as? UBooleanConstant ?: super.and(other)
 
         override fun or(other: UValue) = True
-
-        override fun xor(other: UValue) = (other as? UBooleanConstant)?.not() ?: super.xor(other)
     }
 
     object False : UBooleanConstant(false) {
@@ -278,8 +336,6 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
         override fun and(other: UValue) = False
 
         override fun or(other: UValue) = other as? UBooleanConstant ?: super.or(other)
-
-        override fun xor(other: UValue) = other as? UBooleanConstant ?: super.xor(other)
     }
 
     companion object {
