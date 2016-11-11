@@ -5,6 +5,10 @@ import java.io.File
 
 abstract class AbstractCoreEnvironment {
     abstract val project: MockProject
-    abstract fun dispose()
+
+    open fun dispose() {
+        // Do nothing
+    }
+
     abstract fun addJavaSourceRoot(root: File)
 }

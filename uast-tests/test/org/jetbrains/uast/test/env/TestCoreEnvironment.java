@@ -46,10 +46,6 @@ import com.intellij.psi.meta.MetaDataContributor;
 import com.intellij.psi.stubs.BinaryFileStubBuilders;
 import com.intellij.psi.util.JavaClassSupers;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.uast.UastContext;
-import org.jetbrains.uast.UastLanguagePlugin;
-import org.jetbrains.uast.java.JavaUastLanguagePlugin;
-import org.jetbrains.uast.kotlin.KotlinUastLanguagePlugin;
 
 import java.io.File;
 import java.io.IOException;
@@ -179,8 +175,6 @@ public class TestCoreEnvironment extends AbstractCoreEnvironment {
         @Override
         protected void preregisterServices() {
             registerProjectExtensionPoints();
-
-            myProject.registerService(UastContext.class);
         }
 
         private void registerProjectExtensionPoints() {
@@ -189,18 +183,10 @@ public class TestCoreEnvironment extends AbstractCoreEnvironment {
                     area, PsiTreeChangePreprocessor.EP_NAME, PsiTreeChangePreprocessor.class);
             CoreApplicationEnvironment.registerExtensionPoint(
                     area, PsiElementFinder.EP_NAME, PsiElementFinder.class);
-            CoreApplicationEnvironment.registerExtensionPoint(
-                    area, UastLanguagePlugin.Companion.getExtensionPointName(), UastLanguagePlugin.class);
         }
 
         private void registerProjectExtensions() {
             ExtensionsArea area = Extensions.getArea(myProject);
-
-            area.getExtensionPoint(UastLanguagePlugin.Companion.getExtensionPointName())
-                    .registerExtension(new JavaUastLanguagePlugin(myProject));
-
-            area.getExtensionPoint(UastLanguagePlugin.Companion.getExtensionPointName())
-                    .registerExtension(new KotlinUastLanguagePlugin(myProject));
 
             myProject.registerService(CoreJavaFileManager.class,
                     ((CoreJavaFileManager) ServiceManager.getService(myProject, JavaFileManager.class)));

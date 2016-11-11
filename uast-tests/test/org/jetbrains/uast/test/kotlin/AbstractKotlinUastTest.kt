@@ -20,7 +20,9 @@ import org.jetbrains.kotlin.config.JVMConfigurationKeys
 import org.jetbrains.kotlin.config.addKotlinSourceRoot
 import org.jetbrains.kotlin.resolve.TopDownAnalysisMode
 import org.jetbrains.kotlin.resolve.jvm.TopDownAnalyzerFacadeForJVM
+import org.jetbrains.kotlin.resolve.jvm.extensions.AnalysisCompletedHandlerExtension
 import org.jetbrains.kotlin.utils.PathUtil
+import org.jetbrains.uast.kotlin.internal.UastAnalysisCompletedHandlerExtension
 import org.jetbrains.uast.test.env.AbstractCoreEnvironment
 import org.jetbrains.uast.test.env.AbstractUastTest
 import java.io.File
@@ -42,8 +44,8 @@ abstract class AbstractKotlinUastTest : AbstractUastTest() {
 
         val kotlinCoreEnvironment = kotlinCoreEnvironment!!
 
-        val moduleContext = TopDownAnalyzerFacadeForJVM.createContextWithSealedModule(environment.project,
-                kotlinCoreEnvironment.getModuleName())
+        val moduleContext = TopDownAnalyzerFacadeForJVM.createContextWithSealedModule(
+                environment.project, kotlinCoreEnvironment.getModuleName())
 
         TopDownAnalyzerFacadeForJVM.analyzeFilesWithJavaIntegrationNoIncremental(
                 moduleContext,
@@ -62,11 +64,17 @@ abstract class AbstractKotlinUastTest : AbstractUastTest() {
     }
 
     override fun createEnvironment(source: File): AbstractCoreEnvironment {
-        kotlinCoreEnvironment = KotlinCoreEnvironment.createForTests(
+        val kotlinCoreEnvironment = KotlinCoreEnvironment.createForTests(
                 Disposer.newDisposable(),
                 createKotlinCompilerConfiguration(source),
                 EnvironmentConfigFiles.JVM_CONFIG_FILES)
-        return KotlinCoreEnvironmentWrapper(kotlinCoreEnvironment!!)
+
+        this.kotlinCoreEnvironment = kotlinCoreEnvironment
+
+        AnalysisCompletedHandlerExtension.registerExtension(
+                kotlinCoreEnvironment.project, UastAnalysisCompletedHandlerExtension())
+
+        return KotlinCoreEnvironmentWrapper(kotlinCoreEnvironment)
     }
 
     override fun tearDown() {
@@ -81,7 +89,6 @@ abstract class AbstractKotlinUastTest : AbstractUastTest() {
         val kotlinLibsDir = File("../lib/kotlin-plugin/Kotlin/kotlinc/lib")
         configuration.addJvmClasspathRoot(File(kotlinLibsDir, "kotlin-runtime.jar"))
         configuration.addJvmClasspathRoot(File(kotlinLibsDir, "kotlin-reflect.jar"))
-        configuration.addJvmClasspathRoot(File(kotlinLibsDir, "kotlin-test.jar"))
 
         configuration.addKotlinSourceRoot(sourceFile.canonicalPath)
 
@@ -93,14 +100,9 @@ abstract class AbstractKotlinUastTest : AbstractUastTest() {
         return configuration
     }
 
-
     private class KotlinCoreEnvironmentWrapper(val environment: KotlinCoreEnvironment) : AbstractCoreEnvironment() {
         override val project: MockProject
             get() = environment.project as MockProject
-
-        override fun dispose() {
-
-        }
 
         override fun addJavaSourceRoot(root: File) {
             environment.addJavaSourceRoots(listOf(JavaSourceRoot(root, null)))

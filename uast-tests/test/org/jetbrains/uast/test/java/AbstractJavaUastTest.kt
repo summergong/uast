@@ -20,15 +20,11 @@ abstract class AbstractJavaUastTest : AbstractUastTest() {
         super.initializeEnvironment(testSourcesDir)
 
         val vfs = StandardFileSystems.local()
-        addDirectoryToClassPath(testSourcesDir)
+        environment.addJavaSourceRoot(testSourcesDir)
         val ideaProject = project
         ideaProject.baseDir = vfs.findFileByPath(projectDir.canonicalPath)
 
         return vfs.findFileByPath(File(TEST_JAVA_MODEL_DIR, testName).canonicalPath)!!
-    }
-
-    private fun addDirectoryToClassPath(testSourcesDir: File) {
-        environment.addJavaSourceRoot(testSourcesDir)
     }
 
     override fun createEnvironment(source: File): AbstractCoreEnvironment {
