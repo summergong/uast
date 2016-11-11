@@ -24,11 +24,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents a `continue` expression.
  */
-interface UContinueExpression : UExpression {
-    /**
-     * Returns the expression label, or null if the label is not specified.
-     */
-    val label: String?
+interface UContinueExpression : UExpressionWithLabel {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitContinueExpression(this)) return
