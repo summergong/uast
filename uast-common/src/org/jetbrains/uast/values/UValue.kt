@@ -369,9 +369,11 @@ sealed class UValue : UOperand {
 
     override fun dec(): UValue = Undetermined
 
-    override fun and(other: UValue): UValue = if (other is Dependent) other and this else Undetermined
+    override fun and(other: UValue): UValue =
+            if (other is Dependent || other == UBooleanConstant.False) other and this else Undetermined
 
-    override fun or(other: UValue): UValue = if (other is Dependent) other or this else Undetermined
+    override fun or(other: UValue): UValue =
+            if (other is Dependent || other == UBooleanConstant.True) other or this else Undetermined
 
     override fun bitwiseAnd(other: UValue): UValue = if (other is Dependent) other bitwiseAnd this else Undetermined
 

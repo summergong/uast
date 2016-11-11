@@ -374,40 +374,44 @@ class TreeBasedEvaluator(
         } storeResultFor node
     }
 
+
     override fun visitSwitchExpression(node: USwitchExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val subjectInfo = node.expression?.accept(this, data) ?: UValue.Undetermined to data
-        val subjectValue = subjectInfo.value
+
         var resultInfo: UEvaluationInfo? = null
-        val switchList = node.body
         var clauseInfo = subjectInfo
-        var fallsThrough = false
-        var alwaysFallsThrough = false
-        for (expression in switchList.expressions) {
+        var fallThroughCondition: UValue = UBooleanConstant.False
+
+        fun List<UExpression>.evaluateAndFold(): UValue =
+                this.map {
+                    clauseInfo = it.accept(this@TreeBasedEvaluator, clauseInfo.state)
+                    (clauseInfo.value valueEquals subjectInfo.value).toConstant() as? UValue ?: UValue.Undetermined
+                }.fold(UBooleanConstant.False) { previous: UValue, next -> previous or next }
+
+        for (expression in node.body.expressions) {
             val switchClauseWithBody = expression as USwitchClauseExpressionWithBody
-            val caseValueComparisons = switchClauseWithBody.caseValues.map {
-                clauseInfo = it.accept(this, clauseInfo.state)
-                (clauseInfo.value valueEquals subjectValue).toConstant()
-            }
-            val alwaysTrue = UBooleanConstant.True in caseValueComparisons
-            val canBeTrue = alwaysTrue || null in caseValueComparisons
-            if (canBeTrue || fallsThrough) {
+            val caseCondition = switchClauseWithBody.caseValues.evaluateAndFold().or(fallThroughCondition)
+
+            if (caseCondition != UBooleanConstant.False) {
                 for (bodyExpression in switchClauseWithBody.body.expressions) {
                     clauseInfo = bodyExpression.accept(this, clauseInfo.state)
+                    if (!clauseInfo.value.reachable()) break
                 }
                 val clauseValue = clauseInfo.value
-                fallsThrough = clauseValue !is UValue.Nothing || clauseValue.containingLoopOrSwitch != node
-                if (!fallsThrough) {
+                if (clauseValue is UValue.Nothing && clauseValue.containingLoopOrSwitch == node) {
                     resultInfo = resultInfo?.merge(clauseInfo) ?: clauseInfo
-                    if (alwaysTrue || alwaysFallsThrough) break
+                    if (caseCondition == UBooleanConstant.True) break
                     clauseInfo = subjectInfo
+                    fallThroughCondition = UBooleanConstant.False
                 }
                 else {
-                    alwaysFallsThrough = alwaysFallsThrough || alwaysTrue
+                    fallThroughCondition = caseCondition
                     clauseInfo = clauseInfo.merge(subjectInfo)
                 }
             }
         }
+
         resultInfo = resultInfo ?: subjectInfo
         val resultValue = resultInfo.value
         if (resultValue is UValue.Nothing && resultValue.containingLoopOrSwitch == node) {
