@@ -7,7 +7,7 @@ UFile (package = ) [public class MutableField : Object {...]
                 UBinaryExpression (operator = =) [mutable = 1] = 1
                     USimpleNameReferenceExpression [mutable] = external mutable
                     ULiteralExpression (value = 1) [1] = 1
-                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = Undetermined
+                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()
                     UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
                 UReturnExpression [return mutable] = Nothing
                     USimpleNameReferenceExpression [mutable] = external mutable

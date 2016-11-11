@@ -16,7 +16,7 @@ UFile (package = ) [public class Anonymous : Object {...]
                                     USimpleNameReferenceExpression [variable1] = (var variable1 = 24)
                 UQualifiedReferenceExpression [runnable.run()] = external runnable.run()
                     USimpleNameReferenceExpression [runnable] = Undetermined
-                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = Undetermined
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing
                     USimpleNameReferenceExpression [variable] = (var variable = 42)

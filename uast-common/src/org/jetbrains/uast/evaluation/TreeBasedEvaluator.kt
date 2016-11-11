@@ -314,7 +314,7 @@ class TreeBasedEvaluator(
             currentInfo = valueArgument.accept(this, currentInfo.state)
         }
 
-        return UValue.Undetermined to currentInfo.state storeResultFor node
+        return UValue.CallResult(node) to currentInfo.state storeResultFor node
     }
 
     override fun visitDeclarationsExpression(
