@@ -385,3 +385,11 @@ class UClassConstant(override val value: PsiType) : UValue.AbstractConstant() {
 object UNullConstant : UValue.AbstractConstant() {
     override val value = null
 }
+
+data class Range(val from: UValue, val to: UValue) {
+    override fun toString() = "$from..$to"
+}
+
+class URangeConstant(override val value: Range) : UValue.AbstractConstant() {
+    constructor(from: UValue, to: UValue): this(Range(from, to))
+}
