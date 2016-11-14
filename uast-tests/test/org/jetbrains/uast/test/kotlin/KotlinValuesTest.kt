@@ -6,6 +6,7 @@ class KotlinValuesTest : AbstractKotlinValuesTest() {
 
     @Test fun testAssertion() = doTest("Assertion")
 
-    @Test fun testSimple() = doTest("Simple")
+    @Test fun testIn() = doTest("In")
 
+    @Test fun testSimple() = doTest("Simple")
 }
