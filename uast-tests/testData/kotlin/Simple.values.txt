@@ -2,7 +2,7 @@ UFile (package = ) [public final class Simple : Object {...]
     UClass (name = Simple) [public final class Simple : Object {...}]
         UField (name = property) [private final var property: java.lang.String = "Mary"]
             UAnnotation (fqName = org.jetbrains.annotations.NotNull) [UAnnotation (fqName = org.jetbrains.annotations.NotNull)]
-            ULiteralExpression (value = "Mary") ["Mary"] = Undetermined
+            ULiteralExpression (value = "Mary") ["Mary"] = "Mary"
         UAnnotationMethod (name = method) [public final fun method() : void {...}]
             UBlockExpression [{...}] = external println("Hello, world!")
                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [println("Hello, world!")] = external println("Hello, world!")
