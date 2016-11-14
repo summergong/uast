@@ -10,9 +10,12 @@ import com.intellij.rt.execution.junit.FileComparisonFailure
 import junit.framework.TestCase
 import org.jetbrains.uast.UastContext
 import org.jetbrains.uast.UastLanguagePlugin
+import org.jetbrains.uast.evaluation.UEvaluator
+import org.jetbrains.uast.evaluation.UEvaluatorExtension
 import org.jetbrains.uast.java.JavaUastLanguagePlugin
 import org.jetbrains.uast.kotlin.KotlinUastBindingContextProviderService
 import org.jetbrains.uast.kotlin.KotlinUastLanguagePlugin
+import org.jetbrains.uast.kotlin.evaluation.KotlinEvaluatorExtension
 import org.jetbrains.uast.kotlin.internal.CliKotlinUastBindingContextProviderService
 import java.io.File
 
@@ -50,6 +53,11 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
                 UastLanguagePlugin.extensionPointName,
                 UastLanguagePlugin::class.java)
 
+        CoreApplicationEnvironment.registerExtensionPoint(
+                Extensions.getArea(project),
+                UEvaluator.extensionPointName,
+                UEvaluatorExtension::class.java)
+
         project.registerService(UastContext::class.java)
 
         project.registerService(
@@ -57,6 +65,8 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
                 CliKotlinUastBindingContextProviderService::class.java)
 
         registerUastLanguagePlugins()
+
+        registerEvaluatorLanguageExtensions()
     }
 
     private fun registerUastLanguagePlugins() {
@@ -67,6 +77,13 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
 
         area.getExtensionPoint(UastLanguagePlugin.extensionPointName)
                 .registerExtension(KotlinUastLanguagePlugin(project))
+    }
+
+    private fun registerEvaluatorLanguageExtensions() {
+        val area = Extensions.getArea(project)
+
+        area.getExtensionPoint(UEvaluator.extensionPointName)
+                .registerExtension(KotlinEvaluatorExtension())
     }
 
     protected fun disposeEnvironment() {

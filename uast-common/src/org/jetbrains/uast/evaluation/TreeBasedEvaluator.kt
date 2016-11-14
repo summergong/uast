@@ -12,7 +12,7 @@ import org.jetbrains.uast.values.UValue.Nothing.JumpKind.CONTINUE
 import org.jetbrains.uast.visitor.UastTypedVisitor
 
 class TreeBasedEvaluator(
-        private val context: UastContext
+        override val context: UastContext
 ) : UastTypedVisitor<UEvaluationState, UEvaluationInfo>, UEvaluator {
 
     private val inputStateCache = mutableMapOf<UExpression, UEvaluationState>()
@@ -181,7 +181,11 @@ class TreeBasedEvaluator(
                 val newState = node.operand.assign(resultValue to operandInfo.state).state
                 return resultValue to newState storeResultFor node
             }
-            else -> UValue.Undetermined
+            else -> {
+                return node.languageExtension()?.evaluatePrefix(
+                        node.operator, operandValue, operandInfo.state
+                ) ?: UValue.Undetermined to operandInfo.state storeResultFor node
+            }
         } to operandInfo.state storeResultFor node
     }
 
@@ -198,7 +202,9 @@ class TreeBasedEvaluator(
                 operandValue to node.operand.assign(operandValue.dec() to operandInfo.state).state
             }
             else -> {
-                UValue.Undetermined to operandInfo.state
+                return node.languageExtension()?.evaluatePostfix(
+                        node.operator, operandValue, operandInfo.state
+                ) ?: UValue.Undetermined to operandInfo.state storeResultFor node
             }
         } storeResultFor node
     }
@@ -234,7 +240,11 @@ class TreeBasedEvaluator(
             UastBinaryOperator.SHIFT_LEFT -> leftInfo.value shl rightInfo.value
             UastBinaryOperator.SHIFT_RIGHT -> leftInfo.value shr rightInfo.value
             UastBinaryOperator.UNSIGNED_SHIFT_RIGHT -> leftInfo.value ushr rightInfo.value
-            else -> UValue.Undetermined
+            else -> {
+                return node.languageExtension()?.evaluateBinary(
+                        operator, leftInfo.value, rightInfo.value, rightInfo.state
+                ) ?: UValue.Undetermined to rightInfo.state storeResultFor node
+            }
         } to rightInfo.state storeResultFor node
     }
 
