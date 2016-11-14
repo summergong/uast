@@ -31,6 +31,10 @@ class TreeBasedEvaluator(
         method.uastBody?.accept(this, state)
     }
 
+    override fun analyze(field: UField, state: UEvaluationState) {
+        field.uastInitializer?.accept(this, state)
+    }
+
     override fun evaluate(expression: UExpression, state: UEvaluationState?): UValue {
         if (state == null) {
             val result = resultCache[expression]

@@ -1,6 +1,7 @@
 package org.jetbrains.uast.evaluation
 
 import org.jetbrains.uast.UExpression
+import org.jetbrains.uast.UField
 import org.jetbrains.uast.UMethod
 import org.jetbrains.uast.UastContext
 import org.jetbrains.uast.values.UValue
@@ -8,6 +9,8 @@ import org.jetbrains.uast.values.UValue
 // Role: at the current state, evaluate expression(s)
 interface UEvaluator {
     fun analyze(method: UMethod, state: UEvaluationState = method.createEmptyState())
+
+    fun analyze(field: UField, state: UEvaluationState = field.createEmptyState())
 
     fun evaluate(expression: UExpression, state: UEvaluationState? = null): UValue
 }

@@ -1,7 +1,7 @@
 UFile (package = ) [public class MutableField : Object {...]
     UClass (name = MutableField) [public class MutableField : Object {...}]
         UField (name = mutable) [static var mutable: int = 0]
-            ULiteralExpression (value = 0) [0] = Undetermined
+            ULiteralExpression (value = 0) [0] = 0
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UBinaryExpression (operator = =) [mutable = 1] = 1

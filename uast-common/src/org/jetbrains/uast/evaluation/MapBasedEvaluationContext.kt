@@ -18,14 +18,23 @@ class MapBasedEvaluationContext(
                 analyze(node, state)
                 return true
             }
+
+            override fun visitVariable(node: UVariable): Boolean {
+                if (node is UField) {
+                    analyze(node, state)
+                    return true
+                }
+                else return false
+            }
         })
         return this
     }
 
     private fun getOrCreateEvaluator(declaration: UDeclaration, state: UEvaluationState? = null) =
             evaluators[declaration] ?: createEvaluator(uastContext).apply {
-                if (declaration is UMethod) {
-                    this.analyze(declaration, state ?: declaration.createEmptyState())
+                when (declaration) {
+                    is UMethod -> this.analyze(declaration, state ?: declaration.createEmptyState())
+                    is UField -> this.analyze(declaration, state ?: declaration.createEmptyState())
                 }
                 evaluators[declaration] = this
             }
@@ -34,9 +43,20 @@ class MapBasedEvaluationContext(
 
     override fun getEvaluator(declaration: UDeclaration) = getOrCreateEvaluator(declaration)
 
-    override fun valueOf(expression: UExpression): UValue {
-        val method = expression.getContainingUMethod() ?: return UValue.Undetermined
-        val evaluator = getEvaluator(method)
-        return evaluator.evaluate(expression)
+    private fun getEvaluator(expression: UExpression): UEvaluator? {
+        var containingElement = expression.containingElement
+        while (containingElement != null) {
+            if (containingElement is UDeclaration) {
+                val evaluator = evaluators[containingElement]
+                if (evaluator != null) {
+                    return evaluator
+                }
+            }
+            containingElement = containingElement.containingElement
+        }
+        return null
     }
+
+    override fun valueOf(expression: UExpression) =
+            getEvaluator(expression)?.evaluate(expression) ?: UValue.Undetermined
 }
