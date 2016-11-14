@@ -1,13 +1,33 @@
 package org.jetbrains.uast.evaluation
 
-import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.UField
-import org.jetbrains.uast.UMethod
-import org.jetbrains.uast.UastContext
+import com.intellij.openapi.extensions.ExtensionPointName
+import com.intellij.openapi.extensions.Extensions
+import com.intellij.psi.PsiElement
+import org.jetbrains.uast.*
+import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.values.UValue
 
 // Role: at the current state, evaluate expression(s)
 interface UEvaluator {
+
+    companion object {
+        val extensionPointName: ExtensionPointName<UEvaluatorExtension> =
+                ExtensionPointName.create<UEvaluatorExtension>("org.jetbrains.uast.evaluation.UEvaluatorExtension")
+    }
+
+    val context: UastContext
+
+    val languageExtensions: List<UEvaluatorExtension>
+        get() {
+            val projectArea = Extensions.getArea(context.project)
+            if (!projectArea.hasExtensionPoint(UEvaluator.extensionPointName.name)) return listOf()
+            return projectArea.getExtensionPoint(UEvaluator.extensionPointName).extensions.toList()
+        }
+
+    fun PsiElement.languageExtension() = languageExtensions.firstOrNull { it.language == language }
+
+    fun UElement.languageExtension() = (this as? PsiElementBacked)?.psi?.languageExtension()
+
     fun analyze(method: UMethod, state: UEvaluationState = method.createEmptyState())
 
     fun analyze(field: UField, state: UEvaluationState = field.createEmptyState())
