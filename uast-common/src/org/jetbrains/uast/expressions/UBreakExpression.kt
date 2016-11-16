@@ -24,7 +24,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents a `break` expression.
  */
-interface UBreakExpression : UExpressionWithLabel {
+interface UBreakExpression : UJumpExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitBreakExpression(this)) return

@@ -24,7 +24,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents a `continue` expression.
  */
-interface UContinueExpression : UExpressionWithLabel {
+interface UContinueExpression : UJumpExpression {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitContinueExpression(this)) return
