@@ -1,0 +1,14 @@
+UFile (package = )
+    UClass (name = LocalClassKt)
+        UAnnotationMethod (name = foo)
+            UBlockExpression
+                [!] UnknownKotlinExpression (CLASS)
+                [!] UnknownKotlinExpression (FUN)
+                UReturnExpression
+                    UBinaryExpression (operator = ==)
+                        UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                            UIdentifier (Identifier (bar))
+                            USimpleNameReferenceExpression
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
+                            UIdentifier (Identifier (Local))
+                            USimpleNameReferenceExpression
