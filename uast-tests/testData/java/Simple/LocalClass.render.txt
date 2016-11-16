@@ -1,0 +1,7 @@
+public class LocalClass : Object {
+    public static fun foo() : int {
+
+        [!] UnknownJavaExpression (PsiEmptyStatement)
+        return Local().hashCode()
+    }
+}

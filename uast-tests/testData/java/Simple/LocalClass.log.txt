@@ -1,0 +1,12 @@
+UFile (package = )
+    UClass (name = LocalClass)
+        UMethod (name = foo)
+            UBlockExpression
+                UVariableDeclarationsExpression
+                [!] UnknownJavaExpression (PsiEmptyStatement)
+                UReturnExpression
+                    UQualifiedReferenceExpression
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
+                            USimpleNameReferenceExpression
+                        UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                            UIdentifier (Identifier (hashCode))

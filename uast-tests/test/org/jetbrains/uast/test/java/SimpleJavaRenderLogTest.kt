@@ -7,7 +7,9 @@ class SimpleJavaRenderLogTest : AbstractJavaRenderLogTest() {
 
     @Test fun testEnumSwitch() = doTest("Simple/EnumSwitch.java")
 
-    @Test fun testJava() = doTest("Simple/Simple.java")
+    @Test fun testLocalClass() = doTest("Simple/LocalClass.java")
 
     @Test fun testReturnX() = doTest("Simple/ReturnX.java")
+
+    @Test fun testJava() = doTest("Simple/Simple.java")
 }
