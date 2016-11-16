@@ -1,4 +1,4 @@
-public class Anonymous {
+public class Lambda {
     public static int foo() {
         int variable = 42;
 
