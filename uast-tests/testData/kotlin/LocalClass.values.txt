@@ -1,0 +1,14 @@
+UFile (package = ) [public final class LocalClassKt : Object {...]
+    UClass (name = LocalClassKt) [public final class LocalClassKt : Object {...}]
+        UAnnotationMethod (name = foo) [public static final fun foo() : boolean {...}]
+            UBlockExpression [{...}] = Nothing
+                [!] UnknownKotlinExpression (CLASS) [[!] UnknownKotlinExpression (CLASS)] = Undetermined
+                [!] UnknownKotlinExpression (FUN) [[!] UnknownKotlinExpression (FUN)] = Undetermined
+                UReturnExpression [return bar() == <init>()] = Nothing
+                    UBinaryExpression (operator = ==) [bar() == <init>()] = Undetermined
+                        UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()
+                            UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
+                            USimpleNameReferenceExpression [bar] = external bar
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()] = external <init>()
+                            UIdentifier (Identifier (Local)) [UIdentifier (Identifier (Local))]
+                            USimpleNameReferenceExpression [<init>] = external <init>
