@@ -38,33 +38,33 @@ UFile (package = ) [public class Shift : Object {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var one: long = 1] = Undetermined
                     ULocalVariable (name = one) [var one: long = 1]
-                        ULiteralExpression (value = 1) [1] = 1L
+                        ULiteralExpression (value = 1) [1] = (long)1
                 UVariableDeclarationsExpression [var two: long = one << 1] = Undetermined
                     ULocalVariable (name = two) [var two: long = one << 1]
-                        UBinaryExpression (operator = <<) [one << 1] = 2L (depending on: (var one = 1L))
-                            USimpleNameReferenceExpression [one] = (var one = 1L)
+                        UBinaryExpression (operator = <<) [one << 1] = (long)2 (depending on: (var one = (long)1))
+                            USimpleNameReferenceExpression [one] = (var one = (long)1)
                             ULiteralExpression (value = 1) [1] = 1
                 UVariableDeclarationsExpression [var large: long = two << 61] = Undetermined
                     ULocalVariable (name = large) [var large: long = two << 61]
-                        UBinaryExpression (operator = <<) [two << 61] = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L))))
-                            USimpleNameReferenceExpression [two] = (var two = 2L (depending on: (var one = 1L)))
+                        UBinaryExpression (operator = <<) [two << 61] = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1))))
+                            USimpleNameReferenceExpression [two] = (var two = (long)2 (depending on: (var one = (long)1)))
                             ULiteralExpression (value = 61) [61] = 61
                 UVariableDeclarationsExpression [var minLong: long = -9223372036854775808] = Undetermined
                     ULocalVariable (name = minLong) [var minLong: long = -9223372036854775808]
-                        ULiteralExpression (value = -9223372036854775808) [-9223372036854775808] = -9223372036854775808L
+                        ULiteralExpression (value = -9223372036854775808) [-9223372036854775808] = (long)-9223372036854775808
                 UVariableDeclarationsExpression [var eighth: long = minLong >> 3] = Undetermined
                     ULocalVariable (name = eighth) [var eighth: long = minLong >> 3]
-                        UBinaryExpression (operator = >>) [minLong >> 3] = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L))
-                            USimpleNameReferenceExpression [minLong] = (var minLong = -9223372036854775808L)
+                        UBinaryExpression (operator = >>) [minLong >> 3] = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))
+                            USimpleNameReferenceExpression [minLong] = (var minLong = (long)-9223372036854775808)
                             ULiteralExpression (value = 3) [3] = 3
                 UVariableDeclarationsExpression [var unsignedEighth: long = minLong >>> 3] = Undetermined
                     ULocalVariable (name = unsignedEighth) [var unsignedEighth: long = minLong >>> 3]
-                        UBinaryExpression (operator = >>>) [minLong >>> 3] = 1152921504606846976L (depending on: (var minLong = -9223372036854775808L))
-                            USimpleNameReferenceExpression [minLong] = (var minLong = -9223372036854775808L)
+                        UBinaryExpression (operator = >>>) [minLong >>> 3] = (long)1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))
+                            USimpleNameReferenceExpression [minLong] = (var minLong = (long)-9223372036854775808)
                             ULiteralExpression (value = 3) [3] = 3
                 UReturnExpression [return large + eighth + unsignedEighth] = Nothing
-                    UBinaryExpression (operator = +) [large + eighth + unsignedEighth] = 4611686018427387904L (depending on: (var large = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L))))), (var eighth = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L))), (var unsignedEighth = 1152921504606846976L (depending on: (var minLong = -9223372036854775808L))))
-                        UBinaryExpression (operator = +) [large + eighth] = 3458764513820540928L (depending on: (var large = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L))))), (var eighth = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L))))
-                            USimpleNameReferenceExpression [large] = (var large = 4611686018427387904L (depending on: (var two = 2L (depending on: (var one = 1L)))))
-                            USimpleNameReferenceExpression [eighth] = (var eighth = -1152921504606846976L (depending on: (var minLong = -9223372036854775808L)))
-                        USimpleNameReferenceExpression [unsignedEighth] = (var unsignedEighth = 1152921504606846976L (depending on: (var minLong = -9223372036854775808L)))
+                    UBinaryExpression (operator = +) [large + eighth + unsignedEighth] = (long)4611686018427387904 (depending on: (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1))))), (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))), (var unsignedEighth = (long)1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))))
+                        UBinaryExpression (operator = +) [large + eighth] = (long)3458764513820540928 (depending on: (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1))))), (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))))
+                            USimpleNameReferenceExpression [large] = (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1)))))
+                            USimpleNameReferenceExpression [eighth] = (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808)))
+                        USimpleNameReferenceExpression [unsignedEighth] = (var unsignedEighth = (long)1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808)))

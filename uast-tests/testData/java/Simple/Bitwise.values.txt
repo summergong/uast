@@ -27,22 +27,22 @@ UFile (package = ) [public class Bitwise : Object {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var first: long = 81985529216486895] = Undetermined
                     ULocalVariable (name = first) [var first: long = 81985529216486895]
-                        ULiteralExpression (value = 81985529216486895) [81985529216486895] = 81985529216486895L
+                        ULiteralExpression (value = 81985529216486895) [81985529216486895] = (long)81985529216486895
                 UVariableDeclarationsExpression [var second: long = 1147797409030816545] = Undetermined
                     ULocalVariable (name = second) [var second: long = 1147797409030816545]
-                        ULiteralExpression (value = 1147797409030816545) [1147797409030816545] = 1147797409030816545L
+                        ULiteralExpression (value = 1147797409030816545) [1147797409030816545] = (long)1147797409030816545
                 UReturnExpression [return (first & second) + (first | second) + (first ^ second)] = Nothing
-                    UBinaryExpression (operator = +) [(first & second) + (first | second) + (first ^ second)] = 2296730115643514846L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                        UBinaryExpression (operator = +) [(first & second) + (first | second)] = 1229782938247303440L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                            UParenthesizedExpression [(first & second)] = 81417880425546017L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                                UBinaryExpression (operator = &) [first & second] = 81417880425546017L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                                    USimpleNameReferenceExpression [first] = (var first = 81985529216486895L)
-                                    USimpleNameReferenceExpression [second] = (var second = 1147797409030816545L)
-                            UParenthesizedExpression [(first | second)] = 1148365057821757423L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                                UBinaryExpression (operator = |) [first | second] = 1148365057821757423L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                                    USimpleNameReferenceExpression [first] = (var first = 81985529216486895L)
-                                    USimpleNameReferenceExpression [second] = (var second = 1147797409030816545L)
-                        UParenthesizedExpression [(first ^ second)] = 1066947177396211406L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                            UBinaryExpression (operator = ^) [first ^ second] = 1066947177396211406L (depending on: (var first = 81985529216486895L), (var second = 1147797409030816545L))
-                                USimpleNameReferenceExpression [first] = (var first = 81985529216486895L)
-                                USimpleNameReferenceExpression [second] = (var second = 1147797409030816545L)
+                    UBinaryExpression (operator = +) [(first & second) + (first | second) + (first ^ second)] = (long)2296730115643514846 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                        UBinaryExpression (operator = +) [(first & second) + (first | second)] = (long)1229782938247303440 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                            UParenthesizedExpression [(first & second)] = (long)81417880425546017 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                                UBinaryExpression (operator = &) [first & second] = (long)81417880425546017 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                                    USimpleNameReferenceExpression [first] = (var first = (long)81985529216486895)
+                                    USimpleNameReferenceExpression [second] = (var second = (long)1147797409030816545)
+                            UParenthesizedExpression [(first | second)] = (long)1148365057821757423 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                                UBinaryExpression (operator = |) [first | second] = (long)1148365057821757423 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                                    USimpleNameReferenceExpression [first] = (var first = (long)81985529216486895)
+                                    USimpleNameReferenceExpression [second] = (var second = (long)1147797409030816545)
+                        UParenthesizedExpression [(first ^ second)] = (long)1066947177396211406 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                            UBinaryExpression (operator = ^) [first ^ second] = (long)1066947177396211406 (depending on: (var first = (long)81985529216486895), (var second = (long)1147797409030816545))
+                                USimpleNameReferenceExpression [first] = (var first = (long)81985529216486895)
+                                USimpleNameReferenceExpression [second] = (var second = (long)1147797409030816545)

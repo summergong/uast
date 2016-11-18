@@ -4,33 +4,33 @@ UFile (package = ) [public class FloatDouble : Object {...]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var f1: float = 1.0] = Undetermined
                     ULocalVariable (name = f1) [var f1: float = 1.0]
-                        ULiteralExpression (value = 1.0) [1.0] = 1.0F
+                        ULiteralExpression (value = 1.0) [1.0] = (float)1.0
                 UVariableDeclarationsExpression [var d2: double = 2.0] = Undetermined
                     ULocalVariable (name = d2) [var d2: double = 2.0]
                         ULiteralExpression (value = 2.0) [2.0] = 2.0
                 UVariableDeclarationsExpression [var d3: double = f1 + d2] = Undetermined
                     ULocalVariable (name = d3) [var d3: double = f1 + d2]
-                        UBinaryExpression (operator = +) [f1 + d2] = 3.0 (depending on: (var f1 = 1.0F), (var d2 = 2.0))
-                            USimpleNameReferenceExpression [f1] = (var f1 = 1.0F)
+                        UBinaryExpression (operator = +) [f1 + d2] = 3.0 (depending on: (var f1 = (float)1.0), (var d2 = 2.0))
+                            USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
                             USimpleNameReferenceExpression [d2] = (var d2 = 2.0)
                 UVariableDeclarationsExpression [var f2: float = f1 + f1] = Undetermined
                     ULocalVariable (name = f2) [var f2: float = f1 + f1]
-                        UBinaryExpression (operator = +) [f1 + f1] = 2.0F (depending on: (var f1 = 1.0F))
-                            USimpleNameReferenceExpression [f1] = (var f1 = 1.0F)
-                            USimpleNameReferenceExpression [f1] = (var f1 = 1.0F)
+                        UBinaryExpression (operator = +) [f1 + f1] = (float)2.0 (depending on: (var f1 = (float)1.0))
+                            USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
+                            USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
                 UVariableDeclarationsExpression [var f3: float = d3 as float] = Undetermined
                     ULocalVariable (name = f3) [var f3: float = d3 as float]
-                        UBinaryExpressionWithType [d3 as float] = 3.0F
-                            USimpleNameReferenceExpression [d3] = (var d3 = 3.0 (depending on: (var f1 = 1.0F), (var d2 = 2.0)))
+                        UBinaryExpressionWithType [d3 as float] = (float)3.0
+                            USimpleNameReferenceExpression [d3] = (var d3 = 3.0 (depending on: (var f1 = (float)1.0), (var d2 = 2.0)))
                 UVariableDeclarationsExpression [var d1: double = f1 as double] = Undetermined
                     ULocalVariable (name = d1) [var d1: double = f1 as double]
                         UBinaryExpressionWithType [f1 as double] = 1.0
-                            USimpleNameReferenceExpression [f1] = (var f1 = 1.0F)
+                            USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
                 UReturnExpression [return d1 + f1 + f2 + f3] = Nothing
-                    UBinaryExpression (operator = +) [d1 + f1 + f2 + f3] = 7.0 (depending on: (var d1 = 1.0), (var f1 = 1.0F), (var f2 = 2.0F (depending on: (var f1 = 1.0F))), (var f3 = 3.0F))
-                        UBinaryExpression (operator = +) [d1 + f1 + f2] = 4.0 (depending on: (var d1 = 1.0), (var f1 = 1.0F), (var f2 = 2.0F (depending on: (var f1 = 1.0F))))
-                            UBinaryExpression (operator = +) [d1 + f1] = 2.0 (depending on: (var d1 = 1.0), (var f1 = 1.0F))
+                    UBinaryExpression (operator = +) [d1 + f1 + f2 + f3] = 7.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0), (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0))), (var f3 = (float)3.0))
+                        UBinaryExpression (operator = +) [d1 + f1 + f2] = 4.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0), (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0))))
+                            UBinaryExpression (operator = +) [d1 + f1] = 2.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0))
                                 USimpleNameReferenceExpression [d1] = (var d1 = 1.0)
-                                USimpleNameReferenceExpression [f1] = (var f1 = 1.0F)
-                            USimpleNameReferenceExpression [f2] = (var f2 = 2.0F (depending on: (var f1 = 1.0F)))
-                        USimpleNameReferenceExpression [f3] = (var f3 = 3.0F)
+                                USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
+                            USimpleNameReferenceExpression [f2] = (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0)))
+                        USimpleNameReferenceExpression [f3] = (var f3 = (float)3.0)

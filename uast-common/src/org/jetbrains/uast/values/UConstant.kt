@@ -14,12 +14,12 @@ interface UConstant {
     override fun toString(): String
 }
 
-enum class UNumericType(val suffix: String = "") {
-    BYTE("(b)"),
-    SHORT("(s)"),
+enum class UNumericType(val prefix: String = "") {
+    BYTE("(byte)"),
+    SHORT("(short)"),
     INT(),
-    LONG("L"),
-    FLOAT("F"),
+    LONG("(long)"),
+    FLOAT("(float)"),
     DOUBLE();
 
     fun merge(other: UNumericType): UNumericType {
@@ -32,6 +32,10 @@ enum class UNumericType(val suffix: String = "") {
 
 abstract class UNumericConstant(val type: UNumericType) : UValue.AbstractConstant() {
     override abstract val value: Number
+
+    override fun toString() = "${type.prefix}$value"
+
+    override fun asString() = "$value"
 }
 
 private fun PsiType.toNumeric(): UNumericType = when (this) {
@@ -53,6 +57,13 @@ private fun Int.asType(type: UNumericType): Number = when (type) {
 class UIntConstant(
         rawValue: Int, type: UNumericType = UNumericType.INT
 ) : UNumericConstant(type) {
+
+    init {
+        when (type) {
+            UNumericType.INT, UNumericType.SHORT, UNumericType.BYTE -> {}
+            else -> throw AssertionError("Incorrect UIntConstant type: $type")
+        }
+    }
 
     val typedValue: Number = rawValue.asType(type)
 
@@ -130,10 +141,6 @@ class UIntConstant(
         is UIntConstant -> UIntConstant(value ushr other.value, type.merge(other.type))
         else -> super.ushr(other)
     }
-
-    override fun toString() = "$typedValue${type.suffix}"
-
-    override fun asString() = "$typedValue"
 }
 
 class ULongConstant(override val value: Long) : UNumericConstant(UNumericType.LONG) {
@@ -207,10 +214,6 @@ class ULongConstant(override val value: Long) : UNumericConstant(UNumericType.LO
         is UIntConstant -> ULongConstant(value ushr other.value)
         else -> super.ushr(other)
     }
-
-    override fun toString() = "${value}L"
-
-    override fun asString() = "$value"
 }
 
 open class UFloatConstant protected constructor(
@@ -258,14 +261,15 @@ open class UFloatConstant protected constructor(
 
     override fun dec() = create(value - 1, type)
 
-    override fun toString() = "$value${type.suffix}"
-
-    override fun asString() = "$value"
-
     companion object {
         fun create(value: Double, type: UNumericType = UNumericType.DOUBLE) =
-                if (value.isNaN()) UNaNConstant.ofType(type)
-                else UFloatConstant(value, type)
+                when (type) {
+                    UNumericType.DOUBLE, UNumericType.FLOAT -> {
+                        if (value.isNaN()) UNaNConstant.valueOf(type)
+                        else UFloatConstant(value, type)
+                    }
+                    else -> throw AssertionError("Incorrect UFloatConstant type: $type")
+                }
 
         fun create(value: Double, type: PsiType) = create(value, type.toNumeric())
     }
@@ -287,7 +291,7 @@ sealed class UNaNConstant(type: UNumericType = UNumericType.DOUBLE) : UFloatCons
     override fun valueEquals(other: UValue) = UBooleanConstant.False
 
     companion object {
-        fun ofType(type: UNumericType) = when (type) {
+        fun valueOf(type: UNumericType) = when (type) {
             UNumericType.DOUBLE -> Double
             UNumericType.FLOAT -> Float
             else -> throw AssertionError("NaN exists only for Float / Double, but not for $type")

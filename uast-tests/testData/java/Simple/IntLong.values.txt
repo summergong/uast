@@ -42,30 +42,30 @@ UFile (package = ) [public class IntLong : Object {...]
                             USimpleNameReferenceExpression [twoPowerSixteen] = (var twoPowerSixteen = 65536 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))))
                 UVariableDeclarationsExpression [var twoPowerFourty: long = (twoPowerSixteen as long) * (twoPowerTwentyFour as long)] = Undetermined
                     ULocalVariable (name = twoPowerFourty) [var twoPowerFourty: long = (twoPowerSixteen as long) * (twoPowerTwentyFour as long)]
-                        UBinaryExpression (operator = *) [(twoPowerSixteen as long) * (twoPowerTwentyFour as long)] = 1099511627776L
-                            UParenthesizedExpression [(twoPowerSixteen as long)] = 65536L
-                                UBinaryExpressionWithType [twoPowerSixteen as long] = 65536L
+                        UBinaryExpression (operator = *) [(twoPowerSixteen as long) * (twoPowerTwentyFour as long)] = (long)1099511627776
+                            UParenthesizedExpression [(twoPowerSixteen as long)] = (long)65536
+                                UBinaryExpressionWithType [twoPowerSixteen as long] = (long)65536
                                     USimpleNameReferenceExpression [twoPowerSixteen] = (var twoPowerSixteen = 65536 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))))
-                            UParenthesizedExpression [(twoPowerTwentyFour as long)] = 16777216L
-                                UBinaryExpressionWithType [twoPowerTwentyFour as long] = 16777216L
+                            UParenthesizedExpression [(twoPowerTwentyFour as long)] = (long)16777216
+                                UBinaryExpressionWithType [twoPowerTwentyFour as long] = (long)16777216
                                     USimpleNameReferenceExpression [twoPowerTwentyFour] = (var twoPowerTwentyFour = 16777216 (depending on: (var twoPowerSixteen = 65536 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))))), (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))))
                 UVariableDeclarationsExpression [var eight: long = 8] = Undetermined
                     ULocalVariable (name = eight) [var eight: long = 8]
-                        ULiteralExpression (value = 8) [8] = 8L
+                        ULiteralExpression (value = 8) [8] = (long)8
                 UVariableDeclarationsExpression [var twoPowerFourtyThree: long = twoPowerFourty * eight] = Undetermined
                     ULocalVariable (name = twoPowerFourtyThree) [var twoPowerFourtyThree: long = twoPowerFourty * eight]
-                        UBinaryExpression (operator = *) [twoPowerFourty * eight] = 8796093022208L (depending on: (var twoPowerFourty = 1099511627776L), (var eight = 8L))
-                            USimpleNameReferenceExpression [twoPowerFourty] = (var twoPowerFourty = 1099511627776L)
-                            USimpleNameReferenceExpression [eight] = (var eight = 8L)
+                        UBinaryExpression (operator = *) [twoPowerFourty * eight] = (long)8796093022208 (depending on: (var twoPowerFourty = (long)1099511627776), (var eight = (long)8))
+                            USimpleNameReferenceExpression [twoPowerFourty] = (var twoPowerFourty = (long)1099511627776)
+                            USimpleNameReferenceExpression [eight] = (var eight = (long)8)
                 UVariableDeclarationsExpression [var twoPowerFourtyEight: long = twoPowerFourty * twoPowerEight] = Undetermined
                     ULocalVariable (name = twoPowerFourtyEight) [var twoPowerFourtyEight: long = twoPowerFourty * twoPowerEight]
-                        UBinaryExpression (operator = *) [twoPowerFourty * twoPowerEight] = 281474976710656L (depending on: (var twoPowerFourty = 1099511627776L), (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))))
-                            USimpleNameReferenceExpression [twoPowerFourty] = (var twoPowerFourty = 1099511627776L)
+                        UBinaryExpression (operator = *) [twoPowerFourty * twoPowerEight] = (long)281474976710656 (depending on: (var twoPowerFourty = (long)1099511627776), (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))))
+                            USimpleNameReferenceExpression [twoPowerFourty] = (var twoPowerFourty = (long)1099511627776)
                             USimpleNameReferenceExpression [twoPowerEight] = (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))
                 UVariableDeclarationsExpression [var twoPowerFiftySix: long = twoPowerEight * twoPowerFourty] = Undetermined
                     ULocalVariable (name = twoPowerFiftySix) [var twoPowerFiftySix: long = twoPowerEight * twoPowerFourty]
-                        UBinaryExpression (operator = *) [twoPowerEight * twoPowerFourty] = 281474976710656L (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))), (var twoPowerFourty = 1099511627776L))
+                        UBinaryExpression (operator = *) [twoPowerEight * twoPowerFourty] = (long)281474976710656 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))), (var twoPowerFourty = (long)1099511627776))
                             USimpleNameReferenceExpression [twoPowerEight] = (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))
-                            USimpleNameReferenceExpression [twoPowerFourty] = (var twoPowerFourty = 1099511627776L)
+                            USimpleNameReferenceExpression [twoPowerFourty] = (var twoPowerFourty = (long)1099511627776)
                 UReturnExpression [return twoPowerFiftySix] = Nothing
-                    USimpleNameReferenceExpression [twoPowerFiftySix] = (var twoPowerFiftySix = 281474976710656L (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))), (var twoPowerFourty = 1099511627776L)))
+                    USimpleNameReferenceExpression [twoPowerFiftySix] = (var twoPowerFiftySix = (long)281474976710656 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))), (var twoPowerFourty = (long)1099511627776)))
