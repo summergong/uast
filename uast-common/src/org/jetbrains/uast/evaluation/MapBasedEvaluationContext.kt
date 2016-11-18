@@ -3,12 +3,13 @@ package org.jetbrains.uast.evaluation
 import org.jetbrains.uast.*
 import org.jetbrains.uast.values.UValue
 import org.jetbrains.uast.visitor.UastVisitor
+import java.lang.ref.SoftReference
 import java.util.*
 
 class MapBasedEvaluationContext(
         override val uastContext: UastContext
 ) : UEvaluationContext {
-    private val evaluators = WeakHashMap<UDeclaration, UEvaluator>()
+    private val evaluators = WeakHashMap<UDeclaration, SoftReference<UEvaluator>>()
 
     override fun analyzeAll(file: UFile, state: UEvaluationState): UEvaluationContext {
         file.accept(object: UastVisitor {
@@ -31,12 +32,12 @@ class MapBasedEvaluationContext(
     }
 
     private fun getOrCreateEvaluator(declaration: UDeclaration, state: UEvaluationState? = null) =
-            evaluators[declaration] ?: createEvaluator(uastContext).apply {
+            evaluators[declaration]?.get() ?: createEvaluator(uastContext).apply {
                 when (declaration) {
                     is UMethod -> this.analyze(declaration, state ?: declaration.createEmptyState())
                     is UField -> this.analyze(declaration, state ?: declaration.createEmptyState())
                 }
-                evaluators[declaration] = this
+                evaluators[declaration] = SoftReference(this)
             }
 
     override fun analyze(declaration: UDeclaration, state: UEvaluationState) = getOrCreateEvaluator(declaration, state)
@@ -47,7 +48,7 @@ class MapBasedEvaluationContext(
         var containingElement = expression.containingElement
         while (containingElement != null) {
             if (containingElement is UDeclaration) {
-                val evaluator = evaluators[containingElement]
+                val evaluator = evaluators[containingElement]?.get()
                 if (evaluator != null) {
                     return evaluator
                 }
