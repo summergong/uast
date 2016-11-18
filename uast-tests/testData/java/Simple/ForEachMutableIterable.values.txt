@@ -16,17 +16,17 @@ UFile (package = ) [import java.util...]
                         ULocalVariable (name = i) [var i: int = a++]
                             UPostfixExpression (operator = ++) [a++] = (var a = 0)
                                 USimpleNameReferenceExpression [a] = (var a = 0)
-                    UBinaryExpression (operator = <) [i < size] = Undetermined (depending on: (var i = (var a = 0)))
-                        USimpleNameReferenceExpression [i] = (var i = (var a = 0))
+                    UBinaryExpression (operator = <) [i < size] = Undetermined
+                        USimpleNameReferenceExpression [i] = Phi((var i = Undetermined), (var i = 1), (var i = (var a = 0)))
                         USimpleNameReferenceExpression [size] = Undetermined
-                    UPostfixExpression (operator = ++) [i++] = Undetermined
-                        USimpleNameReferenceExpression [i] = Undetermined
+                    UPostfixExpression (operator = ++) [i++] = Phi((var i = Undetermined), (var i = 1), (var i = (var a = 0)))
+                        USimpleNameReferenceExpression [i] = Phi((var i = Undetermined), (var i = 1), (var i = (var a = 0)))
                     UBlockExpression [{...}] = external add(i)
                         UQualifiedReferenceExpression [result.add(i)] = external add(i)
                             USimpleNameReferenceExpression [result] = (var result = external LinkedList<Integer>())
                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [add(i)] = external add(i)
                                 UIdentifier (Identifier (add)) [UIdentifier (Identifier (add))]
-                                USimpleNameReferenceExpression [i] = (var i = (var a = 0))
+                                USimpleNameReferenceExpression [i] = Phi((var i = Undetermined), (var i = 1), (var i = (var a = 0)))
                 UQualifiedReferenceExpression [result.add(a)] = external add(a)
                     USimpleNameReferenceExpression [result] = (var result = external LinkedList<Integer>())
                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [add(a)] = external add(a)

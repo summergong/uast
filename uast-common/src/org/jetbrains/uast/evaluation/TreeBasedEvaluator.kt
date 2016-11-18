@@ -466,7 +466,8 @@ class TreeBasedEvaluator(
             loop: ULoopExpression,
             inputState: UEvaluationState,
             condition: UExpression? = null,
-            infinite: Boolean = false
+            infinite: Boolean = false,
+            update: UExpression? = null
     ): UEvaluationInfo {
 
         fun evaluateCondition(inputState: UEvaluationState): UEvaluationInfo =
@@ -488,7 +489,8 @@ class TreeBasedEvaluator(
                     return bodyInfo.copy(UValue.Undetermined).merge(previousInfo) storeResultFor loop
                 }
                 else if (bodyValue.kind == CONTINUE && bodyValue.containingLoopOrSwitch == loop) {
-                    resultInfo = bodyInfo.copy(UValue.Undetermined).merge(previousInfo)
+                    val updateInfo = update?.accept(this, bodyInfo.state) ?: bodyInfo
+                    resultInfo = updateInfo.copy(UValue.Undetermined).merge(previousInfo)
                 }
                 else {
                     return if (conditionConstant == UBooleanConstant.True) {
@@ -500,7 +502,8 @@ class TreeBasedEvaluator(
                 }
             }
             else {
-                resultInfo = bodyInfo.merge(previousInfo)
+                val updateInfo = update?.accept(this, bodyInfo.state) ?: bodyInfo
+                resultInfo = updateInfo.merge(previousInfo)
             }
         } while (previousInfo != resultInfo)
         return resultInfo.copy(UValue.Undetermined) storeResultFor loop
@@ -515,7 +518,7 @@ class TreeBasedEvaluator(
     override fun visitForExpression(node: UForExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val initialState = node.declaration?.accept(this, data)?.state ?: data
-        return evaluateLoop(node, initialState, node.condition, node.condition == null)
+        return evaluateLoop(node, initialState, node.condition, node.condition == null, node.update)
     }
 
     override fun visitWhileExpression(node: UWhileExpression, data: UEvaluationState): UEvaluationInfo {
