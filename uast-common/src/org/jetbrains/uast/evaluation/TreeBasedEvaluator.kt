@@ -15,6 +15,10 @@ class TreeBasedEvaluator(
         override val context: UastContext
 ) : UastTypedVisitor<UEvaluationState, UEvaluationInfo>, UEvaluator {
 
+    override fun getDependents(dependency: UDependency): Set<UValue> {
+        return resultCache.values.map { it.value }.filter { dependency in it.dependencies }.toSet()
+    }
+
     private val inputStateCache = mutableMapOf<UExpression, UEvaluationState>()
 
     private val resultCache = mutableMapOf<UExpression, UEvaluationInfo>()

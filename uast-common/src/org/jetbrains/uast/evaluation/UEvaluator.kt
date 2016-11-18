@@ -4,6 +4,7 @@ import com.intellij.openapi.extensions.Extensions
 import com.intellij.psi.PsiElement
 import org.jetbrains.uast.*
 import org.jetbrains.uast.psi.PsiElementBacked
+import org.jetbrains.uast.values.UDependency
 import org.jetbrains.uast.values.UValue
 
 // Role: at the current state, evaluate expression(s)
@@ -27,6 +28,8 @@ interface UEvaluator {
     fun analyze(field: UField, state: UEvaluationState = field.createEmptyState())
 
     fun evaluate(expression: UExpression, state: UEvaluationState? = null): UValue
+
+    fun getDependents(dependency: UDependency): Set<UValue>
 }
 
 fun createEvaluator(context: UastContext): UEvaluator =
