@@ -3,10 +3,11 @@ package org.jetbrains.uast.evaluation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UVariable
 import org.jetbrains.uast.values.UValue
+import org.jetbrains.uast.values.UVariableValue
 
 abstract class AbstractEvaluationState(override val boundElement: UElement? = null) : UEvaluationState {
     override fun assign(variable: UVariable, value: UValue, at: UElement): AbstractEvaluationState {
-        val variableValue = UValue.Variable.create(variable, value)
+        val variableValue = UVariableValue.create(variable, value)
         val prevVariableValue = this[variable]
         return if (prevVariableValue == variableValue) this
         else DelegatingEvaluationState(

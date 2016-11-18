@@ -6,7 +6,9 @@ import org.jetbrains.uast.UastBinaryOperator
 import org.jetbrains.uast.UastPostfixOperator
 import org.jetbrains.uast.UastPrefixOperator
 import org.jetbrains.uast.UastQualifiedExpressionAccessType
+import org.jetbrains.uast.values.UUndeterminedValue
 import org.jetbrains.uast.values.UValue
+import org.jetbrains.uast.values.UValueBase
 
 interface UEvaluatorExtension {
 
@@ -23,24 +25,24 @@ interface UEvaluatorExtension {
             operator: UastPostfixOperator,
             operandValue: UValue,
             state: UEvaluationState
-    ): UEvaluationInfo = UValue.Undetermined to state
+    ): UEvaluationInfo = UUndeterminedValue to state
 
     fun evaluatePrefix(
             operator: UastPrefixOperator,
             operandValue: UValue,
             state: UEvaluationState
-    ): UEvaluationInfo = UValue.Undetermined to state
+    ): UEvaluationInfo = UUndeterminedValue to state
 
     fun evaluateBinary(
             operator: UastBinaryOperator,
             leftValue: UValue,
             rightValue: UValue,
             state: UEvaluationState
-    ): UEvaluationInfo = UValue.Undetermined to state
+    ): UEvaluationInfo = UUndeterminedValue to state
 
     fun evaluateQualified(
             accessType: UastQualifiedExpressionAccessType,
             receiverInfo: UEvaluationInfo,
             selectorInfo: UEvaluationInfo
-    ): UEvaluationInfo = UValue.Undetermined to selectorInfo.state
+    ): UEvaluationInfo = UUndeterminedValue to selectorInfo.state
 }

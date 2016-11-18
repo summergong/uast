@@ -2,11 +2,11 @@ package org.jetbrains.uast.evaluation
 
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UVariable
-import org.jetbrains.uast.values.UValue
+import org.jetbrains.uast.values.UVariableValue
 
 class DelegatingEvaluationState(
         boundElement: UElement,
-        private val variableValue: UValue.Variable,
+        private val variableValue: UVariableValue,
         private val baseState: UEvaluationState
 ) : AbstractEvaluationState(boundElement) {
 

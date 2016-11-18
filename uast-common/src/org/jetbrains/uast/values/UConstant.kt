@@ -4,7 +4,7 @@ import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.name
 
-interface UConstant {
+interface UConstant : UValue {
     val value: Any?
 
     // Used for string concatenation
@@ -12,6 +12,22 @@ interface UConstant {
 
     // Used for logging / debugging purposes
     override fun toString(): String
+}
+
+abstract class UAbstractConstant : UValueBase(), UConstant {
+    override fun valueEquals(other: UValue) = when (other) {
+        this -> UBooleanConstant.True
+        is UConstant -> UBooleanConstant.False
+        else -> super.valueEquals(other)
+    }
+
+    override fun equals(other: Any?) = other is UAbstractConstant && value == other.value
+
+    override fun hashCode() = value?.hashCode() ?: 0
+
+    override fun toString() = "$value"
+
+    override fun asString() = toString()
 }
 
 enum class UNumericType(val prefix: String = "") {
@@ -30,7 +46,7 @@ enum class UNumericType(val prefix: String = "") {
     }
 }
 
-abstract class UNumericConstant(val type: UNumericType) : UValue.AbstractConstant() {
+abstract class UNumericConstant(val type: UNumericType) : UAbstractConstant() {
     override abstract val value: Number
 
     override fun toString() = "${type.prefix}$value"
@@ -297,7 +313,7 @@ sealed class UNaNConstant(type: UNumericType = UNumericType.DOUBLE) : UFloatCons
     }
 }
 
-class UCharConstant(override val value: Char) : UValue.AbstractConstant() {
+class UCharConstant(override val value: Char) : UAbstractConstant() {
     override fun plus(other: UValue) = when (other) {
         is UIntConstant -> UCharConstant(value + other.value)
         is UCharConstant -> UCharConstant(value + other.value.toInt())
@@ -324,7 +340,7 @@ class UCharConstant(override val value: Char) : UValue.AbstractConstant() {
     override fun asString() = "$value"
 }
 
-sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractConstant() {
+sealed class UBooleanConstant(override val value: Boolean) : UAbstractConstant() {
     object True : UBooleanConstant(true) {
         override fun not() = False
 
@@ -346,10 +362,10 @@ sealed class UBooleanConstant(override val value: Boolean) : UValue.AbstractCons
     }
 }
 
-class UStringConstant(override val value: String) : UValue.AbstractConstant() {
+class UStringConstant(override val value: String) : UAbstractConstant() {
 
     override fun plus(other: UValue) = when (other) {
-        is UValue.AbstractConstant -> UStringConstant(value + other.asString())
+        is UConstant -> UStringConstant(value + other.asString())
         else -> super.plus(other)
     }
 
@@ -363,7 +379,7 @@ class UStringConstant(override val value: String) : UValue.AbstractConstant() {
     override fun toString() = "\"$value\""
 }
 
-class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.AbstractConstant() {
+class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UAbstractConstant() {
     override fun equals(other: Any?) =
             other is UEnumEntryValueConstant &&
             value.nameIdentifier.text == other.value.nameIdentifier.text &&
@@ -381,10 +397,10 @@ class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UValue.Abst
     override fun asString() = value.name ?: ""
 }
 
-class UClassConstant(override val value: PsiType) : UValue.AbstractConstant() {
+class UClassConstant(override val value: PsiType) : UAbstractConstant() {
     override fun toString() = value.name
 }
 
-object UNullConstant : UValue.AbstractConstant() {
+object UNullConstant : UAbstractConstant() {
     override val value = null
 }

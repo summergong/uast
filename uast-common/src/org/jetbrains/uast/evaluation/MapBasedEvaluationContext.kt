@@ -1,7 +1,7 @@
 package org.jetbrains.uast.evaluation
 
 import org.jetbrains.uast.*
-import org.jetbrains.uast.values.UValue
+import org.jetbrains.uast.values.UUndeterminedValue
 import org.jetbrains.uast.visitor.UastVisitor
 import java.lang.ref.SoftReference
 import java.util.*
@@ -59,5 +59,5 @@ class MapBasedEvaluationContext(
     }
 
     override fun valueOf(expression: UExpression) =
-            getEvaluator(expression)?.evaluate(expression) ?: UValue.Undetermined
+            getEvaluator(expression)?.evaluate(expression) ?: UUndeterminedValue
 }

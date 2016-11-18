@@ -8,9 +8,7 @@ import org.jetbrains.uast.evaluation.UEvaluationState
 import org.jetbrains.uast.evaluation.UEvaluatorExtension
 import org.jetbrains.uast.kotlin.KotlinBinaryOperators
 import org.jetbrains.uast.kotlin.KotlinPostfixOperators
-import org.jetbrains.uast.values.UConstant
-import org.jetbrains.uast.values.UNullConstant
-import org.jetbrains.uast.values.UValue
+import org.jetbrains.uast.values.*
 
 class KotlinEvaluatorExtension : UEvaluatorExtension {
 
@@ -18,7 +16,7 @@ class KotlinEvaluatorExtension : UEvaluatorExtension {
         override fun toString() = "$from..$to"
     }
 
-    private class UClosedRangeConstant(override val value: Range) : UValue.AbstractConstant() {
+    private class UClosedRangeConstant(override val value: Range) : UAbstractConstant() {
         constructor(from: UValue, to: UValue): this(Range(from, to))
     }
 
@@ -31,16 +29,16 @@ class KotlinEvaluatorExtension : UEvaluatorExtension {
     ): UEvaluationInfo {
         return when (operator) {
             KotlinPostfixOperators.EXCLEXCL -> when (operandValue.toConstant()) {
-                UNullConstant -> UValue.Nothing(null)
+                UNullConstant -> UNothingValue(null)
                 is UConstant -> operandValue
-                else -> UValue.Undetermined
+                else -> UUndeterminedValue
             } to state
             else -> return super.evaluatePostfix(operator, operandValue, state)
         }
     }
 
     private fun UValue.contains(value: UValue): UValue {
-        val range = (this as? UClosedRangeConstant)?.value ?: return UValue.Undetermined
+        val range = (this as? UClosedRangeConstant)?.value ?: return UUndeterminedValue
         return (value greaterOrEquals range.from) and (value lessOrEquals range.to)
     }
 
@@ -54,7 +52,7 @@ class KotlinEvaluatorExtension : UEvaluatorExtension {
             KotlinBinaryOperators.IN -> rightValue.contains(leftValue)
             KotlinBinaryOperators.NOT_IN -> !rightValue.contains(leftValue)
             KotlinBinaryOperators.RANGE_TO -> UClosedRangeConstant(leftValue, rightValue)
-            else -> UValue.Undetermined
+            else -> UUndeterminedValue
         } to state
     }
 }
