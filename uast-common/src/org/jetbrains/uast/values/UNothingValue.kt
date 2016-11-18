@@ -3,9 +3,14 @@ package org.jetbrains.uast.values
 import org.jetbrains.uast.*
 
 // Something that never can be reached / created
-class UNothingValue private constructor(val containingLoopOrSwitch: UExpression?, val kind: JumpKind) : UValueBase() {
+internal class UNothingValue private constructor(
+        val containingLoopOrSwitch: UExpression?,
+        val kind: JumpKind
+) : UValueBase() {
 
-    constructor(jump: UExpression?) : this(jump?.containingLoopOrSwitch(), jump?.kind() ?: JumpKind.OTHER)
+    constructor(jump: UJumpExpression) : this(jump.containingLoopOrSwitch(), jump.kind())
+
+    constructor() : this(null, JumpKind.OTHER)
 
     enum class JumpKind {
         BREAK,
@@ -33,8 +38,7 @@ class UNothingValue private constructor(val containingLoopOrSwitch: UExpression?
     }
 
     companion object {
-        private fun UExpression.containingLoopOrSwitch(): UExpression? {
-            val label = (this as? UJumpExpression)?.label
+        private fun UJumpExpression.containingLoopOrSwitch(): UExpression? {
             var containingElement = containingElement
             while (containingElement != null) {
                 if (this is UBreakExpression && label == null && containingElement is USwitchExpression) {

@@ -10,4 +10,8 @@ interface UValue : UOperand {
     fun toConstant(): UConstant?
 
     val reachable: Boolean
+
+    companion object {
+        val UNREACHABLE: UValue = UNothingValue()
+    }
 }

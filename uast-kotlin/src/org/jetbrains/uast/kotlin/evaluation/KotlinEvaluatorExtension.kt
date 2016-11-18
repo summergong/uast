@@ -29,7 +29,7 @@ class KotlinEvaluatorExtension : UEvaluatorExtension {
     ): UEvaluationInfo {
         return when (operator) {
             KotlinPostfixOperators.EXCLEXCL -> when (operandValue.toConstant()) {
-                UNullConstant -> UNothingValue(null)
+                UNullConstant -> UValue.UNREACHABLE
                 is UConstant -> operandValue
                 else -> UUndeterminedValue
             } to state

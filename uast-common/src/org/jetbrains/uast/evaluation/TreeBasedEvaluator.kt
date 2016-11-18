@@ -78,7 +78,7 @@ class TreeBasedEvaluator(
     override fun visitReturnExpression(node: UReturnExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val argument = node.returnExpression
-        return UNothingValue(node) to (argument?.accept(this, data)?.state ?: data) storeResultFor node
+        return UValue.UNREACHABLE to (argument?.accept(this, data)?.state ?: data) storeResultFor node
     }
 
     override fun visitBreakExpression(node: UBreakExpression, data: UEvaluationState): UEvaluationInfo {
@@ -92,7 +92,7 @@ class TreeBasedEvaluator(
 
     override fun visitThrowExpression(node: UThrowExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
-        return UNothingValue(node) to data storeResultFor node
+        return UValue.UNREACHABLE to data storeResultFor node
     }
     // ----------------------- //
 
