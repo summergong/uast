@@ -55,7 +55,7 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
 
         CoreApplicationEnvironment.registerExtensionPoint(
                 Extensions.getArea(project),
-                UEvaluator.EXTENSION_POINT_NAME,
+                UEvaluatorExtension.EXTENSION_POINT_NAME,
                 UEvaluatorExtension::class.java)
 
         project.registerService(UastContext::class.java)
@@ -82,7 +82,7 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
     private fun registerEvaluatorLanguageExtensions() {
         val area = Extensions.getArea(project)
 
-        area.getExtensionPoint(UEvaluator.EXTENSION_POINT_NAME)
+        area.getExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME)
                 .registerExtension(KotlinEvaluatorExtension())
     }
 
