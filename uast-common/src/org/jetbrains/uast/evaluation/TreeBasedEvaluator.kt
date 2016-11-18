@@ -486,7 +486,12 @@ class TreeBasedEvaluator(
             val bodyValue = bodyInfo.value
             if (bodyValue is UValue.Nothing) {
                 if (bodyValue.kind == BREAK && bodyValue.containingLoopOrSwitch == loop) {
-                    return bodyInfo.copy(UValue.Undetermined).merge(previousInfo) storeResultFor loop
+                    return if (conditionConstant == UBooleanConstant.True) {
+                        bodyInfo.copy(UValue.Undetermined)
+                    }
+                    else {
+                        bodyInfo.copy(UValue.Undetermined).merge(previousInfo)
+                    } storeResultFor loop
                 }
                 else if (bodyValue.kind == CONTINUE && bodyValue.containingLoopOrSwitch == loop) {
                     val updateInfo = update?.accept(this, bodyInfo.state) ?: bodyInfo

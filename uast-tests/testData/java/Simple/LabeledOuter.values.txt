@@ -34,4 +34,4 @@ UFile (package = ) [public class LabeledOuter : Object {...]
                                 USimpleNameReferenceExpression [second] = Undetermined
                                 ULiteralExpression (value = 4) [4] = 4
                 UReturnExpression [return second] = Nothing
-                    USimpleNameReferenceExpression [second] = Phi((var second = 3), (var second = 2))
+                    USimpleNameReferenceExpression [second] = (var second = 3)

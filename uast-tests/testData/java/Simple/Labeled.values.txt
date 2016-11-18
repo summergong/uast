@@ -22,4 +22,4 @@ UFile (package = ) [public class Labeled : Object {...]
                                 UBreakExpression (label = labeled) [break@labeled] = Nothing(break)
                                 UastEmptyExpression [UastEmptyExpression] = Undetermined
                 UReturnExpression [return second] = Nothing
-                    USimpleNameReferenceExpression [second] = Phi((var second = 3), (var second = 2))
+                    USimpleNameReferenceExpression [second] = (var second = 3)
