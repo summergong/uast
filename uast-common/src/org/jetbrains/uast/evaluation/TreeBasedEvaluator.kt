@@ -168,9 +168,9 @@ class TreeBasedEvaluator(
         val operandValue = operandInfo.value
         if (!operandValue.reachable()) return operandInfo storeResultFor node
         return when (node.operator) {
-            UastPrefixOperator.UNARY_PLUS -> operandInfo.value
-            UastPrefixOperator.UNARY_MINUS -> -operandInfo.value
-            UastPrefixOperator.LOGICAL_NOT -> !operandInfo.value
+            UastPrefixOperator.UNARY_PLUS -> operandValue
+            UastPrefixOperator.UNARY_MINUS -> -operandValue
+            UastPrefixOperator.LOGICAL_NOT -> !operandValue
             UastPrefixOperator.INC -> {
                 val resultValue = operandValue.inc()
                 val newState = node.operand.assign(resultValue to operandInfo.state).state
@@ -216,7 +216,7 @@ class TreeBasedEvaluator(
             return node.leftOperand.assign(operator, node.rightOperand, data) storeResultFor node
         }
         val leftInfo = node.leftOperand.accept(this, data)
-        if (!leftInfo.value.reachable()) return leftInfo storeResultFor node
+        if (!leftInfo.reachable()) return leftInfo storeResultFor node
         val rightInfo = node.rightOperand.accept(this, leftInfo.state)
         return when (operator) {
             UastBinaryOperator.PLUS -> leftInfo.value + rightInfo.value
@@ -255,7 +255,7 @@ class TreeBasedEvaluator(
                 constant as? UBooleanConstant
             }
             PsiType.CHAR -> when (constant) {
-                is UNumericConstant -> constant.value.toChar().let(::UCharConstant)
+                is UNumericConstant -> UCharConstant(constant.value.toChar())
                 is UCharConstant -> constant
                 else -> null
             }
@@ -301,7 +301,7 @@ class TreeBasedEvaluator(
     ): UEvaluationInfo {
         inputStateCache[node] = data
         val operandInfo = node.operand.accept(this, data)
-        if (!operandInfo.value.reachable() || operandInfo.value == UValue.Undetermined) {
+        if (!operandInfo.reachable() || operandInfo.value == UValue.Undetermined) {
             return operandInfo storeResultFor node
         }
         return when (node.operationKind) {
@@ -326,10 +326,10 @@ class TreeBasedEvaluator(
 
         var currentInfo = UValue.Undetermined to data
         currentInfo = node.receiver?.accept(this, currentInfo.state) ?: currentInfo
-        if (!currentInfo.value.reachable()) return currentInfo storeResultFor node
+        if (!currentInfo.reachable()) return currentInfo storeResultFor node
         for (valueArgument in node.valueArguments) {
             currentInfo = valueArgument.accept(this, currentInfo.state)
-            if (!currentInfo.value.reachable()) return currentInfo storeResultFor node
+            if (!currentInfo.reachable()) return currentInfo storeResultFor node
         }
 
         return UValue.CallResult(node) to currentInfo.state storeResultFor node
@@ -343,7 +343,7 @@ class TreeBasedEvaluator(
         var currentInfo = UValue.Undetermined to data
         for (variable in node.variables) {
             currentInfo = variable.accept(this, currentInfo.state)
-            if (!currentInfo.value.reachable()) return currentInfo storeResultFor node
+            if (!currentInfo.reachable()) return currentInfo storeResultFor node
         }
         return currentInfo storeResultFor node
     }
@@ -351,7 +351,7 @@ class TreeBasedEvaluator(
     override fun visitVariable(node: UVariable, data: UEvaluationState): UEvaluationInfo {
         val initializer = node.uastInitializer
         val initializerInfo = initializer?.accept(this, data) ?: UValue.Undetermined to data
-        if (!initializerInfo.value.reachable()) return initializerInfo
+        if (!initializerInfo.reachable()) return initializerInfo
         return UValue.Undetermined to initializerInfo.state.assign(node, initializerInfo.value, node)
     }
 
@@ -362,7 +362,7 @@ class TreeBasedEvaluator(
         var currentInfo = UValue.Undetermined to data
         for (expression in node.expressions) {
             currentInfo = expression.accept(this, currentInfo.state)
-            if (!currentInfo.value.reachable()) return currentInfo storeResultFor node
+            if (!currentInfo.reachable()) return currentInfo storeResultFor node
         }
         return currentInfo storeResultFor node
     }
@@ -370,11 +370,14 @@ class TreeBasedEvaluator(
     override fun visitIfExpression(node: UIfExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val conditionInfo = node.condition.accept(this, data)
+        if (!conditionInfo.reachable()) return conditionInfo storeResultFor node
+
         val thenInfo = node.thenExpression?.accept(this, conditionInfo.state)
         val elseInfo = node.elseExpression?.accept(this, conditionInfo.state)
         val conditionValue = conditionInfo.value
         val defaultInfo = UValue.Undetermined to conditionInfo.state
         val constantConditionValue = conditionValue.toConstant()
+
         return when (constantConditionValue) {
             is UBooleanConstant -> {
                 if (constantConditionValue.value) thenInfo ?: defaultInfo
@@ -388,10 +391,10 @@ class TreeBasedEvaluator(
         } storeResultFor node
     }
 
-
     override fun visitSwitchExpression(node: USwitchExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val subjectInfo = node.expression?.accept(this, data) ?: UValue.Undetermined to data
+        if (!subjectInfo.reachable()) return subjectInfo storeResultFor node
 
         var resultInfo: UEvaluationInfo? = null
         var clauseInfo = subjectInfo
@@ -403,22 +406,24 @@ class TreeBasedEvaluator(
                     (clauseInfo.value valueEquals subjectInfo.value).toConstant() as? UValue ?: UValue.Undetermined
                 }.fold(UBooleanConstant.False) { previous: UValue, next -> previous or next }
 
-        for (expression in node.body.expressions) {
+        clausesLoop@ for (expression in node.body.expressions) {
             val switchClauseWithBody = expression as USwitchClauseExpressionWithBody
             val caseCondition = switchClauseWithBody.caseValues.evaluateAndFold().or(fallThroughCondition)
 
             if (caseCondition != UBooleanConstant.False) {
                 for (bodyExpression in switchClauseWithBody.body.expressions) {
                     clauseInfo = bodyExpression.accept(this, clauseInfo.state)
-                    if (!clauseInfo.value.reachable()) break
+                    if (!clauseInfo.reachable()) break
                 }
                 val clauseValue = clauseInfo.value
                 if (clauseValue is UValue.Nothing && clauseValue.containingLoopOrSwitch == node) {
+                    // break from switch
                     resultInfo = resultInfo?.merge(clauseInfo) ?: clauseInfo
-                    if (caseCondition == UBooleanConstant.True) break
+                    if (caseCondition == UBooleanConstant.True) break@clausesLoop
                     clauseInfo = subjectInfo
                     fallThroughCondition = UBooleanConstant.False
                 }
+                // TODO: jump out
                 else {
                     fallThroughCondition = caseCondition
                     clauseInfo = clauseInfo.merge(subjectInfo)
