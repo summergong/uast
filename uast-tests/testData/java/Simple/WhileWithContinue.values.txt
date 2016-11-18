@@ -30,3 +30,31 @@ UFile (package = ) [public class WhileWithContinue : Object {...]
                             ULiteralExpression (value = 4) [4] = 4
                 UReturnExpression [return second] = Nothing
                     USimpleNameReferenceExpression [second] = Phi((var second = 3), (var second = 2))
+        UMethod (name = baz) [public static fun baz() : int {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var first: int = 2] = Undetermined
+                    ULocalVariable (name = first) [var first: int = 2]
+                        ULiteralExpression (value = 2) [2] = 2
+                UVariableDeclarationsExpression [var second: int = 2] = Undetermined
+                    ULocalVariable (name = second) [var second: int = 2]
+                        ULiteralExpression (value = 2) [2] = 2
+                UWhileExpression [while (bar()) {...}] = Undetermined
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()
+                        UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
+                    UBlockExpression [{...}] = 4
+                        UBinaryExpression (operator = =) [second = 3] = 3
+                            USimpleNameReferenceExpression [second] = Phi((var second = 4), (var second = 3), (var second = 2))
+                            ULiteralExpression (value = 3) [3] = 3
+                        UPostfixExpression (operator = --) [first--] = Phi((var first = Undetermined), (var first = 1), (var first = 2))
+                            USimpleNameReferenceExpression [first] = Phi((var first = Undetermined), (var first = 1), (var first = 2))
+                        UIfExpression [if (first > 0) continue] = Undetermined
+                            UBinaryExpression (operator = >) [first > 0] = Undetermined (depending on: (var first = Undetermined))
+                                USimpleNameReferenceExpression [first] = (var first = Undetermined)
+                                ULiteralExpression (value = 0) [0] = 0
+                            UContinueExpression (label = null) [continue] = Nothing(continue)
+                            UastEmptyExpression [UastEmptyExpression] = Undetermined
+                        UBinaryExpression (operator = =) [second = 4] = 4
+                            USimpleNameReferenceExpression [second] = (var second = 3)
+                            ULiteralExpression (value = 4) [4] = 4
+                UReturnExpression [return second] = Nothing
+                    USimpleNameReferenceExpression [second] = Phi((var second = 4), (var second = 3), (var second = 2))
