@@ -11,7 +11,7 @@ import org.jetbrains.uast.values.UValue
 interface UEvaluator {
 
     companion object {
-        val extensionPointName: ExtensionPointName<UEvaluatorExtension> =
+        val EXTENSION_POINT_NAME: ExtensionPointName<UEvaluatorExtension> =
                 ExtensionPointName.create<UEvaluatorExtension>("org.jetbrains.uast.evaluation.UEvaluatorExtension")
     }
 
@@ -20,8 +20,8 @@ interface UEvaluator {
     val languageExtensions: List<UEvaluatorExtension>
         get() {
             val projectArea = Extensions.getArea(context.project)
-            if (!projectArea.hasExtensionPoint(UEvaluator.extensionPointName.name)) return listOf()
-            return projectArea.getExtensionPoint(UEvaluator.extensionPointName).extensions.toList()
+            if (!projectArea.hasExtensionPoint(UEvaluator.EXTENSION_POINT_NAME.name)) return listOf()
+            return projectArea.getExtensionPoint(UEvaluator.EXTENSION_POINT_NAME).extensions.toList()
         }
 
     fun PsiElement.languageExtension() = languageExtensions.firstOrNull { it.language == language }
