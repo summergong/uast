@@ -6,9 +6,9 @@ UFile (package = ) [public final class LocalClassKt : Object {...]
                 [!] UnknownKotlinExpression (FUN) [[!] UnknownKotlinExpression (FUN)]
                 UReturnExpression [return bar() == <init>()] : PsiType:Void
                     UBinaryExpression (operator = ==) [bar() == <init>()] : PsiType:boolean
-                        UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()]
+                        UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] : PsiType:<ErrorType>
                             UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
-                            USimpleNameReferenceExpression [bar]
-                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()]
+                            USimpleNameReferenceExpression [bar] : PsiType:<ErrorType>
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()] : PsiType:<ErrorType>
                             UIdentifier (Identifier (Local)) [UIdentifier (Identifier (Local))]
-                            USimpleNameReferenceExpression [<init>]
+                            USimpleNameReferenceExpression [<init>] : PsiType:<ErrorType>

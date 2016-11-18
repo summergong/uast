@@ -17,9 +17,6 @@
 package org.jetbrains.uast.kotlin
 
 import com.intellij.psi.PsiType
-import org.jetbrains.kotlin.descriptors.ClassDescriptor
-import org.jetbrains.kotlin.descriptors.FunctionDescriptor
-import org.jetbrains.kotlin.descriptors.PropertyDescriptor
 import org.jetbrains.kotlin.psi.KtExpression
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.types.TypeUtils
@@ -30,16 +27,6 @@ interface KotlinUElementWithType : UExpression, PsiElementBacked {
     override fun getExpressionType(): PsiType? {
         val ktElement = psi as? KtExpression ?: return null
         val ktType = ktElement.analyze()[BindingContext.EXPRESSION_TYPE_INFO, ktElement]?.type ?: return null
-
-        // Temporary "return null" for local classes
-        val typeDeclarationDescriptor = ktType.constructor.declarationDescriptor
-        if (typeDeclarationDescriptor is ClassDescriptor) {
-            val containerDescriptor = typeDeclarationDescriptor.containingDeclaration
-            if (containerDescriptor is PropertyDescriptor || containerDescriptor is FunctionDescriptor) {
-                return null
-            }
-        }
-
         return ktType.toPsiType(this, ktElement, boxed = false)
     }
 }
