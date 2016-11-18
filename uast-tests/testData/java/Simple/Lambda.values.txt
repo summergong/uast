@@ -14,8 +14,8 @@ UFile (package = ) [public class Lambda : Object {...]
                                         ULiteralExpression (value = 24) [24] = 24
                                 UPostfixExpression (operator = ++) [variable1++] = (var variable1 = 24)
                                     USimpleNameReferenceExpression [variable1] = (var variable1 = 24)
-                UQualifiedReferenceExpression [runnable.run()] = external runnable.run()
-                    USimpleNameReferenceExpression [runnable] = Undetermined
+                UQualifiedReferenceExpression [runnable.run()] = external run()
+                    USimpleNameReferenceExpression [runnable] = (var runnable = Undetermined)
                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing

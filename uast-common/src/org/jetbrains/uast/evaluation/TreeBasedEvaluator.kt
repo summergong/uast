@@ -335,6 +335,29 @@ class TreeBasedEvaluator(
         return UValue.CallResult(node) to currentInfo.state storeResultFor node
     }
 
+    override fun visitQualifiedReferenceExpression(
+            node: UQualifiedReferenceExpression,
+            data: UEvaluationState
+    ): UEvaluationInfo {
+        inputStateCache[node] = data
+
+        var currentInfo = UValue.Undetermined to data
+        currentInfo = node.receiver.accept(this, currentInfo.state)
+        if (!currentInfo.reachable()) return currentInfo storeResultFor node
+
+        val selectorInfo = node.selector.accept(this, currentInfo.state)
+        return when (node.accessType) {
+            UastQualifiedExpressionAccessType.SIMPLE -> {
+                selectorInfo
+            }
+            else -> {
+                return node.languageExtension()?.evaluateQualified(
+                        node.accessType, currentInfo, selectorInfo
+                ) ?: UValue.Undetermined to selectorInfo.state storeResultFor node
+            }
+        } storeResultFor node
+    }
+
     override fun visitDeclarationsExpression(
             node: UVariableDeclarationsExpression,
             data: UEvaluationState

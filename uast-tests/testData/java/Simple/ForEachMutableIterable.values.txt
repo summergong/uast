@@ -8,21 +8,30 @@ UFile (package = ) [import java.util...]
                     ULocalVariable (name = result) [var result: List<Integer> = LinkedList<Integer>()]
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [LinkedList<Integer>()] = external LinkedList<Integer>()
                             USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>
-                UForExpression [for (var i: int = 0; i < size; i++) {...}] = Undetermined
-                    UVariableDeclarationsExpression [var i: int = 0] = Undetermined
-                        ULocalVariable (name = i) [var i: int = 0]
-                            ULiteralExpression (value = 0) [0] = 0
-                    UBinaryExpression (operator = <) [i < size] = Undetermined (depending on: (var i = 0))
-                        USimpleNameReferenceExpression [i] = (var i = 0)
+                UVariableDeclarationsExpression [var a: int = 0] = Undetermined
+                    ULocalVariable (name = a) [var a: int = 0]
+                        ULiteralExpression (value = 0) [0] = 0
+                UForExpression [for (var i: int = a++; i < size; i++) {...}] = Undetermined
+                    UVariableDeclarationsExpression [var i: int = a++] = Undetermined
+                        ULocalVariable (name = i) [var i: int = a++]
+                            UPostfixExpression (operator = ++) [a++] = (var a = 0)
+                                USimpleNameReferenceExpression [a] = (var a = 0)
+                    UBinaryExpression (operator = <) [i < size] = Undetermined (depending on: (var i = (var a = 0)))
+                        USimpleNameReferenceExpression [i] = (var i = (var a = 0))
                         USimpleNameReferenceExpression [size] = Undetermined
                     UPostfixExpression (operator = ++) [i++] = Undetermined
                         USimpleNameReferenceExpression [i] = Undetermined
-                    UBlockExpression [{...}] = external result.add(i)
-                        UQualifiedReferenceExpression [result.add(i)] = external result.add(i)
-                            USimpleNameReferenceExpression [result] = Undetermined
+                    UBlockExpression [{...}] = external add(i)
+                        UQualifiedReferenceExpression [result.add(i)] = external add(i)
+                            USimpleNameReferenceExpression [result] = (var result = external LinkedList<Integer>())
                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [add(i)] = external add(i)
                                 UIdentifier (Identifier (add)) [UIdentifier (Identifier (add))]
-                                USimpleNameReferenceExpression [i] = Undetermined
+                                USimpleNameReferenceExpression [i] = (var i = (var a = 0))
+                UQualifiedReferenceExpression [result.add(a)] = external add(a)
+                    USimpleNameReferenceExpression [result] = (var result = external LinkedList<Integer>())
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [add(a)] = external add(a)
+                        UIdentifier (Identifier (add)) [UIdentifier (Identifier (add))]
+                        USimpleNameReferenceExpression [a] = (var a = 1)
                 UReturnExpression [return result] = Nothing
                     USimpleNameReferenceExpression [result] = (var result = external LinkedList<Integer>())
         UMethod (name = sum) [public static fun sum(numbers: List<Integer>) : int {...}]

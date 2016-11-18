@@ -14,11 +14,11 @@ UFile (package = ) [public class Anonymous : Object {...]
                         ULiteralExpression (value = 42) [42] = 42
                 UVariableDeclarationsExpression [var runnable: Runnable = User.bar] = Undetermined
                     ULocalVariable (name = runnable) [var runnable: Runnable = User.bar]
-                        UQualifiedReferenceExpression [User.bar] = external User.bar
+                        UQualifiedReferenceExpression [User.bar] = external bar
                             USimpleNameReferenceExpression [User] = external User
                             USimpleNameReferenceExpression [bar] = external bar
-                UQualifiedReferenceExpression [runnable.run()] = external runnable.run()
-                    USimpleNameReferenceExpression [runnable] = Undetermined
+                UQualifiedReferenceExpression [runnable.run()] = external run()
+                    USimpleNameReferenceExpression [runnable] = (var runnable = external bar)
                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing
