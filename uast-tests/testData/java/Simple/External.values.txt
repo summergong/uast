@@ -1,0 +1,21 @@
+UFile (package = ) [import java.util.LinkedList...]
+    UImportStatement (isOnDemand = false) [import java.util.LinkedList]
+    UClass (name = External) [public class External : Object {...}]
+        UMethod (name = foo) [public static fun foo() : boolean {...}]
+            UBlockExpression [{...}] = Nothing
+                UReturnExpression [return LinkedList<Integer>() === LinkedList<Integer>()] = Nothing
+                    UBinaryExpression (operator = ===) [LinkedList<Integer>() === LinkedList<Integer>()] = Undetermined
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [LinkedList<Integer>()] = external LinkedList<Integer>()
+                            USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [LinkedList<Integer>()] = external LinkedList<Integer>()
+                            USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>
+        UMethod (name = bar) [public static fun bar() : boolean {...}]
+            UBlockExpression [{...}] = Nothing
+                UVariableDeclarationsExpression [var list: List<Integer> = LinkedList<Integer>()] = Undetermined
+                    ULocalVariable (name = list) [var list: List<Integer> = LinkedList<Integer>()]
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [LinkedList<Integer>()] = external LinkedList<Integer>()
+                            USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>
+                UReturnExpression [return list === list] = Nothing
+                    UBinaryExpression (operator = ===) [list === list] = Undetermined (depending on: (var list = external LinkedList<Integer>()))
+                        USimpleNameReferenceExpression [list] = (var list = external LinkedList<Integer>())
+                        USimpleNameReferenceExpression [list] = (var list = external LinkedList<Integer>())

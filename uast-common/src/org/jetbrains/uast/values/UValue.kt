@@ -155,7 +155,8 @@ sealed class UValue : UOperand {
     ) : Dependent(value, dependencies), Dependency {
 
         override fun identityEquals(other: UValue): UValue =
-                when (variable.psi.type) {
+                if (this == other) super.valueEquals(other)
+                else when (variable.psi.type) {
                     PsiType.BYTE, PsiType.FLOAT, PsiType.DOUBLE, PsiType.LONG,
                     PsiType.SHORT, PsiType.INT, PsiType.CHAR, PsiType.BOOLEAN -> super.valueEquals(other)
 

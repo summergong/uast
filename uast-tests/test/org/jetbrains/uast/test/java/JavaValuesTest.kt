@@ -43,6 +43,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testEnumSwitchWithoutBreaks() = doTest("Simple/EnumSwitchWithoutBreaks.java")
 
+    @Test fun testExternal() = doTest("Simple/External.java")
+
     @Test fun testFloatDouble() = doTest("Simple/FloatDouble.java")
 
     @Test fun testFor() = doTest("Simple/For.java")
