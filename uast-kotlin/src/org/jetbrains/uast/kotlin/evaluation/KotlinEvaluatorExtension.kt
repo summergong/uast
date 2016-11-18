@@ -10,10 +10,18 @@ import org.jetbrains.uast.kotlin.KotlinBinaryOperators
 import org.jetbrains.uast.kotlin.KotlinPostfixOperators
 import org.jetbrains.uast.values.UConstant
 import org.jetbrains.uast.values.UNullConstant
-import org.jetbrains.uast.values.URangeConstant
 import org.jetbrains.uast.values.UValue
 
 class KotlinEvaluatorExtension : UEvaluatorExtension {
+
+    private data class Range(val from: UValue, val to: UValue) {
+        override fun toString() = "$from..$to"
+    }
+
+    private class UClosedRangeConstant(override val value: Range) : UValue.AbstractConstant() {
+        constructor(from: UValue, to: UValue): this(Range(from, to))
+    }
+
     override val language: KotlinLanguage = KotlinLanguage.INSTANCE
 
     override fun evaluatePostfix(
@@ -32,7 +40,7 @@ class KotlinEvaluatorExtension : UEvaluatorExtension {
     }
 
     private fun UValue.contains(value: UValue): UValue {
-        val range = (this as? URangeConstant)?.value ?: return UValue.Undetermined
+        val range = (this as? UClosedRangeConstant)?.value ?: return UValue.Undetermined
         return (value greaterOrEquals range.from) and (value lessOrEquals range.to)
     }
 
@@ -45,7 +53,7 @@ class KotlinEvaluatorExtension : UEvaluatorExtension {
         return when (operator) {
             KotlinBinaryOperators.IN -> rightValue.contains(leftValue)
             KotlinBinaryOperators.NOT_IN -> !rightValue.contains(leftValue)
-            KotlinBinaryOperators.RANGE_TO -> URangeConstant(leftValue, rightValue)
+            KotlinBinaryOperators.RANGE_TO -> UClosedRangeConstant(leftValue, rightValue)
             else -> UValue.Undetermined
         } to state
     }
