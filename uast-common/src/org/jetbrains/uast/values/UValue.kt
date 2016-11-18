@@ -157,7 +157,7 @@ sealed class UValue : UOperand {
         override fun identityEquals(other: UValue): UValue =
                 when (variable.psi.type) {
                     PsiType.BYTE, PsiType.FLOAT, PsiType.DOUBLE, PsiType.LONG,
-                    PsiType.SHORT, PsiType.INT, PsiType.CHAR, PsiType.BOOLEAN -> super.identityEquals(other)
+                    PsiType.SHORT, PsiType.INT, PsiType.CHAR, PsiType.BOOLEAN -> super.valueEquals(other)
 
                     else -> Undetermined
                 }
@@ -201,7 +201,7 @@ sealed class UValue : UOperand {
 
         companion object {
 
-            private fun Set<Dependency>.filterNotVariable(variable: UVariable) =
+            private fun Set<Dependency>.filterNot(variable: UVariable) =
                     filterTo(linkedSetOf()) { it !is Variable || variable != it.variable }
 
             fun create(variable: UVariable, value: UValue, dependencies: Set<Dependency> = emptySet()): Variable {
@@ -214,14 +214,14 @@ sealed class UValue : UOperand {
                         }
                     }
                 }
-                val dependenciesWithoutSelf = dependencies.filterNotVariable(variable)
+                val dependenciesWithoutSelf = dependencies.filterNot(variable)
                 return when {
                     value is Variable
                     && variable == value.variable
                     && dependenciesWithoutSelf == value.dependencies -> value
 
                     value is Dependent -> {
-                        val valueDependencies = value.dependencies.filterNotVariable(variable)
+                        val valueDependencies = value.dependencies.filterNot(variable)
                         val modifiedValue = value.copy(valueDependencies)
                         Variable(variable, modifiedValue, dependenciesWithoutSelf)
                     }
