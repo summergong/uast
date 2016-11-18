@@ -255,7 +255,12 @@ class TreeBasedEvaluator(
                 constant as? UBooleanConstant
             }
             PsiType.CHAR -> when (constant) {
-                is UNumericConstant -> UCharConstant(constant.value.toChar())
+                // Join the following three in UNumericConstant
+                // when https://youtrack.jetbrains.com/issue/KT-14868 is fixed
+                is UIntConstant -> UCharConstant(constant.value.toChar())
+                is ULongConstant -> UCharConstant(constant.value.toChar())
+                is UFloatConstant -> UCharConstant(constant.value.toChar())
+
                 is UCharConstant -> constant
                 else -> null
             }

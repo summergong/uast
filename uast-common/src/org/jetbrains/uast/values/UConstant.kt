@@ -48,9 +48,9 @@ private fun PsiType.toNumeric(): UNumericType = when (this) {
     else -> throw AssertionError("Conversion is impossible for type $canonicalText")
 }
 
-private fun Int.asType(type: UNumericType): Number = when (type) {
-    UNumericType.BYTE -> toByte()
-    UNumericType.SHORT -> toShort()
+private fun Int.asType(type: UNumericType): Int = when (type) {
+    UNumericType.BYTE -> toByte().toInt()
+    UNumericType.SHORT -> toShort().toInt()
     else -> this
 }
 
@@ -65,9 +65,7 @@ class UIntConstant(
         }
     }
 
-    val typedValue: Number = rawValue.asType(type)
-
-    override val value: Int = typedValue.toInt()
+    override val value: Int = rawValue.asType(type)
 
     constructor(value: Int, type: PsiType): this(value, type.toNumeric())
 
@@ -302,6 +300,7 @@ sealed class UNaNConstant(type: UNumericType = UNumericType.DOUBLE) : UFloatCons
 class UCharConstant(override val value: Char) : UValue.AbstractConstant() {
     override fun plus(other: UValue) = when (other) {
         is UIntConstant -> UCharConstant(value + other.value)
+        is UCharConstant -> UCharConstant(value + other.value.toInt())
         else -> super.plus(other)
     }
 

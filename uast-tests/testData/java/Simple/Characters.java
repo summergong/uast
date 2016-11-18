@@ -5,6 +5,8 @@ public class Characters {
         char f = (char) (c + 3);
         char d = (char) (f - 2);
         int diff = f - a;
+        int aa = a + a;
+        char cdiff = (char) diff;
         return d;
     }
 }

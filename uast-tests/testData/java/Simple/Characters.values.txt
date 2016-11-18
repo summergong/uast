@@ -31,5 +31,14 @@ UFile (package = ) [public class Characters : Object {...]
                         UBinaryExpression (operator = -) [f - a] = 5 (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))), (var a = 'a'))
                             USimpleNameReferenceExpression [f] = (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a')))))
                             USimpleNameReferenceExpression [a] = (var a = 'a')
+                UVariableDeclarationsExpression [var aa: int = a + a] = Undetermined
+                    ULocalVariable (name = aa) [var aa: int = a + a]
+                        UBinaryExpression (operator = +) [a + a] = 'Â' (depending on: (var a = 'a'))
+                            USimpleNameReferenceExpression [a] = (var a = 'a')
+                            USimpleNameReferenceExpression [a] = (var a = 'a')
+                UVariableDeclarationsExpression [var cdiff: char = diff as char] = Undetermined
+                    ULocalVariable (name = cdiff) [var cdiff: char = diff as char]
+                        UBinaryExpressionWithType [diff as char] = ''
+                            USimpleNameReferenceExpression [diff] = (var diff = 5 (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))), (var a = 'a')))
                 UReturnExpression [return d] = Nothing
                     USimpleNameReferenceExpression [d] = (var d = 'd' (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a')))))))
