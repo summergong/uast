@@ -281,7 +281,7 @@ sealed class UValue : UOperand {
             OTHER;
         }
 
-        override fun reachable() = false
+        override val reachable = false
 
         override fun merge(other: UValue) = when (other) {
             is Nothing -> {
@@ -404,7 +404,7 @@ sealed class UValue : UOperand {
 
     open fun toVariable(): Variable? = this as? Variable
 
-    open fun reachable() = true
+    open val reachable = true
 
     override abstract fun toString(): String
 }
