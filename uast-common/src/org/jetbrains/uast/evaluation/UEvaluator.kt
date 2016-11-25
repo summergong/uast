@@ -35,4 +35,4 @@ interface UEvaluator {
 fun createEvaluator(context: UastContext): UEvaluator =
         TreeBasedEvaluator(context)
 
-fun UExpression.evaluate(context: UastContext = getUastContext()) = createEvaluator(context).evaluate(this)
+fun UExpression.valueOf(context: UastContext = getUastContext()) = createEvaluator(context).evaluate(this)
