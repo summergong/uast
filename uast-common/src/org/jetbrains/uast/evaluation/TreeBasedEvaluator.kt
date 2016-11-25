@@ -39,13 +39,34 @@ class TreeBasedEvaluator(
         field.uastInitializer?.accept(this, state)
     }
 
-    override fun evaluate(expression: UExpression, state: UEvaluationState?): UValue {
+    private fun getCached(expression: UExpression, state: UEvaluationState?): UValue? {
         if (state == null) {
             val result = resultCache[expression]
             if (result != null) return result.value
         }
-        val inputState = state ?: inputStateCache[expression] ?: expression.createEmptyState()
-        return expression.accept(this, inputState).value
+        val inputState = state ?: inputStateCache[expression]
+        if (inputState != null) {
+            return expression.accept(this, inputState).value
+        }
+        return null
+    }
+
+    override fun evaluate(expression: UExpression, state: UEvaluationState?): UValue {
+        val cached = getCached(expression, state)
+        if (cached != null) {
+            return cached
+        }
+        val method = expression.getParentOfType<UMethod>()
+        if (method != null) {
+            analyze(method)
+        }
+        else {
+            val field = expression.getParentOfType<UField>()
+            if (field != null) {
+                analyze(field)
+            }
+        }
+        return getCached(expression, state) ?: expression.accept(this, expression.createEmptyState()).value
     }
 
     // ----------------------- //
