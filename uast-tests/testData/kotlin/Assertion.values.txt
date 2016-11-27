@@ -1,5 +1,5 @@
-UFile (package = ) [public final class AssertionKt : Object {...]
-    UClass (name = AssertionKt) [public final class AssertionKt : Object {...}]
+UFile (package = ) [public final class AssertionKt {...]
+    UClass (name = AssertionKt) [public final class AssertionKt {...}]
         UAnnotationMethod (name = foo) [public static final fun foo() : java.lang.String {...}]
             UAnnotation (fqName = org.jetbrains.annotations.NotNull) [UAnnotation (fqName = org.jetbrains.annotations.NotNull)]
             UBlockExpression [{...}] = Nothing

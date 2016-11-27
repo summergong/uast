@@ -1,5 +1,5 @@
-UFile (package = ) [public class Labeled : Object {...]
-    UClass (name = Labeled) [public class Labeled : Object {...}]
+UFile (package = ) [public class Labeled {...]
+    UClass (name = Labeled) [public class Labeled {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var first: int = 1] = Undetermined

@@ -11,3 +11,12 @@ open class KotlinUTypeReferenceExpression(
         override val psi: PsiElement?,
         override val containingElement: UElement?
 ) : KotlinAbstractUExpression(), UTypeReferenceExpression, PsiElementBacked, KotlinUElementWithType
+
+
+class LazyKotlinUTypeReferenceExpression(
+        override val psi: PsiElement,
+        override val containingElement: UElement?,
+        private val typeSupplier: () -> PsiType
+) : KotlinAbstractUExpression(), UTypeReferenceExpression, PsiElementBacked {
+    override val type: PsiType by lz { typeSupplier() }
+}

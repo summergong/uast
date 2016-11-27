@@ -16,9 +16,9 @@
 
 package org.jetbrains.uast.java
 
-import com.intellij.psi.PsiAnonymousClass
-import com.intellij.psi.PsiClass
+import com.intellij.psi.*
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
 abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
@@ -30,6 +30,17 @@ abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
             addAll(uastNestedClasses)
         }
     }
+
+    override val uastSuperTypes: List<UTypeReferenceExpression>
+        get() {
+            fun createJavaUTypeReferenceExpression(referenceElement: PsiJavaCodeReferenceElement) =
+                    LazyJavaUTypeReferenceExpression(referenceElement, this) {
+                        JavaPsiFacade.getElementFactory(referenceElement.project).createType(referenceElement)
+                    }
+
+            return psi.extendsList?.referenceElements?.map(::createJavaUTypeReferenceExpression).orEmpty() +
+                    psi.implementsList?.referenceElements?.map(::createJavaUTypeReferenceExpression).orEmpty()
+        }
 
     override val uastAnchor: UElement?
         get() = UIdentifier(psi.nameIdentifier, this)
@@ -57,7 +68,8 @@ abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
     override fun hashCode() = psi.hashCode()
 }
 
-class JavaUClass private constructor(psi: PsiClass, override val containingElement: UElement?) : AbstractJavaUClass(), PsiClass by psi {
+class JavaUClass private constructor(psi: PsiClass, override val containingElement: UElement?) :
+        AbstractJavaUClass(), PsiClass by psi {
     override val psi = unwrap<UClass, PsiClass>(psi)
 
     companion object {

@@ -1,5 +1,5 @@
-UFile (package = ) [public class ReturnMinusX : Object {...]
-    UClass (name = ReturnMinusX) [public class ReturnMinusX : Object {...}]
+UFile (package = ) [public class ReturnMinusX {...]
+    UClass (name = ReturnMinusX) [public class ReturnMinusX {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var x: int = 42] = Undetermined

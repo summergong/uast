@@ -1,5 +1,5 @@
-UFile (package = ) [public final enum EnumSwitch : Enum {...]
-    UClass (name = EnumSwitch) [public final enum EnumSwitch : Enum {...}]
+UFile (package = ) [public final enum EnumSwitch {...]
+    UClass (name = EnumSwitch) [public final enum EnumSwitch {...}]
         UEnumConstant (name = FIRST) [FIRST] = Undetermined
             USimpleNameReferenceExpression [EnumSwitch] = Undetermined
         UEnumConstant (name = SECOND) [SECOND] = Undetermined

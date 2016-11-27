@@ -1,5 +1,5 @@
-UFile (package = ) [public class MutableField : Object {...]
-    UClass (name = MutableField) [public class MutableField : Object {...}]
+UFile (package = ) [public class MutableField {...]
+    UClass (name = MutableField) [public class MutableField {...}]
         UField (name = mutable) [static var mutable: int = 0]
             ULiteralExpression (value = 0) [0] = 0
         UMethod (name = foo) [public static fun foo() : int {...}]

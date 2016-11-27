@@ -37,8 +37,7 @@ class KotlinUCatchClause(
 
     override val typeReferences by lz {
         val parameter = psi.catchParameter ?: return@lz emptyList<UTypeReferenceExpression>()
-        val typeReference = parameter.typeReference
-        val type = typeReference.toPsiType(this, boxed = true)
-        listOf(KotlinUTypeReferenceExpression(type, typeReference, this))
+        val typeReference = parameter.typeReference ?: return@lz emptyList<UTypeReferenceExpression>()
+        listOf(LazyKotlinUTypeReferenceExpression(typeReference, this) { typeReference.toPsiType(this, boxed = true) } )
     }
 }

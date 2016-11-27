@@ -1,5 +1,5 @@
-UFile (package = ) [public class ByteShort : Object {...]
-    UClass (name = ByteShort) [public class ByteShort : Object {...}]
+UFile (package = ) [public class ByteShort {...]
+    UClass (name = ByteShort) [public class ByteShort {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var b1: byte = 100] = Undetermined

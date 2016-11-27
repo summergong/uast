@@ -1,5 +1,5 @@
-UFile (package = ) [public final enum EnumSwitchConditionalBreak : Enum {...]
-    UClass (name = EnumSwitchConditionalBreak) [public final enum EnumSwitchConditionalBreak : Enum {...}]
+UFile (package = ) [public final enum EnumSwitchConditionalBreak {...]
+    UClass (name = EnumSwitchConditionalBreak) [public final enum EnumSwitchConditionalBreak {...}]
         UEnumConstant (name = FIRST) [FIRST] = Undetermined
             USimpleNameReferenceExpression [EnumSwitchConditionalBreak] = Undetermined
         UEnumConstant (name = SECOND) [SECOND] = Undetermined

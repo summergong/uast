@@ -1,4 +1,4 @@
-public final enum EnumSwitch : Enum {
+public final enum EnumSwitch {
     FIRST
     SECOND
     THIRD

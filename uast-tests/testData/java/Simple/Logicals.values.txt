@@ -1,5 +1,5 @@
-UFile (package = ) [public class Logicals : Object {...]
-    UClass (name = Logicals) [public class Logicals : Object {...}]
+UFile (package = ) [public class Logicals {...]
+    UClass (name = Logicals) [public class Logicals {...}]
         UMethod (name = foo) [public static fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var one: int = 1] = Undetermined

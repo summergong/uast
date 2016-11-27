@@ -12,4 +12,6 @@ class SimpleJavaRenderLogTest : AbstractJavaRenderLogTest() {
     @Test fun testReturnX() = doTest("Simple/ReturnX.java")
 
     @Test fun testJava() = doTest("Simple/Simple.java")
+
+    @Test fun testClass() = doTest("Simple/SuperTypes.java")
 }

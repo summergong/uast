@@ -1,5 +1,5 @@
-UFile (package = ) [public class For : Object {...]
-    UClass (name = For) [public class For : Object {...}]
+UFile (package = ) [public class For {...]
+    UClass (name = For) [public class For {...}]
         UMethod (name = sum) [public static fun sum(numbers: List<Integer>) : int {...}]
             UParameter (name = numbers) [var numbers: List<Integer>]
             UBlockExpression [{...}] = Nothing

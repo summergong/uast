@@ -1,5 +1,5 @@
-UFile (package = ) [public class IntLong : Object {...]
-    UClass (name = IntLong) [public class IntLong : Object {...}]
+UFile (package = ) [public class IntLong {...]
+    UClass (name = IntLong) [public class IntLong {...}]
         UMethod (name = foo) [public static fun foo() : long {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var one: int = 1] = Undetermined

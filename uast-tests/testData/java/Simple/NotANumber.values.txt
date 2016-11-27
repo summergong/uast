@@ -1,5 +1,5 @@
-UFile (package = ) [public class NotANumber : Object {...]
-    UClass (name = NotANumber) [public class NotANumber : Object {...}]
+UFile (package = ) [public class NotANumber {...]
+    UClass (name = NotANumber) [public class NotANumber {...}]
         UMethod (name = foo) [public static fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var x: double = 0.0 / 0.0] = Undetermined

@@ -1,0 +1,21 @@
+UFile (package = )
+    UClass (name = WhenIsKt)
+        UAnnotationMethod (name = foo)
+            UAnnotation (fqName = org.jetbrains.annotations.NotNull)
+            UParameter (name = bar)
+                UAnnotation (fqName = org.jetbrains.annotations.NotNull)
+            USwitchExpression
+                USimpleNameReferenceExpression
+                UExpressionList (when)
+                    USwitchClauseExpressionWithBody
+                        UBinaryExpressionWithType
+                            USimpleNameReferenceExpression
+                        UExpressionList (when_entry)
+                            USimpleNameReferenceExpression
+                            UBreakExpression (label = null)
+                    USwitchClauseExpressionWithBody
+                        UBinaryExpressionWithType
+                            USimpleNameReferenceExpression
+                        UExpressionList (when_entry)
+                            ULiteralExpression (value = "<error>")
+                            UBreakExpression (label = null)

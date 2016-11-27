@@ -1,5 +1,5 @@
-UFile (package = ) [public class CascadeIf : Object {...]
-    UClass (name = CascadeIf) [public class CascadeIf : Object {...}]
+UFile (package = ) [public class CascadeIf {...]
+    UClass (name = CascadeIf) [public class CascadeIf {...}]
         UMethod (name = foo) [public static fun foo(f: boolean, g: boolean, h: boolean) : int {...}]
             UParameter (name = f) [var f: boolean]
             UParameter (name = g) [var g: boolean]

@@ -1,6 +1,6 @@
 UFile (package = ) [import java.util...]
     UImportStatement (isOnDemand = true) [import java.util]
-    UClass (name = For) [public class For : Object {...}]
+    UClass (name = For) [public class For {...}]
         UMethod (name = getList) [public static fun getList(size: int) : List<Integer> {...}]
             UParameter (name = size) [var size: int]
             UBlockExpression [{...}] = Nothing

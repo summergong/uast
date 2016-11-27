@@ -1,2 +1,2 @@
-public class Simple : Object {
+public class Simple {
 }

@@ -1,4 +1,4 @@
-public class DataClass : Object {
+public class DataClass {
     public final var STRING_CONSTANT: String = "ABC"
     private final var firstName: String
     private final var lastName: String

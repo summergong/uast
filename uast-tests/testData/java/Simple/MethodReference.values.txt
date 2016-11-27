@@ -1,5 +1,5 @@
-UFile (package = ) [public class Anonymous : Object {...]
-    UClass (name = Anonymous) [public class Anonymous : Object {...}]
+UFile (package = ) [public class Anonymous {...]
+    UClass (name = Anonymous) [public class Anonymous {...}]
         UMethod (name = bar) [public static fun bar() : void {...}]
             UBlockExpression [{...}] = (var variable1 = 24)
                 UVariableDeclarationsExpression [var variable1: int = 24] = Undetermined

@@ -1,5 +1,5 @@
-UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...]
-    UClass (name = DeadSwitchEntriesWithoutBreaks) [public final enum DeadSwitchEntriesWithoutBreaks : Enum {...}]
+UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks {...]
+    UClass (name = DeadSwitchEntriesWithoutBreaks) [public final enum DeadSwitchEntriesWithoutBreaks {...}]
         UEnumConstant (name = FIRST) [FIRST] = Undetermined
             USimpleNameReferenceExpression [DeadSwitchEntriesWithoutBreaks] = Undetermined
         UEnumConstant (name = SECOND) [SECOND] = Undetermined

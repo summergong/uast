@@ -1,5 +1,5 @@
-UFile (package = ) [public class Bitwise : Object {...]
-    UClass (name = Bitwise) [public class Bitwise : Object {...}]
+UFile (package = ) [public class Bitwise {...]
+    UClass (name = Bitwise) [public class Bitwise {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var first: int = 19088743] = Undetermined

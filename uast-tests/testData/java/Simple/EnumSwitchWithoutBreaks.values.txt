@@ -1,5 +1,5 @@
-UFile (package = ) [public final enum EnumSwitchWithoutBreaks : Enum {...]
-    UClass (name = EnumSwitchWithoutBreaks) [public final enum EnumSwitchWithoutBreaks : Enum {...}]
+UFile (package = ) [public final enum EnumSwitchWithoutBreaks {...]
+    UClass (name = EnumSwitchWithoutBreaks) [public final enum EnumSwitchWithoutBreaks {...}]
         UEnumConstant (name = FIRST) [FIRST] = Undetermined
             USimpleNameReferenceExpression [EnumSwitchWithoutBreaks] = Undetermined
         UEnumConstant (name = SECOND) [SECOND] = Undetermined

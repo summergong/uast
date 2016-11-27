@@ -1,5 +1,5 @@
-UFile (package = ) [public class FloatDouble : Object {...]
-    UClass (name = FloatDouble) [public class FloatDouble : Object {...}]
+UFile (package = ) [public class FloatDouble {...]
+    UClass (name = FloatDouble) [public class FloatDouble {...}]
         UMethod (name = foo) [public static fun foo() : double {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var f1: float = 1.0] = Undetermined

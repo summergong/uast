@@ -1,5 +1,5 @@
-UFile (package = ) [public class DeadIfComparison : Object {...]
-    UClass (name = DeadIfComparison) [public class DeadIfComparison : Object {...}]
+UFile (package = ) [public class DeadIfComparison {...]
+    UClass (name = DeadIfComparison) [public class DeadIfComparison {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var x: int = 0] = Undetermined

@@ -1,5 +1,5 @@
-UFile (package = ) [public class IncDec : Object {...]
-    UClass (name = IncDec) [public class IncDec : Object {...}]
+UFile (package = ) [public class IncDec {...]
+    UClass (name = IncDec) [public class IncDec {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var i1: int = 1] = Undetermined

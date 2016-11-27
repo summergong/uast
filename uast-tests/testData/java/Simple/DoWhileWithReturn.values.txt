@@ -1,5 +1,5 @@
-UFile (package = ) [public class DoWhileWithReturn : Object {...]
-    UClass (name = DoWhileWithReturn) [public class DoWhileWithReturn : Object {...}]
+UFile (package = ) [public class DoWhileWithReturn {...]
+    UClass (name = DoWhileWithReturn) [public class DoWhileWithReturn {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var count: int = 0] = Undetermined

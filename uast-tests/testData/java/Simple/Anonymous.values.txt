@@ -1,5 +1,5 @@
-UFile (package = ) [public class Anonymous : Object {...]
-    UClass (name = Anonymous) [public class Anonymous : Object {...}]
+UFile (package = ) [public class Anonymous {...]
+    UClass (name = Anonymous) [public class Anonymous {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var variable: int = 42] = Undetermined
@@ -8,7 +8,7 @@ UFile (package = ) [public class Anonymous : Object {...]
                 UVariableDeclarationsExpression [var runnable: Runnable = anonymous Runnable() {...        }] = Undetermined
                     ULocalVariable (name = runnable) [var runnable: Runnable = anonymous Runnable() {...        }]
                         UObjectLiteralExpression [anonymous Runnable() {...        }] = Undetermined
-                            UClass (name = null) [final class null : Runnable {...}]
+                            UClass (name = null) [final class null {...}]
                                 UMethod (name = run) [public fun run() : void {...}]
                                     UBlockExpression [{...}] = (var variable = 24)
                                         UVariableDeclarationsExpression [var variable: int = 24] = Undetermined

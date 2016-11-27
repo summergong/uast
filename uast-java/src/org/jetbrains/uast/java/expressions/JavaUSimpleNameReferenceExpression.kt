@@ -40,6 +40,14 @@ class JavaUTypeReferenceExpression(
         get() = psi.type
 }
 
+class LazyJavaUTypeReferenceExpression(
+        override val psi: PsiElement,
+        override val containingElement: UElement?,
+        private val typeSupplier: () -> PsiType
+) : JavaAbstractUExpression(), UTypeReferenceExpression, PsiElementBacked {
+    override val type: PsiType by lz { typeSupplier() }
+}
+
 class JavaClassUSimpleNameReferenceExpression(
         override val identifier: String,
         val ref: PsiJavaReference,

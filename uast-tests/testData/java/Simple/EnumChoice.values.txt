@@ -1,5 +1,5 @@
-UFile (package = ) [public final enum EnumChoice : Enum {...]
-    UClass (name = EnumChoice) [public final enum EnumChoice : Enum {...}]
+UFile (package = ) [public final enum EnumChoice {...]
+    UClass (name = EnumChoice) [public final enum EnumChoice {...}]
         UEnumConstant (name = FIRST) [FIRST] = Undetermined
             USimpleNameReferenceExpression [EnumChoice] = Undetermined
         UEnumConstant (name = SECOND) [SECOND] = Undetermined

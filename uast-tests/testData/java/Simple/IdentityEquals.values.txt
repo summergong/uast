@@ -1,5 +1,5 @@
-UFile (package = ) [public class IdentityEquals : Object {...]
-    UClass (name = IdentityEquals) [public class IdentityEquals : Object {...}]
+UFile (package = ) [public class IdentityEquals {...]
+    UClass (name = IdentityEquals) [public class IdentityEquals {...}]
         UMethod (name = foo) [public static fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var i1: Integer = 111] = Undetermined

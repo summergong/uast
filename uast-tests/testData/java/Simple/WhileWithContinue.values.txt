@@ -1,5 +1,5 @@
-UFile (package = ) [public class WhileWithContinue : Object {...]
-    UClass (name = WhileWithContinue) [public class WhileWithContinue : Object {...}]
+UFile (package = ) [public class WhileWithContinue {...]
+    UClass (name = WhileWithContinue) [public class WhileWithContinue {...}]
         UMethod (name = bar) [public static fun bar() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 UReturnExpression [return true] = Nothing

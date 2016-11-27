@@ -1,6 +1,6 @@
 UFile (package = ) [import java.util.LinkedList...]
     UImportStatement (isOnDemand = false) [import java.util.LinkedList]
-    UClass (name = External) [public class External : Object {...}]
+    UClass (name = External) [public class External {...}]
         UMethod (name = foo) [public static fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 UReturnExpression [return LinkedList<Integer>() === LinkedList<Integer>()] = Nothing

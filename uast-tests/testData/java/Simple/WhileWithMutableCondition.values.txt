@@ -1,5 +1,5 @@
-UFile (package = ) [public class WhileWithMutableCondition : Object {...]
-    UClass (name = WhileWithMutableCondition) [public class WhileWithMutableCondition : Object {...}]
+UFile (package = ) [public class WhileWithMutableCondition {...]
+    UClass (name = WhileWithMutableCondition) [public class WhileWithMutableCondition {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var i: int = 0] = Undetermined

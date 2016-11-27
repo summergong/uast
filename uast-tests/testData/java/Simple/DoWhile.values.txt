@@ -1,5 +1,5 @@
-UFile (package = ) [public class DoWhile : Object {...]
-    UClass (name = DoWhile) [public class DoWhile : Object {...}]
+UFile (package = ) [public class DoWhile {...]
+    UClass (name = DoWhile) [public class DoWhile {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var count: int = 0] = Undetermined

@@ -1,5 +1,5 @@
-UFile (package = ) [public class WhileWithReturn : Object {...]
-    UClass (name = WhileWithReturn) [public class WhileWithReturn : Object {...}]
+UFile (package = ) [public class WhileWithReturn {...]
+    UClass (name = WhileWithReturn) [public class WhileWithReturn {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var first: int = 1] = Undetermined

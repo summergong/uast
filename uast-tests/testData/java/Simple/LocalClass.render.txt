@@ -1,4 +1,4 @@
-public class LocalClass : Object {
+public class LocalClass {
     public static fun foo() : int {
 
         [!] UnknownJavaExpression (PsiEmptyStatement)

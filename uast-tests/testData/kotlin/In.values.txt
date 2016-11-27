@@ -1,5 +1,5 @@
-UFile (package = ) [public final class InKt : Object {...]
-    UClass (name = InKt) [public final class InKt : Object {...}]
+UFile (package = ) [public final class InKt {...]
+    UClass (name = InKt) [public final class InKt {...}]
         UAnnotationMethod (name = foo) [public static final fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 UVariableDeclarationsExpression [var x: <ErrorType> = 1] = Undetermined

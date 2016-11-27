@@ -2,6 +2,7 @@ package org.jetbrains.uast
 
 import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
@@ -21,6 +22,8 @@ interface UClass : UDeclaration, PsiClass {
             val superClass = superClass ?: return null
             return getUastContext().convertWithParent(superClass)
         }
+
+    val uastSuperTypes: List<UTypeReferenceExpression>
 
     /**
      * Returns [UDeclaration] wrappers for the class declarations.
@@ -50,10 +53,10 @@ interface UClass : UDeclaration, PsiClass {
             else -> "class"
         }
         append(kind).append(' ').append(psi.name)
-        val superTypes = psi.superTypes
+        val superTypes = uastSuperTypes
         if (superTypes.isNotEmpty()) {
             append(" : ")
-            append(superTypes.joinToString { it.className })
+            append(superTypes.joinToString { it.asRenderString() })
         }
         appendln(" {")
         uastDeclarations.forEachIndexed { index, declaration ->

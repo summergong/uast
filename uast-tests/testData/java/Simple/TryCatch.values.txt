@@ -1,5 +1,5 @@
-UFile (package = ) [public class TryCatch : Object {...]
-    UClass (name = TryCatch) [public class TryCatch : Object {...}]
+UFile (package = ) [public class TryCatch {...]
+    UClass (name = TryCatch) [public class TryCatch {...}]
         UMethod (name = foo) [public static fun foo(str: String) : int {...}]
             UParameter (name = str) [var str: String]
             UBlockExpression [{...}] = Nothing

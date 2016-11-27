@@ -1,4 +1,4 @@
-public final class Simple : Object {
+public final class Simple {
     private final var property: java.lang.String = "Mary"
     public final fun method() : void {
         println("Hello, world!")

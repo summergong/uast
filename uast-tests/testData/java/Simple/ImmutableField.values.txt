@@ -1,5 +1,5 @@
-UFile (package = ) [public class ImmutableField : Object {...]
-    UClass (name = ImmutableField) [public class ImmutableField : Object {...}]
+UFile (package = ) [public class ImmutableField {...]
+    UClass (name = ImmutableField) [public class ImmutableField {...}]
         UField (name = immutable) [final var immutable: int]
         UMethod (name = ImmutableField) [public fun ImmutableField() {...}]
             UBlockExpression [{...}] = external bar(immutable)

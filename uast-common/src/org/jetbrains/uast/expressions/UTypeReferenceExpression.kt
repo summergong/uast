@@ -30,4 +30,6 @@ interface UTypeReferenceExpression : UExpression {
             visitor.visitTypeReferenceExpression(this, data)
 
     override fun asLogString() = log("name = ${type.name}")
+
+    override fun asRenderString(): String = type.name
 }

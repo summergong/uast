@@ -1,5 +1,5 @@
-UFile (package = ) [public final class LocalClassKt : Object {...]
-    UClass (name = LocalClassKt) [public final class LocalClassKt : Object {...}]
+UFile (package = ) [public final class LocalClassKt {...]
+    UClass (name = LocalClassKt) [public final class LocalClassKt {...}]
         UAnnotationMethod (name = foo) [public static final fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
                 [!] UnknownKotlinExpression (CLASS) [[!] UnknownKotlinExpression (CLASS)] = Undetermined
