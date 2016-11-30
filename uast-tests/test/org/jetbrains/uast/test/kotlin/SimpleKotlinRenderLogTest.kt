@@ -8,4 +8,6 @@ class SimpleKotlinRenderLogTest : AbstractKotlinRenderLogTest() {
     @Test fun testSimple() = doTest("Simple")
 
     @Test fun testWhenIs() = doTest("WhenIs")
+
+    @Test fun testDefaultImpls() = doTest("DefaultImpls")
 }

@@ -18,9 +18,11 @@ package org.jetbrains.uast.kotlin
 
 import com.intellij.psi.PsiAnonymousClass
 import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiMethod
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.elements.KtLightMethod
 import org.jetbrains.kotlin.asJava.toLightMethods
+import org.jetbrains.kotlin.load.java.JvmAbi
 import org.jetbrains.kotlin.psi.KtObjectDeclaration
 import org.jetbrains.uast.*
 import org.jetbrains.uast.java.AbstractJavaUClass
@@ -35,15 +37,19 @@ class KotlinUClass private constructor(
 
     override val uastAnchor: UElement
         get() = UIdentifier(psi.nameIdentifier, this)
-    
+
+    override val uastNestedClasses: List<UClass> = super.uastNestedClasses.filter {
+        it.name != JvmAbi.DEFAULT_IMPLS_CLASS_NAME
+    }
+
     override val uastMethods: List<UMethod> by lz {
         val primaryConstructor = ktClass?.getPrimaryConstructor()?.toLightMethods()?.firstOrNull()
         val initBlocks = ktClass?.getAnonymousInitializers() ?: emptyList()
 
-        psi.methods.map {
-            if (it is KtLightMethod && it.isConstructor && initBlocks.isNotEmpty()
-                && (primaryConstructor == null || it == primaryConstructor)) {
-                object : KotlinUMethod(it, this@KotlinUClass) {
+        fun createUMethod(psiMethod: PsiMethod): UMethod {
+            return if (psiMethod is KtLightMethod && psiMethod.isConstructor && initBlocks.isNotEmpty()
+                    && (primaryConstructor == null || psiMethod == primaryConstructor)) {
+                object : KotlinUMethod(psiMethod, this@KotlinUClass) {
                     override val uastBody by lz {
                         val initializers = ktClass?.getAnonymousInitializers() ?: return@lz UastEmptyExpression
                         val containingMethod = this
@@ -63,11 +69,17 @@ class KotlinUClass private constructor(
                         }
                     }
                 }
+            } else {
+                getLanguagePlugin().convert<UMethod>(psiMethod, this)
             }
-            else {
-                getLanguagePlugin().convert<UMethod>(it, this)
-            }
-        } 
+        }
+
+        fun isDelegatedMethod(psiMethod: PsiMethod) = psiMethod is KtLightMethod && psiMethod.isDelegated
+
+        psi.methods.asSequence()
+                .filterNot(::isDelegatedMethod)
+                .map(::createUMethod)
+                .toList()
     }
 
     companion object {
