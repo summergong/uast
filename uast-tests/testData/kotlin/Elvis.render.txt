@@ -1,0 +1,12 @@
+public final class ElvisKt {
+    public static final fun foo(bar: java.lang.String) : java.lang.Object = null
+    public static final fun baz() : java.lang.Object {
+        return elvis {
+            var var3ac23fe7: <ErrorType> = elvis {
+                var var2a153531: <ErrorType> = foo("Lorem ipsum")
+                if (var2a153531 != null) var2a153531 else foo("dolor sit amet")
+            }
+            if (var3ac23fe7 != null) var3ac23fe7 else foo("consectetuer adipiscing elit")
+        }
+    }
+}

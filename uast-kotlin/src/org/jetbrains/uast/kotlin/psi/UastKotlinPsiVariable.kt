@@ -4,10 +4,7 @@ import com.intellij.lang.Language
 import com.intellij.psi.*
 import org.jetbrains.kotlin.asJava.elements.LightVariableBuilder
 import org.jetbrains.kotlin.idea.KotlinLanguage
-import org.jetbrains.kotlin.psi.KtDestructuringDeclaration
-import org.jetbrains.kotlin.psi.KtElement
-import org.jetbrains.kotlin.psi.KtExpression
-import org.jetbrains.kotlin.psi.KtVariableDeclaration
+import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UElement
@@ -75,6 +72,19 @@ class UastKotlinPsiVariable(
                     psiParent,
                     containingElement,
                     declaration)
+        }
+
+        fun create(initializer: KtExpression, containingElement: UElement, parent: PsiElement): PsiVariable {
+            val psiParent = containingElement.getParentOfType<UDeclaration>()?.psi ?: parent
+            return UastKotlinPsiVariable(
+                    initializer.manager,
+                    "var" + Integer.toHexString(initializer.hashCode()),
+                    UastErrorType, //TODO,
+                    KotlinLanguage.INSTANCE,
+                    initializer,
+                    psiParent,
+                    containingElement,
+                    initializer)
         }
     }
 }

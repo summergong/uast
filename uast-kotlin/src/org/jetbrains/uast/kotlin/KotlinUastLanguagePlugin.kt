@@ -18,9 +18,7 @@ package org.jetbrains.uast.kotlin
 
 import com.intellij.lang.Language
 import com.intellij.openapi.project.Project
-import com.intellij.psi.PsiElement
-import com.intellij.psi.PsiFile
-import com.intellij.psi.PsiVariable
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.LeafPsiElement
 import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.asJava.LightClassUtil
@@ -44,6 +42,7 @@ import org.jetbrains.uast.java.JavaUastLanguagePlugin
 import org.jetbrains.uast.kotlin.declarations.KotlinUMethod
 import org.jetbrains.uast.kotlin.expressions.KotlinUBreakExpression
 import org.jetbrains.uast.kotlin.expressions.KotlinUContinueExpression
+import org.jetbrains.uast.kotlin.expressions.createElvisExpression
 import org.jetbrains.uast.kotlin.kinds.KotlinSpecialExpressionKinds
 import org.jetbrains.uast.kotlin.psi.UastKotlinPsiParameter
 import org.jetbrains.uast.kotlin.psi.UastKotlinPsiVariable
@@ -269,7 +268,12 @@ internal object KotlinConverter {
                 KotlinUSimpleReferenceExpression(expression, expression.getReferencedName(), parent) 
             }
             is KtCallExpression -> expr<UCallExpression> { KotlinUFunctionCallExpression(expression, parent) }
-            is KtBinaryExpression -> expr<UBinaryExpression> { KotlinUBinaryExpression(expression, parent) }
+            is KtBinaryExpression -> {
+                if (expression.operationToken == KtTokens.ELVIS) {
+                    expr<UExpressionList> { createElvisExpression(expression, parent) ?: UastEmptyExpression }
+                }
+                else expr<UBinaryExpression> { KotlinUBinaryExpression(expression, parent) }
+            }
             is KtParenthesizedExpression -> expr<UParenthesizedExpression> { KotlinUParenthesizedExpression(expression, parent) }
             is KtPrefixExpression -> expr<UPrefixExpression> { KotlinUPrefixExpression(expression, parent) }
             is KtPostfixExpression -> expr<UPostfixExpression> { KotlinUPostfixExpression(expression, parent) }

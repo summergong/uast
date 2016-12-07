@@ -10,4 +10,6 @@ class SimpleKotlinRenderLogTest : AbstractKotlinRenderLogTest() {
     @Test fun testWhenIs() = doTest("WhenIs")
 
     @Test fun testDefaultImpls() = doTest("DefaultImpls")
+
+    @Test fun testElvis() = doTest("Elvis")
 }
