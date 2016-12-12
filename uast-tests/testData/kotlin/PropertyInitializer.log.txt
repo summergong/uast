@@ -1,0 +1,16 @@
+UFile (package = )
+    UClass (name = TestPropertyInitializer)
+        UField (name = withSetter)
+            UAnnotation (fqName = org.jetbrains.annotations.NotNull)
+            ULiteralExpression (value = "/sdcard")
+        UAnnotationMethod (name = getWithSetter)
+            UAnnotation (fqName = org.jetbrains.annotations.NotNull)
+            USimpleNameReferenceExpression
+        UAnnotationMethod (name = setWithSetter)
+            UParameter (name = p)
+                UAnnotation (fqName = org.jetbrains.annotations.NotNull)
+            UBlockExpression
+                UBinaryExpression (operator = =)
+                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression
+        UAnnotationMethod (name = TestPropertyInitializer)

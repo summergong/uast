@@ -12,4 +12,10 @@ class SimpleKotlinRenderLogTest : AbstractKotlinRenderLogTest() {
     @Test fun testDefaultImpls() = doTest("DefaultImpls")
 
     @Test fun testElvis() = doTest("Elvis")
+
+    @Test fun testPropertyAccessors() = doTest("PropertyAccessors")
+
+    @Test fun testPropertyInitializer() = doTest("PropertyInitializer")
+
+    @Test fun testPropertyInitializerWithoutSetter() = doTest("PropertyInitializerWithoutSetter")
 }
