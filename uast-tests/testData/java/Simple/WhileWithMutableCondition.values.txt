@@ -2,7 +2,7 @@ UFile (package = ) [public class WhileWithMutableCondition {...]
     UClass (name = WhileWithMutableCondition) [public class WhileWithMutableCondition {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var i: int = 0] = Undetermined
+                UDeclarationsExpression [var i: int = 0] = Undetermined
                     ULocalVariable (name = i) [var i: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 UWhileExpression [while (++i < 2) {...}] = Undetermined

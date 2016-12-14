@@ -25,7 +25,7 @@ interface UastTypedVisitor<in D, out R> {
     // Expressions
     fun visitExpression(node: UExpression, data: D) = visitElement(node, data)
     fun visitLabeledExpression(node: ULabeledExpression, data: D) = visitExpression(node, data)
-    fun visitDeclarationsExpression(node: UVariableDeclarationsExpression, data: D) = visitExpression(node, data)
+    fun visitDeclarationsExpression(node: UDeclarationsExpression, data: D) = visitExpression(node, data)
     fun visitBlockExpression(node: UBlockExpression, data: D) = visitExpression(node, data)
     fun visitTypeReferenceExpression(node: UTypeReferenceExpression, data: D) = visitExpression(node, data)
     fun visitExpressionList(node: UExpressionList, data: D) = visitExpression(node, data)

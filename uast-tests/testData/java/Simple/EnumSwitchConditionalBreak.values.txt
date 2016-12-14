@@ -10,9 +10,9 @@ UFile (package = ) [public final enum EnumSwitchConditionalBreak {...]
             UParameter (name = key) [var key: EnumSwitchConditionalBreak]
             UParameter (name = result) [var result: int]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var newResult: int] = Undetermined
+                UDeclarationsExpression [var newResult: int] = Undetermined
                     ULocalVariable (name = newResult) [var newResult: int]
-                UVariableDeclarationsExpression [var counter: int = 0] = Undetermined
+                UDeclarationsExpression [var counter: int = 0] = Undetermined
                     ULocalVariable (name = counter) [var counter: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 USwitchExpression [switch (key) ...] = Undetermined

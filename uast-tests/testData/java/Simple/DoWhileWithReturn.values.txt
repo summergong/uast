@@ -2,10 +2,10 @@ UFile (package = ) [public class DoWhileWithReturn {...]
     UClass (name = DoWhileWithReturn) [public class DoWhileWithReturn {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var count: int = 0] = Undetermined
+                UDeclarationsExpression [var count: int = 0] = Undetermined
                     ULocalVariable (name = count) [var count: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
-                UVariableDeclarationsExpression [var number: int = 1] = Undetermined
+                UDeclarationsExpression [var number: int = 1] = Undetermined
                     ULocalVariable (name = number) [var number: int = 1]
                         ULiteralExpression (value = 1) [1] = 1
                 UDoWhileExpression [do {...] = Nothing

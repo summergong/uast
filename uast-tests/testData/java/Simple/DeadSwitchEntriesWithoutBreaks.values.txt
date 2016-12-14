@@ -8,10 +8,10 @@ UFile (package = ) [public final enum DeadSwitchEntriesWithoutBreaks {...]
             USimpleNameReferenceExpression [DeadSwitchEntriesWithoutBreaks] = Undetermined
         UMethod (name = bar) [public static fun bar() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var key: DeadSwitchEntriesWithoutBreaks = SECOND] = Undetermined
+                UDeclarationsExpression [var key: DeadSwitchEntriesWithoutBreaks = SECOND] = Undetermined
                     ULocalVariable (name = key) [var key: DeadSwitchEntriesWithoutBreaks = SECOND]
                         USimpleNameReferenceExpression [SECOND] = SECOND (enum entry)
-                UVariableDeclarationsExpression [var result: int] = Undetermined
+                UDeclarationsExpression [var result: int] = Undetermined
                     ULocalVariable (name = result) [var result: int]
                 USwitchExpression [switch (key) ...] = Undetermined
                     USimpleNameReferenceExpression [key] = (var key = SECOND (enum entry))

@@ -10,11 +10,11 @@ UFile (package = )
             UBlockExpression
                 UReturnExpression
                     UExpressionList (elvis)
-                        UVariableDeclarationsExpression
-                            ULocalVariable (name = var3ac23fe7)
+                        UDeclarationsExpression
+                            ULocalVariable (name = var243c4e1a)
                                 UExpressionList (elvis)
-                                    UVariableDeclarationsExpression
-                                        ULocalVariable (name = var2a153531)
+                                    UDeclarationsExpression
+                                        ULocalVariable (name = varc4aef1e3)
                                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                                 UIdentifier (Identifier (foo))
                                                 USimpleNameReferenceExpression

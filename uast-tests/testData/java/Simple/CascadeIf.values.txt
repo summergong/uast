@@ -5,19 +5,19 @@ UFile (package = ) [public class CascadeIf {...]
             UParameter (name = g) [var g: boolean]
             UParameter (name = h) [var h: boolean]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var x: int = 0] = Undetermined
+                UDeclarationsExpression [var x: int = 0] = Undetermined
                     ULocalVariable (name = x) [var x: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
-                UVariableDeclarationsExpression [var y: int = 1] = Undetermined
+                UDeclarationsExpression [var y: int = 1] = Undetermined
                     ULocalVariable (name = y) [var y: int = 1]
                         ULiteralExpression (value = 1) [1] = 1
-                UVariableDeclarationsExpression [var v: int = 2] = Undetermined
+                UDeclarationsExpression [var v: int = 2] = Undetermined
                     ULocalVariable (name = v) [var v: int = 2]
                         ULiteralExpression (value = 2) [2] = 2
-                UVariableDeclarationsExpression [var w: int = 3] = Undetermined
+                UDeclarationsExpression [var w: int = 3] = Undetermined
                     ULocalVariable (name = w) [var w: int = 3]
                         ULiteralExpression (value = 3) [3] = 3
-                UVariableDeclarationsExpression [var z: int] = Undetermined
+                UDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (f) {...}] = Phi((var y = 1), (var x = 0), (var v = 2), (var w = 3))
                     USimpleNameReferenceExpression [f] = Undetermined

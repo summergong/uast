@@ -2,16 +2,16 @@ UFile (package = ) [public class DeadElse {...]
     UClass (name = DeadElse) [public class DeadElse {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var f: boolean = true] = Undetermined
+                UDeclarationsExpression [var f: boolean = true] = Undetermined
                     ULocalVariable (name = f) [var f: boolean = true]
                         ULiteralExpression (value = true) [true] = true
-                UVariableDeclarationsExpression [var x: int = 0] = Undetermined
+                UDeclarationsExpression [var x: int = 0] = Undetermined
                     ULocalVariable (name = x) [var x: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
-                UVariableDeclarationsExpression [var y: int = 1] = Undetermined
+                UDeclarationsExpression [var y: int = 1] = Undetermined
                     ULocalVariable (name = y) [var y: int = 1]
                         ULiteralExpression (value = 1) [1] = 1
-                UVariableDeclarationsExpression [var z: int] = Undetermined
+                UDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (f) {...}] = (var y = 1)
                     USimpleNameReferenceExpression [f] = (var f = true)

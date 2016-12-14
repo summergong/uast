@@ -24,23 +24,23 @@ import org.jetbrains.uast.visitor.UastVisitor
  * Represents a list of declarations.
  * Example in Java: `int a = 4, b = 3`.
  */
-interface UVariableDeclarationsExpression : UExpression {
+interface UDeclarationsExpression : UExpression {
     /**
-     * Returns the list of variables inside this [UVariableDeclarationsExpression].
+     * Returns the list of declarations inside this [UDeclarationsExpression].
      */
-    val variables: List<UVariable>
+    val declarations: List<UDeclaration>
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitDeclarationsExpression(this)) return
         annotations.acceptList(visitor)
-        variables.acceptList(visitor)
+        declarations.acceptList(visitor)
         visitor.afterVisitDeclarationsExpression(this)
     }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitDeclarationsExpression(this, data)
 
-    override fun asRenderString() = variables.joinToString(LINE_SEPARATOR) { it.asRenderString() }
+    override fun asRenderString() = declarations.joinToString(LINE_SEPARATOR) { it.asRenderString() }
 
     override fun asLogString() = log()
 }

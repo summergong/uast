@@ -2,19 +2,19 @@ UFile (package = ) [public class Logicals {...]
     UClass (name = Logicals) [public class Logicals {...}]
         UMethod (name = foo) [public static fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var one: int = 1] = Undetermined
+                UDeclarationsExpression [var one: int = 1] = Undetermined
                     ULocalVariable (name = one) [var one: int = 1]
                         ULiteralExpression (value = 1) [1] = 1
-                UVariableDeclarationsExpression [var two: int = 2] = Undetermined
+                UDeclarationsExpression [var two: int = 2] = Undetermined
                     ULocalVariable (name = two) [var two: int = 2]
                         ULiteralExpression (value = 2) [2] = 2
-                UVariableDeclarationsExpression [var three: int = 3] = Undetermined
+                UDeclarationsExpression [var three: int = 3] = Undetermined
                     ULocalVariable (name = three) [var three: int = 3]
                         ULiteralExpression (value = 3) [3] = 3
-                UVariableDeclarationsExpression [var four: int = 4] = Undetermined
+                UDeclarationsExpression [var four: int = 4] = Undetermined
                     ULocalVariable (name = four) [var four: int = 4]
                         ULiteralExpression (value = 4) [4] = 4
-                UVariableDeclarationsExpression [var b1: boolean = two > one && four > three] = Undetermined
+                UDeclarationsExpression [var b1: boolean = two > one && four > three] = Undetermined
                     ULocalVariable (name = b1) [var b1: boolean = two > one && four > three]
                         UBinaryExpression (operator = &&) [two > one && four > three] = true (depending on: (var two = 2), (var one = 1), (var four = 4), (var three = 3))
                             UBinaryExpression (operator = >) [two > one] = true (depending on: (var two = 2), (var one = 1))
@@ -23,7 +23,7 @@ UFile (package = ) [public class Logicals {...]
                             UBinaryExpression (operator = >) [four > three] = true (depending on: (var four = 4), (var three = 3))
                                 USimpleNameReferenceExpression [four] = (var four = 4)
                                 USimpleNameReferenceExpression [three] = (var three = 3)
-                UVariableDeclarationsExpression [var b2: boolean = one > two && four > three] = Undetermined
+                UDeclarationsExpression [var b2: boolean = one > two && four > three] = Undetermined
                     ULocalVariable (name = b2) [var b2: boolean = one > two && four > three]
                         UBinaryExpression (operator = &&) [one > two && four > three] = false (depending on: (var one = 1), (var two = 2), (var four = 4), (var three = 3))
                             UBinaryExpression (operator = >) [one > two] = false (depending on: (var one = 1), (var two = 2))
@@ -32,12 +32,12 @@ UFile (package = ) [public class Logicals {...]
                             UBinaryExpression (operator = >) [four > three] = true (depending on: (var four = 4), (var three = 3))
                                 USimpleNameReferenceExpression [four] = (var four = 4)
                                 USimpleNameReferenceExpression [three] = (var three = 3)
-                UVariableDeclarationsExpression [var b3: boolean = b1 || b2] = Undetermined
+                UDeclarationsExpression [var b3: boolean = b1 || b2] = Undetermined
                     ULocalVariable (name = b3) [var b3: boolean = b1 || b2]
                         UBinaryExpression (operator = ||) [b1 || b2] = true (depending on: (var b1 = true (depending on: (var two = 2), (var one = 1), (var four = 4), (var three = 3))), (var b2 = false (depending on: (var one = 1), (var two = 2), (var four = 4), (var three = 3))))
                             USimpleNameReferenceExpression [b1] = (var b1 = true (depending on: (var two = 2), (var one = 1), (var four = 4), (var three = 3)))
                             USimpleNameReferenceExpression [b2] = (var b2 = false (depending on: (var one = 1), (var two = 2), (var four = 4), (var three = 3)))
-                UVariableDeclarationsExpression [var b4: boolean = two > one || three > four] = Undetermined
+                UDeclarationsExpression [var b4: boolean = two > one || three > four] = Undetermined
                     ULocalVariable (name = b4) [var b4: boolean = two > one || three > four]
                         UBinaryExpression (operator = ||) [two > one || three > four] = true (depending on: (var two = 2), (var one = 1), (var three = 3), (var four = 4))
                             UBinaryExpression (operator = >) [two > one] = true (depending on: (var two = 2), (var one = 1))

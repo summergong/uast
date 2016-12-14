@@ -33,7 +33,7 @@ class JavaUastLanguagePlugin(override val project: Project) : UastLanguagePlugin
         get() = JavaLanguage.INSTANCE
 
     override fun isExpressionValueUsed(element: UExpression): Boolean = when (element) {
-        is JavaUVariableDeclarationsExpression -> false
+        is JavaUDeclarationsExpression -> false
         is UnknownJavaExpression -> (element.containingElement as? UExpression)?.let { isExpressionValueUsed(it) } ?: false
         else -> {
             val statement = (element as? PsiElementBacked)?.psi as? PsiStatement
@@ -233,8 +233,8 @@ internal object JavaConverter {
         getCached<UExpression>(el)?.let { return it }
 
         return with (requiredType) { when (el) {
-            is PsiDeclarationStatement -> expr<UVariableDeclarationsExpression> { convertDeclarations(el.declaredElements, parent!!) }
-            is PsiExpressionListStatement -> expr<UVariableDeclarationsExpression> { convertDeclarations(el.expressionList.expressions, parent!!) }
+            is PsiDeclarationStatement -> expr<UDeclarationsExpression> { convertDeclarations(el.declaredElements, parent!!) }
+            is PsiExpressionListStatement -> expr<UDeclarationsExpression> { convertDeclarations(el.expressionList.expressions, parent!!) }
             is PsiBlockStatement -> expr<UBlockExpression> { JavaUBlockExpression(el, parent) }
             is PsiLabeledStatement -> expr<ULabeledExpression> { JavaULabeledExpression(el, parent) }
             is PsiExpressionStatement -> convertExpression(el.expression, parent, requiredType)
@@ -255,14 +255,14 @@ internal object JavaConverter {
         }}
     }
 
-    private fun convertDeclarations(elements: Array<out PsiElement>, parent: UElement): UVariableDeclarationsExpression {
-        return JavaUVariableDeclarationsExpression(parent).apply {
+    private fun convertDeclarations(elements: Array<out PsiElement>, parent: UElement): UDeclarationsExpression {
+        return JavaUDeclarationsExpression(parent).apply {
             val variables = mutableListOf<UVariable>()
             for (element in elements) {
                 if (element !is PsiVariable) continue
                 variables += JavaUVariable.create(element, this)
             }
-            this.variables = variables
+            this.declarations = variables
         }
     }
 

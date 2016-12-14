@@ -9,7 +9,7 @@ UFile (package = )
         UMethod (name = foo)
             UParameter (name = key)
             UBlockExpression
-                UVariableDeclarationsExpression
+                UDeclarationsExpression
                     ULocalVariable (name = result)
                 USwitchExpression
                     USimpleNameReferenceExpression

@@ -3,13 +3,13 @@ UFile (package = ) [public class AliveThenElse {...]
         UMethod (name = foo) [public static fun foo(f: boolean) : int {...}]
             UParameter (name = f) [var f: boolean]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var x: int = 0] = Undetermined
+                UDeclarationsExpression [var x: int = 0] = Undetermined
                     ULocalVariable (name = x) [var x: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
-                UVariableDeclarationsExpression [var y: int = 1] = Undetermined
+                UDeclarationsExpression [var y: int = 1] = Undetermined
                     ULocalVariable (name = y) [var y: int = 1]
                         ULiteralExpression (value = 1) [1] = 1
-                UVariableDeclarationsExpression [var z: int] = Undetermined
+                UDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (f) {...}] = Phi((var y = 1), (var x = 0))
                     USimpleNameReferenceExpression [f] = Undetermined

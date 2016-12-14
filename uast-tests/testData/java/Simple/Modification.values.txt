@@ -2,16 +2,16 @@ UFile (package = ) [public class Modification {...]
     UClass (name = Modification) [public class Modification {...}]
         UMethod (name = foo) [public static fun foo() : String {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var s1: String = "Hello "] = Undetermined
+                UDeclarationsExpression [var s1: String = "Hello "] = Undetermined
                     ULocalVariable (name = s1) [var s1: String = "Hello "]
                         ULiteralExpression (value = "Hello ") ["Hello "] = "Hello "
                 UBinaryExpression (operator = +=) [s1 += "world"] = "Hello world" (depending on: (var s1 = "Hello "))
                     USimpleNameReferenceExpression [s1] = (var s1 = "Hello ")
                     ULiteralExpression (value = "world") ["world"] = "world"
-                UVariableDeclarationsExpression [var m: int = 10] = Undetermined
+                UDeclarationsExpression [var m: int = 10] = Undetermined
                     ULocalVariable (name = m) [var m: int = 10]
                         ULiteralExpression (value = 10) [10] = 10
-                UVariableDeclarationsExpression [var n: int = 5] = Undetermined
+                UDeclarationsExpression [var n: int = 5] = Undetermined
                     ULocalVariable (name = n) [var n: int = 5]
                         ULiteralExpression (value = 5) [5] = 5
                 UBinaryExpression (operator = +=) [m += n -= 3] = 12 (depending on: (var m = 10), (var n = 5))

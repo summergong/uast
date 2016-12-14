@@ -3,16 +3,16 @@ package org.jetbrains.uast.java
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UVariable
-import org.jetbrains.uast.UVariableDeclarationsExpression
+import org.jetbrains.uast.UDeclarationsExpression
 
-class JavaUVariableDeclarationsExpression(
+class JavaUDeclarationsExpression(
         override val containingElement: UElement?
-) : UVariableDeclarationsExpression {
-    override lateinit var variables: List<UVariable>
+) : UDeclarationsExpression {
+    override lateinit var declarations: List<UVariable>
         internal set
 
     constructor(parent: UElement?, variables: List<UVariable>) : this(parent) {
-        this.variables = variables
+        this.declarations = variables
     }
 
     override val annotations: List<UAnnotation>

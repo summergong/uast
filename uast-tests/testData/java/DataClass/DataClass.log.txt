@@ -82,7 +82,7 @@ UFile (package = )
                     UReturnExpression
                         ULiteralExpression (value = false)
                     UastEmptyExpression
-                UVariableDeclarationsExpression
+                UDeclarationsExpression
                     ULocalVariable (name = dataClass)
                         UBinaryExpressionWithType
                             USimpleNameReferenceExpression
@@ -169,7 +169,7 @@ UFile (package = )
         UMethod (name = hashCode)
             UAnnotation (fqName = Override)
             UBlockExpression
-                UVariableDeclarationsExpression
+                UDeclarationsExpression
                     ULocalVariable (name = result)
                         UIfExpression
                             UBinaryExpression (operator = !==)

@@ -2,11 +2,11 @@ UFile (package = ) [public class For {...]
     UClass (name = For) [public class For {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var result: int = 0] = Undetermined
+                UDeclarationsExpression [var result: int = 0] = Undetermined
                     ULocalVariable (name = result) [var result: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 UForExpression [for (var i: int = 0; i < 10; i++) {...}] = Undetermined
-                    UVariableDeclarationsExpression [var i: int = 0] = Undetermined
+                    UDeclarationsExpression [var i: int = 0] = Undetermined
                         ULocalVariable (name = i) [var i: int = 0]
                             ULiteralExpression (value = 0) [0] = 0
                     UBinaryExpression (operator = <) [i < 10] = Undetermined

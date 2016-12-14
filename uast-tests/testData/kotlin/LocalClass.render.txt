@@ -1,7 +1,0 @@
-public final class LocalClassKt {
-    public static final fun foo() : boolean {
-        [!] UnknownKotlinExpression (CLASS)
-        [!] UnknownKotlinExpression (FUN)
-        return bar() == <init>()
-    }
-}

@@ -3,7 +3,7 @@ UFile (package = ) [public final class AssertionKt {...]
         UAnnotationMethod (name = foo) [public static final fun foo() : java.lang.String {...}]
             UAnnotation (fqName = org.jetbrains.annotations.NotNull) [UAnnotation (fqName = org.jetbrains.annotations.NotNull)]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var s: java.lang.String = "Not Null"] = Undetermined
+                UDeclarationsExpression [var s: java.lang.String = "Not Null"] = Undetermined
                     ULocalVariable (name = s) [var s: java.lang.String = "Not Null"]
                         ULiteralExpression (value = "Not Null") ["Not Null"] = "Not Null"
                 UReturnExpression [return s!!] = Nothing

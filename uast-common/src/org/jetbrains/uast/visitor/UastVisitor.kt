@@ -31,7 +31,7 @@ interface UastVisitor {
 
     // Expressions
     fun visitLabeledExpression(node: ULabeledExpression) = visitElement(node)
-    fun visitDeclarationsExpression(node: UVariableDeclarationsExpression) = visitElement(node)
+    fun visitDeclarationsExpression(node: UDeclarationsExpression) = visitElement(node)
     fun visitBlockExpression(node: UBlockExpression) = visitElement(node)
     fun visitQualifiedReferenceExpression(node: UQualifiedReferenceExpression) = visitElement(node)
     fun visitSimpleNameReferenceExpression(node: USimpleNameReferenceExpression) = visitElement(node)
@@ -65,7 +65,7 @@ interface UastVisitor {
     fun visitClassLiteralExpression(node: UClassLiteralExpression) = visitElement(node)
     fun visitLambdaExpression(node: ULambdaExpression) = visitElement(node)
     fun visitObjectLiteralExpression(node: UObjectLiteralExpression) = visitElement(node)
-    
+
     // After
 
     fun afterVisitElement(node: UElement) {}
@@ -80,7 +80,7 @@ interface UastVisitor {
 
     // Expressions
     fun afterVisitLabeledExpression(node: ULabeledExpression) { afterVisitElement(node) }
-    fun afterVisitDeclarationsExpression(node: UVariableDeclarationsExpression) { afterVisitElement(node) }
+    fun afterVisitDeclarationsExpression(node: UDeclarationsExpression) { afterVisitElement(node) }
     fun afterVisitBlockExpression(node: UBlockExpression) { afterVisitElement(node) }
     fun afterVisitQualifiedReferenceExpression(node: UQualifiedReferenceExpression) { afterVisitElement(node) }
     fun afterVisitSimpleNameReferenceExpression(node: USimpleNameReferenceExpression) { afterVisitElement(node) }

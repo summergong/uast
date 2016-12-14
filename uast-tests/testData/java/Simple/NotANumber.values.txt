@@ -2,37 +2,37 @@ UFile (package = ) [public class NotANumber {...]
     UClass (name = NotANumber) [public class NotANumber {...}]
         UMethod (name = foo) [public static fun foo() : boolean {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var x: double = 0.0 / 0.0] = Undetermined
+                UDeclarationsExpression [var x: double = 0.0 / 0.0] = Undetermined
                     ULocalVariable (name = x) [var x: double = 0.0 / 0.0]
                         UBinaryExpression (operator = /) [0.0 / 0.0] = NaN
                             ULiteralExpression (value = 0.0) [0.0] = 0.0
                             ULiteralExpression (value = 0.0) [0.0] = 0.0
-                UVariableDeclarationsExpression [var b1: boolean = x < x] = Undetermined
+                UDeclarationsExpression [var b1: boolean = x < x] = Undetermined
                     ULocalVariable (name = b1) [var b1: boolean = x < x]
                         UBinaryExpression (operator = <) [x < x] = false (depending on: (var x = NaN))
                             USimpleNameReferenceExpression [x] = (var x = NaN)
                             USimpleNameReferenceExpression [x] = (var x = NaN)
-                UVariableDeclarationsExpression [var b2: boolean = x > x] = Undetermined
+                UDeclarationsExpression [var b2: boolean = x > x] = Undetermined
                     ULocalVariable (name = b2) [var b2: boolean = x > x]
                         UBinaryExpression (operator = >) [x > x] = false (depending on: (var x = NaN))
                             USimpleNameReferenceExpression [x] = (var x = NaN)
                             USimpleNameReferenceExpression [x] = (var x = NaN)
-                UVariableDeclarationsExpression [var b3: boolean = x <= x] = Undetermined
+                UDeclarationsExpression [var b3: boolean = x <= x] = Undetermined
                     ULocalVariable (name = b3) [var b3: boolean = x <= x]
                         UBinaryExpression (operator = <=) [x <= x] = false (depending on: (var x = NaN))
                             USimpleNameReferenceExpression [x] = (var x = NaN)
                             USimpleNameReferenceExpression [x] = (var x = NaN)
-                UVariableDeclarationsExpression [var b4: boolean = x >= x] = Undetermined
+                UDeclarationsExpression [var b4: boolean = x >= x] = Undetermined
                     ULocalVariable (name = b4) [var b4: boolean = x >= x]
                         UBinaryExpression (operator = >=) [x >= x] = false (depending on: (var x = NaN))
                             USimpleNameReferenceExpression [x] = (var x = NaN)
                             USimpleNameReferenceExpression [x] = (var x = NaN)
-                UVariableDeclarationsExpression [var b5: boolean = x === x] = Undetermined
+                UDeclarationsExpression [var b5: boolean = x === x] = Undetermined
                     ULocalVariable (name = b5) [var b5: boolean = x === x]
                         UBinaryExpression (operator = ===) [x === x] = false (depending on: (var x = NaN))
                             USimpleNameReferenceExpression [x] = (var x = NaN)
                             USimpleNameReferenceExpression [x] = (var x = NaN)
-                UVariableDeclarationsExpression [var b6: boolean = x !== x] = Undetermined
+                UDeclarationsExpression [var b6: boolean = x !== x] = Undetermined
                     ULocalVariable (name = b6) [var b6: boolean = x !== x]
                         UBinaryExpression (operator = !==) [x !== x] = true (depending on: (var x = NaN))
                             USimpleNameReferenceExpression [x] = (var x = NaN)
@@ -52,37 +52,37 @@ UFile (package = ) [public class NotANumber {...]
                             USimpleNameReferenceExpression [b6] = (var b6 = true (depending on: (var x = NaN)))
         UMethod (name = bar) [public static fun bar() : boolean {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var x: float = 0.0 / 0.0] = Undetermined
+                UDeclarationsExpression [var x: float = 0.0 / 0.0] = Undetermined
                     ULocalVariable (name = x) [var x: float = 0.0 / 0.0]
                         UBinaryExpression (operator = /) [0.0 / 0.0] = (float)NaN
                             ULiteralExpression (value = 0.0) [0.0] = (float)0.0
                             ULiteralExpression (value = 0.0) [0.0] = (float)0.0
-                UVariableDeclarationsExpression [var b1: boolean = x <= x] = Undetermined
+                UDeclarationsExpression [var b1: boolean = x <= x] = Undetermined
                     ULocalVariable (name = b1) [var b1: boolean = x <= x]
                         UBinaryExpression (operator = <=) [x <= x] = false (depending on: (var x = (float)NaN))
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
-                UVariableDeclarationsExpression [var b2: boolean = x >= x] = Undetermined
+                UDeclarationsExpression [var b2: boolean = x >= x] = Undetermined
                     ULocalVariable (name = b2) [var b2: boolean = x >= x]
                         UBinaryExpression (operator = >=) [x >= x] = false (depending on: (var x = (float)NaN))
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
-                UVariableDeclarationsExpression [var b3: boolean = x < x] = Undetermined
+                UDeclarationsExpression [var b3: boolean = x < x] = Undetermined
                     ULocalVariable (name = b3) [var b3: boolean = x < x]
                         UBinaryExpression (operator = <) [x < x] = false (depending on: (var x = (float)NaN))
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
-                UVariableDeclarationsExpression [var b4: boolean = x > x] = Undetermined
+                UDeclarationsExpression [var b4: boolean = x > x] = Undetermined
                     ULocalVariable (name = b4) [var b4: boolean = x > x]
                         UBinaryExpression (operator = >) [x > x] = false (depending on: (var x = (float)NaN))
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
-                UVariableDeclarationsExpression [var b5: boolean = x === x] = Undetermined
+                UDeclarationsExpression [var b5: boolean = x === x] = Undetermined
                     ULocalVariable (name = b5) [var b5: boolean = x === x]
                         UBinaryExpression (operator = ===) [x === x] = false (depending on: (var x = (float)NaN))
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)
-                UVariableDeclarationsExpression [var b6: boolean = x !== x] = Undetermined
+                UDeclarationsExpression [var b6: boolean = x !== x] = Undetermined
                     ULocalVariable (name = b6) [var b6: boolean = x !== x]
                         UBinaryExpression (operator = !==) [x !== x] = true (depending on: (var x = (float)NaN))
                             USimpleNameReferenceExpression [x] = (var x = (float)NaN)

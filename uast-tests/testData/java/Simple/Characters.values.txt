@@ -2,41 +2,41 @@ UFile (package = ) [public class Characters {...]
     UClass (name = Characters) [public class Characters {...}]
         UMethod (name = foo) [public static fun foo() : char {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var a: char = 'a'] = Undetermined
+                UDeclarationsExpression [var a: char = 'a'] = Undetermined
                     ULocalVariable (name = a) [var a: char = 'a']
                         ULiteralExpression (value = 'a') ['a'] = 'a'
-                UVariableDeclarationsExpression [var c: char = (a + 2) as char] = Undetermined
+                UDeclarationsExpression [var c: char = (a + 2) as char] = Undetermined
                     ULocalVariable (name = c) [var c: char = (a + 2) as char]
                         UBinaryExpressionWithType [(a + 2) as char] = 'c' (depending on: (var a = 'a'))
                             UParenthesizedExpression [(a + 2)] = 'c' (depending on: (var a = 'a'))
                                 UBinaryExpression (operator = +) [a + 2] = 'c' (depending on: (var a = 'a'))
                                     USimpleNameReferenceExpression [a] = (var a = 'a')
                                     ULiteralExpression (value = 2) [2] = 2
-                UVariableDeclarationsExpression [var f: char = (c + 3) as char] = Undetermined
+                UDeclarationsExpression [var f: char = (c + 3) as char] = Undetermined
                     ULocalVariable (name = f) [var f: char = (c + 3) as char]
                         UBinaryExpressionWithType [(c + 3) as char] = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))
                             UParenthesizedExpression [(c + 3)] = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))
                                 UBinaryExpression (operator = +) [c + 3] = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))
                                     USimpleNameReferenceExpression [c] = (var c = 'c' (depending on: (var a = 'a')))
                                     ULiteralExpression (value = 3) [3] = 3
-                UVariableDeclarationsExpression [var d: char = (f - 2) as char] = Undetermined
+                UDeclarationsExpression [var d: char = (f - 2) as char] = Undetermined
                     ULocalVariable (name = d) [var d: char = (f - 2) as char]
                         UBinaryExpressionWithType [(f - 2) as char] = 'd' (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))))
                             UParenthesizedExpression [(f - 2)] = 'd' (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))))
                                 UBinaryExpression (operator = -) [f - 2] = 'd' (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))))
                                     USimpleNameReferenceExpression [f] = (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a')))))
                                     ULiteralExpression (value = 2) [2] = 2
-                UVariableDeclarationsExpression [var diff: int = f - a] = Undetermined
+                UDeclarationsExpression [var diff: int = f - a] = Undetermined
                     ULocalVariable (name = diff) [var diff: int = f - a]
                         UBinaryExpression (operator = -) [f - a] = 5 (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))), (var a = 'a'))
                             USimpleNameReferenceExpression [f] = (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a')))))
                             USimpleNameReferenceExpression [a] = (var a = 'a')
-                UVariableDeclarationsExpression [var aa: int = a + a] = Undetermined
+                UDeclarationsExpression [var aa: int = a + a] = Undetermined
                     ULocalVariable (name = aa) [var aa: int = a + a]
                         UBinaryExpression (operator = +) [a + a] = 'Â' (depending on: (var a = 'a'))
                             USimpleNameReferenceExpression [a] = (var a = 'a')
                             USimpleNameReferenceExpression [a] = (var a = 'a')
-                UVariableDeclarationsExpression [var cdiff: char = diff as char] = Undetermined
+                UDeclarationsExpression [var cdiff: char = diff as char] = Undetermined
                     ULocalVariable (name = cdiff) [var cdiff: char = diff as char]
                         UBinaryExpressionWithType [diff as char] = ''
                             USimpleNameReferenceExpression [diff] = (var diff = 5 (depending on: (var f = 'f' (depending on: (var c = 'c' (depending on: (var a = 'a'))))), (var a = 'a')))

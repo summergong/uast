@@ -2,7 +2,7 @@ UFile (package = ) [public class ReturnMinusX {...]
     UClass (name = ReturnMinusX) [public class ReturnMinusX {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var x: int = 42] = Undetermined
+                UDeclarationsExpression [var x: int = 42] = Undetermined
                     ULocalVariable (name = x) [var x: int = 42]
                         ULiteralExpression (value = 42) [42] = 42
                 UReturnExpression [return -x] = Nothing

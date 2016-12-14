@@ -5,6 +5,7 @@ import com.intellij.psi.*
 import org.jetbrains.kotlin.asJava.elements.LightVariableBuilder
 import org.jetbrains.kotlin.idea.KotlinLanguage
 import org.jetbrains.kotlin.psi.*
+import org.jetbrains.kotlin.psi.psiUtil.startOffset
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.uast.UDeclaration
 import org.jetbrains.uast.UElement
@@ -65,7 +66,7 @@ class UastKotlinPsiVariable(
             val psiParent = containingElement.getParentOfType<UDeclaration>()?.psi ?: declaration.parent
             return UastKotlinPsiVariable(
                     declaration.manager,
-                    "var" + Integer.toHexString(declaration.hashCode()),
+                    "var" + Integer.toHexString(declaration.getHashCode()),
                     UastErrorType, //TODO,
                     KotlinLanguage.INSTANCE,
                     declaration.initializer,
@@ -78,13 +79,26 @@ class UastKotlinPsiVariable(
             val psiParent = containingElement.getParentOfType<UDeclaration>()?.psi ?: parent
             return UastKotlinPsiVariable(
                     initializer.manager,
-                    "var" + Integer.toHexString(initializer.hashCode()),
+                    "var" + Integer.toHexString(initializer.getHashCode()),
                     UastErrorType, //TODO,
                     KotlinLanguage.INSTANCE,
                     initializer,
                     psiParent,
                     containingElement,
                     initializer)
+        }
+
+        fun create(name: String, localFunction: KtFunction, containingElement: UElement): PsiVariable {
+            val psiParent = containingElement.getParentOfType<UDeclaration>()?.psi ?: localFunction.parent
+            return UastKotlinPsiVariable(
+                    localFunction.manager,
+                    name,
+                    UastErrorType, // TODO,
+                    KotlinLanguage.INSTANCE,
+                    localFunction,
+                    psiParent,
+                    containingElement,
+                    localFunction)
         }
     }
 }
@@ -94,4 +108,12 @@ private class KotlinUastPsiExpression(val ktExpression: KtExpression, val parent
         val ktType = ktExpression.analyze()[BindingContext.EXPRESSION_TYPE_INFO, ktExpression]?.type ?: return null
         return ktType.toPsiType(parent, ktExpression, boxed = false)
     }
+}
+
+private fun PsiElement.getHashCode(): Int {
+    var result = 42
+    result = 41 * result + containingFile.name.hashCode()
+    result = 41 * result + startOffset
+    result = 41 * result + text.hashCode()
+    return result
 }

@@ -368,12 +368,12 @@ class TreeBasedEvaluator(
     }
 
     override fun visitDeclarationsExpression(
-            node: UVariableDeclarationsExpression,
+            node: UDeclarationsExpression,
             data: UEvaluationState
     ): UEvaluationInfo {
         inputStateCache[node] = data
         var currentInfo = UUndeterminedValue to data
-        for (variable in node.variables) {
+        for (variable in node.declarations) {
             currentInfo = variable.accept(this, currentInfo.state)
             if (!currentInfo.reachable) return currentInfo storeResultFor node
         }

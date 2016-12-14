@@ -8,7 +8,7 @@ class KotlinValuesTest : AbstractKotlinValuesTest() {
 
     @Test fun testIn() = doTest("In")
 
-    @Test fun testLocalClass() = doTest("LocalClass")
+    @Test fun testLocalDeclarations() = doTest("LocalDeclarations")
 
     @Test fun testSimple() = doTest("Simple")
 }

@@ -2,7 +2,7 @@ UFile (package = )
     UClass (name = LocalClass)
         UMethod (name = foo)
             UBlockExpression
-                UVariableDeclarationsExpression
+                UDeclarationsExpression
                 [!] UnknownJavaExpression (PsiEmptyStatement)
                 UReturnExpression
                     UQualifiedReferenceExpression

@@ -43,10 +43,10 @@ private fun createElvisExpressions(
         containingElement: UElement?,
         psiParent: PsiElement): List<UExpression> {
 
-    val declaration = KotlinUVariableDeclarationsExpression(containingElement)
+    val declaration = KotlinUDeclarationsExpression(containingElement)
     val tempVariable = KotlinUVariable.create(UastKotlinPsiVariable.create(left, declaration, psiParent),
             declaration)
-    declaration.variables = listOf(tempVariable)
+    declaration.declarations = listOf(tempVariable)
 
     val ifExpression = object : UIfExpression {
         override val containingElement: UElement? = containingElement

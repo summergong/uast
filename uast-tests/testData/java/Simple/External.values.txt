@@ -11,7 +11,7 @@ UFile (package = ) [import java.util.LinkedList...]
                             USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>
         UMethod (name = bar) [public static fun bar() : boolean {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var list: List<Integer> = LinkedList<Integer>()] = Undetermined
+                UDeclarationsExpression [var list: List<Integer> = LinkedList<Integer>()] = Undetermined
                     ULocalVariable (name = list) [var list: List<Integer> = LinkedList<Integer>()]
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [LinkedList<Integer>()] = external LinkedList<Integer>()
                             USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>

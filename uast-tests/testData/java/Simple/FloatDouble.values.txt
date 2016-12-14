@@ -2,27 +2,27 @@ UFile (package = ) [public class FloatDouble {...]
     UClass (name = FloatDouble) [public class FloatDouble {...}]
         UMethod (name = foo) [public static fun foo() : double {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var f1: float = 1.0] = Undetermined
+                UDeclarationsExpression [var f1: float = 1.0] = Undetermined
                     ULocalVariable (name = f1) [var f1: float = 1.0]
                         ULiteralExpression (value = 1.0) [1.0] = (float)1.0
-                UVariableDeclarationsExpression [var d2: double = 2.0] = Undetermined
+                UDeclarationsExpression [var d2: double = 2.0] = Undetermined
                     ULocalVariable (name = d2) [var d2: double = 2.0]
                         ULiteralExpression (value = 2.0) [2.0] = 2.0
-                UVariableDeclarationsExpression [var d3: double = f1 + d2] = Undetermined
+                UDeclarationsExpression [var d3: double = f1 + d2] = Undetermined
                     ULocalVariable (name = d3) [var d3: double = f1 + d2]
                         UBinaryExpression (operator = +) [f1 + d2] = 3.0 (depending on: (var f1 = (float)1.0), (var d2 = 2.0))
                             USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
                             USimpleNameReferenceExpression [d2] = (var d2 = 2.0)
-                UVariableDeclarationsExpression [var f2: float = f1 + f1] = Undetermined
+                UDeclarationsExpression [var f2: float = f1 + f1] = Undetermined
                     ULocalVariable (name = f2) [var f2: float = f1 + f1]
                         UBinaryExpression (operator = +) [f1 + f1] = (float)2.0 (depending on: (var f1 = (float)1.0))
                             USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
                             USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
-                UVariableDeclarationsExpression [var f3: float = d3 as float] = Undetermined
+                UDeclarationsExpression [var f3: float = d3 as float] = Undetermined
                     ULocalVariable (name = f3) [var f3: float = d3 as float]
                         UBinaryExpressionWithType [d3 as float] = (float)3.0
                             USimpleNameReferenceExpression [d3] = (var d3 = 3.0 (depending on: (var f1 = (float)1.0), (var d2 = 2.0)))
-                UVariableDeclarationsExpression [var d1: double = f1 as double] = Undetermined
+                UDeclarationsExpression [var d1: double = f1 as double] = Undetermined
                     ULocalVariable (name = d1) [var d1: double = f1 as double]
                         UBinaryExpressionWithType [f1 as double] = 1.0
                             USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)

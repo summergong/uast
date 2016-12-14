@@ -3,7 +3,7 @@ UFile (package = ) [public class TryCatch {...]
         UMethod (name = foo) [public static fun foo(str: String) : int {...}]
             UParameter (name = str) [var str: String]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var sum: int = 0] = Undetermined
+                UDeclarationsExpression [var sum: int = 0] = Undetermined
                     ULocalVariable (name = sum) [var sum: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 UForEachExpression [for (part : str.split(" ")) {...}] = Undetermined
@@ -13,7 +13,7 @@ UFile (package = ) [public class TryCatch {...]
                             UIdentifier (Identifier (split)) [UIdentifier (Identifier (split))]
                             ULiteralExpression (value = " ") [" "] = " "
                     UBlockExpression [{...}] = Undetermined
-                        UVariableDeclarationsExpression [var b: int = 0] = Undetermined
+                        UDeclarationsExpression [var b: int = 0] = Undetermined
                             ULocalVariable (name = b) [var b: int = 0]
                                 ULiteralExpression (value = 0) [0] = 0
                         UTryExpression [try {...] = Phi(1, Undetermined)
@@ -35,7 +35,7 @@ UFile (package = ) [public class TryCatch {...]
                                     UBinaryExpression (operator = =) [b = 1] = 1
                                         USimpleNameReferenceExpression [b] = Undetermined
                                         ULiteralExpression (value = 1) [1] = 1
-                        UVariableDeclarationsExpression [var c: int = b] = Undetermined
+                        UDeclarationsExpression [var c: int = b] = Undetermined
                             ULocalVariable (name = c) [var c: int = b]
                                 USimpleNameReferenceExpression [b] = Phi((var b = 1), (var b = 0))
                 UReturnExpression [return sum] = Nothing

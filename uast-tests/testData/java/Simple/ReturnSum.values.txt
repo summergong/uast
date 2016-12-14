@@ -2,17 +2,17 @@ UFile (package = ) [public class ReturnSum {...]
     UClass (name = ReturnSum) [public class ReturnSum {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var x: int = 1 + 2] = Undetermined
+                UDeclarationsExpression [var x: int = 1 + 2] = Undetermined
                     ULocalVariable (name = x) [var x: int = 1 + 2]
                         UBinaryExpression (operator = +) [1 + 2] = 3
                             ULiteralExpression (value = 1) [1] = 1
                             ULiteralExpression (value = 2) [2] = 2
-                UVariableDeclarationsExpression [var y: int = 3 + 4] = Undetermined
+                UDeclarationsExpression [var y: int = 3 + 4] = Undetermined
                     ULocalVariable (name = y) [var y: int = 3 + 4]
                         UBinaryExpression (operator = +) [3 + 4] = 7
                             ULiteralExpression (value = 3) [3] = 3
                             ULiteralExpression (value = 4) [4] = 4
-                UVariableDeclarationsExpression [var z: int = x + y] = Undetermined
+                UDeclarationsExpression [var z: int = x + y] = Undetermined
                     ULocalVariable (name = z) [var z: int = x + y]
                         UBinaryExpression (operator = +) [x + y] = 10 (depending on: (var x = 3), (var y = 7))
                             USimpleNameReferenceExpression [x] = (var x = 3)

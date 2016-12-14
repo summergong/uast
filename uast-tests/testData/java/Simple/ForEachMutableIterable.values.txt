@@ -4,15 +4,15 @@ UFile (package = ) [import java.util...]
         UMethod (name = getList) [public static fun getList(size: int) : List<Integer> {...}]
             UParameter (name = size) [var size: int]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var result: List<Integer> = LinkedList<Integer>()] = Undetermined
+                UDeclarationsExpression [var result: List<Integer> = LinkedList<Integer>()] = Undetermined
                     ULocalVariable (name = result) [var result: List<Integer> = LinkedList<Integer>()]
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [LinkedList<Integer>()] = external LinkedList<Integer>()
                             USimpleNameReferenceExpression [LinkedList<Integer>] = external LinkedList<Integer>
-                UVariableDeclarationsExpression [var a: int = 0] = Undetermined
+                UDeclarationsExpression [var a: int = 0] = Undetermined
                     ULocalVariable (name = a) [var a: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 UForExpression [for (var i: int = a++; i < size; i++) {...}] = Undetermined
-                    UVariableDeclarationsExpression [var i: int = a++] = Undetermined
+                    UDeclarationsExpression [var i: int = a++] = Undetermined
                         ULocalVariable (name = i) [var i: int = a++]
                             UPostfixExpression (operator = ++) [a++] = (var a = 0)
                                 USimpleNameReferenceExpression [a] = (var a = 0)
@@ -37,10 +37,10 @@ UFile (package = ) [import java.util...]
         UMethod (name = sum) [public static fun sum(numbers: List<Integer>) : int {...}]
             UParameter (name = numbers) [var numbers: List<Integer>]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var result: int = 0] = Undetermined
+                UDeclarationsExpression [var result: int = 0] = Undetermined
                     ULocalVariable (name = result) [var result: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
-                UVariableDeclarationsExpression [var size: int = 3] = Undetermined
+                UDeclarationsExpression [var size: int = 3] = Undetermined
                     ULocalVariable (name = size) [var size: int = 3]
                         ULiteralExpression (value = 3) [3] = 3
                 UForEachExpression [for (number : getList(++size)) {...}] = Undetermined

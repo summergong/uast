@@ -38,11 +38,10 @@ import org.jetbrains.kotlin.psi.*
 import org.jetbrains.kotlin.resolve.BindingContext
 import org.jetbrains.kotlin.resolve.calls.callUtil.getResolvedCall
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.java.JavaUastLanguagePlugin
 import org.jetbrains.uast.kotlin.declarations.KotlinUMethod
-import org.jetbrains.uast.kotlin.expressions.KotlinUBreakExpression
-import org.jetbrains.uast.kotlin.expressions.KotlinUContinueExpression
-import org.jetbrains.uast.kotlin.expressions.createElvisExpression
+import org.jetbrains.uast.kotlin.expressions.*
 import org.jetbrains.uast.kotlin.kinds.KotlinSpecialExpressionKinds
 import org.jetbrains.uast.kotlin.psi.UastKotlinPsiParameter
 import org.jetbrains.uast.kotlin.psi.UastKotlinPsiVariable
@@ -176,9 +175,9 @@ internal inline fun <reified T : UElement> Class<out UElement>?.expr(f: () -> UE
 internal object KotlinConverter {
     internal fun convertPsiElement(element: PsiElement?, parent: UElement?, requiredType: Class<out UElement>?): UElement? {
         return with (requiredType) { when (element) {
-            is KtParameterList -> el<UVariableDeclarationsExpression> {
-                KotlinUVariableDeclarationsExpression(parent).apply {
-                    variables = element.parameters.mapIndexed { i, p ->
+            is KtParameterList -> el<UDeclarationsExpression> {
+                KotlinUDeclarationsExpression(parent).apply {
+                    declarations = element.parameters.mapIndexed { i, p ->
                         KotlinUVariable.create(UastKotlinPsiParameter.create(p, element, parent!!, i), this)
                     }
                 }
@@ -205,10 +204,10 @@ internal object KotlinConverter {
     private fun convertVariablesDeclaration(
             psi: KtVariableDeclaration, 
             parent: UElement?
-    ): UVariableDeclarationsExpression {
+    ): UDeclarationsExpression {
         val parentPsiElement = (parent as? PsiElementBacked)?.psi
         val variable = KotlinUVariable.create(UastKotlinPsiVariable.create(psi, parentPsiElement, parent!!), parent)
-        return KotlinUVariableDeclarationsExpression(parent).apply { variables = listOf(variable) }
+        return KotlinUDeclarationsExpression(parent).apply { declarations = listOf(variable) }
     }
     
     private fun convertStringTemplateExpression(
@@ -235,7 +234,7 @@ internal object KotlinConverter {
 
     internal fun convertExpression(expression: KtExpression, parent: UElement?, requiredType: Class<out UElement>? = null): UExpression {
         return with (requiredType) { when (expression) {
-            is KtVariableDeclaration -> expr<UVariableDeclarationsExpression> { convertVariablesDeclaration(expression, parent) }
+            is KtVariableDeclaration -> expr<UDeclarationsExpression> { convertVariablesDeclaration(expression, parent) }
 
             is KtStringTemplateExpression -> expr<ULiteralExpression> {
                 if (expression.entries.isEmpty())
@@ -245,8 +244,8 @@ internal object KotlinConverter {
                 else
                     convertStringTemplateExpression(expression, parent, expression.entries.size - 1)
             }
-            is KtDestructuringDeclaration -> expr<UVariableDeclarationsExpression> {
-                KotlinUVariableDeclarationsExpression(parent).apply {
+            is KtDestructuringDeclaration -> expr<UDeclarationsExpression> {
+                KotlinUDeclarationsExpression(parent).apply {
                     val tempAssignment = KotlinUVariable.create(UastKotlinPsiVariable.create(expression, parent!!), parent)
                     val destructuringAssignments = expression.entries.mapIndexed { i, entry ->
                         val psiFactory = KtPsiFactory(expression.project)
@@ -255,7 +254,7 @@ internal object KotlinConverter {
                         KotlinUVariable.create(UastKotlinPsiVariable.create(
                                 entry, tempAssignment.psi, parent, initializer), parent)
                     }
-                    variables = listOf(tempAssignment) + destructuringAssignments
+                    declarations = listOf(tempAssignment) + destructuringAssignments
                 }
             }
             is KtLabeledExpression -> expr<ULabeledExpression> { KotlinULabeledExpression(expression, parent) }
@@ -296,6 +295,20 @@ internal object KotlinConverter {
             is KtArrayAccessExpression -> expr<UArrayAccessExpression> { KotlinUArrayAccessExpression(expression, parent) }
             is KtLambdaExpression -> expr<ULambdaExpression> { KotlinULambdaExpression(expression, parent) }
             is KtBinaryExpressionWithTypeRHS -> expr<UBinaryExpressionWithType> { KotlinUBinaryExpressionWithType(expression, parent) }
+            is KtClassOrObject -> expr<UDeclarationsExpression> {
+                expression.toLightClass()?.let { lightClass ->
+                    KotlinUDeclarationsExpression(parent).apply {
+                        declarations = listOf(KotlinUClass.create(lightClass, this))
+                    }
+                } ?: UastEmptyExpression
+            }
+            is KtFunction -> if (expression.name.isNullOrEmpty()) {
+                expr<ULambdaExpression> { createLocalFunctionLambdaExpression(expression, parent) }
+            }
+            else {
+                expr<UDeclarationsExpression> { createLocalFunctionDeclaration(expression, parent) }
+            }
+
 
             else -> UnknownKotlinExpression(expression, parent)
         }}

@@ -2,10 +2,10 @@ UFile (package = ) [public class WhileWithReturn {...]
     UClass (name = WhileWithReturn) [public class WhileWithReturn {...}]
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
-                UVariableDeclarationsExpression [var first: int = 1] = Undetermined
+                UDeclarationsExpression [var first: int = 1] = Undetermined
                     ULocalVariable (name = first) [var first: int = 1]
                         ULiteralExpression (value = 1) [1] = 1
-                UVariableDeclarationsExpression [var second: int = 2] = Undetermined
+                UDeclarationsExpression [var second: int = 2] = Undetermined
                     ULocalVariable (name = second) [var second: int = 2]
                         ULiteralExpression (value = 2) [2] = 2
                 UWhileExpression [while (first === 1) {...}] = Nothing

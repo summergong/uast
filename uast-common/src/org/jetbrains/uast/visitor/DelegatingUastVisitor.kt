@@ -37,7 +37,7 @@ class DelegatingUastVisitor(private val visitors: List<UastVisitor>): UastVisito
         return visitors.all { it.visitLabeledExpression(node) }
     }
 
-    override fun visitDeclarationsExpression(node: UVariableDeclarationsExpression): Boolean {
+    override fun visitDeclarationsExpression(node: UDeclarationsExpression): Boolean {
         return visitors.all { it.visitDeclarationsExpression(node) }
     }
 
