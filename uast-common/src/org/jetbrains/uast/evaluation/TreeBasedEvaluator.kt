@@ -123,7 +123,7 @@ class TreeBasedEvaluator(
             data: UEvaluationState
     ): UEvaluationInfo {
         inputStateCache[node] = data
-        return UCallResultValue(node) to data storeResultFor node
+        return UCallResultValue(node, emptyList()) to data storeResultFor node
     }
 
     // ----------------------- //
@@ -366,12 +366,14 @@ class TreeBasedEvaluator(
         var currentInfo = UUndeterminedValue to data
         currentInfo = node.receiver?.accept(this, currentInfo.state) ?: currentInfo
         if (!currentInfo.reachable) return currentInfo storeResultFor node
+        val argumentValues = mutableListOf<UValue>()
         for (valueArgument in node.valueArguments) {
             currentInfo = valueArgument.accept(this, currentInfo.state)
             if (!currentInfo.reachable) return currentInfo storeResultFor node
+            argumentValues.add(currentInfo.value)
         }
 
-        return UCallResultValue(node) to currentInfo.state storeResultFor node
+        return UCallResultValue(node, argumentValues) to currentInfo.state storeResultFor node
     }
 
     override fun visitQualifiedReferenceExpression(

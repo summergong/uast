@@ -16,9 +16,9 @@ UFile (package = ) [public class Anonymous {...]
                                                 ULiteralExpression (value = 24) [24] = 24
                                         UPostfixExpression (operator = ++) [variable++] = (var variable = 24)
                                             USimpleNameReferenceExpression (identifier = variable) [variable] = (var variable = 24)
-                UQualifiedReferenceExpression [runnable.run()] = external run()
+                UQualifiedReferenceExpression [runnable.run()] = external run()()
                     USimpleNameReferenceExpression (identifier = runnable) [runnable] = (var runnable = Undetermined)
-                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing
                     USimpleNameReferenceExpression (identifier = variable) [variable] = (var variable = 42)
