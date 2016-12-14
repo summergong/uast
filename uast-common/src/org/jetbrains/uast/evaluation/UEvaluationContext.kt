@@ -17,3 +17,10 @@ interface UEvaluationContext {
 
 fun UFile.analyzeAll(context: UastContext = getUastContext()): UEvaluationContext =
         MapBasedEvaluationContext(context).analyzeAll(this)
+
+fun UExpression.uValueOf(): UValue? {
+    val declaration = getContainingDeclaration() ?: return null
+    val context = MapBasedEvaluationContext(getUastContext())
+    context.analyze(declaration)
+    return context.valueOf(this)
+}

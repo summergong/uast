@@ -1,6 +1,7 @@
 package org.jetbrains.uast
 
 import com.intellij.lang.Language
+import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
@@ -71,3 +72,12 @@ class UastContext(override val project: Project) : UastLanguagePlugin {
         return containingElement.getLanguage()
     }
 }
+
+fun PsiElement.toUElement() =
+        ServiceManager.getService(project, UastContext::class.java).convertElementWithParent(this, null)
+
+fun <T : UElement> PsiElement.toUElement(cls: Class<out T>): T? =
+        ServiceManager.getService(project, UastContext::class.java).convertElementWithParent(this, cls) as T?
+
+inline fun <reified T : UElement> PsiElement.toUElementOfType(): T? =
+        ServiceManager.getService(project, UastContext::class.java).convertElementWithParent(this, T::class.java) as T?
