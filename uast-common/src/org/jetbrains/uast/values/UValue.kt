@@ -15,3 +15,17 @@ interface UValue : UOperand {
         val UNREACHABLE: UValue = UNothingValue()
     }
 }
+
+fun UValue.toPossibleConstants(): Set<UConstant> {
+    val results = mutableSetOf<UConstant>()
+    toPossibleConstants(results)
+    return results
+}
+
+private fun UValue.toPossibleConstants(result: MutableSet<UConstant>) {
+    when (this) {
+        is UDependentValue -> value.toPossibleConstants(result)
+        is UPhiValue -> values.forEach { it.toPossibleConstants(result) }
+        else -> toConstant()?.let { result.add(it) }
+    }
+}
