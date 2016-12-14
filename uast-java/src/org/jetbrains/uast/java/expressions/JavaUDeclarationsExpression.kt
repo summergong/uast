@@ -1,18 +1,15 @@
 package org.jetbrains.uast.java
 
-import org.jetbrains.uast.UAnnotation
-import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UVariable
-import org.jetbrains.uast.UDeclarationsExpression
+import org.jetbrains.uast.*
 
 class JavaUDeclarationsExpression(
         override val containingElement: UElement?
 ) : UDeclarationsExpression {
-    override lateinit var declarations: List<UVariable>
+    override lateinit var declarations: List<UDeclaration>
         internal set
 
-    constructor(parent: UElement?, variables: List<UVariable>) : this(parent) {
-        this.declarations = variables
+    constructor(parent: UElement?, declarations: List<UDeclaration>) : this(parent) {
+        this.declarations = declarations
     }
 
     override val annotations: List<UAnnotation>

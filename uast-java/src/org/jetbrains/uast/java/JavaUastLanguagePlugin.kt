@@ -240,18 +240,23 @@ internal object JavaConverter {
             is PsiThrowStatement -> expr<UThrowExpression> { JavaUThrowExpression(el, parent) }
             is PsiSynchronizedStatement -> expr<UBlockExpression> { JavaUSynchronizedExpression(el, parent) }
             is PsiTryStatement -> expr<UTryExpression> { JavaUTryExpression(el, parent) }
+            is PsiEmptyStatement -> UastEmptyExpression
             else -> UnknownJavaExpression(el, parent)
         }}
     }
 
     private fun convertDeclarations(elements: Array<out PsiElement>, parent: UElement): UDeclarationsExpression {
         return JavaUDeclarationsExpression(parent).apply {
-            val variables = mutableListOf<UVariable>()
+            val declarations = mutableListOf<UDeclaration>()
             for (element in elements) {
-                if (element !is PsiVariable) continue
-                variables += JavaUVariable.create(element, this)
+                if (element is PsiVariable) {
+                    declarations += JavaUVariable.create(element, this)
+                }
+                else if (element is PsiClass) {
+                    declarations += JavaUClass.create(element, this)
+                }
             }
-            this.declarations = variables
+            this.declarations = declarations
         }
     }
 

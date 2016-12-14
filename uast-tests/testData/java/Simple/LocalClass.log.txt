@@ -3,7 +3,8 @@ UFile (package = )
         UMethod (name = foo)
             UBlockExpression
                 UDeclarationsExpression
-                [!] UnknownJavaExpression (PsiEmptyStatement)
+                    UClass (name = Local)
+                UastEmptyExpression
                 UReturnExpression
                     UQualifiedReferenceExpression
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
