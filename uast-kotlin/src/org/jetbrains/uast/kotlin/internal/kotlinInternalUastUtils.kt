@@ -81,14 +81,7 @@ internal fun KotlinType.toPsiType(source: UElement, element: KtElement, boxed: B
         if (psiType != null) return psiType
     }
 
-    // Temporary workaround for local classes (
-    val typeDeclarationDescriptor = this.constructor.declarationDescriptor
-    if (typeDeclarationDescriptor is ClassDescriptor) {
-        val containerDescriptor = typeDeclarationDescriptor.containingDeclaration
-        if (containerDescriptor is PropertyDescriptor || containerDescriptor is FunctionDescriptor) {
-            return UastErrorType
-        }
-    }
+    if (this.containsLocalTypes()) return UastErrorType
 
     val project = element.project
     val typeMapper = ServiceManager.getService(project, KotlinUastBindingContextProviderService::class.java)
@@ -105,6 +98,22 @@ internal fun KotlinType.toPsiType(source: UElement, element: KtElement, boxed: B
     val typeText = TypeInfo.createTypeText(typeInfo) ?: return UastErrorType
 
     return ClsTypeElementImpl(source.getParentOfType<UDeclaration>(false)?.psi ?: element, typeText, '\u0000').type
+}
+
+private fun KotlinType.containsLocalTypes(): Boolean {
+    val typeDeclarationDescriptor = this.constructor.declarationDescriptor
+    if (typeDeclarationDescriptor is ClassDescriptor) {
+        val containerDescriptor = typeDeclarationDescriptor.containingDeclaration
+        if (containerDescriptor is PropertyDescriptor || containerDescriptor is FunctionDescriptor) {
+            return true
+        }
+    }
+
+    if (arguments.any { it.type.containsLocalTypes() }) {
+        return true
+    }
+
+    return false
 }
 
 internal fun KtTypeReference?.toPsiType(source: UElement, boxed: Boolean = false): PsiType {
