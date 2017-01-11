@@ -216,6 +216,7 @@ internal object JavaConverter {
             is PsiPrefixExpression -> expr<UPrefixExpression> { JavaUPrefixExpression(el, parent) }
             is PsiPostfixExpression -> expr<UPostfixExpression> { JavaUPostfixExpression(el, parent) }
             is PsiLiteralExpression -> expr<ULiteralExpression> { JavaULiteralExpression(el, parent) }
+            is PsiMethodReferenceExpression -> expr<UCallableReferenceExpression> { JavaUCallableReferenceExpression(el, parent) }
             is PsiReferenceExpression -> convertReference(el, parent, requiredType)
             is PsiThisExpression -> expr<UThisExpression> { JavaUThisExpression(el, parent) }
             is PsiSuperExpression -> expr<USuperExpression> { JavaUSuperExpression(el, parent) }
@@ -224,7 +225,6 @@ internal object JavaConverter {
             is PsiClassObjectAccessExpression -> expr<UClassLiteralExpression> { JavaUClassLiteralExpression(el, parent) }
             is PsiArrayAccessExpression -> expr<UArrayAccessExpression> { JavaUArrayAccessExpression(el, parent) }
             is PsiLambdaExpression -> expr<ULambdaExpression> { JavaULambdaExpression(el, parent) }
-            is PsiMethodReferenceExpression -> expr<UCallableReferenceExpression> { JavaUCallableReferenceExpression(el, parent) }
             else -> UnknownJavaExpression(el, parent)
         }}
     }

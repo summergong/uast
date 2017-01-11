@@ -17,6 +17,7 @@ package org.jetbrains.uast
 
 
 import com.intellij.psi.PsiType
+import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
@@ -25,7 +26,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents a callable reference expression, e.g. `Clazz::methodName`.
  */
-interface UCallableReferenceExpression : UExpression {
+interface UCallableReferenceExpression : UReferenceExpression {
     /**
      * Returns the qualifier expression.
      * Can be null if the [qualifierType] is known.

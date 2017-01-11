@@ -33,7 +33,6 @@ interface UastTypedVisitor<in D, out R> {
     fun visitThisExpression(node: UThisExpression, data: D) = visitExpression(node, data)
     fun visitSuperExpression(node: USuperExpression, data: D) = visitExpression(node, data)
     fun visitArrayAccessExpression(node: UArrayAccessExpression, data: D) = visitExpression(node, data)
-    fun visitCallableReferenceExpression(node: UCallableReferenceExpression, data: D) = visitExpression(node, data)
     fun visitClassLiteralExpression(node: UClassLiteralExpression, data: D) = visitExpression(node, data)
     fun visitLambdaExpression(node: ULambdaExpression, data: D) = visitExpression(node, data)
     // Calls
@@ -51,6 +50,7 @@ interface UastTypedVisitor<in D, out R> {
     fun visitReferenceExpression(node: UReferenceExpression, data: D) = visitExpression(node, data)
     fun visitQualifiedReferenceExpression(node: UQualifiedReferenceExpression, data: D) = visitReferenceExpression(node, data)
     fun visitSimpleNameReferenceExpression(node: USimpleNameReferenceExpression, data: D) = visitReferenceExpression(node, data)
+    fun visitCallableReferenceExpression(node: UCallableReferenceExpression, data: D) = visitReferenceExpression(node, data)
     // Control structures
     fun visitIfExpression(node: UIfExpression, data: D) = visitExpression(node, data)
     fun visitSwitchExpression(node: USwitchExpression, data: D) = visitExpression(node, data)
