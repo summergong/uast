@@ -21,6 +21,7 @@ import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import org.jetbrains.uast.*
+import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.java.expressions.JavaUSynchronizedExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
@@ -147,6 +148,7 @@ internal object JavaConverter {
             is PsiIdentifier -> el<USimpleNameReferenceExpression> { JavaUSimpleNameReferenceExpression(el, el.text, parent) }
             is PsiNameValuePair -> el<UNamedExpression> { convertNameValue(el, parent) }
             is PsiArrayInitializerMemberValue -> el<UCallExpression> { JavaAnnotationArrayInitializerUCallExpression(el, parent) }
+            is PsiTypeElement -> el<UTypeReferenceExpression> { JavaUTypeReferenceExpression(el, parent) }
             else -> null
         }}
     }
