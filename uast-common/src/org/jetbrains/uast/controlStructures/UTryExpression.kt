@@ -47,12 +47,12 @@ interface UTryExpression : UExpression {
     /**
      * Returns `true` if the try expression is a try-with-resources expression.
      */
-    val isResources: Boolean
+    val hasResources: Boolean
 
     /**
-     * Returns the list of try resources, or null if this expression is not a `try-with-resources` expression.
+     * Returns the list of resource variables declared in this expression, or an empty list if this expression is not a `try-with-resources` expression.
      */
-    val resources: List<PsiResourceListElement>?
+    val resourceVariables: List<UVariable>
 
     /**
      * Returns the `try` clause expression.
@@ -82,6 +82,7 @@ interface UTryExpression : UExpression {
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitTryExpression(this)) return
         annotations.acceptList(visitor)
+        resourceVariables.acceptList(visitor)
         tryClause.accept(visitor)
         catchClauses.acceptList(visitor)
         finallyClause?.accept(visitor)
@@ -93,12 +94,17 @@ interface UTryExpression : UExpression {
 
     override fun asRenderString() = buildString {
         append("try ")
+        if (hasResources) {
+            append("(")
+            append(resourceVariables.joinToString("\n") { it.asRenderString() })
+            append(")")
+        }
         appendln(tryClause.asRenderString().trim('\n', '\r'))
         catchClauses.forEach { appendln(it.asRenderString().trim('\n', '\r')) }
         finallyClause?.let { append("finally ").append(it.asRenderString().trim('\n', '\r')) }
     }
 
-    override fun asLogString() = log(if (isResources) "with resources" else "")
+    override fun asLogString() = log(if (hasResources) "with resources" else "")
 }
 
 /**

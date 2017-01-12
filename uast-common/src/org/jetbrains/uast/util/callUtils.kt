@@ -39,3 +39,5 @@ fun UElement.isTypeCast() = (this as? UBinaryExpressionWithType)?.operationKind 
 fun UElement.isInstanceCheck() = (this as? UBinaryExpressionWithType)?.operationKind is UastBinaryExpressionWithTypeKind.InstanceCheck
 
 fun UElement.isAssignment() = (this as? UBinaryExpression)?.operator is UastBinaryOperator.AssignOperator
+
+fun UVariable.isResourceVariable() = containingElement is UTryExpression

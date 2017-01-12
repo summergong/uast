@@ -1,0 +1,17 @@
+UFile (package = )
+    UClass (name = TryWithResources)
+        UMethod (name = foo)
+            UBlockExpression
+                UTryExpression (with resources)
+                    ULocalVariable (name = br)
+                        UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 1))
+                            USimpleNameReferenceExpression
+                            UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 1))
+                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression
+                    UBlockExpression
+                        UReturnExpression
+                            UQualifiedReferenceExpression
+                                USimpleNameReferenceExpression
+                                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
+                                    UIdentifier (Identifier (readLine))

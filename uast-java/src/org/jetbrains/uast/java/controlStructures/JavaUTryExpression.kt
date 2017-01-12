@@ -17,10 +17,7 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.ChildRole
-import org.jetbrains.uast.UCatchClause
-import org.jetbrains.uast.UElement
-import org.jetbrains.uast.UIdentifier
-import org.jetbrains.uast.UTryExpression
+import org.jetbrains.uast.*
 import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
@@ -31,9 +28,15 @@ class JavaUTryExpression(
     override val tryClause by lz { JavaConverter.convertOrEmpty(psi.tryBlock, this) }
     override val catchClauses by lz { psi.catchSections.map { JavaUCatchClause(it, this) } }
     override val finallyClause by lz { psi.finallyBlock?.let { JavaConverter.convertBlock(it, this) } }
-    override val resources: List<PsiResourceListElement>?
-        get() = psi.resourceList?.toList() ?: emptyList<PsiResourceListElement>()
-    override val isResources: Boolean
+
+    override val resourceVariables by lz {
+        psi.resourceList
+                ?.filterIsInstance<PsiResourceVariable>()
+                ?.map { JavaUVariable.create(it, this) }
+                ?: emptyList()
+    }
+
+    override val hasResources: Boolean
         get() = psi.resourceList != null
 
     override val tryIdentifier: UIdentifier
