@@ -28,15 +28,17 @@ class JavaUAnnotation(
     override fun findAttributeValue(name: String?): UNamedExpression? {
         val context = getUastContext()
         val attributeValue = psi.findAttributeValue(name) ?: return null
-        val value = context.convertElement(attributeValue, this, null)
-        return UNamedExpression(name ?: "", value)
+        return UNamedExpression(name ?: "", this).apply {
+            expression = context.convertElement(attributeValue, this, null) as? UExpression ?: UastEmptyExpression
+        }
     }
 
     override fun findDeclaredAttributeValue(name: String?): UNamedExpression? {
         val context = getUastContext()
         val attributeValue = psi.findDeclaredAttributeValue(name) ?: return null
-        val value = context.convertElement(attributeValue, this, null)
-        return UNamedExpression(name ?: "", value)
+        return UNamedExpression(name ?: "", this).apply {
+            expression = context.convertElement(attributeValue, this, null) as? UExpression ?: UastEmptyExpression
+        }
     }
 
     companion object {

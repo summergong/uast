@@ -3,6 +3,7 @@ public final class Simple {
     public final fun method() : void {
         println("Hello, world!")
     }
+    @org.jetbrains.annotations.NotNull
     public final fun getProperty() : java.lang.String = UastEmptyExpression
     public fun Simple() = UastEmptyExpression
 }

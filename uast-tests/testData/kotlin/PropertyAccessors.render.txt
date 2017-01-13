@@ -1,4 +1,5 @@
 public final class PropertyTest {
+    @org.jetbrains.annotations.NotNull
     public final fun getStringRepresentation() : java.lang.String = this.toString()
     public final fun setStringRepresentation(value: java.lang.String) : void {
         setDataFromString(value)

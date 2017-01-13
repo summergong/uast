@@ -40,6 +40,10 @@ interface UMethod : UDeclaration, PsiMethod {
     }
 
     override fun asRenderString() = buildString {
+        if (annotations.isNotEmpty()) {
+            annotations.joinTo(buffer = this, separator = "\n", postfix = "\n", transform = UAnnotation::asRenderString)
+        }
+
         append(psi.renderModifiers())
         append("fun ").append(name)
 

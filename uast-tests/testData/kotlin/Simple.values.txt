@@ -1,7 +1,7 @@
 UFile (package = ) [public final class Simple {...]
     UClass (name = Simple) [public final class Simple {...}]
         UField (name = property) [private final var property: java.lang.String = "Mary"]
-            UAnnotation (fqName = org.jetbrains.annotations.NotNull) [UAnnotation (fqName = org.jetbrains.annotations.NotNull)]
+            UAnnotation (fqName = org.jetbrains.annotations.NotNull) [@org.jetbrains.annotations.NotNull]
             ULiteralExpression (value = "Mary") ["Mary"] = "Mary"
         UAnnotationMethod (name = method) [public final fun method() : void {...}]
             UBlockExpression [{...}] = external println("Hello, world!")
@@ -9,6 +9,6 @@ UFile (package = ) [public final class Simple {...]
                     UIdentifier (Identifier (println)) [UIdentifier (Identifier (println))]
                     USimpleNameReferenceExpression [println] = external println
                     ULiteralExpression (value = "Hello, world!") ["Hello, world!"] = "Hello, world!"
-        UAnnotationMethod (name = getProperty) [public final fun getProperty() : java.lang.String = UastEmptyExpression]
-            UAnnotation (fqName = org.jetbrains.annotations.NotNull) [UAnnotation (fqName = org.jetbrains.annotations.NotNull)]
+        UAnnotationMethod (name = getProperty) [@org.jetbrains.annotations.NotNull...public final fun getProperty() : java.lang.String = UastEmptyExpression]
+            UAnnotation (fqName = org.jetbrains.annotations.NotNull) [@org.jetbrains.annotations.NotNull]
         UAnnotationMethod (name = Simple) [public fun Simple() = UastEmptyExpression]

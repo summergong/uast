@@ -1,15 +1,16 @@
 public final class WhenIsKt {
+    @org.jetbrains.annotations.NotNull
     public static final fun foo(bar: java.lang.Object) : java.lang.String = switch (bar)  {
         it is java.lang.String -> {
             bar
             break
         }
-        
+
         it !is java.lang.String -> {
             "<error>"
             break
         }
-        
+
     }
-    
+
 }

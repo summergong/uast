@@ -18,4 +18,6 @@ class SimpleKotlinRenderLogTest : AbstractKotlinRenderLogTest() {
     @Test fun testPropertyInitializer() = doTest("PropertyInitializer")
 
     @Test fun testPropertyInitializerWithoutSetter() = doTest("PropertyInitializerWithoutSetter")
+
+    @Test fun testAnnotationParameters() = doTest("AnnotationParameters")
 }

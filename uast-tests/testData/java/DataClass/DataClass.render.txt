@@ -8,9 +8,11 @@ public class DataClass {
         this.lastName = lastName
         this.age = age
     }
+    @Override
     public fun toString() : String {
         return "DataClass{" + "STRING_CONSTANT='" + STRING_CONSTANT + ''' + ", firstName='" + firstName + ''' + ", lastName='" + lastName + ''' + ", age='" + age + ''' + '}'
     }
+    @Override
     public fun equals(o: Object) : boolean {
         if (this === o) return true
         if (o === null || getClass() !== o.getClass()) return false
@@ -20,6 +22,7 @@ public class DataClass {
         if ((lastName !== null) ? (!lastName.equals(dataClass.lastName)) : (dataClass.lastName !== null)) return false
         return (age !== null) ? (age.equals(dataClass.age)) : (dataClass.age === null)
     }
+    @Override
     public fun hashCode() : int {
         var result: int = (STRING_CONSTANT !== null) ? (STRING_CONSTANT.hashCode()) : (0)
         result = 31 * result + ((firstName !== null) ? (firstName.hashCode()) : (0))

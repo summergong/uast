@@ -24,10 +24,7 @@ import com.intellij.psi.util.PsiTreeUtil
 import org.jetbrains.kotlin.asJava.LightClassUtil
 import org.jetbrains.kotlin.asJava.classes.KtLightClass
 import org.jetbrains.kotlin.asJava.classes.KtLightClassForFacade
-import org.jetbrains.kotlin.asJava.elements.FakeFileForLightClass
-import org.jetbrains.kotlin.asJava.elements.KtLightField
-import org.jetbrains.kotlin.asJava.elements.KtLightMethod
-import org.jetbrains.kotlin.asJava.elements.KtLightParameter
+import org.jetbrains.kotlin.asJava.elements.*
 import org.jetbrains.kotlin.asJava.toLightClass
 import org.jetbrains.kotlin.codegen.state.KotlinTypeMapper
 import org.jetbrains.kotlin.descriptors.ConstructorDescriptor
@@ -191,6 +188,13 @@ internal object KotlinConverter {
             is KtContainerNode -> element.getExpression()?.let {
                 KotlinConverter.convertExpression(it, parent, requiredType)
             } ?: UastEmptyExpression
+            is KtLightAnnotation.LightExpressionValue<*> -> {
+                val expression = element.originalExpression
+                when (expression) {
+                    is KtExpression -> KotlinConverter.convertExpression(expression, parent, requiredType)
+                    else -> UastEmptyExpression
+                }
+            }
             else -> {
                 if (element is LeafPsiElement && element.elementType == KtTokens.IDENTIFIER) {
                     el<UIdentifier> { UIdentifier(element, parent) }

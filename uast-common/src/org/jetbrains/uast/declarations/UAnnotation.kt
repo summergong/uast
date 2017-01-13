@@ -30,6 +30,18 @@ interface UAnnotation : UElement, PsiElementBacked, UResolvable {
 
     fun findDeclaredAttributeValue(name: String?): UNamedExpression?
 
+    override fun asRenderString() = buildString {
+        append("@")
+        append(qualifiedName)
+        if(attributeValues.isNotEmpty()) {
+            attributeValues.joinTo(
+                    buffer = this,
+                    prefix = "(",
+                    postfix = ")",
+                    transform = UNamedExpression::asRenderString)
+        }
+    }
+
     override fun asLogString() = log("fqName = $qualifiedName")
 
     override fun accept(visitor: UastVisitor) {
