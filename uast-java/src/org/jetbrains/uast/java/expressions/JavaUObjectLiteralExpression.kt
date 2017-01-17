@@ -19,6 +19,7 @@ import com.intellij.psi.PsiNewExpression
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UObjectLiteralExpression
+import org.jetbrains.uast.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUObjectLiteralExpression(
@@ -29,7 +30,7 @@ class JavaUObjectLiteralExpression(
 
     override val classReference by lz {
         psi.classReference?.let { ref ->
-            JavaClassUSimpleNameReferenceExpression(ref.element?.text.orAnonymous(), ref, ref.element, this)
+            JavaConverter.convertReference(ref, this, null) as? UReferenceExpression
         }
     }
 

@@ -103,7 +103,7 @@ class JavaConstructorUCallExpression(
 
     override val classReference by lz {
         psi.classReference?.let { ref ->
-            JavaClassUSimpleNameReferenceExpression(ref.element?.text.orAnonymous(), ref, ref.element, this)
+            JavaConverter.convertReference(ref, this, null) as? UReferenceExpression
         }
     }
 

@@ -148,6 +148,7 @@ internal object JavaConverter {
             is PsiNameValuePair -> el<UNamedExpression> { convertNameValue(el, parent) }
             is PsiArrayInitializerMemberValue -> el<UCallExpression> { JavaAnnotationArrayInitializerUCallExpression(el, parent) }
             is PsiTypeElement -> el<UTypeReferenceExpression> { JavaUTypeReferenceExpression(el, parent) }
+            is PsiJavaCodeReferenceElement -> convertReference(el, parent, requiredType)
             else -> null
         }}
     }
@@ -162,13 +163,13 @@ internal object JavaConverter {
         }
     }
 
-    internal fun convertReference(expression: PsiReferenceExpression, parent: UElement?, requiredType: Class<out UElement>?): UExpression {
+    internal fun convertReference(reference: PsiJavaCodeReferenceElement, parent: UElement?, requiredType: Class<out UElement>?): UExpression {
         return with (requiredType) {
-            if (expression.isQualified) {
-                expr<UQualifiedReferenceExpression> { JavaUQualifiedReferenceExpression(expression, parent) }
+            if (reference.isQualified) {
+                expr<UQualifiedReferenceExpression> { JavaUQualifiedReferenceExpression(reference, parent) }
             } else {
-                val name = expression.referenceName ?: "<error name>"
-                expr<USimpleNameReferenceExpression> { JavaUSimpleNameReferenceExpression(expression, name, parent, expression) }
+                val name = reference.referenceName ?: "<error name>"
+                expr<USimpleNameReferenceExpression> { JavaUSimpleNameReferenceExpression(reference, name, parent, reference) }
             }
         }
     }

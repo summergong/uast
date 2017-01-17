@@ -18,4 +18,6 @@ class SimpleJavaRenderLogTest : AbstractJavaRenderLogTest() {
     @Test fun testTryWithResources() = doTest("Simple/TryWithResources.java")
 
     @Test fun testEnumValueMembers() = doTest("Simple/EnumValueMembers.java")
+
+    @Test fun testQualifiedConstructorCall() = doTest("Simple/QualifiedConstructorCall.java")
 }
