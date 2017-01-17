@@ -10,11 +10,9 @@ import java.io.File
 interface TypesTestBase {
     fun getTypesFile(testName: String): File
 
-    private fun UFile.asLogTypes(): String {
-        return TypesLogger.apply {
-            this@asLogTypes.accept(this)
-        }.toString()
-    }
+    private fun UFile.asLogTypes() = TypesLogger().apply {
+        this@asLogTypes.accept(this)
+    }.toString()
 
     fun check(testName: String, file: UFile) {
         val valuesFile = getTypesFile(testName)
@@ -22,7 +20,7 @@ interface TypesTestBase {
         assertEqualsToFile("Log values", valuesFile, file.asLogTypes())
     }
 
-    object TypesLogger : UastVisitor {
+    class TypesLogger : UastVisitor {
 
         val builder = StringBuilder()
 
