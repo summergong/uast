@@ -29,32 +29,20 @@ UFile (package = )
             UAnnotation (fqName = Override)
             UBlockExpression
                 UReturnExpression
-                    UBinaryExpression (operator = +)
-                        UBinaryExpression (operator = +)
-                            UBinaryExpression (operator = +)
-                                UBinaryExpression (operator = +)
-                                    UBinaryExpression (operator = +)
-                                        UBinaryExpression (operator = +)
-                                            UBinaryExpression (operator = +)
-                                                UBinaryExpression (operator = +)
-                                                    UBinaryExpression (operator = +)
-                                                        UBinaryExpression (operator = +)
-                                                            UBinaryExpression (operator = +)
-                                                                UBinaryExpression (operator = +)
-                                                                    UBinaryExpression (operator = +)
-                                                                        ULiteralExpression (value = "DataClass{")
-                                                                        ULiteralExpression (value = "STRING_CONSTANT='")
-                                                                    USimpleNameReferenceExpression
-                                                                ULiteralExpression (value = ''')
-                                                            ULiteralExpression (value = ", firstName='")
-                                                        USimpleNameReferenceExpression
-                                                    ULiteralExpression (value = ''')
-                                                ULiteralExpression (value = ", lastName='")
-                                            USimpleNameReferenceExpression
-                                        ULiteralExpression (value = ''')
-                                    ULiteralExpression (value = ", age='")
-                                USimpleNameReferenceExpression
-                            ULiteralExpression (value = ''')
+                    UPolyadicExpression (operator = +)
+                        ULiteralExpression (value = "DataClass{")
+                        ULiteralExpression (value = "STRING_CONSTANT='")
+                        USimpleNameReferenceExpression
+                        ULiteralExpression (value = ''')
+                        ULiteralExpression (value = ", firstName='")
+                        USimpleNameReferenceExpression
+                        ULiteralExpression (value = ''')
+                        ULiteralExpression (value = ", lastName='")
+                        USimpleNameReferenceExpression
+                        ULiteralExpression (value = ''')
+                        ULiteralExpression (value = ", age='")
+                        USimpleNameReferenceExpression
+                        ULiteralExpression (value = ''')
                         ULiteralExpression (value = '}')
         UMethod (name = equals)
             UAnnotation (fqName = Override)

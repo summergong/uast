@@ -29,10 +29,9 @@ UFile (package = ) [public class Shift {...]
                             USimpleNameReferenceExpression [minInt] = (var minInt = -2147483648)
                             ULiteralExpression (value = 2) [2] = 2
                 UReturnExpression [return sixteen + quarter + unsignedQuarter] = Nothing
-                    UBinaryExpression (operator = +) [sixteen + quarter + unsignedQuarter] = 16 (depending on: (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1))))), (var quarter = -536870912 (depending on: (var minInt = -2147483648))), (var unsignedQuarter = 536870912 (depending on: (var minInt = -2147483648))))
-                        UBinaryExpression (operator = +) [sixteen + quarter] = -536870896 (depending on: (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1))))), (var quarter = -536870912 (depending on: (var minInt = -2147483648))))
-                            USimpleNameReferenceExpression [sixteen] = (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1)))))
-                            USimpleNameReferenceExpression [quarter] = (var quarter = -536870912 (depending on: (var minInt = -2147483648)))
+                    UPolyadicExpression (operator = +) [sixteen + quarter + unsignedQuarter] = 16 (depending on: (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1))))), (var quarter = -536870912 (depending on: (var minInt = -2147483648))), (var unsignedQuarter = 536870912 (depending on: (var minInt = -2147483648))))
+                        USimpleNameReferenceExpression [sixteen] = (var sixteen = 16 (depending on: (var two = 2 (depending on: (var one = 1)))))
+                        USimpleNameReferenceExpression [quarter] = (var quarter = -536870912 (depending on: (var minInt = -2147483648)))
                         USimpleNameReferenceExpression [unsignedQuarter] = (var unsignedQuarter = 536870912 (depending on: (var minInt = -2147483648)))
         UMethod (name = bar) [public static fun bar() : long {...}]
             UBlockExpression [{...}] = Nothing
@@ -63,8 +62,7 @@ UFile (package = ) [public class Shift {...]
                             USimpleNameReferenceExpression [minLong] = (var minLong = (long)-9223372036854775808)
                             ULiteralExpression (value = 3) [3] = 3
                 UReturnExpression [return large + eighth + unsignedEighth] = Nothing
-                    UBinaryExpression (operator = +) [large + eighth + unsignedEighth] = (long)4611686018427387904 (depending on: (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1))))), (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))), (var unsignedEighth = (long)1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))))
-                        UBinaryExpression (operator = +) [large + eighth] = (long)3458764513820540928 (depending on: (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1))))), (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))))
-                            USimpleNameReferenceExpression [large] = (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1)))))
-                            USimpleNameReferenceExpression [eighth] = (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808)))
+                    UPolyadicExpression (operator = +) [large + eighth + unsignedEighth] = (long)4611686018427387904 (depending on: (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1))))), (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))), (var unsignedEighth = (long)1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808))))
+                        USimpleNameReferenceExpression [large] = (var large = (long)4611686018427387904 (depending on: (var two = (long)2 (depending on: (var one = (long)1)))))
+                        USimpleNameReferenceExpression [eighth] = (var eighth = (long)-1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808)))
                         USimpleNameReferenceExpression [unsignedEighth] = (var unsignedEighth = (long)1152921504606846976 (depending on: (var minLong = (long)-9223372036854775808)))

@@ -28,10 +28,8 @@ UFile (package = ) [public class Modification {...]
                     USimpleNameReferenceExpression [s1] = (var s1 = "Hello world")
                     ULiteralExpression (value = " = ") [" = "] = " = "
                 UReturnExpression [return s1 + m + " / " + n] = Nothing
-                    UBinaryExpression (operator = +) [s1 + m + " / " + n] = "Hello world = 3 / 4" (depending on: (var s1 = "Hello world = "), (var m = 3 (depending on: (var n = 2))), (var n = 4))
-                        UBinaryExpression (operator = +) [s1 + m + " / "] = "Hello world = 3 / " (depending on: (var s1 = "Hello world = "), (var m = 3 (depending on: (var n = 2))))
-                            UBinaryExpression (operator = +) [s1 + m] = "Hello world = 3" (depending on: (var s1 = "Hello world = "), (var m = 3 (depending on: (var n = 2))))
-                                USimpleNameReferenceExpression [s1] = (var s1 = "Hello world = ")
-                                USimpleNameReferenceExpression [m] = (var m = 3 (depending on: (var n = 2)))
-                            ULiteralExpression (value = " / ") [" / "] = " / "
+                    UPolyadicExpression (operator = +) [s1 + m + " / " + n] = "Hello world = 3 / 4" (depending on: (var s1 = "Hello world = "), (var m = 3 (depending on: (var n = 2))), (var n = 4))
+                        USimpleNameReferenceExpression [s1] = (var s1 = "Hello world = ")
+                        USimpleNameReferenceExpression [m] = (var m = 3 (depending on: (var n = 2)))
+                        ULiteralExpression (value = " / ") [" / "] = " / "
                         USimpleNameReferenceExpression [n] = (var n = 4)

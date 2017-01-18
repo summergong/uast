@@ -27,10 +27,8 @@ UFile (package = ) [public class FloatDouble {...]
                         UBinaryExpressionWithType [f1 as double] = 1.0
                             USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
                 UReturnExpression [return d1 + f1 + f2 + f3] = Nothing
-                    UBinaryExpression (operator = +) [d1 + f1 + f2 + f3] = 7.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0), (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0))), (var f3 = (float)3.0))
-                        UBinaryExpression (operator = +) [d1 + f1 + f2] = 4.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0), (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0))))
-                            UBinaryExpression (operator = +) [d1 + f1] = 2.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0))
-                                USimpleNameReferenceExpression [d1] = (var d1 = 1.0)
-                                USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
-                            USimpleNameReferenceExpression [f2] = (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0)))
+                    UPolyadicExpression (operator = +) [d1 + f1 + f2 + f3] = 7.0 (depending on: (var d1 = 1.0), (var f1 = (float)1.0), (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0))), (var f3 = (float)3.0))
+                        USimpleNameReferenceExpression [d1] = (var d1 = 1.0)
+                        USimpleNameReferenceExpression [f1] = (var f1 = (float)1.0)
+                        USimpleNameReferenceExpression [f2] = (var f2 = (float)2.0 (depending on: (var f1 = (float)1.0)))
                         USimpleNameReferenceExpression [f3] = (var f3 = (float)3.0)

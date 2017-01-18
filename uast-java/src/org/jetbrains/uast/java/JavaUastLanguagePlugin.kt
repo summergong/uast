@@ -172,26 +172,11 @@ internal object JavaConverter {
             }
         }
     }
-
-    private fun convertPolyadicExpression(
-        expression: PsiPolyadicExpression,
-        parent: UElement?,
-        i: Int
-    ): UBinaryExpression {
-        return if (i == 1) JavaSeparatedPolyadicUBinaryExpression(expression, parent).apply {
-            leftOperand = convertExpression(expression.operands[0], this)
-            rightOperand = convertExpression(expression.operands[1], this)
-        } else JavaSeparatedPolyadicUBinaryExpression(expression, parent).apply {
-            leftOperand = convertPolyadicExpression(expression, parent, i - 1)
-            rightOperand = convertExpression(expression.operands[i], this)
-        }
-    }
     
     internal fun convertExpression(el: PsiExpression, parent: UElement?, requiredType: Class<out UElement>? = null): UExpression {
         getCached<UExpression>(el)?.let { return it }
 
         return with (requiredType) { when (el) {
-            is PsiPolyadicExpression -> expr<UBinaryExpression> { convertPolyadicExpression(el, parent, el.operands.size - 1) }
             is PsiAssignmentExpression -> expr<UBinaryExpression> { JavaUAssignmentExpression(el, parent) }
             is PsiConditionalExpression -> expr<UIfExpression> { JavaUTernaryIfExpression(el, parent) }
             is PsiNewExpression -> {
@@ -213,6 +198,8 @@ internal object JavaConverter {
             }
             is PsiArrayInitializerExpression -> expr<UCallExpression> { JavaArrayInitializerUCallExpression(el, parent) }
             is PsiBinaryExpression -> expr<UBinaryExpression> { JavaUBinaryExpression(el, parent) }
+            // Should go after PsiBinaryExpression since it implements PsiPolyadicExpression
+            is PsiPolyadicExpression -> expr<UPolyadicExpression> { JavaUPolyadicExpression(el, parent) }
             is PsiParenthesizedExpression -> expr<UParenthesizedExpression> { JavaUParenthesizedExpression(el, parent) }
             is PsiPrefixExpression -> expr<UPrefixExpression> { JavaUPrefixExpression(el, parent) }
             is PsiPostfixExpression -> expr<UPostfixExpression> { JavaUPostfixExpression(el, parent) }

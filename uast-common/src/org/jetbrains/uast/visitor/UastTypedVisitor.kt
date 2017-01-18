@@ -33,6 +33,7 @@ interface UastTypedVisitor<in D, out R> {
     fun visitArrayAccessExpression(node: UArrayAccessExpression, data: D) = visitExpression(node, data)
     fun visitClassLiteralExpression(node: UClassLiteralExpression, data: D) = visitExpression(node, data)
     fun visitLambdaExpression(node: ULambdaExpression, data: D) = visitExpression(node, data)
+    fun visitPolyadicExpression(node: UPolyadicExpression, data: D) = visitExpression(node, data)
     // Calls
     fun visitCallExpression(node: UCallExpression, data: D) = visitExpression(node, data)
     fun visitObjectLiteralExpression(node: UObjectLiteralExpression, data: D) = visitCallExpression(node, data)

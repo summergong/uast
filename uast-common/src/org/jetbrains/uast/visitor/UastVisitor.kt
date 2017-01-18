@@ -38,6 +38,7 @@ interface UastVisitor {
     fun visitCallExpression(node: UCallExpression) = visitElement(node)
     fun visitBinaryExpression(node: UBinaryExpression) = visitElement(node)
     fun visitBinaryExpressionWithType(node: UBinaryExpressionWithType) = visitElement(node)
+    fun visitPolyadicExpression(node: UPolyadicExpression) = visitElement(node)
     fun visitParenthesizedExpression(node: UParenthesizedExpression) = visitElement(node)
     fun visitUnaryExpression(node: UUnaryExpression) = visitElement(node)
     fun visitPrefixExpression(node: UPrefixExpression) = visitElement(node)
@@ -113,6 +114,7 @@ interface UastVisitor {
     fun afterVisitClassLiteralExpression(node: UClassLiteralExpression) { afterVisitElement(node) }
     fun afterVisitLambdaExpression(node: ULambdaExpression) { afterVisitElement(node) }
     fun afterVisitObjectLiteralExpression(node: UObjectLiteralExpression) { afterVisitElement(node) }
+    fun afterVisitPolyadicExpression(node: UPolyadicExpression) { afterVisitElement(node) }
 }
 
 abstract class AbstractUastVisitor : UastVisitor {

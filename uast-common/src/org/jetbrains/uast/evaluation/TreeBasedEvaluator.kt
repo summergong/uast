@@ -212,43 +212,74 @@ class TreeBasedEvaluator(
         } storeResultFor node
     }
 
+    private fun UastBinaryOperator.evaluate(left: UValue, right: UValue): UValue? =
+            when (this) {
+                UastBinaryOperator.PLUS -> left + right
+                UastBinaryOperator.MINUS -> left - right
+                UastBinaryOperator.MULTIPLY -> left * right
+                UastBinaryOperator.DIV -> left / right
+                UastBinaryOperator.MOD -> left % right
+                UastBinaryOperator.EQUALS -> left valueEquals right
+                UastBinaryOperator.NOT_EQUALS -> left valueNotEquals right
+                UastBinaryOperator.IDENTITY_EQUALS -> left identityEquals right
+                UastBinaryOperator.IDENTITY_NOT_EQUALS -> left identityNotEquals right
+                UastBinaryOperator.GREATER -> left greater right
+                UastBinaryOperator.LESS -> left less right
+                UastBinaryOperator.GREATER_OR_EQUALS -> left greaterOrEquals right
+                UastBinaryOperator.LESS_OR_EQUALS -> left lessOrEquals right
+                UastBinaryOperator.LOGICAL_AND -> left and right
+                UastBinaryOperator.LOGICAL_OR -> left or right
+                UastBinaryOperator.BITWISE_AND -> left bitwiseAnd right
+                UastBinaryOperator.BITWISE_OR -> left bitwiseOr right
+                UastBinaryOperator.BITWISE_XOR -> left bitwiseXor right
+                UastBinaryOperator.SHIFT_LEFT -> left shl right
+                UastBinaryOperator.SHIFT_RIGHT -> left shr right
+                UastBinaryOperator.UNSIGNED_SHIFT_RIGHT -> left ushr right
+                else -> null
+            }
+
     override fun visitBinaryExpression(node: UBinaryExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val operator = node.operator
+
         if (operator is UastBinaryOperator.AssignOperator) {
             return node.leftOperand.assign(operator, node.rightOperand, data) storeResultFor node
         }
+
         val leftInfo = node.leftOperand.accept(this, data)
-        if (!leftInfo.reachable) return leftInfo storeResultFor node
+        if (!leftInfo.reachable) {
+            return leftInfo storeResultFor node
+        }
+
         val rightInfo = node.rightOperand.accept(this, leftInfo.state)
-        return when (operator) {
-            UastBinaryOperator.PLUS -> leftInfo.value + rightInfo.value
-            UastBinaryOperator.MINUS -> leftInfo.value - rightInfo.value
-            UastBinaryOperator.MULTIPLY -> leftInfo.value * rightInfo.value
-            UastBinaryOperator.DIV -> leftInfo.value / rightInfo.value
-            UastBinaryOperator.MOD -> leftInfo.value % rightInfo.value
-            UastBinaryOperator.EQUALS -> leftInfo.value valueEquals rightInfo.value
-            UastBinaryOperator.NOT_EQUALS -> leftInfo.value valueNotEquals rightInfo.value
-            UastBinaryOperator.IDENTITY_EQUALS -> leftInfo.value identityEquals rightInfo.value
-            UastBinaryOperator.IDENTITY_NOT_EQUALS -> leftInfo.value identityNotEquals rightInfo.value
-            UastBinaryOperator.GREATER -> leftInfo.value greater rightInfo.value
-            UastBinaryOperator.LESS -> leftInfo.value less rightInfo.value
-            UastBinaryOperator.GREATER_OR_EQUALS -> leftInfo.value greaterOrEquals rightInfo.value
-            UastBinaryOperator.LESS_OR_EQUALS -> leftInfo.value lessOrEquals rightInfo.value
-            UastBinaryOperator.LOGICAL_AND -> leftInfo.value and rightInfo.value
-            UastBinaryOperator.LOGICAL_OR -> leftInfo.value or rightInfo.value
-            UastBinaryOperator.BITWISE_AND -> leftInfo.value bitwiseAnd rightInfo.value
-            UastBinaryOperator.BITWISE_OR -> leftInfo.value bitwiseOr rightInfo.value
-            UastBinaryOperator.BITWISE_XOR -> leftInfo.value bitwiseXor rightInfo.value
-            UastBinaryOperator.SHIFT_LEFT -> leftInfo.value shl rightInfo.value
-            UastBinaryOperator.SHIFT_RIGHT -> leftInfo.value shr rightInfo.value
-            UastBinaryOperator.UNSIGNED_SHIFT_RIGHT -> leftInfo.value ushr rightInfo.value
-            else -> {
-                return node.languageExtension()?.evaluateBinary(
-                        operator, leftInfo.value, rightInfo.value, rightInfo.state
-                ) ?: UUndeterminedValue to rightInfo.state storeResultFor node
+
+        operator.evaluate(leftInfo.value, rightInfo.value)?.let {
+            return it to rightInfo.state storeResultFor node
+        }
+
+        return node.languageExtension()?.evaluateBinary(operator, leftInfo.value, rightInfo.value, rightInfo.state)
+                    ?: UUndeterminedValue to rightInfo.state storeResultFor node
+    }
+
+    override fun visitPolyadicExpression(node: UPolyadicExpression, data: UEvaluationState): UEvaluationInfo {
+        inputStateCache[node] = data
+        val operator = node.operator
+
+        val infos = node.operands.map {
+            it.accept(this, data).apply {
+                if (!reachable) {
+                    return this storeResultFor node
+                }
             }
-        } to rightInfo.state storeResultFor node
+        }
+
+        val lastInfo = infos.last()
+        val firstValue = infos.first().value
+        val restInfos = infos.drop(1)
+
+        return restInfos.fold(firstValue) { accumulator, info ->
+            operator.evaluate(accumulator, info.value) ?: return UUndeterminedValue to info.state storeResultFor node
+        } to lastInfo.state storeResultFor node
     }
 
     private fun evaluateTypeCast(operandInfo: UEvaluationInfo, type: PsiType): UEvaluationInfo {
