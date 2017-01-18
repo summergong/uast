@@ -20,20 +20,14 @@ import org.jetbrains.kotlin.psi.KtStringTemplateExpression
 import org.jetbrains.uast.*
 import org.jetbrains.uast.psi.PsiElementBacked
 
-class KotlinStringTemplateUBinaryExpression(
+class KotlinStringTemplateUPolyadicExpression(
         override val psi: KtStringTemplateExpression,
         override val containingElement: UElement?
-) : KotlinAbstractUExpression(), UBinaryExpression, PsiElementBacked, KotlinUElementWithType, KotlinEvaluatableUElement {
-    override lateinit var leftOperand: UExpression
-        internal set
-
-    override lateinit var rightOperand: UExpression
-        internal set
-
+) : KotlinAbstractUExpression(),
+        UPolyadicExpression,
+        PsiElementBacked,
+        KotlinUElementWithType,
+        KotlinEvaluatableUElement {
+    override val operands: List<UExpression> by lz { psi.entries.map { KotlinConverter.convert(it, this) } }
     override val operator = UastBinaryOperator.PLUS
-
-    override val operatorIdentifier: UIdentifier?
-        get() = null
-
-    override fun resolveOperator() = null
 }

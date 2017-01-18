@@ -212,20 +212,6 @@ internal object KotlinConverter {
         val variable = KotlinUVariable.create(UastKotlinPsiVariable.create(psi, parentPsiElement, parent!!), parent)
         return KotlinUDeclarationsExpression(parent).apply { declarations = listOf(variable) }
     }
-    
-    private fun convertStringTemplateExpression(
-            expression: KtStringTemplateExpression,
-            parent: UElement?,
-            i: Int
-    ): UExpression {
-        return if (i == 1) KotlinStringTemplateUBinaryExpression(expression, parent).apply {
-            leftOperand = convert(expression.entries[0], this)
-            rightOperand = convert(expression.entries[1], this)
-        } else KotlinStringTemplateUBinaryExpression(expression, parent).apply {
-            leftOperand = convertStringTemplateExpression(expression, parent, i - 1)
-            rightOperand = convert(expression.entries[i], this)
-        }
-    }
 
     internal fun convert(entry: KtStringTemplateEntry, parent: UElement?): UExpression = when (entry) {
         is KtStringTemplateEntryWithExpression -> convertOrEmpty(entry.expression, parent)
@@ -245,7 +231,7 @@ internal object KotlinConverter {
                 else if (expression.entries.size == 1)
                     convert(expression.entries[0], parent)
                 else
-                    convertStringTemplateExpression(expression, parent, expression.entries.size - 1)
+                    KotlinStringTemplateUPolyadicExpression(expression, parent)
             }
             is KtDestructuringDeclaration -> expr<UDeclarationsExpression> {
                 KotlinUDeclarationsExpression(parent).apply {

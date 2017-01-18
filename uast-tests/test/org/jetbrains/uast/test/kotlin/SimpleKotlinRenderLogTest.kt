@@ -22,4 +22,7 @@ class SimpleKotlinRenderLogTest : AbstractKotlinRenderLogTest() {
     @Test fun testAnnotationParameters() = doTest("AnnotationParameters")
 
     @Test fun testEnumValueMembers() = doTest("EnumValueMembers")
+
+    @Test fun testStringTemplate() = doTest("StringTemplate")
+
 }
