@@ -21,8 +21,6 @@ import org.jetbrains.kotlin.asJava.elements.KtLightElement
 import org.jetbrains.kotlin.psi.KtParameter
 import org.jetbrains.kotlin.psi.KtVariableDeclaration
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UReferenceExpression
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.java.AbstractJavaUVariable
 import org.jetbrains.uast.java.JavaAbstractUExpression
 import org.jetbrains.uast.java.JavaUAnnotation

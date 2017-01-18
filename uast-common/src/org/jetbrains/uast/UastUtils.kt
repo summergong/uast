@@ -8,7 +8,6 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 import java.io.File
 

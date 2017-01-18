@@ -18,7 +18,6 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTypesUtil
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.psi.UElementWithLocation
 

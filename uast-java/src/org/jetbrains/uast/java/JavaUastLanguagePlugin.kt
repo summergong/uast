@@ -21,7 +21,6 @@ import com.intellij.lang.java.JavaLanguage
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.java.expressions.JavaUSynchronizedExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 

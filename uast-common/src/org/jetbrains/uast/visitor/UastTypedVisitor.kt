@@ -1,8 +1,6 @@
 package org.jetbrains.uast.visitor
 
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UReferenceExpression
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 
 interface UastTypedVisitor<in D, out R> {
     fun visitElement(node: UElement, data: D): R

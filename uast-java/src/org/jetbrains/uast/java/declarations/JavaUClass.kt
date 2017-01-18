@@ -18,7 +18,6 @@ package org.jetbrains.uast.java
 
 import com.intellij.psi.*
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
 abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {

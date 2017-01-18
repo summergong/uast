@@ -14,10 +14,8 @@
  * limitations under the License.
  */
 
-package org.jetbrains.uast.expressions
+package org.jetbrains.uast
 
-import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.UResolvable
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
 

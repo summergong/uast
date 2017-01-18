@@ -19,7 +19,6 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiAssertStatement
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 

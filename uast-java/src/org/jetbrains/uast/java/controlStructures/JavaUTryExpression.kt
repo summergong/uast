@@ -18,7 +18,6 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUTryExpression(

@@ -17,7 +17,6 @@
 package org.jetbrains.uast.visitor
 
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 
 
 class DelegatingUastVisitor(private val visitors: List<UastVisitor>): UastVisitor {

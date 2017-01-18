@@ -16,7 +16,6 @@
 package org.jetbrains.uast.visitor
 
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 
 interface UastVisitor {
     fun visitElement(node: UElement): Boolean

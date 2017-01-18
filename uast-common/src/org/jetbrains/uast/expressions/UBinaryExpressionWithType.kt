@@ -17,7 +17,6 @@ package org.jetbrains.uast
 
 
 import com.intellij.psi.PsiType
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor

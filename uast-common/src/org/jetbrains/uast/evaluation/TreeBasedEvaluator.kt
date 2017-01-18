@@ -5,7 +5,6 @@ import com.intellij.psi.PsiField
 import com.intellij.psi.PsiType
 import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.*
-import org.jetbrains.uast.expressions.UReferenceExpression
 import org.jetbrains.uast.values.*
 import org.jetbrains.uast.values.UNothingValue.JumpKind.BREAK
 import org.jetbrains.uast.values.UNothingValue.JumpKind.CONTINUE

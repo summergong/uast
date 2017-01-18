@@ -18,7 +18,7 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.USimpleNameReferenceExpression
-import org.jetbrains.uast.expressions.UTypeReferenceExpression
+import org.jetbrains.uast.UTypeReferenceExpression
 import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUSimpleNameReferenceExpression(
