@@ -16,4 +16,6 @@ class SimpleJavaRenderLogTest : AbstractJavaRenderLogTest() {
     @Test fun testClass() = doTest("Simple/SuperTypes.java")
 
     @Test fun testTryWithResources() = doTest("Simple/TryWithResources.java")
+
+    @Test fun testEnumValueMembers() = doTest("Simple/EnumValueMembers.java")
 }

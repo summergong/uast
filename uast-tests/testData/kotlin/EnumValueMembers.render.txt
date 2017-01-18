@@ -1,0 +1,13 @@
+public enum Style {
+    SHEET {
+        @org.jetbrains.annotations.NotNull
+        public fun getExitAnimation() : java.lang.String = "bar"
+        fun SHEET() = UastEmptyExpression
+    }
+    private final var value: java.lang.String
+    @org.jetbrains.annotations.NotNull
+    public abstract fun getExitAnimation() : java.lang.String = UastEmptyExpression
+    @org.jetbrains.annotations.NotNull
+    public final fun getValue() : java.lang.String = UastEmptyExpression
+    protected fun Style(value: java.lang.String) = UastEmptyExpression
+}

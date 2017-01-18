@@ -83,6 +83,8 @@ open class JavaUEnumConstant(
         psi: PsiEnumConstant,
         override val containingElement: UElement?
 ) : AbstractJavaUVariable(), UEnumConstant, PsiEnumConstant by psi {
+    override val initializingClass: UClass? by lz { getLanguagePlugin().convertOpt<UClass>(psi.initializingClass, this) }
+
     override val psi = unwrap<UEnumConstant, PsiEnumConstant>(psi)
 
     override val kind: UastCallKind

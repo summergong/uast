@@ -72,6 +72,8 @@ interface ULocalVariable : UVariable, PsiLocalVariable {
 interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
     override val psi: PsiEnumConstant
 
+    val initializingClass: UClass?
+
     override fun asLogString() = log("name = $name")
 
     override fun accept(visitor: UastVisitor) {
@@ -80,11 +82,24 @@ interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
         methodIdentifier?.accept(visitor)
         classReference?.accept(visitor)
         valueArguments.acceptList(visitor)
+        initializingClass?.accept(visitor)
         visitor.afterVisitVariable(this)
     }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
             visitor.visitEnumConstantExpression(this, data)
 
-    override fun asRenderString() = name ?: "<ERROR>"
+    override fun asRenderString() = buildString {
+        append(name ?: "<ERROR>")
+        if (valueArguments.isNotEmpty()) {
+            valueArguments.joinTo(this, prefix = "(", postfix = ")", transform = UExpression::asRenderString)
+        }
+        initializingClass?.let {
+            appendln(" {")
+            it.uastDeclarations.forEachIndexed { index, declaration ->
+                appendln(declaration.asRenderString().withMargin)
+            }
+            append("}")
+        }
+    }
 }

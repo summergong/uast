@@ -1,0 +1,13 @@
+public enum Style {
+    SHEET("foo") {
+        @Override
+        public fun getExitAnimation() : String {
+            return "bar"
+        }
+    }
+    private fun Style(s: String) {
+    }
+    public fun getExitAnimation() : String {
+        return null
+    }
+}
