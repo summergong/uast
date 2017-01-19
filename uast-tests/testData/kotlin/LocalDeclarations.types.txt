@@ -10,19 +10,19 @@ UFile (package = ) [public final class LocalDeclarationsKt {...]
                         ULambdaExpression [fun () {...}]
                             UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()] : PsiType:<ErrorType>
                                 UIdentifier (Identifier (Local)) [UIdentifier (Identifier (Local))]
-                                USimpleNameReferenceExpression [<init>] : PsiType:<ErrorType>
+                                USimpleNameReferenceExpression (identifier = <init>) [<init>] : PsiType:<ErrorType>
                 UDeclarationsExpression [var baz: <ErrorType> = fun () {...}]
                     ULocalVariable (name = baz) [var baz: <ErrorType> = fun () {...}]
                         ULambdaExpression [fun () {...}]
                             UBlockExpression [{...}] : PsiType:<ErrorType>
                                 UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()] : PsiType:<ErrorType>
                                     UIdentifier (Identifier (Local)) [UIdentifier (Identifier (Local))]
-                                    USimpleNameReferenceExpression [<init>] : PsiType:<ErrorType>
+                                    USimpleNameReferenceExpression (identifier = <init>) [<init>] : PsiType:<ErrorType>
                 UReturnExpression [return bar() == <init>()] : PsiType:Void
                     UBinaryExpression (operator = ==) [bar() == <init>()] : PsiType:boolean
                         UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] : PsiType:<ErrorType>
                             UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
-                            USimpleNameReferenceExpression [bar] : PsiType:<ErrorType>
+                            USimpleNameReferenceExpression (identifier = bar) [bar] : PsiType:<ErrorType>
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()] : PsiType:<ErrorType>
                             UIdentifier (Identifier (Local)) [UIdentifier (Identifier (Local))]
-                            USimpleNameReferenceExpression [<init>] : PsiType:<ErrorType>
+                            USimpleNameReferenceExpression (identifier = <init>) [<init>] : PsiType:<ErrorType>

@@ -6,15 +6,15 @@ UFile (package = )
                 UThisExpression (label = null)
                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                     UIdentifier (Identifier (toString))
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = toString)
         UAnnotationMethod (name = setStringRepresentation)
             UParameter (name = value)
                 UAnnotation (fqName = org.jetbrains.annotations.NotNull)
             UBlockExpression
                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                     UIdentifier (Identifier (setDataFromString))
-                    USimpleNameReferenceExpression
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = setDataFromString)
+                    USimpleNameReferenceExpression (identifier = value)
         UAnnotationMethod (name = setDataFromString)
             UParameter (name = data)
                 UAnnotation (fqName = org.jetbrains.annotations.NotNull)

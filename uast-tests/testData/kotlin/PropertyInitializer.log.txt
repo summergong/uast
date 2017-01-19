@@ -5,12 +5,12 @@ UFile (package = )
             ULiteralExpression (value = "/sdcard")
         UAnnotationMethod (name = getWithSetter)
             UAnnotation (fqName = org.jetbrains.annotations.NotNull)
-            USimpleNameReferenceExpression
+            USimpleNameReferenceExpression (identifier = field)
         UAnnotationMethod (name = setWithSetter)
             UParameter (name = p)
                 UAnnotation (fqName = org.jetbrains.annotations.NotNull)
             UBlockExpression
                 UBinaryExpression (operator = =)
-                    USimpleNameReferenceExpression
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = field)
+                    USimpleNameReferenceExpression (identifier = p)
         UAnnotationMethod (name = TestPropertyInitializer)

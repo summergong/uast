@@ -10,19 +10,19 @@ UFile (package = ) [public class DoWhileWithReturn {...]
                         ULiteralExpression (value = 1) [1] = 1
                 UDoWhileExpression [do {...] = Nothing
                     UBinaryExpression (operator = >=) [number >= 0] = true (depending on: (var number = 1))
-                        USimpleNameReferenceExpression [number] = (var number = 1)
+                        USimpleNameReferenceExpression (identifier = number) [number] = (var number = 1)
                         ULiteralExpression (value = 0) [0] = 0
                     UBlockExpression [{...}] = Nothing
                         UIfExpression [if (number > 0) return count] = Nothing
                             UBinaryExpression (operator = >) [number > 0] = true (depending on: (var number = 1))
-                                USimpleNameReferenceExpression [number] = (var number = 1)
+                                USimpleNameReferenceExpression (identifier = number) [number] = (var number = 1)
                                 ULiteralExpression (value = 0) [0] = 0
                             UReturnExpression [return count] = Nothing
-                                USimpleNameReferenceExpression [count] = (var count = 0)
+                                USimpleNameReferenceExpression (identifier = count) [count] = (var count = 0)
                             UastEmptyExpression [UastEmptyExpression] = Undetermined
                         UPostfixExpression (operator = ++) [count++] = Undetermined
-                            USimpleNameReferenceExpression [count] = Undetermined
+                            USimpleNameReferenceExpression (identifier = count) [count] = Undetermined
                         UPostfixExpression (operator = --) [number--] = Undetermined
-                            USimpleNameReferenceExpression [number] = Undetermined
+                            USimpleNameReferenceExpression (identifier = number) [number] = Undetermined
                 UReturnExpression [return count] = Nothing
-                    USimpleNameReferenceExpression [count] = Undetermined
+                    USimpleNameReferenceExpression (identifier = count) [count] = Undetermined

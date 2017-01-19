@@ -5,6 +5,6 @@ UFile (package = ) [public class Ternary {...]
             UBlockExpression [{...}] = Nothing
                 UReturnExpression [return (flag) ? (1) : (0)] = Nothing
                     UIfExpression [(flag) ? (1) : (0)] = Phi(1, 0)
-                        USimpleNameReferenceExpression [flag] = Undetermined
+                        USimpleNameReferenceExpression (identifier = flag) [flag] = Undetermined
                         ULiteralExpression (value = 1) [1] = 1
                         ULiteralExpression (value = 0) [0] = 0

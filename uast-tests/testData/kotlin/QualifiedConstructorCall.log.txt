@@ -9,10 +9,10 @@ UFile (package = A.B.C)
                     UQualifiedReferenceExpression
                         UQualifiedReferenceExpression
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
-                            USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = A)
+                                USimpleNameReferenceExpression (identifier = B)
+                            USimpleNameReferenceExpression (identifier = C)
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
                             UIdentifier (Identifier (Foo))
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = <init>)
         UAnnotationMethod (name = Bar)

@@ -12,11 +12,11 @@ UFile (package = )
         UField (name = foobarbaz)
             UAnnotation (fqName = org.jetbrains.annotations.NotNull)
             UPolyadicExpression (operator = +)
-                USimpleNameReferenceExpression
+                USimpleNameReferenceExpression (identifier = foo)
                 ULiteralExpression (value = " ")
-                USimpleNameReferenceExpression
+                USimpleNameReferenceExpression (identifier = bar)
                 ULiteralExpression (value = " ")
-                USimpleNameReferenceExpression
+                USimpleNameReferenceExpression (identifier = baz)
         UAnnotationMethod (name = getFoo)
             UAnnotation (fqName = org.jetbrains.annotations.NotNull)
         UAnnotationMethod (name = getBar)

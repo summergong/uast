@@ -17,23 +17,23 @@ UFile (package = )
                                         ULocalVariable (name = varc4aef1e3)
                                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                                 UIdentifier (Identifier (foo))
-                                                USimpleNameReferenceExpression
+                                                USimpleNameReferenceExpression (identifier = foo)
                                                 ULiteralExpression (value = "Lorem ipsum")
                                     UIfExpression
                                         UBinaryExpression (operator = !=)
-                                            USimpleNameReferenceExpression
+                                            USimpleNameReferenceExpression (identifier = varc4aef1e3)
                                             ULiteralExpression (value = null)
-                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression (identifier = varc4aef1e3)
                                         UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                             UIdentifier (Identifier (foo))
-                                            USimpleNameReferenceExpression
+                                            USimpleNameReferenceExpression (identifier = foo)
                                             ULiteralExpression (value = "dolor sit amet")
                         UIfExpression
                             UBinaryExpression (operator = !=)
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = var243c4e1a)
                                 ULiteralExpression (value = null)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = var243c4e1a)
                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                 UIdentifier (Identifier (foo))
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = foo)
                                 ULiteralExpression (value = "consectetuer adipiscing elit")

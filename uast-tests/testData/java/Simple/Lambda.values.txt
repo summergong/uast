@@ -13,10 +13,10 @@ UFile (package = ) [public class Lambda {...]
                                     ULocalVariable (name = variable1) [var variable1: int = 24]
                                         ULiteralExpression (value = 24) [24] = 24
                                 UPostfixExpression (operator = ++) [variable1++] = (var variable1 = 24)
-                                    USimpleNameReferenceExpression [variable1] = (var variable1 = 24)
+                                    USimpleNameReferenceExpression (identifier = variable1) [variable1] = (var variable1 = 24)
                 UQualifiedReferenceExpression [runnable.run()] = external run()
-                    USimpleNameReferenceExpression [runnable] = (var runnable = Undetermined)
+                    USimpleNameReferenceExpression (identifier = runnable) [runnable] = (var runnable = Undetermined)
                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing
-                    USimpleNameReferenceExpression [variable] = (var variable = 42)
+                    USimpleNameReferenceExpression (identifier = variable) [variable] = (var variable = 42)

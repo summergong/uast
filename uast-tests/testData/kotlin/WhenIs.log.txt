@@ -5,17 +5,17 @@ UFile (package = )
             UParameter (name = bar)
                 UAnnotation (fqName = org.jetbrains.annotations.NotNull)
             USwitchExpression
-                USimpleNameReferenceExpression
+                USimpleNameReferenceExpression (identifier = bar)
                 UExpressionList (when)
                     USwitchClauseExpressionWithBody
                         UBinaryExpressionWithType
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = it)
                         UExpressionList (when_entry)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = bar)
                             UBreakExpression (label = null)
                     USwitchClauseExpressionWithBody
                         UBinaryExpressionWithType
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = it)
                         UExpressionList (when_entry)
                             ULiteralExpression (value = "<error>")
                             UBreakExpression (label = null)

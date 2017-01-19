@@ -13,16 +13,16 @@ UFile (package = ) [public abstract interface Callback {...]
                 UThrowExpression [throw <init>()] : PsiType:Void
                     UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0)) [<init>()] : PsiType:UnsupportedOperationException
                         UIdentifier (Identifier (UnsupportedOperationException)) [UIdentifier (Identifier (UnsupportedOperationException))]
-                        USimpleNameReferenceExpression [<init>] : PsiType:UnsupportedOperationException
+                        USimpleNameReferenceExpression (identifier = <init>) [<init>] : PsiType:UnsupportedOperationException
         UMethod (name = Model) [public fun Model() {...}]
             UBlockExpression [{...}]
                 UBlockExpression [{...}] : PsiType:Unit
                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 2)) [crashMe(Callback.java, { ...})] : PsiType:Unit
                         UIdentifier (Identifier (crashMe)) [UIdentifier (Identifier (crashMe))]
-                        USimpleNameReferenceExpression [crashMe] : PsiType:Unit
+                        USimpleNameReferenceExpression (identifier = crashMe) [crashMe] : PsiType:Unit
                         UQualifiedReferenceExpression [Callback.java] : PsiType:Class<Callback>
                             UClassLiteralExpression [Callback] : PsiType:KClass<Callback>
-                            USimpleNameReferenceExpression [java] : PsiType:Class<Callback>
+                            USimpleNameReferenceExpression (identifier = java) [java] : PsiType:Class<Callback>
                         ULambdaExpression [{ ...}] : PsiType:<ErrorType>
                             UBlockExpression [{...}]
                                 UObjectLiteralExpression [anonymous object : Callback {...            }] : PsiType:Callback
@@ -34,6 +34,6 @@ UFile (package = ) [public abstract interface Callback {...]
                                                 UThrowExpression [throw <init>("")] : PsiType:Void
                                                     UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 1)) [<init>("")] : PsiType:UnsupportedOperationException
                                                         UIdentifier (Identifier (UnsupportedOperationException)) [UIdentifier (Identifier (UnsupportedOperationException))]
-                                                        USimpleNameReferenceExpression [<init>] : PsiType:UnsupportedOperationException
+                                                        USimpleNameReferenceExpression (identifier = <init>) [<init>] : PsiType:UnsupportedOperationException
                                                         ULiteralExpression (value = "") [""] : PsiType:String
                                         UAnnotationMethod (name = Model$1$1) [fun Model$1$1() = UastEmptyExpression]

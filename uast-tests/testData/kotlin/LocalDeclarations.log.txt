@@ -10,19 +10,19 @@ UFile (package = )
                         ULambdaExpression
                             UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
                                 UIdentifier (Identifier (Local))
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = <init>)
                 UDeclarationsExpression
                     ULocalVariable (name = baz)
                         ULambdaExpression
                             UBlockExpression
                                 UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
                                     UIdentifier (Identifier (Local))
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = <init>)
                 UReturnExpression
                     UBinaryExpression (operator = ==)
                         UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                             UIdentifier (Identifier (bar))
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = bar)
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
                             UIdentifier (Identifier (Local))
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = <init>)

@@ -1,46 +1,46 @@
 UFile (package = )
     UClass (name = EnumSwitch)
         UEnumConstant (name = FIRST)
-            USimpleNameReferenceExpression
+            USimpleNameReferenceExpression (identifier = EnumSwitch)
         UEnumConstant (name = SECOND)
-            USimpleNameReferenceExpression
+            USimpleNameReferenceExpression (identifier = EnumSwitch)
         UEnumConstant (name = THIRD)
-            USimpleNameReferenceExpression
+            USimpleNameReferenceExpression (identifier = EnumSwitch)
         UMethod (name = foo)
             UParameter (name = key)
             UBlockExpression
                 UDeclarationsExpression
                     ULocalVariable (name = result)
                 USwitchExpression
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = key)
                     UExpressionList (switch)
                         USwitchClauseExpressionWithBody
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = FIRST)
                             UExpressionList (switch_entry)
                                 UBinaryExpression (operator = =)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = result)
                                     ULiteralExpression (value = 3)
                                 UBreakExpression (label = null)
                         USwitchClauseExpressionWithBody
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = SECOND)
                             UExpressionList (switch_entry)
                                 UBinaryExpression (operator = =)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = result)
                                     ULiteralExpression (value = 7)
                                 UBreakExpression (label = null)
                         USwitchClauseExpressionWithBody
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = THIRD)
                             UExpressionList (switch_entry)
                                 UBinaryExpression (operator = =)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = result)
                                     ULiteralExpression (value = 13)
                                 UBreakExpression (label = null)
                         USwitchClauseExpressionWithBody
                             UDefaultCaseExpression
                             UExpressionList (switch_entry)
                                 UBinaryExpression (operator = =)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = result)
                                     ULiteralExpression (value = 66)
                                 UBreakExpression (label = null)
                 UReturnExpression
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = result)

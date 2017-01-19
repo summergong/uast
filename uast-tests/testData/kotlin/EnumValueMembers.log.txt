@@ -1,7 +1,7 @@
 UFile (package = )
     UClass (name = Style)
         UEnumConstant (name = SHEET)
-            USimpleNameReferenceExpression
+            USimpleNameReferenceExpression (identifier = Style)
             UClass (name = null)
                 UAnnotationMethod (name = getExitAnimation)
                     UAnnotation (fqName = org.jetbrains.annotations.NotNull)

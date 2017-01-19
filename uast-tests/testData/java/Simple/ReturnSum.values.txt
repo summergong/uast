@@ -15,9 +15,9 @@ UFile (package = ) [public class ReturnSum {...]
                 UDeclarationsExpression [var z: int = x + y] = Undetermined
                     ULocalVariable (name = z) [var z: int = x + y]
                         UBinaryExpression (operator = +) [x + y] = 10 (depending on: (var x = 3), (var y = 7))
-                            USimpleNameReferenceExpression [x] = (var x = 3)
-                            USimpleNameReferenceExpression [y] = (var y = 7)
+                            USimpleNameReferenceExpression (identifier = x) [x] = (var x = 3)
+                            USimpleNameReferenceExpression (identifier = y) [y] = (var y = 7)
                 UReturnExpression [return z + z] = Nothing
                     UBinaryExpression (operator = +) [z + z] = 20 (depending on: (var z = 10 (depending on: (var x = 3), (var y = 7))))
-                        USimpleNameReferenceExpression [z] = (var z = 10 (depending on: (var x = 3), (var y = 7)))
-                        USimpleNameReferenceExpression [z] = (var z = 10 (depending on: (var x = 3), (var y = 7)))
+                        USimpleNameReferenceExpression (identifier = z) [z] = (var z = 10 (depending on: (var x = 3), (var y = 7)))
+                        USimpleNameReferenceExpression (identifier = z) [z] = (var z = 10 (depending on: (var x = 3), (var y = 7)))

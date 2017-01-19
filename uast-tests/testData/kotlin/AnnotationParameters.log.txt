@@ -14,10 +14,10 @@ UFile (package = )
                     UQualifiedReferenceExpression
                         UQualifiedReferenceExpression
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
-                            USimpleNameReferenceExpression
-                        USimpleNameReferenceExpression
-                    USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = java)
+                                USimpleNameReferenceExpression (identifier = lang)
+                            USimpleNameReferenceExpression (identifier = annotation)
+                        USimpleNameReferenceExpression (identifier = RetentionPolicy)
+                    USimpleNameReferenceExpression (identifier = RUNTIME)
         UAnnotationMethod (name = from)
         UAnnotationMethod (name = to)

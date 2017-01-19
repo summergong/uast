@@ -12,14 +12,14 @@ UFile (package = ) [public class AliveThenElse {...]
                 UDeclarationsExpression [var z: int] = Undetermined
                     ULocalVariable (name = z) [var z: int]
                 UIfExpression [if (f) {...}] = Phi((var y = 1), (var x = 0))
-                    USimpleNameReferenceExpression [f] = Undetermined
+                    USimpleNameReferenceExpression (identifier = f) [f] = Undetermined
                     UBlockExpression [{...}] = (var y = 1)
                         UBinaryExpression (operator = =) [z = y] = (var y = 1)
-                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
-                            USimpleNameReferenceExpression [y] = (var y = 1)
+                            USimpleNameReferenceExpression (identifier = z) [z] = (var z = Undetermined)
+                            USimpleNameReferenceExpression (identifier = y) [y] = (var y = 1)
                     UBlockExpression [{...}] = (var x = 0)
                         UBinaryExpression (operator = =) [z = x] = (var x = 0)
-                            USimpleNameReferenceExpression [z] = (var z = Undetermined)
-                            USimpleNameReferenceExpression [x] = (var x = 0)
+                            USimpleNameReferenceExpression (identifier = z) [z] = (var z = Undetermined)
+                            USimpleNameReferenceExpression (identifier = x) [x] = (var x = 0)
                 UReturnExpression [return z] = Nothing
-                    USimpleNameReferenceExpression [z] = Phi((var z = (var y = 1)), (var z = (var x = 0)))
+                    USimpleNameReferenceExpression (identifier = z) [z] = Phi((var z = (var y = 1)), (var z = (var x = 0)))

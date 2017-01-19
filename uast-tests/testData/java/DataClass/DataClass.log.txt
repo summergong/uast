@@ -13,18 +13,18 @@ UFile (package = )
                 UBinaryExpression (operator = =)
                     UQualifiedReferenceExpression
                         UThisExpression (label = null)
-                        USimpleNameReferenceExpression
-                    USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = firstName)
+                    USimpleNameReferenceExpression (identifier = firstName)
                 UBinaryExpression (operator = =)
                     UQualifiedReferenceExpression
                         UThisExpression (label = null)
-                        USimpleNameReferenceExpression
-                    USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = lastName)
+                    USimpleNameReferenceExpression (identifier = lastName)
                 UBinaryExpression (operator = =)
                     UQualifiedReferenceExpression
                         UThisExpression (label = null)
-                        USimpleNameReferenceExpression
-                    USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = age)
+                    USimpleNameReferenceExpression (identifier = age)
         UMethod (name = toString)
             UAnnotation (fqName = Override)
             UBlockExpression
@@ -32,16 +32,16 @@ UFile (package = )
                     UPolyadicExpression (operator = +)
                         ULiteralExpression (value = "DataClass{")
                         ULiteralExpression (value = "STRING_CONSTANT='")
-                        USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                         ULiteralExpression (value = ''')
                         ULiteralExpression (value = ", firstName='")
-                        USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = firstName)
                         ULiteralExpression (value = ''')
                         ULiteralExpression (value = ", lastName='")
-                        USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = lastName)
                         ULiteralExpression (value = ''')
                         ULiteralExpression (value = ", age='")
-                        USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = age)
                         ULiteralExpression (value = ''')
                         ULiteralExpression (value = '}')
         UMethod (name = equals)
@@ -51,20 +51,20 @@ UFile (package = )
                 UIfExpression
                     UBinaryExpression (operator = ===)
                         UThisExpression (label = null)
-                        USimpleNameReferenceExpression
+                        USimpleNameReferenceExpression (identifier = o)
                     UReturnExpression
                         ULiteralExpression (value = true)
                     UastEmptyExpression
                 UIfExpression
                     UBinaryExpression (operator = ||)
                         UBinaryExpression (operator = ===)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = o)
                             ULiteralExpression (value = null)
                         UBinaryExpression (operator = !==)
                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                 UIdentifier (Identifier (getClass))
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = o)
                                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                     UIdentifier (Identifier (getClass))
                     UReturnExpression
@@ -73,24 +73,24 @@ UFile (package = )
                 UDeclarationsExpression
                     ULocalVariable (name = dataClass)
                         UBinaryExpressionWithType
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = o)
                 UIfExpression
                     UIfExpression
                         UBinaryExpression (operator = !==)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                             ULiteralExpression (value = null)
                         UPrefixExpression (operator = !)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                     UIdentifier (Identifier (equals))
                                     UQualifiedReferenceExpression
-                                        USimpleNameReferenceExpression
-                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression (identifier = dataClass)
+                                        USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                         UBinaryExpression (operator = !==)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = dataClass)
+                                USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                             ULiteralExpression (value = null)
                     UReturnExpression
                         ULiteralExpression (value = false)
@@ -98,20 +98,20 @@ UFile (package = )
                 UIfExpression
                     UIfExpression
                         UBinaryExpression (operator = !==)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = firstName)
                             ULiteralExpression (value = null)
                         UPrefixExpression (operator = !)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = firstName)
                                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                     UIdentifier (Identifier (equals))
                                     UQualifiedReferenceExpression
-                                        USimpleNameReferenceExpression
-                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression (identifier = dataClass)
+                                        USimpleNameReferenceExpression (identifier = firstName)
                         UBinaryExpression (operator = !==)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = dataClass)
+                                USimpleNameReferenceExpression (identifier = firstName)
                             ULiteralExpression (value = null)
                     UReturnExpression
                         ULiteralExpression (value = false)
@@ -119,20 +119,20 @@ UFile (package = )
                 UIfExpression
                     UIfExpression
                         UBinaryExpression (operator = !==)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = lastName)
                             ULiteralExpression (value = null)
                         UPrefixExpression (operator = !)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = lastName)
                                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                     UIdentifier (Identifier (equals))
                                     UQualifiedReferenceExpression
-                                        USimpleNameReferenceExpression
-                                        USimpleNameReferenceExpression
+                                        USimpleNameReferenceExpression (identifier = dataClass)
+                                        USimpleNameReferenceExpression (identifier = lastName)
                         UBinaryExpression (operator = !==)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = dataClass)
+                                USimpleNameReferenceExpression (identifier = lastName)
                             ULiteralExpression (value = null)
                     UReturnExpression
                         ULiteralExpression (value = false)
@@ -140,19 +140,19 @@ UFile (package = )
                 UReturnExpression
                     UIfExpression
                         UBinaryExpression (operator = !==)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = age)
                             ULiteralExpression (value = null)
                         UQualifiedReferenceExpression
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = age)
                             UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                                 UIdentifier (Identifier (equals))
                                 UQualifiedReferenceExpression
-                                    USimpleNameReferenceExpression
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = dataClass)
+                                    USimpleNameReferenceExpression (identifier = age)
                         UBinaryExpression (operator = ===)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = dataClass)
+                                USimpleNameReferenceExpression (identifier = age)
                             ULiteralExpression (value = null)
         UMethod (name = hashCode)
             UAnnotation (fqName = Override)
@@ -161,60 +161,60 @@ UFile (package = )
                     ULocalVariable (name = result)
                         UIfExpression
                             UBinaryExpression (operator = !==)
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                                 ULiteralExpression (value = null)
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = STRING_CONSTANT)
                                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                     UIdentifier (Identifier (hashCode))
                             ULiteralExpression (value = 0)
                 UBinaryExpression (operator = =)
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = result)
                     UBinaryExpression (operator = +)
                         UBinaryExpression (operator = *)
                             ULiteralExpression (value = 31)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = result)
                         UParenthesizedExpression
                             UIfExpression
                                 UBinaryExpression (operator = !==)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = firstName)
                                     ULiteralExpression (value = null)
                                 UQualifiedReferenceExpression
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = firstName)
                                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                         UIdentifier (Identifier (hashCode))
                                 ULiteralExpression (value = 0)
                 UBinaryExpression (operator = =)
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = result)
                     UBinaryExpression (operator = +)
                         UBinaryExpression (operator = *)
                             ULiteralExpression (value = 31)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = result)
                         UParenthesizedExpression
                             UIfExpression
                                 UBinaryExpression (operator = !==)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = lastName)
                                     ULiteralExpression (value = null)
                                 UQualifiedReferenceExpression
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = lastName)
                                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                         UIdentifier (Identifier (hashCode))
                                 ULiteralExpression (value = 0)
                 UBinaryExpression (operator = =)
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = result)
                     UBinaryExpression (operator = +)
                         UBinaryExpression (operator = *)
                             ULiteralExpression (value = 31)
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = result)
                         UParenthesizedExpression
                             UIfExpression
                                 UBinaryExpression (operator = !==)
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = age)
                                     ULiteralExpression (value = null)
                                 UQualifiedReferenceExpression
-                                    USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = age)
                                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                         UIdentifier (Identifier (hashCode))
                                 ULiteralExpression (value = 0)
                 UReturnExpression
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = result)

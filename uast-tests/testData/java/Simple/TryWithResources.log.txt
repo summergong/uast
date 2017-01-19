@@ -5,13 +5,13 @@ UFile (package = )
                 UTryExpression (with resources)
                     ULocalVariable (name = br)
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 1))
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = BufferedReader)
                             UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 1))
-                                USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = FileReader)
+                                USimpleNameReferenceExpression (identifier = path)
                     UBlockExpression
                         UReturnExpression
                             UQualifiedReferenceExpression
-                                USimpleNameReferenceExpression
+                                USimpleNameReferenceExpression (identifier = br)
                                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                                     UIdentifier (Identifier (readLine))

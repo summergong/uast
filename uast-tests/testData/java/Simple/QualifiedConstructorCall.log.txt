@@ -8,7 +8,7 @@ UFile (package = A.B.C)
                         UQualifiedReferenceExpression
                             UQualifiedReferenceExpression
                                 UQualifiedReferenceExpression
-                                    USimpleNameReferenceExpression
-                                    USimpleNameReferenceExpression
-                                USimpleNameReferenceExpression
-                            USimpleNameReferenceExpression
+                                    USimpleNameReferenceExpression (identifier = A)
+                                    USimpleNameReferenceExpression (identifier = B)
+                                USimpleNameReferenceExpression (identifier = C)
+                            USimpleNameReferenceExpression (identifier = Foo)

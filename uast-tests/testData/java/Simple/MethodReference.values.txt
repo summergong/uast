@@ -6,7 +6,7 @@ UFile (package = ) [public class Anonymous {...]
                     ULocalVariable (name = variable1) [var variable1: int = 24]
                         ULiteralExpression (value = 24) [24] = 24
                 UPostfixExpression (operator = ++) [variable1++] = (var variable1 = 24)
-                    USimpleNameReferenceExpression [variable1] = (var variable1 = 24)
+                    USimpleNameReferenceExpression (identifier = variable1) [variable1] = (var variable1 = 24)
         UMethod (name = foo) [public static fun foo() : int {...}]
             UBlockExpression [{...}] = Nothing
                 UDeclarationsExpression [var variable: int = 42] = Undetermined
@@ -15,10 +15,10 @@ UFile (package = ) [public class Anonymous {...]
                 UDeclarationsExpression [var runnable: Runnable = User::bar] = Undetermined
                     ULocalVariable (name = runnable) [var runnable: Runnable = User::bar]
                         UCallableReferenceExpression (name = bar) [User::bar] = external User::bar
-                            USimpleNameReferenceExpression [User] = external User
+                            USimpleNameReferenceExpression (identifier = User) [User] = external User
                 UQualifiedReferenceExpression [runnable.run()] = external run()
-                    USimpleNameReferenceExpression [runnable] = (var runnable = external User::bar)
+                    USimpleNameReferenceExpression (identifier = runnable) [runnable] = (var runnable = external User::bar)
                     UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing
-                    USimpleNameReferenceExpression [variable] = (var variable = 42)
+                    USimpleNameReferenceExpression (identifier = variable) [variable] = (var variable = 42)

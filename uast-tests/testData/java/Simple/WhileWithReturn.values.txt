@@ -10,18 +10,18 @@ UFile (package = ) [public class WhileWithReturn {...]
                         ULiteralExpression (value = 2) [2] = 2
                 UWhileExpression [while (first === 1) {...}] = Nothing
                     UBinaryExpression (operator = ===) [first === 1] = true (depending on: (var first = 1))
-                        USimpleNameReferenceExpression [first] = (var first = 1)
+                        USimpleNameReferenceExpression (identifier = first) [first] = (var first = 1)
                         ULiteralExpression (value = 1) [1] = 1
                     UBlockExpression [{...}] = Nothing
                         UBinaryExpression (operator = =) [second = 3] = 3
-                            USimpleNameReferenceExpression [second] = (var second = 2)
+                            USimpleNameReferenceExpression (identifier = second) [second] = (var second = 2)
                             ULiteralExpression (value = 3) [3] = 3
                         UIfExpression [if (first > 0) return second] = Nothing
                             UBinaryExpression (operator = >) [first > 0] = true (depending on: (var first = 1))
-                                USimpleNameReferenceExpression [first] = (var first = 1)
+                                USimpleNameReferenceExpression (identifier = first) [first] = (var first = 1)
                                 ULiteralExpression (value = 0) [0] = 0
                             UReturnExpression [return second] = Nothing
-                                USimpleNameReferenceExpression [second] = (var second = 3)
+                                USimpleNameReferenceExpression (identifier = second) [second] = (var second = 3)
                             UastEmptyExpression [UastEmptyExpression] = Undetermined
                 UReturnExpression [return second] = Nothing
-                    USimpleNameReferenceExpression [second] = Undetermined
+                    USimpleNameReferenceExpression (identifier = second) [second] = Undetermined

@@ -1,7 +1,7 @@
 UFile (package = )
     UClass (name = Style)
         UEnumConstant (name = SHEET)
-            USimpleNameReferenceExpression
+            USimpleNameReferenceExpression (identifier = Style)
             ULiteralExpression (value = "foo")
             UClass (name = null)
                 UMethod (name = getExitAnimation)

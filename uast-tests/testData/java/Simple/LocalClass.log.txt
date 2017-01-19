@@ -7,6 +7,6 @@ UFile (package = )
                 UReturnExpression
                     UQualifiedReferenceExpression
                         UCallExpression (kind = UastCallKind(name='constructor_call'), argCount = 0))
-                            USimpleNameReferenceExpression
+                            USimpleNameReferenceExpression (identifier = Local)
                         UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0))
                             UIdentifier (Identifier (hashCode))

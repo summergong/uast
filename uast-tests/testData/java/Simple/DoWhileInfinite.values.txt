@@ -10,18 +10,18 @@ UFile (package = ) [public class DoWhileInfinite {...]
                         ULiteralExpression (value = 42) [42] = 42
                 UDoWhileExpression [do {...] = Undetermined
                     UBinaryExpression (operator = >) [number > 0] = true (depending on: (var number = 42))
-                        USimpleNameReferenceExpression [number] = (var number = 42)
+                        USimpleNameReferenceExpression (identifier = number) [number] = (var number = 42)
                         ULiteralExpression (value = 0) [0] = 0
                     UBlockExpression [{...}] = Undetermined
                         UIfExpression [if (number % 10 === 7) {...}] = Undetermined
                             UBinaryExpression (operator = ===) [number % 10 === 7] = false (depending on: (var number = 42))
                                 UBinaryExpression (operator = %) [number % 10] = 2 (depending on: (var number = 42))
-                                    USimpleNameReferenceExpression [number] = (var number = 42)
+                                    USimpleNameReferenceExpression (identifier = number) [number] = (var number = 42)
                                     ULiteralExpression (value = 10) [10] = 10
                                 ULiteralExpression (value = 7) [7] = 7
                             UBlockExpression [{...}] = (var count = 0)
                                 UPostfixExpression (operator = ++) [count++] = (var count = 0)
-                                    USimpleNameReferenceExpression [count] = (var count = 0)
+                                    USimpleNameReferenceExpression (identifier = count) [count] = (var count = 0)
                             UastEmptyExpression [UastEmptyExpression] = Undetermined
                 UReturnExpression [return count] = Nothing
-                    USimpleNameReferenceExpression [count] = (var count = 0)
+                    USimpleNameReferenceExpression (identifier = count) [count] = (var count = 0)

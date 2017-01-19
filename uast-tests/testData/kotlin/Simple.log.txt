@@ -7,7 +7,7 @@ UFile (package = )
             UBlockExpression
                 UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1))
                     UIdentifier (Identifier (println))
-                    USimpleNameReferenceExpression
+                    USimpleNameReferenceExpression (identifier = println)
                     ULiteralExpression (value = "Hello, world!")
         UAnnotationMethod (name = getProperty)
             UAnnotation (fqName = org.jetbrains.annotations.NotNull)

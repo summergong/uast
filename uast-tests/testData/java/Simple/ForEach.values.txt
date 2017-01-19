@@ -7,12 +7,12 @@ UFile (package = ) [public class For {...]
                     ULocalVariable (name = result) [var result: int = 0]
                         ULiteralExpression (value = 0) [0] = 0
                 UForEachExpression [for (number : numbers) {...}] = Undetermined
-                    USimpleNameReferenceExpression [numbers] = Undetermined
+                    USimpleNameReferenceExpression (identifier = numbers) [numbers] = Undetermined
                     UBlockExpression [{...}] = Undetermined
                         UBinaryExpression (operator = =) [result = result + number] = Undetermined
-                            USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))
+                            USimpleNameReferenceExpression (identifier = result) [result] = Phi((var result = Undetermined), (var result = 0))
                             UBinaryExpression (operator = +) [result + number] = Undetermined
-                                USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))
-                                USimpleNameReferenceExpression [number] = Undetermined
+                                USimpleNameReferenceExpression (identifier = result) [result] = Phi((var result = Undetermined), (var result = 0))
+                                USimpleNameReferenceExpression (identifier = number) [number] = Undetermined
                 UReturnExpression [return result] = Nothing
-                    USimpleNameReferenceExpression [result] = Phi((var result = Undetermined), (var result = 0))
+                    USimpleNameReferenceExpression (identifier = result) [result] = Phi((var result = Undetermined), (var result = 0))
