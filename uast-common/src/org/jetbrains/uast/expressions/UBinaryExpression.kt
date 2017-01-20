@@ -24,7 +24,7 @@ import org.jetbrains.uast.visitor.UastVisitor
 /**
  * Represents a binary expression (value1 op value2), eg. `2 + "A"`.
  */
-interface UBinaryExpression : UExpression {
+interface UBinaryExpression : UPolyadicExpression {
     /**
      * Returns the left operand.
      */
@@ -34,11 +34,6 @@ interface UBinaryExpression : UExpression {
      * Returns the right operand.
      */
     val rightOperand: UExpression
-
-    /**
-     * Returns the binary operator.
-     */
-    val operator: UastBinaryOperator
 
     /**
      * Returns the operator identifier.
@@ -52,6 +47,9 @@ interface UBinaryExpression : UExpression {
      */
     fun resolveOperator(): PsiMethod?
 
+    override val operands: List<UExpression>
+        get() = listOf(leftOperand, rightOperand)
+
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitBinaryExpression(this)) return
         annotations.acceptList(visitor)
@@ -64,6 +62,4 @@ interface UBinaryExpression : UExpression {
             visitor.visitBinaryExpression(this, data)
 
     override fun asLogString() = log("operator = $operator")
-
-    override fun asRenderString() = leftOperand.asRenderString() + ' ' + operator.text + ' ' + rightOperand.asRenderString()
 }
