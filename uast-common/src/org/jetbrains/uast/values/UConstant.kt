@@ -2,6 +2,7 @@ package org.jetbrains.uast.values
 
 import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiType
+import org.jetbrains.uast.ULiteralExpression
 import org.jetbrains.uast.name
 
 interface UConstant : UValue {
@@ -362,10 +363,10 @@ sealed class UBooleanConstant(override val value: Boolean) : UAbstractConstant()
     }
 }
 
-class UStringConstant(override val value: String) : UAbstractConstant() {
+class UStringConstant(override val value: String, val source: ULiteralExpression?) : UAbstractConstant() {
 
     override fun plus(other: UValue) = when (other) {
-        is UConstant -> UStringConstant(value + other.asString())
+        is UConstant -> UStringConstant(value + other.asString(), null)
         else -> super.plus(other)
     }
 

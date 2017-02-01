@@ -68,7 +68,7 @@ class TreeBasedEvaluator(
             is Byte -> UIntConstant(value.toInt(), UNumericType.BYTE)
             is Char -> UCharConstant(value)
             is Boolean -> UBooleanConstant.valueOf(value)
-            is String -> UStringConstant(value)
+            is String -> UStringConstant(value, node)
             else -> UUndeterminedValue
         } to data storeResultFor node
     }
@@ -308,7 +308,7 @@ class TreeBasedEvaluator(
                 (constant as? UNumericConstant)?.value?.toDouble()?.let { UFloatConstant.create(it, type) }
             }
             else -> when (type.name) {
-                "java.lang.String" -> UStringConstant(constant.asString())
+                "java.lang.String" -> UStringConstant(constant.asString(), null)
                 else -> null
             }
         } ?: return UUndeterminedValue to operandInfo.state
