@@ -134,3 +134,5 @@ tailrec fun UElement.getLanguagePlugin(): UastLanguagePlugin {
 
     return (containingElement ?: error("PsiElement should exist at least for UFile")).getLanguagePlugin()
 }
+
+fun Collection<UElement>.toPsiElements() = filterIsInstance<PsiElementBacked>().mapNotNull { it.psi }
