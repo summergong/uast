@@ -120,7 +120,7 @@ internal inline fun <reified T : UElement> Class<out UElement>?.el(f: () -> UEle
 }
 
 internal inline fun <reified T : UElement> Class<out UElement>?.expr(f: () -> UExpression): UExpression {
-    return if (this == null || T::class.java == this) f() else UastEmptyExpression
+    return if (this == null || UExpression::class.java == this || T::class.java == this) f() else UastEmptyExpression
 }
 
 internal object JavaConverter {
