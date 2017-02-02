@@ -4,10 +4,10 @@ UFile (package = ) [public final class Simple {...]
             UAnnotation (fqName = org.jetbrains.annotations.NotNull) [@org.jetbrains.annotations.NotNull]
             ULiteralExpression (value = "Mary") ["Mary"] = "Mary"
         UAnnotationMethod (name = method) [public final fun method() : void {...}]
-            UBlockExpression [{...}] = external println("Hello, world!")
-                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [println("Hello, world!")] = external println("Hello, world!")
+            UBlockExpression [{...}] = external println("Hello, world!")("Hello, world!")
+                UCallExpression (kind = UastCallKind(name='method_call'), argCount = 1)) [println("Hello, world!")] = external println("Hello, world!")("Hello, world!")
                     UIdentifier (Identifier (println)) [UIdentifier (Identifier (println))]
-                    USimpleNameReferenceExpression (identifier = println) [println] = external println
+                    USimpleNameReferenceExpression (identifier = println) [println] = external println()
                     ULiteralExpression (value = "Hello, world!") ["Hello, world!"] = "Hello, world!"
         UAnnotationMethod (name = getProperty) [@org.jetbrains.annotations.NotNull...public final fun getProperty() : java.lang.String = UastEmptyExpression]
             UAnnotation (fqName = org.jetbrains.annotations.NotNull) [@org.jetbrains.annotations.NotNull]

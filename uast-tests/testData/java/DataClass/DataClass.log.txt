@@ -74,6 +74,7 @@ UFile (package = )
                     ULocalVariable (name = dataClass)
                         UBinaryExpressionWithType
                             USimpleNameReferenceExpression (identifier = o)
+                            UTypeReferenceExpression (name = DataClass)
                 UIfExpression
                     UIfExpression
                         UBinaryExpression (operator = !==)

@@ -33,10 +33,12 @@ UFile (package = ) [public class ByteShort {...]
                     ULocalVariable (name = b3) [var b3: byte = i3 as byte]
                         UBinaryExpressionWithType [i3 as byte] = (byte)-56
                             USimpleNameReferenceExpression (identifier = i3) [i3] = (var i3 = 200 (depending on: (var b11 = (var b1 = (byte)100)), (var b1 = (byte)100)))
+                            UTypeReferenceExpression (name = byte) [byte] = Undetermined
                 UDeclarationsExpression [var s4: short = i4 as short] = Undetermined
                     ULocalVariable (name = s4) [var s4: short = i4 as short]
                         UBinaryExpressionWithType [i4 as short] = (short)4
                             USimpleNameReferenceExpression (identifier = i4) [i4] = (var i4 = 4 (depending on: (var s21 = (var s2 = (short)2)), (var s2 = (short)2)))
+                            UTypeReferenceExpression (name = short) [short] = Undetermined
                 UReturnExpression [return i5 + b3 + s4] = Nothing
                     UPolyadicExpression (operator = +) [i5 + b3 + s4] = 50 (depending on: (var i5 = 102 (depending on: (var b11 = (var b1 = (byte)100)), (var s21 = (var s2 = (short)2)))), (var b3 = (byte)-56), (var s4 = (short)4))
                         USimpleNameReferenceExpression (identifier = i5) [i5] = (var i5 = 102 (depending on: (var b11 = (var b1 = (byte)100)), (var s21 = (var s2 = (short)2))))

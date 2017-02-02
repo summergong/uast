@@ -10,12 +10,14 @@ UFile (package = )
                     USwitchClauseExpressionWithBody
                         UBinaryExpressionWithType
                             USimpleNameReferenceExpression (identifier = it)
+                            UTypeReferenceExpression (name = java.lang.String)
                         UExpressionList (when_entry)
                             USimpleNameReferenceExpression (identifier = bar)
                             UBreakExpression (label = null)
                     USwitchClauseExpressionWithBody
                         UBinaryExpressionWithType
                             USimpleNameReferenceExpression (identifier = it)
+                            UTypeReferenceExpression (name = java.lang.String)
                         UExpressionList (when_entry)
                             ULiteralExpression (value = "<error>")
                             UBreakExpression (label = null)

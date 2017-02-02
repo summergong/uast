@@ -46,9 +46,11 @@ UFile (package = ) [public class IntLong {...]
                             UParenthesizedExpression [(twoPowerSixteen as long)] = (long)65536
                                 UBinaryExpressionWithType [twoPowerSixteen as long] = (long)65536
                                     USimpleNameReferenceExpression (identifier = twoPowerSixteen) [twoPowerSixteen] = (var twoPowerSixteen = 65536 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))))
+                                    UTypeReferenceExpression (name = long) [long] = Undetermined
                             UParenthesizedExpression [(twoPowerTwentyFour as long)] = (long)16777216
                                 UBinaryExpressionWithType [twoPowerTwentyFour as long] = (long)16777216
                                     USimpleNameReferenceExpression (identifier = twoPowerTwentyFour) [twoPowerTwentyFour] = (var twoPowerTwentyFour = 16777216 (depending on: (var twoPowerSixteen = 65536 (depending on: (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1))))))))))), (var twoPowerEight = 256 (depending on: (var sixteen = 16 (depending on: (var four = 4 (depending on: (var two = 2 (depending on: (var one = 1)))))))))))
+                                    UTypeReferenceExpression (name = long) [long] = Undetermined
                 UDeclarationsExpression [var eight: long = 8] = Undetermined
                     ULocalVariable (name = eight) [var eight: long = 8]
                         ULiteralExpression (value = 8) [8] = (long)8

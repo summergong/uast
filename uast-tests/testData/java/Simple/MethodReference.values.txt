@@ -14,11 +14,11 @@ UFile (package = ) [public class Anonymous {...]
                         ULiteralExpression (value = 42) [42] = 42
                 UDeclarationsExpression [var runnable: Runnable = User::bar] = Undetermined
                     ULocalVariable (name = runnable) [var runnable: Runnable = User::bar]
-                        UCallableReferenceExpression (name = bar) [User::bar] = external User::bar
-                            USimpleNameReferenceExpression (identifier = User) [User] = external User
-                UQualifiedReferenceExpression [runnable.run()] = external run()
-                    USimpleNameReferenceExpression (identifier = runnable) [runnable] = (var runnable = external User::bar)
-                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()
+                        UCallableReferenceExpression (name = bar) [User::bar] = external User::bar()
+                            USimpleNameReferenceExpression (identifier = User) [User] = external User()
+                UQualifiedReferenceExpression [runnable.run()] = external run()()
+                    USimpleNameReferenceExpression (identifier = runnable) [runnable] = (var runnable = external User::bar())
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [run()] = external run()()
                         UIdentifier (Identifier (run)) [UIdentifier (Identifier (run))]
                 UReturnExpression [return variable] = Nothing
                     USimpleNameReferenceExpression (identifier = variable) [variable] = (var variable = 42)

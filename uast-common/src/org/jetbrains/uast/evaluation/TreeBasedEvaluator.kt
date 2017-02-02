@@ -68,7 +68,7 @@ class TreeBasedEvaluator(
             is Byte -> UIntConstant(value.toInt(), UNumericType.BYTE)
             is Char -> UCharConstant(value)
             is Boolean -> UBooleanConstant.valueOf(value)
-            is String -> UStringConstant(value)
+            is String -> UStringConstant(value, node)
             else -> UUndeterminedValue
         } to data storeResultFor node
     }
@@ -123,7 +123,7 @@ class TreeBasedEvaluator(
             data: UEvaluationState
     ): UEvaluationInfo {
         inputStateCache[node] = data
-        return UCallResultValue(node) to data storeResultFor node
+        return UCallResultValue(node, emptyList()) to data storeResultFor node
     }
 
     // ----------------------- //
@@ -308,7 +308,7 @@ class TreeBasedEvaluator(
                 (constant as? UNumericConstant)?.value?.toDouble()?.let { UFloatConstant.create(it, type) }
             }
             else -> when (type.name) {
-                "java.lang.String" -> UStringConstant(constant.asString())
+                "java.lang.String" -> UStringConstant(constant.asString(), null)
                 else -> null
             }
         } ?: return UUndeterminedValue to operandInfo.state
@@ -366,12 +366,14 @@ class TreeBasedEvaluator(
         var currentInfo = UUndeterminedValue to data
         currentInfo = node.receiver?.accept(this, currentInfo.state) ?: currentInfo
         if (!currentInfo.reachable) return currentInfo storeResultFor node
+        val argumentValues = mutableListOf<UValue>()
         for (valueArgument in node.valueArguments) {
             currentInfo = valueArgument.accept(this, currentInfo.state)
             if (!currentInfo.reachable) return currentInfo storeResultFor node
+            argumentValues.add(currentInfo.value)
         }
 
-        return UCallResultValue(node) to currentInfo.state storeResultFor node
+        return UCallResultValue(node, argumentValues) to currentInfo.state storeResultFor node
     }
 
     override fun visitQualifiedReferenceExpression(

@@ -13,7 +13,7 @@ UFile (package = ) [public class WhileWithContinue {...]
                     ULocalVariable (name = second) [var second: int = 2]
                         ULiteralExpression (value = 2) [2] = 2
                 UWhileExpression [while (bar()) {...}] = Undetermined
-                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()()
                         UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
                     UBlockExpression [{...}] = Nothing(continue)
                         UBinaryExpression (operator = =) [second = 3] = 3
@@ -39,7 +39,7 @@ UFile (package = ) [public class WhileWithContinue {...]
                     ULocalVariable (name = second) [var second: int = 2]
                         ULiteralExpression (value = 2) [2] = 2
                 UWhileExpression [while (bar()) {...}] = Undetermined
-                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()
+                    UCallExpression (kind = UastCallKind(name='method_call'), argCount = 0)) [bar()] = external bar()()
                         UIdentifier (Identifier (bar)) [UIdentifier (Identifier (bar))]
                     UBlockExpression [{...}] = 4
                         UBinaryExpression (operator = =) [second = 3] = 3
