@@ -89,7 +89,7 @@ class JavaUastLanguagePlugin(override val project: Project) : UastLanguagePlugin
 
     override fun convertElementWithParent(element: PsiElement, requiredType: Class<out UElement>?): UElement? {
         if (element !is PsiElement) return null
-        if (element is PsiJavaFile) return JavaUFile(element, this)
+        if (element is PsiJavaFile) return requiredType.el<UFile> { JavaUFile(element, this) }
         JavaConverter.getCached<UElement>(element)?.let { return it }
 
         val parent = JavaConverter.unwrapElements(element.parent) ?: return null
