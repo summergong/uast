@@ -2,10 +2,7 @@ package org.jetbrains.uast.evaluation
 
 import com.intellij.lang.Language
 import com.intellij.openapi.extensions.ExtensionPointName
-import org.jetbrains.uast.UastBinaryOperator
-import org.jetbrains.uast.UastPostfixOperator
-import org.jetbrains.uast.UastPrefixOperator
-import org.jetbrains.uast.UastQualifiedExpressionAccessType
+import org.jetbrains.uast.*
 import org.jetbrains.uast.values.UUndeterminedValue
 import org.jetbrains.uast.values.UValue
 import org.jetbrains.uast.values.UValueBase
@@ -34,7 +31,7 @@ interface UEvaluatorExtension {
     ): UEvaluationInfo = UUndeterminedValue to state
 
     fun evaluateBinary(
-            operator: UastBinaryOperator,
+            binaryExpression: UBinaryExpression,
             leftValue: UValue,
             rightValue: UValue,
             state: UEvaluationState

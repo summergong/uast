@@ -60,13 +60,13 @@ class TreeBasedEvaluator(
         val value = node.value
         return when (value) {
             null -> UNullConstant
-            is Float -> UFloatConstant.create(value.toDouble(), UNumericType.FLOAT)
-            is Double -> UFloatConstant.create(value, UNumericType.DOUBLE)
-            is Long -> ULongConstant(value)
-            is Int -> UIntConstant(value, UNumericType.INT)
-            is Short -> UIntConstant(value.toInt(), UNumericType.SHORT)
-            is Byte -> UIntConstant(value.toInt(), UNumericType.BYTE)
-            is Char -> UCharConstant(value)
+            is Float -> UFloatConstant.create(value.toDouble(), UNumericType.FLOAT, node)
+            is Double -> UFloatConstant.create(value, UNumericType.DOUBLE, node)
+            is Long -> ULongConstant(value, node)
+            is Int -> UIntConstant(value, UNumericType.INT, node)
+            is Short -> UIntConstant(value.toInt(), UNumericType.SHORT, node)
+            is Byte -> UIntConstant(value.toInt(), UNumericType.BYTE, node)
+            is Char -> UCharConstant(value, node)
             is Boolean -> UBooleanConstant.valueOf(value)
             is String -> UStringConstant(value, node)
             else -> UUndeterminedValue
@@ -75,7 +75,7 @@ class TreeBasedEvaluator(
 
     override fun visitClassLiteralExpression(node: UClassLiteralExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
-        return (node.type?.let(::UClassConstant) ?: UUndeterminedValue) to data storeResultFor node
+        return (node.type?.let { value -> UClassConstant(value, node) } ?: UUndeterminedValue) to data storeResultFor node
     }
 
     override fun visitReturnExpression(node: UReturnExpression, data: UEvaluationState): UEvaluationInfo {
@@ -106,7 +106,7 @@ class TreeBasedEvaluator(
         inputStateCache[node] = data
         val resolvedElement = node.resolve()
         return when (resolvedElement) {
-            is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement)
+            is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement, node)
             is PsiField -> if (resolvedElement.hasModifierProperty("final")) {
                 data[context.getVariable(resolvedElement)]
             }
@@ -257,7 +257,7 @@ class TreeBasedEvaluator(
             return it to rightInfo.state storeResultFor node
         }
 
-        return node.languageExtension()?.evaluateBinary(operator, leftInfo.value, rightInfo.value, rightInfo.state)
+        return node.languageExtension()?.evaluateBinary(node, leftInfo.value, rightInfo.value, rightInfo.state)
                     ?: UUndeterminedValue to rightInfo.state storeResultFor node
     }
 
@@ -299,7 +299,7 @@ class TreeBasedEvaluator(
                 else -> null
             }
             PsiType.LONG -> {
-                (constant as? UNumericConstant)?.value?.toLong()?.let(::ULongConstant)
+                (constant as? UNumericConstant)?.value?.toLong()?.let { value -> ULongConstant(value) }
             }
             PsiType.BYTE, PsiType.SHORT, PsiType.INT -> {
                 (constant as? UNumericConstant)?.value?.toInt()?.let { UIntConstant(it, type) }
@@ -308,7 +308,7 @@ class TreeBasedEvaluator(
                 (constant as? UNumericConstant)?.value?.toDouble()?.let { UFloatConstant.create(it, type) }
             }
             else -> when (type.name) {
-                "java.lang.String" -> UStringConstant(constant.asString(), null)
+                "java.lang.String" -> UStringConstant(constant.asString())
                 else -> null
             }
         } ?: return UUndeterminedValue to operandInfo.state

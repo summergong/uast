@@ -2,11 +2,12 @@ package org.jetbrains.uast.values
 
 import com.intellij.psi.PsiEnumConstant
 import com.intellij.psi.PsiType
-import org.jetbrains.uast.ULiteralExpression
-import org.jetbrains.uast.name
+import org.jetbrains.uast.*
 
 interface UConstant : UValue {
     val value: Any?
+
+    val source: UExpression?
 
     // Used for string concatenation
     fun asString(): String
@@ -47,7 +48,7 @@ enum class UNumericType(val prefix: String = "") {
     }
 }
 
-abstract class UNumericConstant(val type: UNumericType) : UAbstractConstant() {
+abstract class UNumericConstant(val type: UNumericType, override val source: ULiteralExpression?) : UAbstractConstant() {
     override abstract val value: Number
 
     override fun toString() = "${type.prefix}$value"
@@ -72,8 +73,8 @@ private fun Int.asType(type: UNumericType): Int = when (type) {
 }
 
 class UIntConstant(
-        rawValue: Int, type: UNumericType = UNumericType.INT
-) : UNumericConstant(type) {
+        rawValue: Int, type: UNumericType = UNumericType.INT, override val source: ULiteralExpression? = null
+) : UNumericConstant(type, source) {
 
     init {
         when (type) {
@@ -158,7 +159,7 @@ class UIntConstant(
     }
 }
 
-class ULongConstant(override val value: Long) : UNumericConstant(UNumericType.LONG) {
+class ULongConstant(override val value: Long, source: ULiteralExpression? = null) : UNumericConstant(UNumericType.LONG, source) {
     override fun plus(other: UValue) = when (other) {
         is ULongConstant -> ULongConstant(value + other.value)
         is UIntConstant -> ULongConstant(value + other.value)
@@ -232,8 +233,8 @@ class ULongConstant(override val value: Long) : UNumericConstant(UNumericType.LO
 }
 
 open class UFloatConstant protected constructor(
-        override val value: Double, type: UNumericType = UNumericType.DOUBLE
-) : UNumericConstant(type) {
+        override val value: Double, type: UNumericType = UNumericType.DOUBLE, source: ULiteralExpression? = null
+) : UNumericConstant(type, source) {
 
     override fun plus(other: UValue) = when (other) {
         is ULongConstant -> create(value + other.value, type.merge(other.type))
@@ -277,11 +278,11 @@ open class UFloatConstant protected constructor(
     override fun dec() = create(value - 1, type)
 
     companion object {
-        fun create(value: Double, type: UNumericType = UNumericType.DOUBLE) =
+        fun create(value: Double, type: UNumericType = UNumericType.DOUBLE, source: ULiteralExpression? = null) =
                 when (type) {
                     UNumericType.DOUBLE, UNumericType.FLOAT -> {
                         if (value.isNaN()) UNaNConstant.valueOf(type)
-                        else UFloatConstant(value, type)
+                        else UFloatConstant(value, type, source)
                     }
                     else -> throw AssertionError("Incorrect UFloatConstant type: $type")
                 }
@@ -314,7 +315,7 @@ sealed class UNaNConstant(type: UNumericType = UNumericType.DOUBLE) : UFloatCons
     }
 }
 
-class UCharConstant(override val value: Char) : UAbstractConstant() {
+class UCharConstant(override val value: Char, override val source: ULiteralExpression? = null) : UAbstractConstant() {
     override fun plus(other: UValue) = when (other) {
         is UIntConstant -> UCharConstant(value + other.value)
         is UCharConstant -> UCharConstant(value + other.value.toInt())
@@ -342,6 +343,8 @@ class UCharConstant(override val value: Char) : UAbstractConstant() {
 }
 
 sealed class UBooleanConstant(override val value: Boolean) : UAbstractConstant() {
+    override val source = null
+
     object True : UBooleanConstant(true) {
         override fun not() = False
 
@@ -363,10 +366,10 @@ sealed class UBooleanConstant(override val value: Boolean) : UAbstractConstant()
     }
 }
 
-class UStringConstant(override val value: String, val source: ULiteralExpression?) : UAbstractConstant() {
+class UStringConstant(override val value: String, override val source: ULiteralExpression? = null) : UAbstractConstant() {
 
     override fun plus(other: UValue) = when (other) {
-        is UConstant -> UStringConstant(value + other.asString(), null)
+        is UConstant -> UStringConstant(value + other.asString())
         else -> super.plus(other)
     }
 
@@ -380,7 +383,7 @@ class UStringConstant(override val value: String, val source: ULiteralExpression
     override fun toString() = "\"$value\""
 }
 
-class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UAbstractConstant() {
+class UEnumEntryValueConstant(override val value: PsiEnumConstant, override val source: USimpleNameReferenceExpression? = null) : UAbstractConstant() {
     override fun equals(other: Any?) =
             other is UEnumEntryValueConstant &&
             value.nameIdentifier.text == other.value.nameIdentifier.text &&
@@ -398,10 +401,11 @@ class UEnumEntryValueConstant(override val value: PsiEnumConstant) : UAbstractCo
     override fun asString() = value.name ?: ""
 }
 
-class UClassConstant(override val value: PsiType) : UAbstractConstant() {
+class UClassConstant(override val value: PsiType, override val source: UClassLiteralExpression? = null) : UAbstractConstant() {
     override fun toString() = value.name
 }
 
 object UNullConstant : UAbstractConstant() {
     override val value = null
+    override val source = null
 }
