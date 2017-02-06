@@ -3,7 +3,6 @@ package org.jetbrains.uast
 import com.intellij.lang.Language
 import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.openapi.extensions.Extensions
-import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 
 interface UastLanguagePlugin {
@@ -11,10 +10,10 @@ interface UastLanguagePlugin {
         val extensionPointName: ExtensionPointName<UastLanguagePlugin> =
                 ExtensionPointName.create<UastLanguagePlugin>("org.jetbrains.uast.uastLanguagePlugin")
 
-        fun getInstances(project: Project): Collection<UastLanguagePlugin> {
-            val projectArea = Extensions.getArea(project)
-            if (!projectArea.hasExtensionPoint(extensionPointName.name)) return listOf()
-            return projectArea.getExtensionPoint(extensionPointName).extensions.toList()
+        fun getInstances(): Collection<UastLanguagePlugin> {
+            val rootArea = Extensions.getRootArea()
+            if (!rootArea.hasExtensionPoint(extensionPointName.name)) return listOf()
+            return rootArea.getExtensionPoint(extensionPointName).extensions.toList()
         }
     }
 
@@ -22,8 +21,6 @@ interface UastLanguagePlugin {
     data class ResolvedConstructor(val call: UCallExpression, val constructor: PsiMethod, val clazz: PsiClass)
 
     val language: Language
-
-    val project: Project
 
     /**
      * Checks if the file with the given [fileName] is supported.

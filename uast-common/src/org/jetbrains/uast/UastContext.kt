@@ -9,7 +9,7 @@ import com.intellij.psi.PsiMethod
 import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.psi.PsiElementBacked
 
-class UastContext(override val project: Project) : UastLanguagePlugin {
+class UastContext(val project: Project) : UastLanguagePlugin {
     private companion object {
         private val CONTEXT_LANGUAGE = object : Language("UastContextLanguage") {}
     }
@@ -21,7 +21,7 @@ class UastContext(override val project: Project) : UastLanguagePlugin {
         get() = 0
 
     val languagePlugins: Collection<UastLanguagePlugin>
-        get() = UastLanguagePlugin.getInstances(project)
+        get() = UastLanguagePlugin.getInstances()
 
     fun findPlugin(element: PsiElement): UastLanguagePlugin? {
         val language = element.language

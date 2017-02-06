@@ -48,10 +48,10 @@ interface KotlinUastBindingContextProviderService {
     fun getTypeMapper(element: KtElement): KotlinTypeMapper?
 }
 
-class KotlinUastLanguagePlugin(override val project: Project) : UastLanguagePlugin {
+class KotlinUastLanguagePlugin : UastLanguagePlugin {
     override val priority = 10
 
-    private val javaPlugin by lz { UastLanguagePlugin.getInstances(project).first { it is JavaUastLanguagePlugin } }
+    private val javaPlugin by lz { UastLanguagePlugin.getInstances().first { it is JavaUastLanguagePlugin } }
 
     override val language: Language
         get() = KotlinLanguage.INSTANCE

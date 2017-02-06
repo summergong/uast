@@ -10,7 +10,6 @@ import com.intellij.rt.execution.junit.FileComparisonFailure
 import junit.framework.TestCase
 import org.jetbrains.uast.UastContext
 import org.jetbrains.uast.UastLanguagePlugin
-import org.jetbrains.uast.evaluation.UEvaluator
 import org.jetbrains.uast.evaluation.UEvaluatorExtension
 import org.jetbrains.uast.java.JavaUastLanguagePlugin
 import org.jetbrains.uast.kotlin.KotlinUastBindingContextProviderService
@@ -25,8 +24,7 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
     protected val environment: AbstractCoreEnvironment
         get() = myEnvironment!!
 
-    protected val project: MockProject
-        get() = environment.project
+    protected lateinit var project: MockProject
 
     protected val uastContext: UastContext by lazy {
         ServiceManager.getService(project, UastContext::class.java)
@@ -47,14 +45,15 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
             error("Environment is already initialized")
         }
         myEnvironment = createEnvironment(source)
+        project = environment.project
 
         CoreApplicationEnvironment.registerExtensionPoint(
-                Extensions.getArea(project),
+                Extensions.getRootArea(),
                 UastLanguagePlugin.extensionPointName,
                 UastLanguagePlugin::class.java)
 
         CoreApplicationEnvironment.registerExtensionPoint(
-                Extensions.getArea(project),
+                Extensions.getRootArea(),
                 UEvaluatorExtension.EXTENSION_POINT_NAME,
                 UEvaluatorExtension::class.java)
 
@@ -70,17 +69,17 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
     }
 
     private fun registerUastLanguagePlugins() {
-        val area = Extensions.getArea(project)
+        val area = Extensions.getRootArea()
 
         area.getExtensionPoint(UastLanguagePlugin.extensionPointName)
-                .registerExtension(JavaUastLanguagePlugin(project))
+                .registerExtension(JavaUastLanguagePlugin())
 
         area.getExtensionPoint(UastLanguagePlugin.extensionPointName)
-                .registerExtension(KotlinUastLanguagePlugin(project))
+                .registerExtension(KotlinUastLanguagePlugin())
     }
 
     private fun registerEvaluatorLanguageExtensions() {
-        val area = Extensions.getArea(project)
+        val area = Extensions.getRootArea()
 
         area.getExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME)
                 .registerExtension(KotlinEvaluatorExtension())

@@ -14,9 +14,9 @@ interface UEvaluator {
 
     val languageExtensions: List<UEvaluatorExtension>
         get() {
-            val projectArea = Extensions.getArea(context.project)
-            if (!projectArea.hasExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME.name)) return listOf()
-            return projectArea.getExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME).extensions.toList()
+            val rootArea = Extensions.getRootArea()
+            if (!rootArea.hasExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME.name)) return listOf()
+            return rootArea.getExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME).extensions.toList()
         }
 
     fun PsiElement.languageExtension() = languageExtensions.firstOrNull { it.language == language }
