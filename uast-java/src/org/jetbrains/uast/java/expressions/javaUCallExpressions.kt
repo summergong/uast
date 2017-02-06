@@ -38,7 +38,7 @@ class JavaUCallExpression(
         get() = null
 
     override val valueArgumentCount by lz { psi.argumentList.expressions.size }
-    override val valueArguments by lz { psi.argumentList.expressions.map { JavaConverter.convertExpression(it, this) } }
+    override val valueArguments by lz { psi.argumentList.expressions.map { JavaConverter.convertOrEmpty(it, this) } }
 
     override val typeArgumentCount by lz { psi.typeArguments.size }
 
@@ -122,13 +122,13 @@ class JavaConstructorUCallExpression(
     override val valueArguments by lz {
         val initializer = psi.arrayInitializer
         if (initializer != null) {
-            initializer.initializers.map { JavaConverter.convertExpression(it, this) }
+            initializer.initializers.map { JavaConverter.convertOrEmpty(it, this) }
         }
         else if (psi.arrayDimensions.isNotEmpty()) {
-            psi.arrayDimensions.map { JavaConverter.convertExpression(it, this) }
+            psi.arrayDimensions.map { JavaConverter.convertOrEmpty(it, this) }
         }
         else {
-            psi.argumentList?.expressions?.map { JavaConverter.convertExpression(it, this) } ?: emptyList()
+            psi.argumentList?.expressions?.map { JavaConverter.convertOrEmpty(it, this) } ?: emptyList()
         }
     }
 
@@ -160,7 +160,7 @@ class JavaArrayInitializerUCallExpression(
         get() = null
     
     override val valueArgumentCount by lz { psi.initializers.size }
-    override val valueArguments by lz { psi.initializers.map { JavaConverter.convertExpression(it, this) } }
+    override val valueArguments by lz { psi.initializers.map { JavaConverter.convertOrEmpty(it, this) } }
 
     override val typeArgumentCount: Int
         get() = 0

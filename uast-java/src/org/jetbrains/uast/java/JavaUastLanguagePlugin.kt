@@ -119,8 +119,8 @@ internal inline fun <reified T : UElement> Class<out UElement>?.el(f: () -> UEle
     return if (this == null || T::class.java == this) f() else null
 }
 
-internal inline fun <reified T : UElement> Class<out UElement>?.expr(f: () -> UExpression): UExpression {
-    return if (this == null || UExpression::class.java == this || T::class.java == this) f() else UastEmptyExpression
+internal inline fun <reified T : UElement> Class<out UElement>?.expr(f: () -> UExpression): UExpression? {
+    return if (this == null || UExpression::class.java == this || T::class.java == this) f() else null
 }
 
 internal object JavaConverter {
@@ -163,7 +163,7 @@ internal object JavaConverter {
         }
     }
 
-    internal fun convertReference(reference: PsiJavaCodeReferenceElement, parent: UElement?, requiredType: Class<out UElement>?): UExpression {
+    internal fun convertReference(reference: PsiJavaCodeReferenceElement, parent: UElement?, requiredType: Class<out UElement>?): UExpression? {
         return with (requiredType) {
             if (reference.isQualified) {
                 expr<UQualifiedReferenceExpression> { JavaUQualifiedReferenceExpression(reference, parent) }
@@ -173,8 +173,8 @@ internal object JavaConverter {
             }
         }
     }
-    
-    internal fun convertExpression(el: PsiExpression, parent: UElement?, requiredType: Class<out UElement>? = null): UExpression {
+
+    internal fun convertExpression(el: PsiExpression, parent: UElement?, requiredType: Class<out UElement>? = null): UExpression? {
         getCached<UExpression>(el)?.let { return it }
 
         return with (requiredType) { when (el) {
@@ -190,7 +190,7 @@ internal object JavaConverter {
                 if (el.methodExpression.qualifierExpression != null)
                     expr<UQualifiedReferenceExpression> {
                         JavaUCompositeQualifiedExpression(el, parent).apply {
-                            receiver = convertExpression(el.methodExpression.qualifierExpression!!, this)
+                            receiver = convertOrEmpty(el.methodExpression.qualifierExpression!!, this)
                             selector = JavaUCallExpression(el, this)
                         }
                     }
@@ -218,7 +218,7 @@ internal object JavaConverter {
         }}
     }
     
-    internal fun convertStatement(el: PsiStatement, parent: UElement?, requiredType: Class<out UElement>? = null): UExpression {
+    internal fun convertStatement(el: PsiStatement, parent: UElement?, requiredType: Class<out UElement>? = null): UExpression? {
         getCached<UExpression>(el)?.let { return it }
 
         return with (requiredType) { when (el) {

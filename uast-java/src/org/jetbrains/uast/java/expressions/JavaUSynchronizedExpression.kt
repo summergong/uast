@@ -30,7 +30,7 @@ class JavaUSynchronizedExpression(
         override val psi: PsiSynchronizedStatement,
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UBlockExpression, PsiElementBacked {
-    override val expressions by lz { psi.body?.statements?.map { JavaConverter.convertStatement(it, this) } ?: listOf() }
+    override val expressions by lz { psi.body?.statements?.map { JavaConverter.convertOrEmpty(it, this) } ?: listOf() }
     val lockExpression by lz { JavaConverter.convertOrEmpty(psi.lockExpression, this) }
 
     override fun accept(visitor: UastVisitor) {

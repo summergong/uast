@@ -25,7 +25,7 @@ class JavaUBinaryExpression(
         override val psi: PsiBinaryExpression,
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UBinaryExpression, PsiElementBacked {
-    override val leftOperand by lz { JavaConverter.convertExpression(psi.lOperand, this) }
+    override val leftOperand by lz { JavaConverter.convertOrEmpty(psi.lOperand, this) }
     override val rightOperand by lz { JavaConverter.convertOrEmpty(psi.rOperand, this) }
     override val operator by lz { psi.operationTokenType.getOperatorType() }
     

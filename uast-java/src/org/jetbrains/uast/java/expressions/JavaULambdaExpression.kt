@@ -35,7 +35,7 @@ class JavaULambdaExpression(
         val b = psi.body
         when (b) {
             is PsiCodeBlock -> JavaConverter.convertBlock(b, this)
-            is PsiExpression -> JavaConverter.convertExpression(b, this)
+            is PsiExpression -> JavaConverter.convertOrEmpty(b, this)
             else -> UastEmptyExpression
         }
     }

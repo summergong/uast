@@ -24,6 +24,6 @@ class JavaUArrayAccessExpression(
         override val psi: PsiArrayAccessExpression,
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UArrayAccessExpression, PsiElementBacked {
-    override val receiver by lz { JavaConverter.convertExpression(psi.arrayExpression, this) }
+    override val receiver by lz { JavaConverter.convertOrEmpty(psi.arrayExpression, this) }
     override val indices by lz { singletonListOrEmpty(JavaConverter.convertOrNull(psi.indexExpression, this)) }
 }

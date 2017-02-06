@@ -38,7 +38,7 @@ class JavaUObjectLiteralExpression(
         get() = psi.argumentList?.expressions?.size ?: 0
 
     override val valueArguments by lz {
-        psi.argumentList?.expressions?.map { JavaConverter.convertExpression(it, this) } ?: emptyList()
+        psi.argumentList?.expressions?.map { JavaConverter.convertOrEmpty(it, this) } ?: emptyList()
     }
 
     override val typeArgumentCount by lz { psi.classReference?.typeParameters?.size ?: 0 }

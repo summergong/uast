@@ -25,7 +25,7 @@ class JavaUTernaryIfExpression(
         override val psi: PsiConditionalExpression,
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UIfExpression, PsiElementBacked {
-    override val condition by lz { JavaConverter.convertExpression(psi.condition, this) }
+    override val condition by lz { JavaConverter.convertOrEmpty(psi.condition, this) }
     override val thenExpression by lz { JavaConverter.convertOrEmpty(psi.thenExpression, this) }
     override val elseExpression by lz { JavaConverter.convertOrEmpty(psi.elseExpression, this) }
 
