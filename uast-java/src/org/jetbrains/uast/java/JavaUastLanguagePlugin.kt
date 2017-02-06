@@ -18,7 +18,6 @@ package org.jetbrains.uast.java
 
 import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
-import com.intellij.openapi.project.Project
 import com.intellij.psi.*
 import org.jetbrains.uast.*
 import org.jetbrains.uast.java.expressions.JavaUSynchronizedExpression
@@ -104,7 +103,7 @@ class JavaUastLanguagePlugin : UastLanguagePlugin {
 
         return with (requiredType) { when (element) {
             is PsiJavaFile -> el<UFile> { JavaUFile(element, this@JavaUastLanguagePlugin) }
-            is UDeclaration -> element
+            is UDeclaration -> el<UDeclaration> { element }
             is PsiClass -> el<UClass> { JavaUClass.create(element, parent) }
             is PsiMethod -> el<UMethod> { JavaUMethod.create(element, this@JavaUastLanguagePlugin, parent) }
             is PsiClassInitializer -> el<UClassInitializer> { JavaUClassInitializer(element, parent) }
@@ -240,7 +239,7 @@ internal object JavaConverter {
             is PsiThrowStatement -> expr<UThrowExpression> { JavaUThrowExpression(el, parent) }
             is PsiSynchronizedStatement -> expr<UBlockExpression> { JavaUSynchronizedExpression(el, parent) }
             is PsiTryStatement -> expr<UTryExpression> { JavaUTryExpression(el, parent) }
-            is PsiEmptyStatement -> UastEmptyExpression
+            is PsiEmptyStatement -> expr<UExpression> { UastEmptyExpression }
             else -> UnknownJavaExpression(el, parent)
         }}
     }
