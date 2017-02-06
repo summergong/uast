@@ -21,8 +21,6 @@ abstract class AbstractJavaUastTest : AbstractUastTest() {
 
         val vfs = StandardFileSystems.local()
         environment.addJavaSourceRoot(testSourcesDir)
-        val ideaProject = project
-        ideaProject.baseDir = vfs.findFileByPath(projectDir.canonicalPath)
 
         return vfs.findFileByPath(File(TEST_JAVA_MODEL_DIR, testName).canonicalPath)!!
     }

@@ -57,7 +57,7 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
                 UEvaluatorExtension.EXTENSION_POINT_NAME,
                 UEvaluatorExtension::class.java)
 
-        project.registerService(UastContext::class.java)
+        project.registerService(UastContext::class.java, UastContext::class.java)
 
         project.registerService(
                 KotlinUastBindingContextProviderService::class.java,

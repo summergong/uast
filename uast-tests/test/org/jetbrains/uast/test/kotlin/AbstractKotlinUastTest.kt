@@ -57,9 +57,6 @@ abstract class AbstractKotlinUastTest : AbstractUastTest() {
 
         val vfs = StandardFileSystems.local()
 
-        val ideaProject = project
-        ideaProject.baseDir = vfs.findFileByPath(projectDir.canonicalPath)
-
         return vfs.findFileByPath(testFile.canonicalPath)!!
     }
 

@@ -19,9 +19,6 @@ abstract class AbstractUastTest : AbstractTestWithCoreEnvironment() {
     fun doTest(testName: String, checkCallback: (String, UFile) -> Unit = { testName, file -> check(testName, file) }) {
         val virtualFile = getVirtualFile(testName)
 
-        val vfs = StandardFileSystems.local()
-        project.baseDir = vfs.findFileByPath(TEST_DATA_DIR.canonicalPath)
-
         val psiFile = psiManager.findFile(virtualFile) ?: error("Can't get psi file for $testName")
         val uFile = uastContext.convertElementWithParent(psiFile, null) ?: error("Can't get UFile for $testName")
         checkCallback(testName, uFile as UFile)
