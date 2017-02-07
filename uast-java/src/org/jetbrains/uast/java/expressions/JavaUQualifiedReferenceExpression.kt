@@ -25,7 +25,7 @@ class JavaUQualifiedReferenceExpression(
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UQualifiedReferenceExpression, PsiElementBacked {
     override val receiver by lz {
-        psi.qualifier?.let { JavaConverter.convertPsiElement(it, this) as? UExpression } ?: UastEmptyExpression
+        psi.qualifier?.let { JavaConverter.convertPsiElement(it, { this }) as? UExpression } ?: UastEmptyExpression
     }
 
     override val selector by lz { 

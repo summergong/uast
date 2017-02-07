@@ -85,7 +85,7 @@ class JavaUSwitchEntry(
             }
             else {
                 val value = it.caseValue
-                value?.let { JavaConverter.convertExpression(it, this) }
+                value?.let { JavaConverter.convertExpression(it, { this }) }
             }
         }
     }
