@@ -97,3 +97,5 @@ fun <T : UElement> PsiElement?.getUParentOfType(cls: Class<out T>, strict: Boole
     @Suppress("UNCHECKED_CAST")
     return sequence.firstOrNull { cls.isInstance(it) } as T?
 }
+
+inline fun <reified T : UElement> PsiElement?.getUParentOfType(strict: Boolean = false): T? = getUParentOfType(T::class.java, strict)

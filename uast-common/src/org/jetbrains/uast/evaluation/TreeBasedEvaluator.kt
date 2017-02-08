@@ -200,7 +200,8 @@ class TreeBasedEvaluator(
             val extResult = ext.block()
             if (extResult.value != UUndeterminedValue) return extResult
         }
-        return languageExtension()?.block()
+        languageExtension()?.block()?.let { if (it.value != UUndeterminedValue) return it }
+        return null
     }
 
     override fun visitPostfixExpression(node: UPostfixExpression, data: UEvaluationState): UEvaluationInfo {
