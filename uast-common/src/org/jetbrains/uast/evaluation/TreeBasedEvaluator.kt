@@ -8,7 +8,8 @@ import org.jetbrains.uast.values.UNothingValue.JumpKind.CONTINUE
 import org.jetbrains.uast.visitor.UastTypedVisitor
 
 class TreeBasedEvaluator(
-        override val context: UastContext
+        override val context: UastContext,
+        val extensions: List<UEvaluatorExtension>
 ) : UastTypedVisitor<UEvaluationState, UEvaluationInfo>, UEvaluator {
 
     override fun getDependents(dependency: UDependency): Set<UValue> {
@@ -188,11 +189,18 @@ class TreeBasedEvaluator(
                 return resultValue to newState storeResultFor node
             }
             else -> {
-                return node.languageExtension()?.evaluatePrefix(
-                        node.operator, operandValue, operandInfo.state
-                ) ?: UUndeterminedValue to operandInfo.state storeResultFor node
+                return node.evaluateViaExtensions { evaluatePrefix(node.operator, operandValue, operandInfo.state) }
+                        ?: UUndeterminedValue to operandInfo.state storeResultFor node
             }
         } to operandInfo.state storeResultFor node
+    }
+
+    inline fun UElement.evaluateViaExtensions(block: UEvaluatorExtension.() -> UEvaluationInfo): UEvaluationInfo? {
+        for (ext in extensions) {
+            val extResult = ext.block()
+            if (extResult.value != UUndeterminedValue) return extResult
+        }
+        return languageExtension()?.block()
     }
 
     override fun visitPostfixExpression(node: UPostfixExpression, data: UEvaluationState): UEvaluationInfo {
@@ -208,9 +216,8 @@ class TreeBasedEvaluator(
                 operandValue to node.operand.assign(operandValue.dec() to operandInfo.state).state
             }
             else -> {
-                return node.languageExtension()?.evaluatePostfix(
-                        node.operator, operandValue, operandInfo.state
-                ) ?: UUndeterminedValue to operandInfo.state storeResultFor node
+                return node.evaluateViaExtensions { evaluatePostfix(node.operator, operandValue, operandInfo.state) }
+                        ?: UUndeterminedValue to operandInfo.state storeResultFor node
             }
         } storeResultFor node
     }
@@ -260,7 +267,7 @@ class TreeBasedEvaluator(
             return it to rightInfo.state storeResultFor node
         }
 
-        return node.languageExtension()?.evaluateBinary(node, leftInfo.value, rightInfo.value, rightInfo.state)
+        return node.evaluateViaExtensions { evaluateBinary(node, leftInfo.value, rightInfo.value, rightInfo.state) }
                     ?: UUndeterminedValue to rightInfo.state storeResultFor node
     }
 
@@ -395,9 +402,8 @@ class TreeBasedEvaluator(
                 selectorInfo
             }
             else -> {
-                return node.languageExtension()?.evaluateQualified(
-                        node.accessType, currentInfo, selectorInfo
-                ) ?: UUndeterminedValue to selectorInfo.state storeResultFor node
+                return node.evaluateViaExtensions { evaluateQualified(node.accessType, currentInfo, selectorInfo) }
+                        ?: UUndeterminedValue to selectorInfo.state storeResultFor node
             }
         } storeResultFor node
     }

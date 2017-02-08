@@ -8,6 +8,8 @@ import java.lang.ref.SoftReference
 interface UEvaluationContext {
     val uastContext: UastContext
 
+    val extensions: List<UEvaluatorExtension>
+
     fun analyzeAll(file: UFile, state: UEvaluationState = file.createEmptyState()): UEvaluationContext
 
     fun analyze(declaration: UDeclaration, state: UEvaluationState = declaration.createEmptyState()): UEvaluator
@@ -17,24 +19,28 @@ interface UEvaluationContext {
     fun getEvaluator(declaration: UDeclaration): UEvaluator
 }
 
-fun UFile.analyzeAll(context: UastContext = getUastContext()): UEvaluationContext =
-        MapBasedEvaluationContext(context).analyzeAll(this)
+fun UFile.analyzeAll(context: UastContext = getUastContext(), extensions: List<UEvaluatorExtension> = emptyList()): UEvaluationContext =
+        MapBasedEvaluationContext(context, extensions).analyzeAll(this)
 
-fun UExpression.uValueOf(): UValue? {
+@JvmOverloads
+fun UExpression.uValueOf(extensions: List<UEvaluatorExtension> = emptyList()): UValue? {
     val declaration = getContainingDeclaration() ?: return null
-    val context = declaration.getEvaluationContextWithCaching()
+    val context = declaration.getEvaluationContextWithCaching(extensions)
     context.analyze(declaration)
     return context.valueOf(this)
 }
 
-fun UDeclaration.getEvaluationContextWithCaching(): UEvaluationContext {
+fun UDeclaration.getEvaluationContextWithCaching(extensions: List<UEvaluatorExtension> = emptyList()): UEvaluationContext {
     return containingFile?.let { file ->
-        file.getUserData(EVALUATION_CONTEXT_KEY)?.get() ?:
-                MapBasedEvaluationContext(getUastContext()).apply {
-                    file.putUserData(EVALUATION_CONTEXT_KEY, SoftReference(this))
-                }
+        val cachedContext = file.getUserData(EVALUATION_CONTEXT_KEY)?.get()
+        if (cachedContext != null && cachedContext.extensions == extensions)
+            cachedContext
+        else
+            MapBasedEvaluationContext(getUastContext(), extensions).apply {
+                file.putUserData(EVALUATION_CONTEXT_KEY, SoftReference(this))
+            }
 
-    } ?: MapBasedEvaluationContext(getUastContext())
+    } ?: MapBasedEvaluationContext(getUastContext(), extensions)
 }
 
 val EVALUATION_CONTEXT_KEY = Key<SoftReference<out UEvaluationContext>>("uast.EvaluationContext")

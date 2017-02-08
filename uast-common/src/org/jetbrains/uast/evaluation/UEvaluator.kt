@@ -32,7 +32,5 @@ interface UEvaluator {
     fun getDependents(dependency: UDependency): Set<UValue>
 }
 
-fun createEvaluator(context: UastContext): UEvaluator =
-        TreeBasedEvaluator(context)
-
-fun UExpression.evaluate(context: UastContext) = createEvaluator(context).evaluate(this)
+fun createEvaluator(context: UastContext, extensions: List<UEvaluatorExtension>): UEvaluator =
+        TreeBasedEvaluator(context, extensions)

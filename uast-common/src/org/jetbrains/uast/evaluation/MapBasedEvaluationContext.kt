@@ -7,7 +7,8 @@ import java.lang.ref.SoftReference
 import java.util.*
 
 class MapBasedEvaluationContext(
-        override val uastContext: UastContext
+        override val uastContext: UastContext,
+        override val extensions: List<UEvaluatorExtension>
 ) : UEvaluationContext {
     private val evaluators = WeakHashMap<UDeclaration, SoftReference<UEvaluator>>()
 
@@ -32,7 +33,7 @@ class MapBasedEvaluationContext(
     }
 
     private fun getOrCreateEvaluator(declaration: UDeclaration, state: UEvaluationState? = null) =
-            evaluators[declaration]?.get() ?: createEvaluator(uastContext).apply {
+            evaluators[declaration]?.get() ?: createEvaluator(uastContext, extensions).apply {
                 when (declaration) {
                     is UMethod -> this.analyze(declaration, state ?: declaration.createEmptyState())
                     is UField -> this.analyze(declaration, state ?: declaration.createEmptyState())
