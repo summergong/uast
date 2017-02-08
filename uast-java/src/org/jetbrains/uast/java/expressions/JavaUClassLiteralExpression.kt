@@ -27,7 +27,7 @@ class JavaUClassLiteralExpression(
         override val containingElement: UElement?
 ) : JavaAbstractUExpression(), UClassLiteralExpression, PsiElementBacked {
     override val type: PsiType
-        get() = psi.type
-    
+        get() = psi.operand.type
+
     override val expression by lz { JavaUTypeReferenceExpression(psi.operand, this) }
 }

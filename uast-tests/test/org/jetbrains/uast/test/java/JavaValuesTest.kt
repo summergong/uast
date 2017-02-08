@@ -15,6 +15,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testCharacters() = doTest("Simple/Characters.java")
 
+    @Test fun testClassLiteral() = doTest("Simple/ClassLiteral.java")
+
     @Test fun testDeadElse() = doTest("Simple/DeadElse.java")
 
     @Test fun testDeadFor() = doTest("Simple/DeadFor.java")
