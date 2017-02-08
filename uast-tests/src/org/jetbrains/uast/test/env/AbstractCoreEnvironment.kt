@@ -11,4 +11,5 @@ abstract class AbstractCoreEnvironment {
     }
 
     abstract fun addJavaSourceRoot(root: File)
+    abstract fun addJar(root: File)
 }

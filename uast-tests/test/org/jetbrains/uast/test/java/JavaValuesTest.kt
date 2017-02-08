@@ -47,6 +47,8 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testExternal() = doTest("Simple/External.java")
 
+    @Test fun testFieldRef() = doTest("Simple/FieldRef.java")
+
     @Test fun testFloatDouble() = doTest("Simple/FloatDouble.java")
 
     @Test fun testFor() = doTest("Simple/For.java")

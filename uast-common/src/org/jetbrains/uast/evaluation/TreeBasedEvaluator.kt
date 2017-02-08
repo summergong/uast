@@ -1,9 +1,6 @@
 package org.jetbrains.uast.evaluation
 
-import com.intellij.psi.PsiEnumConstant
-import com.intellij.psi.PsiField
-import com.intellij.psi.PsiType
-import com.intellij.psi.PsiVariable
+import com.intellij.psi.*
 import org.jetbrains.uast.*
 import org.jetbrains.uast.values.*
 import org.jetbrains.uast.values.UNothingValue.JumpKind.BREAK
@@ -58,19 +55,21 @@ class TreeBasedEvaluator(
     override fun visitLiteralExpression(node: ULiteralExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         val value = node.value
-        return when (value) {
-            null -> UNullConstant
-            is Float -> UFloatConstant.create(value.toDouble(), UNumericType.FLOAT, node)
-            is Double -> UFloatConstant.create(value, UNumericType.DOUBLE, node)
-            is Long -> ULongConstant(value, node)
-            is Int -> UIntConstant(value, UNumericType.INT, node)
-            is Short -> UIntConstant(value.toInt(), UNumericType.SHORT, node)
-            is Byte -> UIntConstant(value.toInt(), UNumericType.BYTE, node)
-            is Char -> UCharConstant(value, node)
-            is Boolean -> UBooleanConstant.valueOf(value)
-            is String -> UStringConstant(value, node)
-            else -> UUndeterminedValue
-        } to data storeResultFor node
+        return value.toConstant(node) to data storeResultFor node
+    }
+
+    fun Any?.toConstant(node: ULiteralExpression? = null) = when(this) {
+        null -> UNullConstant
+        is Float -> UFloatConstant.create(this.toDouble(), UNumericType.FLOAT, node)
+        is Double -> UFloatConstant.create(this, UNumericType.DOUBLE, node)
+        is Long -> ULongConstant(this, node)
+        is Int -> UIntConstant(this, UNumericType.INT, node)
+        is Short -> UIntConstant(this.toInt(), UNumericType.SHORT, node)
+        is Byte -> UIntConstant(this.toInt(), UNumericType.BYTE, node)
+        is Char -> UCharConstant(this, node)
+        is Boolean -> UBooleanConstant.valueOf(this)
+        is String -> UStringConstant(this, node)
+        else -> UUndeterminedValue
     }
 
     override fun visitClassLiteralExpression(node: UClassLiteralExpression, data: UEvaluationState): UEvaluationInfo {
@@ -107,8 +106,12 @@ class TreeBasedEvaluator(
         val resolvedElement = node.resolve()
         return when (resolvedElement) {
             is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement, node)
-            is PsiField -> if (resolvedElement.hasModifierProperty("final")) {
-                data[context.getVariable(resolvedElement)]
+            is PsiField -> if (resolvedElement.hasModifierProperty(PsiModifier.FINAL)) {
+                data[context.getVariable(resolvedElement)].ifUndetermined {
+                    val helper = JavaPsiFacade.getInstance(resolvedElement.project).constantEvaluationHelper
+                    val evaluated = helper.computeConstantExpression(resolvedElement.initializer)
+                    evaluated?.toConstant() ?: UUndeterminedValue
+                }
             }
             else {
                 return super.visitSimpleNameReferenceExpression(node, data)

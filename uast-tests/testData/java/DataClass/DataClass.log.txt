@@ -26,7 +26,7 @@ UFile (package = )
                         USimpleNameReferenceExpression (identifier = age)
                     USimpleNameReferenceExpression (identifier = age)
         UMethod (name = toString)
-            UAnnotation (fqName = Override)
+            UAnnotation (fqName = java.lang.Override)
             UBlockExpression
                 UReturnExpression
                     UPolyadicExpression (operator = +)
@@ -45,7 +45,7 @@ UFile (package = )
                         ULiteralExpression (value = ''')
                         ULiteralExpression (value = '}')
         UMethod (name = equals)
-            UAnnotation (fqName = Override)
+            UAnnotation (fqName = java.lang.Override)
             UParameter (name = o)
             UBlockExpression
                 UIfExpression
@@ -156,7 +156,7 @@ UFile (package = )
                                 USimpleNameReferenceExpression (identifier = age)
                             ULiteralExpression (value = null)
         UMethod (name = hashCode)
-            UAnnotation (fqName = Override)
+            UAnnotation (fqName = java.lang.Override)
             UBlockExpression
                 UDeclarationsExpression
                     ULocalVariable (name = result)

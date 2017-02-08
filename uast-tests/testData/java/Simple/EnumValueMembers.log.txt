@@ -5,7 +5,7 @@ UFile (package = )
             ULiteralExpression (value = "foo")
             UClass (name = null)
                 UMethod (name = getExitAnimation)
-                    UAnnotation (fqName = Override)
+                    UAnnotation (fqName = java.lang.Override)
                     UBlockExpression
                         UReturnExpression
                             ULiteralExpression (value = "bar")

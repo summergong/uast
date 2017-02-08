@@ -5,8 +5,8 @@ UFile (package = ) [public class Anonymous {...]
                 UDeclarationsExpression [var variable: int = 42] = Undetermined
                     ULocalVariable (name = variable) [var variable: int = 42]
                         ULiteralExpression (value = 42) [42] = 42
-                UDeclarationsExpression [var runnable: Runnable = anonymous Runnable() {...        }] = Undetermined
-                    ULocalVariable (name = runnable) [var runnable: Runnable = anonymous Runnable() {...        }]
+                UDeclarationsExpression [var runnable: java.lang.Runnable = anonymous Runnable() {...        }] = Undetermined
+                    ULocalVariable (name = runnable) [var runnable: java.lang.Runnable = anonymous Runnable() {...        }]
                         UObjectLiteralExpression [anonymous Runnable() {...        }] = Undetermined
                             UClass (name = null) [final class null {...}]
                                 UMethod (name = run) [public fun run() : void {...}]

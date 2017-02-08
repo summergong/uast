@@ -1,19 +1,19 @@
 public class DataClass {
-    public final var STRING_CONSTANT: String = "ABC"
-    private final var firstName: String
-    private final var lastName: String
-    private final var age: String
-    public fun DataClass(firstName: String, lastName: String, age: String) {
+    public final var STRING_CONSTANT: java.lang.String = "ABC"
+    private final var firstName: java.lang.String
+    private final var lastName: java.lang.String
+    private final var age: java.lang.String
+    public fun DataClass(firstName: java.lang.String, lastName: java.lang.String, age: java.lang.String) {
         this.firstName = firstName
         this.lastName = lastName
         this.age = age
     }
-    @Override
-    public fun toString() : String {
+    @java.lang.Override
+    public fun toString() : java.lang.String {
         return "DataClass{" + "STRING_CONSTANT='" + STRING_CONSTANT + ''' + ", firstName='" + firstName + ''' + ", lastName='" + lastName + ''' + ", age='" + age + ''' + '}'
     }
-    @Override
-    public fun equals(o: Object) : boolean {
+    @java.lang.Override
+    public fun equals(o: java.lang.Object) : boolean {
         if (this === o) return true
         if (o === null || getClass() !== o.getClass()) return false
         var dataClass: DataClass = o as DataClass
@@ -22,7 +22,7 @@ public class DataClass {
         if ((lastName !== null) ? (!lastName.equals(dataClass.lastName)) : (dataClass.lastName !== null)) return false
         return (age !== null) ? (age.equals(dataClass.age)) : (dataClass.age === null)
     }
-    @Override
+    @java.lang.Override
     public fun hashCode() : int {
         var result: int = (STRING_CONSTANT !== null) ? (STRING_CONSTANT.hashCode()) : (0)
         result = 31 * result + ((firstName !== null) ? (firstName.hashCode()) : (0))

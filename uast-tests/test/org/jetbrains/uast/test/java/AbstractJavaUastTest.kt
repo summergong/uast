@@ -22,6 +22,15 @@ abstract class AbstractJavaUastTest : AbstractUastTest() {
         val vfs = StandardFileSystems.local()
         environment.addJavaSourceRoot(testSourcesDir)
 
+        val javaHome = System.getProperty("java.home")
+        var rtJar = File(javaHome, "jre/lib/rt.jar")
+        if (!rtJar.exists()) {
+            rtJar = File(javaHome, "lib/rt.jar")
+        }
+        if (rtJar.exists()) {
+            environment.addJar(rtJar)
+        }
+
         return vfs.findFileByPath(File(TEST_JAVA_MODEL_DIR, testName).canonicalPath)!!
     }
 

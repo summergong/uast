@@ -5,8 +5,8 @@ UFile (package = ) [public class Lambda {...]
                 UDeclarationsExpression [var variable: int = 42] = Undetermined
                     ULocalVariable (name = variable) [var variable: int = 42]
                         ULiteralExpression (value = 42) [42] = 42
-                UDeclarationsExpression [var runnable: Runnable = {     {...}] = Undetermined
-                    ULocalVariable (name = runnable) [var runnable: Runnable = {     {...}]
+                UDeclarationsExpression [var runnable: java.lang.Runnable = {     {...}] = Undetermined
+                    ULocalVariable (name = runnable) [var runnable: java.lang.Runnable = {     {...}]
                         ULambdaExpression [{     {...}] = Undetermined
                             UBlockExpression [{...}] = (var variable1 = 24)
                                 UDeclarationsExpression [var variable1: int = 24] = Undetermined

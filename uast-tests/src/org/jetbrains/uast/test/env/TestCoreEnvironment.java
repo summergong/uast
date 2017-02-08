@@ -91,6 +91,10 @@ public class TestCoreEnvironment extends AbstractCoreEnvironment {
         getProjectEnvironment().addSourcesToClasspath(virtualFile);
     }
 
+    public void addJar(@NotNull File root) {
+        getProjectEnvironment().addJarToClassPath(root);
+    }
+
     public JavaCoreProjectEnvironment getProjectEnvironment() {
         if (mProjectEnvironment != null) {
             return mProjectEnvironment;

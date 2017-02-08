@@ -1,6 +1,6 @@
 dependencies {
     compile fileTree(dir: '../lib/intellij-core',
-            include: ['intellij-core.jar', 'picocontainer.jar', 'trove4j.jar'])
+            include: ['intellij-core.jar', 'picocontainer.jar', 'trove4j.jar', 'asm-all.jar'])
     runtime 'com.google.guava:guava:17.0'
 
     compile project(':uast-common')

@@ -12,8 +12,8 @@ UFile (package = ) [public class Anonymous {...]
                 UDeclarationsExpression [var variable: int = 42] = Undetermined
                     ULocalVariable (name = variable) [var variable: int = 42]
                         ULiteralExpression (value = 42) [42] = 42
-                UDeclarationsExpression [var runnable: Runnable = User::bar] = Undetermined
-                    ULocalVariable (name = runnable) [var runnable: Runnable = User::bar]
+                UDeclarationsExpression [var runnable: java.lang.Runnable = User::bar] = Undetermined
+                    ULocalVariable (name = runnable) [var runnable: java.lang.Runnable = User::bar]
                         UCallableReferenceExpression (name = bar) [User::bar] = external User::bar()
                             USimpleNameReferenceExpression (identifier = User) [User] = external User()
                 UQualifiedReferenceExpression [runnable.run()] = external run()()

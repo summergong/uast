@@ -4,3 +4,5 @@ package org.jetbrains.uast.values
 object UUndeterminedValue : UValueBase() {
     override fun toString() = "Undetermined"
 }
+
+fun UValue.ifUndetermined(block: () -> UValue) = if (this == UUndeterminedValue) block() else this
