@@ -43,4 +43,4 @@ interface UDeclaration : UElement, PsiElementBacked, PsiModifierListOwner, UAnno
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitDeclaration(this, data)
 }
 
-fun UElement.getContainingDeclaration() = containingElements.filterIsInstance<UDeclaration>().firstOrNull()
+fun UElement.getContainingDeclaration() = withContainingElements.filterIsInstance<UDeclaration>().firstOrNull()

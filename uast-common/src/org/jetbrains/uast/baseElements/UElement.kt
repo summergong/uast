@@ -94,5 +94,8 @@ interface UElement {
     fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D): R = visitor.visitElement(this, data)
 }
 
-val UElement.containingElements: Sequence<UElement>
+/**
+ * Returns a sequence including this element and its containing elements.
+ */
+val UElement.withContainingElements: Sequence<UElement>
     get() = generateSequence(this, UElement::containingElement)
