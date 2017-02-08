@@ -4,6 +4,7 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UExpression
 import org.jetbrains.uast.UFile
 import org.jetbrains.uast.evaluation.UEvaluationContext
+import org.jetbrains.uast.evaluation.UEvaluatorExtension
 import org.jetbrains.uast.evaluation.analyzeAll
 import org.jetbrains.uast.test.env.assertEqualsToFile
 import org.jetbrains.uast.visitor.UastVisitor
@@ -11,9 +12,10 @@ import java.io.File
 
 interface ValuesTestBase {
     fun getValuesFile(testName: String): File
+    fun getEvaluatorExtension(): UEvaluatorExtension? = null
 
     private fun UFile.asLogValues(): String {
-        val evaluationContext = analyzeAll()
+        val evaluationContext = analyzeAll(extensions = getEvaluatorExtension()?.let { listOf(it) } ?: emptyList())
         return ValueLogger(evaluationContext).apply {
             this@asLogValues.accept(this)
         }.toString()

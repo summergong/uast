@@ -1,5 +1,14 @@
 package org.jetbrains.uast.test.java
 
+import com.intellij.lang.Language
+import com.intellij.lang.java.JavaLanguage
+import com.intellij.psi.PsiMethod
+import org.jetbrains.uast.evaluation.UEvaluationInfo
+import org.jetbrains.uast.evaluation.UEvaluationState
+import org.jetbrains.uast.evaluation.UEvaluatorExtension
+import org.jetbrains.uast.values.UBooleanConstant
+import org.jetbrains.uast.values.UStringConstant
+import org.jetbrains.uast.values.UValue
 import org.junit.Test
 
 class JavaValuesTest : AbstractJavaValuesTest() {
@@ -104,4 +113,18 @@ class JavaValuesTest : AbstractJavaValuesTest() {
     @Test fun testWhileWithMutableCondition() = doTest("Simple/WhileWithMutableCondition.java")
 
     @Test fun testWhileWithReturn() = doTest("Simple/WhileWithReturn.java")
+
+    @Test fun testEvaluatorExtension() = doTest("Simple/EvaluatorExtension.java", object : UEvaluatorExtension {
+        override val language: Language get() = JavaLanguage.INSTANCE
+
+        override fun evaluateMethodCall(target: PsiMethod, argumentValues: List<UValue>, state: UEvaluationState): UEvaluationInfo {
+            if (target.name == "getTestName") {
+                (argumentValues.singleOrNull() as? UBooleanConstant)?.let { arg ->
+                    return (if (arg.value) UStringConstant("UPPER") else UStringConstant("lower")) to state
+                }
+            }
+
+            return super.evaluateMethodCall(target, argumentValues, state)
+        }
+    })
 }

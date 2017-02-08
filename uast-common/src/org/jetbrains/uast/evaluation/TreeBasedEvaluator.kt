@@ -383,7 +383,10 @@ class TreeBasedEvaluator(
             argumentValues.add(currentInfo.value)
         }
 
-        return UCallResultValue(node, argumentValues) to currentInfo.state storeResultFor node
+        return (node.evaluateViaExtensions {
+            node.resolve()?.let { method -> evaluateMethodCall(method, argumentValues, currentInfo.state) }
+                    ?: UUndeterminedValue to currentInfo.state
+        } ?: UCallResultValue(node, argumentValues) to currentInfo.state) storeResultFor node
     }
 
     override fun visitQualifiedReferenceExpression(
