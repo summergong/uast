@@ -12,10 +12,6 @@ import org.jetbrains.uast.UastContext
 import org.jetbrains.uast.UastLanguagePlugin
 import org.jetbrains.uast.evaluation.UEvaluatorExtension
 import org.jetbrains.uast.java.JavaUastLanguagePlugin
-import org.jetbrains.uast.kotlin.KotlinUastBindingContextProviderService
-import org.jetbrains.uast.kotlin.KotlinUastLanguagePlugin
-import org.jetbrains.uast.kotlin.evaluation.KotlinEvaluatorExtension
-import org.jetbrains.uast.kotlin.internal.CliKotlinUastBindingContextProviderService
 import java.io.File
 
 abstract class AbstractTestWithCoreEnvironment : TestCase() {
@@ -59,13 +55,7 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
 
         project.registerService(UastContext::class.java, UastContext::class.java)
 
-        project.registerService(
-                KotlinUastBindingContextProviderService::class.java,
-                CliKotlinUastBindingContextProviderService::class.java)
-
         registerUastLanguagePlugins()
-
-        registerEvaluatorLanguageExtensions()
     }
 
     private fun registerUastLanguagePlugins() {
@@ -73,16 +63,6 @@ abstract class AbstractTestWithCoreEnvironment : TestCase() {
 
         area.getExtensionPoint(UastLanguagePlugin.extensionPointName)
                 .registerExtension(JavaUastLanguagePlugin())
-
-        area.getExtensionPoint(UastLanguagePlugin.extensionPointName)
-                .registerExtension(KotlinUastLanguagePlugin())
-    }
-
-    private fun registerEvaluatorLanguageExtensions() {
-        val area = Extensions.getRootArea()
-
-        area.getExtensionPoint(UEvaluatorExtension.EXTENSION_POINT_NAME)
-                .registerExtension(KotlinEvaluatorExtension())
     }
 
     protected fun disposeEnvironment() {

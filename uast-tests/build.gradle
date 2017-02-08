@@ -1,12 +1,10 @@
 dependencies {
-    provided fileTree(dir: '../lib/intellij-core',
+    compile fileTree(dir: '../lib/intellij-core',
             include: ['intellij-core.jar', 'picocontainer.jar', 'trove4j.jar'])
     runtime 'com.google.guava:guava:17.0'
 
-    compile fileTree(dir: '../lib/kotlin-plugin/Kotlin/kotlinc/lib', include: ['kotlin-compiler.jar'])
     compile project(':uast-common')
     compile project(':uast-java')
-    compile project(':uast-kotlin')
     compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
 
     compile 'junit:junit:4.12'

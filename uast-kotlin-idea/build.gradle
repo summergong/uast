@@ -1,6 +1,0 @@
-dependencies {
-    provided fileTree(dir: '../lib/intellij-core', include: ['intellij-core.jar'])
-    provided fileTree(dir: '../lib/kotlin-plugin/Kotlin/lib', include: ['kotlin-plugin.jar'])
-    compile project(':uast-kotlin')
-    compile "org.jetbrains.kotlin:kotlin-stdlib:$kotlin_version"
-}

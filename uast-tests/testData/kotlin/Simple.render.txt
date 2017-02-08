@@ -1,9 +1,0 @@
-public final class Simple {
-    private final var property: java.lang.String = "Mary"
-    public final fun method() : void {
-        println("Hello, world!")
-    }
-    @org.jetbrains.annotations.NotNull
-    public final fun getProperty() : java.lang.String = UastEmptyExpression
-    public fun Simple() = UastEmptyExpression
-}
