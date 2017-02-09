@@ -27,7 +27,7 @@ fun <T> UElement.findElementByText(refText: String, cls: Class<T>): T {
     val matchingElements = mutableListOf<T>()
     accept(object : UastVisitor {
         override fun visitElement(node: UElement): Boolean {
-            if (node.psi?.text == refText && cls.isInstance(node)) {
+            if (cls.isInstance(node) && node.psi?.text == refText) {
                 matchingElements.add(node as T)
             }
             return false
