@@ -1,13 +1,12 @@
 package org.jetbrains.uast.test.java
 
-import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UParameter
 import org.jetbrains.uast.UVariable
+import org.jetbrains.uast.evaluation.AbstractEvaluatorExtension
 import org.jetbrains.uast.evaluation.UEvaluationInfo
 import org.jetbrains.uast.evaluation.UEvaluationState
-import org.jetbrains.uast.evaluation.UEvaluatorExtension
 import org.jetbrains.uast.values.UBooleanConstant
 import org.jetbrains.uast.values.UStringConstant
 import org.jetbrains.uast.values.UValue
@@ -116,9 +115,7 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testWhileWithReturn() = doTest("Simple/WhileWithReturn.java")
 
-    @Test fun testEvaluatorExtension() = doTest("Simple/EvaluatorExtension.java", object : UEvaluatorExtension {
-        override val language: Language get() = JavaLanguage.INSTANCE
-
+    @Test fun testEvaluatorExtension() = doTest("Simple/EvaluatorExtension.java", object : AbstractEvaluatorExtension(JavaLanguage.INSTANCE) {
         override fun evaluateMethodCall(target: PsiMethod, argumentValues: List<UValue>, state: UEvaluationState): UEvaluationInfo {
             if (target.name == "getTestName") {
                 (argumentValues.singleOrNull() as? UBooleanConstant)?.let { arg ->
@@ -130,9 +127,7 @@ class JavaValuesTest : AbstractJavaValuesTest() {
         }
     })
 
-    @Test fun testParamViaEvaluatorExtension() = doTest("Simple/ParamViaEvaluatorExtension.java", object : UEvaluatorExtension {
-        override val language: Language get() = JavaLanguage.INSTANCE
-
+    @Test fun testParamViaEvaluatorExtension() = doTest("Simple/ParamViaEvaluatorExtension.java", object : AbstractEvaluatorExtension(JavaLanguage.INSTANCE) {
         override fun evaluateVariable(variable: UVariable, state: UEvaluationState): UEvaluationInfo {
             if (variable is UParameter && variable.name == "x") {
                 return UStringConstant("0") to state
