@@ -120,7 +120,9 @@ class TreeBasedEvaluator(
             else {
                 return super.visitSimpleNameReferenceExpression(node, data)
             }
-            is UVariable -> data[resolvedElement]
+            is UVariable -> data[resolvedElement].ifUndetermined {
+                node.evaluateViaExtensions { evaluateVariable(resolvedElement, data) }?.value ?: UUndeterminedValue
+            }
             else -> return super.visitSimpleNameReferenceExpression(node, data)
         } to data storeResultFor node
     }

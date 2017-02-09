@@ -3,10 +3,7 @@ package org.jetbrains.uast.evaluation
 import com.intellij.lang.Language
 import com.intellij.openapi.extensions.ExtensionPointName
 import com.intellij.psi.PsiMethod
-import org.jetbrains.uast.UBinaryExpression
-import org.jetbrains.uast.UastPostfixOperator
-import org.jetbrains.uast.UastPrefixOperator
-import org.jetbrains.uast.UastQualifiedExpressionAccessType
+import org.jetbrains.uast.*
 import org.jetbrains.uast.values.UUndeterminedValue
 import org.jetbrains.uast.values.UValue
 
@@ -49,6 +46,11 @@ interface UEvaluatorExtension {
     fun evaluateMethodCall(
             target: PsiMethod,
             argumentValues: List<UValue>,
+            state: UEvaluationState
+    ): UEvaluationInfo = UUndeterminedValue to state
+
+    fun evaluateVariable(
+            variable: UVariable,
             state: UEvaluationState
     ): UEvaluationInfo = UUndeterminedValue to state
 }
