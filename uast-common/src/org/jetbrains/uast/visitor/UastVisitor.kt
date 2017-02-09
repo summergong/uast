@@ -26,6 +26,11 @@ interface UastVisitor {
     fun visitInitializer(node: UClassInitializer): Boolean = visitElement(node)
     fun visitMethod(node: UMethod): Boolean = visitElement(node)
     fun visitVariable(node: UVariable): Boolean = visitElement(node)
+    fun visitParameter(node: UParameter): Boolean = visitVariable(node)
+    fun visitField(node: UField): Boolean = visitVariable(node)
+    fun visitLocalVariable(node: ULocalVariable): Boolean = visitVariable(node)
+    fun visitEnumConstant(node: UEnumConstant): Boolean = visitField(node)
+
     fun visitAnnotation(node: UAnnotation): Boolean = visitElement(node)
 
     // Expressions
@@ -76,6 +81,10 @@ interface UastVisitor {
     fun afterVisitInitializer(node: UClassInitializer) { afterVisitElement(node) }
     fun afterVisitMethod(node: UMethod) { afterVisitElement(node) }
     fun afterVisitVariable(node: UVariable) { afterVisitElement(node) }
+    fun afterVisitParameter(node: UParameter){ afterVisitVariable(node) }
+    fun afterVisitField(node: UField){ afterVisitVariable(node) }
+    fun afterVisitLocalVariable(node: ULocalVariable){ afterVisitVariable(node) }
+    fun afterVisitEnumConstant(node: UEnumConstant){ afterVisitField(node) }
     fun afterVisitAnnotation(node: UAnnotation) { afterVisitElement(node) }
 
     // Expressions

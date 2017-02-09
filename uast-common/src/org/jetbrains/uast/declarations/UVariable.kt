@@ -24,8 +24,7 @@ interface UVariable : UDeclaration, PsiVariable {
 
     override fun accept(visitor: UastVisitor) {
         if (visitor.visitVariable(this)) return
-        annotations.acceptList(visitor)
-        uastInitializer?.accept(visitor)
+        visitContents(visitor)
         visitor.afterVisitVariable(this)
     }
 
@@ -44,10 +43,21 @@ interface UVariable : UDeclaration, PsiVariable {
     }
 }
 
+private fun UVariable.visitContents(visitor: UastVisitor) {
+    annotations.acceptList(visitor)
+    uastInitializer?.accept(visitor)
+}
+
 interface UParameter : UVariable, PsiParameter {
     override val psi: PsiParameter
 
     override fun asLogString() = log("name = $name")
+
+    override fun accept(visitor: UastVisitor) {
+        if (visitor.visitParameter(this)) return
+        visitContents(visitor)
+        visitor.afterVisitParameter(this)
+    }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitParameter(this, data)
 }
@@ -57,6 +67,12 @@ interface UField : UVariable, PsiField {
 
     override fun asLogString() = log("name = $name")
 
+    override fun accept(visitor: UastVisitor) {
+        if (visitor.visitField(this)) return
+        visitContents(visitor)
+        visitor.afterVisitField(this)
+    }
+
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitField(this, data)
 }
 
@@ -64,6 +80,12 @@ interface ULocalVariable : UVariable, PsiLocalVariable {
     override val psi: PsiLocalVariable
 
     override fun asLogString() = log("name = $name")
+
+    override fun accept(visitor: UastVisitor) {
+        if (visitor.visitLocalVariable(this)) return
+        visitContents(visitor)
+        visitor.afterVisitLocalVariable(this)
+    }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) = visitor.visitLocalVariable(this, data)
 }
@@ -76,13 +98,13 @@ interface UEnumConstant : UField, UCallExpression, PsiEnumConstant {
     override fun asLogString() = log("name = $name")
 
     override fun accept(visitor: UastVisitor) {
-        if (visitor.visitVariable(this)) return
+        if (visitor.visitEnumConstant(this)) return
         annotations.acceptList(visitor)
         methodIdentifier?.accept(visitor)
         classReference?.accept(visitor)
         valueArguments.acceptList(visitor)
         initializingClass?.accept(visitor)
-        visitor.afterVisitVariable(this)
+        visitor.afterVisitEnumConstant(this)
     }
 
     override fun <D, R> accept(visitor: UastTypedVisitor<D, R>, data: D) =
