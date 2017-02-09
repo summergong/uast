@@ -62,20 +62,6 @@ class TreeBasedEvaluator(
         return value.toConstant(node) to data storeResultFor node
     }
 
-    fun Any?.toConstant(node: ULiteralExpression? = null) = when(this) {
-        null -> UNullConstant
-        is Float -> UFloatConstant.create(this.toDouble(), UNumericType.FLOAT, node)
-        is Double -> UFloatConstant.create(this, UNumericType.DOUBLE, node)
-        is Long -> ULongConstant(this, node)
-        is Int -> UIntConstant(this, UNumericType.INT, node)
-        is Short -> UIntConstant(this.toInt(), UNumericType.SHORT, node)
-        is Byte -> UIntConstant(this.toInt(), UNumericType.BYTE, node)
-        is Char -> UCharConstant(this, node)
-        is Boolean -> UBooleanConstant.valueOf(this)
-        is String -> UStringConstant(this, node)
-        else -> UUndeterminedValue
-    }
-
     override fun visitClassLiteralExpression(node: UClassLiteralExpression, data: UEvaluationState): UEvaluationInfo {
         inputStateCache[node] = data
         return (node.type?.let { value -> UClassConstant(value, node) } ?: UUndeterminedValue) to data storeResultFor node
@@ -634,4 +620,18 @@ class TreeBasedEvaluator(
     override fun visitMethod(node: UMethod, data: UEvaluationState): UEvaluationInfo {
         return UUndeterminedValue to (node.uastBody?.accept(this, data)?.state ?: data)
     }
+}
+
+fun Any?.toConstant(node: ULiteralExpression? = null) = when(this) {
+    null -> UNullConstant
+    is Float -> UFloatConstant.create(this.toDouble(), UNumericType.FLOAT, node)
+    is Double -> UFloatConstant.create(this, UNumericType.DOUBLE, node)
+    is Long -> ULongConstant(this, node)
+    is Int -> UIntConstant(this, UNumericType.INT, node)
+    is Short -> UIntConstant(this.toInt(), UNumericType.SHORT, node)
+    is Byte -> UIntConstant(this.toInt(), UNumericType.BYTE, node)
+    is Char -> UCharConstant(this, node)
+    is Boolean -> UBooleanConstant.valueOf(this)
+    is String -> UStringConstant(this, node)
+    else -> UUndeterminedValue
 }

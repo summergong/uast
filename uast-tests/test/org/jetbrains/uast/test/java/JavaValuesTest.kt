@@ -1,14 +1,10 @@
 package org.jetbrains.uast.test.java
 
-import com.intellij.lang.java.JavaLanguage
 import com.intellij.psi.PsiMethod
 import org.jetbrains.uast.UParameter
 import org.jetbrains.uast.UVariable
-import org.jetbrains.uast.evaluation.AbstractEvaluatorExtension
-import org.jetbrains.uast.evaluation.UEvaluationInfo
-import org.jetbrains.uast.evaluation.UEvaluationState
+import org.jetbrains.uast.evaluation.SimpleEvaluatorExtension
 import org.jetbrains.uast.values.UBooleanConstant
-import org.jetbrains.uast.values.UStringConstant
 import org.jetbrains.uast.values.UValue
 import org.junit.Test
 
@@ -115,24 +111,24 @@ class JavaValuesTest : AbstractJavaValuesTest() {
 
     @Test fun testWhileWithReturn() = doTest("Simple/WhileWithReturn.java")
 
-    @Test fun testEvaluatorExtension() = doTest("Simple/EvaluatorExtension.java", object : AbstractEvaluatorExtension(JavaLanguage.INSTANCE) {
-        override fun evaluateMethodCall(target: PsiMethod, argumentValues: List<UValue>, state: UEvaluationState): UEvaluationInfo {
+    @Test fun testEvaluatorExtension() = doTest("Simple/EvaluatorExtension.java", object : SimpleEvaluatorExtension() {
+        override fun evaluateMethodCall(target: PsiMethod, argumentValues: List<UValue>): Any? {
             if (target.name == "getTestName") {
                 (argumentValues.singleOrNull() as? UBooleanConstant)?.let { arg ->
-                    return (if (arg.value) UStringConstant("UPPER") else UStringConstant("lower")) to state
+                    return if (arg.value) "UPPER" else "lower"
                 }
             }
 
-            return super.evaluateMethodCall(target, argumentValues, state)
+            return super.evaluateMethodCall(target, argumentValues)
         }
     })
 
-    @Test fun testParamViaEvaluatorExtension() = doTest("Simple/ParamViaEvaluatorExtension.java", object : AbstractEvaluatorExtension(JavaLanguage.INSTANCE) {
-        override fun evaluateVariable(variable: UVariable, state: UEvaluationState): UEvaluationInfo {
+    @Test fun testParamViaEvaluatorExtension() = doTest("Simple/ParamViaEvaluatorExtension.java", object : SimpleEvaluatorExtension() {
+        override fun evaluateVariable(variable: UVariable): Any? {
             if (variable is UParameter && variable.name == "x") {
-                return UStringConstant("0") to state
+                return "0"
             }
-            return super.evaluateVariable(variable, state)
+            return super.evaluateVariable(variable)
         }
     })
 }

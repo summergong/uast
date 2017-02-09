@@ -30,6 +30,8 @@ fun UExpression.uValueOf(extensions: List<UEvaluatorExtension> = emptyList()): U
     return context.valueOf(this)
 }
 
+fun UExpression.uValueOf(vararg extensions: UEvaluatorExtension): UValue? = uValueOf(extensions.asList())
+
 fun UDeclaration.getEvaluationContextWithCaching(extensions: List<UEvaluatorExtension> = emptyList()): UEvaluationContext {
     return containingFile?.let { file ->
         val cachedContext = file.getUserData(EVALUATION_CONTEXT_KEY)?.get()
