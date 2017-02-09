@@ -20,9 +20,9 @@ import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastVisitor
 
 class UNamedExpression(
-        override val name: String,
+        val name: String,
         override val containingElement: UElement?
-): UExpression, UNamed {
+): UExpression {
     lateinit var expression: UExpression
 
     override val annotations: List<UAnnotation>
