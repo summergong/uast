@@ -1,6 +1,9 @@
 package org.jetbrains.uast.evaluation
 
-import com.intellij.psi.*
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiModifier
+import com.intellij.psi.PsiType
+import com.intellij.psi.PsiVariable
 import org.jetbrains.uast.*
 import org.jetbrains.uast.values.*
 import org.jetbrains.uast.values.UNothingValue.JumpKind.BREAK
@@ -104,11 +107,11 @@ class TreeBasedEvaluator(
             data: UEvaluationState
     ): UEvaluationInfo {
         inputStateCache[node] = data
-        val resolvedElement = node.resolve()
+        val resolvedElement = node.resolveToUElement()
         return when (resolvedElement) {
-            is PsiEnumConstant -> UEnumEntryValueConstant(resolvedElement, node)
-            is PsiField -> if (resolvedElement.hasModifierProperty(PsiModifier.FINAL)) {
-                data[context.getVariable(resolvedElement)].ifUndetermined {
+            is UEnumConstant -> UEnumEntryValueConstant(resolvedElement, node)
+            is UField -> if (resolvedElement.hasModifierProperty(PsiModifier.FINAL)) {
+                data[resolvedElement].ifUndetermined {
                     val helper = JavaPsiFacade.getInstance(resolvedElement.project).constantEvaluationHelper
                     val evaluated = helper.computeConstantExpression(resolvedElement.initializer)
                     evaluated?.toConstant() ?: UUndeterminedValue
@@ -117,7 +120,7 @@ class TreeBasedEvaluator(
             else {
                 return super.visitSimpleNameReferenceExpression(node, data)
             }
-            is PsiVariable -> data[context.getVariable(resolvedElement)]
+            is UVariable -> data[resolvedElement]
             else -> return super.visitSimpleNameReferenceExpression(node, data)
         } to data storeResultFor node
     }

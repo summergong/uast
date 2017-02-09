@@ -11,3 +11,5 @@ interface UResolvable {
      */
     fun resolve(): PsiElement?
 }
+
+fun UResolvable.resolveToUElement(): UElement? = resolve().toUElement()
