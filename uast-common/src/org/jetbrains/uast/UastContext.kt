@@ -4,8 +4,10 @@ import com.intellij.lang.Language
 import com.intellij.openapi.components.ServiceManager
 import com.intellij.openapi.project.Project
 import com.intellij.psi.*
-import org.jetbrains.uast.psi.PsiElementBacked
 
+/**
+ * Manages the UAST to PSI conversion.
+ */
 class UastContext(val project: Project) : UastLanguagePlugin {
     private companion object {
         private val CONTEXT_LANGUAGE = object : Language("UastContextLanguage") {}
@@ -62,23 +64,32 @@ class UastContext(val project: Project) : UastLanguagePlugin {
     }
 
     private tailrec fun UElement.getLanguage(): Language {
-        if (this is PsiElementBacked) {
-            psi?.language?.let { return it }
-        }
+        psi?.language?.let { return it }
         val containingElement = this.containingElement ?: throw IllegalStateException("At least UFile should have a language")
         return containingElement.getLanguage()
     }
 }
 
+/**
+ * Converts the element along with its parents to UAST.
+ */
 fun PsiElement?.toUElement() =
         this?.let { ServiceManager.getService(project, UastContext::class.java).convertElementWithParent(this, null) }
 
+/**
+ * Converts the element to an UAST element of the given type. Returns null if the PSI element type does not correspond
+ * to the given UAST element type.
+ */
 fun <T : UElement> PsiElement?.toUElement(cls: Class<out T>): T? =
         this?.let { ServiceManager.getService(project, UastContext::class.java).convertElementWithParent(this, cls) as T? }
 
 inline fun <reified T : UElement> PsiElement?.toUElementOfType(): T? =
         this?.let { ServiceManager.getService(project, UastContext::class.java).convertElementWithParent(this, T::class.java) as T? }
 
+/**
+ * Finds an UAST element of a given type at the given [offset] in the specified file. Returns null if there is no UAST
+ * element of the given type at the given offset.
+ */
 fun <T : UElement> PsiFile.findUElementAt(offset: Int, cls: Class<out T>): T? {
     val element = findElementAt(offset) ?: return null
     val uElement = element.toUElement() ?: return null
@@ -86,6 +97,9 @@ fun <T : UElement> PsiFile.findUElementAt(offset: Int, cls: Class<out T>): T? {
     return uElement.withContainingElements.firstOrNull { cls.isInstance(it) } as T?
 }
 
+/**
+ * Finds an UAST element of the given type among the parents of the given PSI element.
+ */
 @JvmOverloads
 fun <T : UElement> PsiElement?.getUParentOfType(cls: Class<out T>, strict: Boolean = false): T? {
     val uElement = this.toUElement() ?: return null

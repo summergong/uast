@@ -28,6 +28,10 @@ interface UElement {
      */
     val containingElement: UElement?
 
+    /**
+     * Returns the PSI element underlying this element. Note that some UElements are synthetic and do not have
+     * an underlying PSI element; this doesn't mean that they are invalid.
+     */
     val psi: PsiElement?
 
     /**

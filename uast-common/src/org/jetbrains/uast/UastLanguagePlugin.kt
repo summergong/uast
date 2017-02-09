@@ -41,10 +41,22 @@ interface UastLanguagePlugin {
      */
     val priority: Int
 
+    /**
+     * Converts a PSI element, the parent of which already has an UAST representation, to UAST.
+     *
+     * @param element the element to convert
+     * @param parent the parent as an UAST element, or null if the element is a file
+     * @param requiredType the expected type of the result.
+     * @return the converted element, or null if the element isn't supported or doesn't match the required result type.
+     */
     fun convertElement(element: PsiElement, parent: UElement?, requiredType: Class<out UElement>? = null): UElement?
 
     /**
-     * Convert [element] to the [UElement] with the given parent.
+     * Converts a PSI element, along with its chain of parents, to UAST.
+     *
+     * @param element the element to convert
+     * @param requiredType the expected type of the result.
+     * @return the converted element, or null if the element isn't supported or doesn't match the required result type.
      */
     fun convertElementWithParent(element: PsiElement, requiredType: Class<out UElement>?): UElement?
 
