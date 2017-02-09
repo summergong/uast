@@ -3,14 +3,13 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiFile
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
  * Represents a Uast file.
  */
-interface UFile : UElement, UAnnotated, PsiElementBacked {
+interface UFile : UElement, UAnnotated {
     /**
      * Returns the original [PsiFile].
      */

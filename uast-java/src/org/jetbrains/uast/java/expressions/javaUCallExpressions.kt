@@ -18,13 +18,12 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import com.intellij.psi.util.PsiTypesUtil
 import org.jetbrains.uast.*
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.psi.UElementWithLocation
 
 class JavaUCallExpression(
         override val psi: PsiMethodCallExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked, UElementWithLocation {
+) : JavaAbstractUExpression(), UCallExpression, UElementWithLocation {
     override val kind: UastCallKind
         get() = UastCallKind.METHOD_CALL
 
@@ -83,7 +82,7 @@ class JavaUCallExpression(
 class JavaConstructorUCallExpression(
         override val psi: PsiNewExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UCallExpression {
     override val kind by lz {
         when {
             psi.arrayInitializer != null -> UastCallKind.NEW_ARRAY_WITH_INITIALIZER
@@ -149,7 +148,7 @@ class JavaConstructorUCallExpression(
 class JavaArrayInitializerUCallExpression(
         override val psi: PsiArrayInitializerExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UCallExpression {
     override val methodIdentifier: UIdentifier?
         get() = null
 
@@ -186,7 +185,7 @@ class JavaArrayInitializerUCallExpression(
 class JavaAnnotationArrayInitializerUCallExpression(
         override val psi: PsiArrayInitializerMemberValue,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UCallExpression {
     override val kind: UastCallKind
         get() = UastCallKind.NESTED_ARRAY_INITIALIZER
 

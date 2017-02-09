@@ -3,14 +3,13 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiClass
 import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.internal.log
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
  * An annotation wrapper to be used in [UastVisitor].
  */
-interface UAnnotation : UElement, PsiElementBacked, UResolvable {
+interface UAnnotation : UElement, UResolvable {
     /**
      * Returns the annotation qualified name.
      */
@@ -26,9 +25,9 @@ interface UAnnotation : UElement, PsiElementBacked, UResolvable {
      */
     val attributeValues: List<UNamedExpression>
 
-    fun findAttributeValue(name: String?): UNamedExpression?
+    fun findAttributeValue(name: String?): UExpression?
 
-    fun findDeclaredAttributeValue(name: String?): UNamedExpression?
+    fun findDeclaredAttributeValue(name: String?): UExpression?
 
     override fun asRenderString() = buildString {
         append("@")

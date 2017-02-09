@@ -1,10 +1,8 @@
 package org.jetbrains.uast.test.env
 
-import com.intellij.openapi.vfs.StandardFileSystems
 import com.intellij.openapi.vfs.VirtualFile
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UFile
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastVisitor
 import java.io.File
 
@@ -29,7 +27,7 @@ fun <T> UElement.findElementByText(refText: String, cls: Class<T>): T {
     val matchingElements = mutableListOf<T>()
     accept(object : UastVisitor {
         override fun visitElement(node: UElement): Boolean {
-            if (node is PsiElementBacked && node.psi!!.text == refText && cls.isInstance(node)) {
+            if (node.psi?.text == refText && cls.isInstance(node)) {
                 matchingElements.add(node as T)
             }
             return false

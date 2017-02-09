@@ -20,12 +20,11 @@ import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UForExpression
 import org.jetbrains.uast.UIdentifier
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUForExpression(
         override val psi: PsiForStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UForExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UForExpression {
     override val declaration by lz { psi.initialization?.let { JavaConverter.convertStatement(it, { this }) } }
     override val condition by lz { psi.condition?.let { JavaConverter.convertExpression(it, { this }) } }
     override val update by lz { psi.update?.let { JavaConverter.convertStatement(it, { this }) } }

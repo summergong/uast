@@ -20,12 +20,11 @@ import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.UDoWhileExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUDoWhileExpression(
         override val psi: PsiDoWhileStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UDoWhileExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UDoWhileExpression {
     override val condition by lz { JavaConverter.convertOrEmpty(psi.condition, this) }
     override val body by lz { JavaConverter.convertOrEmpty(psi.body, this) }
 

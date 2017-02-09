@@ -19,12 +19,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiBreakStatement
 import org.jetbrains.uast.UBreakExpression
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUBreakExpression(
         override val psi: PsiBreakStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UBreakExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UBreakExpression {
     override val label: String?
         get() = psi.labelIdentifier?.text
 }

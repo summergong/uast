@@ -18,12 +18,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiParenthesizedExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UParenthesizedExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUParenthesizedExpression(
         override val psi: PsiParenthesizedExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UParenthesizedExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UParenthesizedExpression {
     override val expression by lz { JavaConverter.convertOrEmpty(psi.expression, this) }
     override fun evaluate() = expression.evaluate()
 }

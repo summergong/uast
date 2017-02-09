@@ -23,13 +23,12 @@ import org.jetbrains.uast.internal.acceptList
 import org.jetbrains.uast.java.JavaAbstractUExpression
 import org.jetbrains.uast.java.JavaConverter
 import org.jetbrains.uast.java.lz
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastVisitor
 
 class JavaUSynchronizedExpression(
         override val psi: PsiSynchronizedStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UBlockExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UBlockExpression {
     override val expressions by lz { psi.body?.statements?.map { JavaConverter.convertOrEmpty(it, this) } ?: listOf() }
     val lockExpression by lz { JavaConverter.convertOrEmpty(psi.lockExpression, this) }
 

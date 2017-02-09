@@ -18,12 +18,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiLiteralExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.ULiteralExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaULiteralExpression(
         override val psi: PsiLiteralExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), ULiteralExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), ULiteralExpression {
     override fun evaluate() = psi.value
     override val value by lz { evaluate() }
 }

@@ -21,12 +21,11 @@ import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.UCallableReferenceExpression
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUCallableReferenceExpression(
         override val psi: PsiMethodReferenceExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UCallableReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UCallableReferenceExpression {
     override val qualifierExpression by lz { JavaConverter.convertOrNull(psi.qualifierExpression, this) }
     
     override val qualifierType: PsiType?

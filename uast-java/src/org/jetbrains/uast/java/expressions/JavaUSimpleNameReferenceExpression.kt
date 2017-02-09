@@ -19,14 +19,13 @@ import com.intellij.psi.*
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.USimpleNameReferenceExpression
 import org.jetbrains.uast.UTypeReferenceExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUSimpleNameReferenceExpression(
         override val psi: PsiElement?,
         override val identifier: String,
         override val containingElement: UElement?,
         val reference: PsiReference? = null 
-) : JavaAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), USimpleNameReferenceExpression {
     override fun resolve() = (reference ?: psi as? PsiReference)?.resolve()
     override val resolvedName: String?
         get() = ((reference ?: psi as? PsiReference)?.resolve() as? PsiNamedElement)?.name
@@ -35,7 +34,7 @@ class JavaUSimpleNameReferenceExpression(
 class JavaUTypeReferenceExpression(
         override val psi: PsiTypeElement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UTypeReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UTypeReferenceExpression {
     override val type: PsiType
         get() = psi.type
 }
@@ -44,7 +43,7 @@ class LazyJavaUTypeReferenceExpression(
         override val psi: PsiElement,
         override val containingElement: UElement?,
         private val typeSupplier: () -> PsiType
-) : JavaAbstractUExpression(), UTypeReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UTypeReferenceExpression {
     override val type: PsiType by lz { typeSupplier() }
 }
 
@@ -53,7 +52,7 @@ class JavaClassUSimpleNameReferenceExpression(
         val ref: PsiJavaReference,
         override val psi: PsiElement?,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), USimpleNameReferenceExpression {
     override fun resolve() = ref.resolve()
     override val resolvedName: String?
         get() = (ref.resolve() as? PsiNamedElement)?.name

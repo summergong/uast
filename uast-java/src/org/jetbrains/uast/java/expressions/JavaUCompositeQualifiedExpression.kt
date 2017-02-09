@@ -18,12 +18,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import org.jetbrains.uast.*
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUCompositeQualifiedExpression(
     override val psi: PsiElement,
     override val containingElement: UElement?
-) : JavaAbstractUExpression(), UQualifiedReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UQualifiedReferenceExpression {
     override lateinit var receiver: UExpression
         internal set
 

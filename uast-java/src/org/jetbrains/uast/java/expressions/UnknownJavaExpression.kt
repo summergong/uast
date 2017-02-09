@@ -19,12 +19,11 @@ import com.intellij.psi.PsiElement
 import org.jetbrains.uast.UAnnotation
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class UnknownJavaExpression(
         override val psi: PsiElement,
         override val containingElement: UElement?
-) : UExpression, PsiElementBacked {
+) : UExpression {
     override fun asLogString() = "[!] " + UnknownJavaExpression::class.java.simpleName + " ($psi)"
 
     override val annotations: List<UAnnotation>

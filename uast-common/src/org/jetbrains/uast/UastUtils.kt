@@ -8,7 +8,6 @@ import com.intellij.psi.PsiClass
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiNamedElement
 import com.intellij.psi.util.PsiTreeUtil
-import org.jetbrains.uast.psi.PsiElementBacked
 import java.io.File
 
 inline fun <reified T : UElement> UElement.getParentOfType(strict: Boolean = true): T? = getParentOfType(T::class.java, strict)
@@ -113,26 +112,22 @@ fun UExpression.evaluateString(): String? = evaluate() as? String
 fun UFile.getIoFile(): File? = psi.virtualFile?.let { VfsUtilCore.virtualToIoFile(it) }
 
 tailrec fun UElement.getUastContext(): UastContext {
-    if (this is PsiElementBacked) {
-        val psi = this.psi
-        if (psi != null) {
-            return ServiceManager.getService(psi.project, UastContext::class.java) ?: error("UastContext not found")
-        }
+    val psi = this.psi
+    if (psi != null) {
+        return ServiceManager.getService(psi.project, UastContext::class.java) ?: error("UastContext not found")
     }
 
     return (containingElement ?: error("PsiElement should exist at least for UFile")).getUastContext()
 }
 
 tailrec fun UElement.getLanguagePlugin(): UastLanguagePlugin {
-    if (this is PsiElementBacked) {
-        val psi = this.psi
-        if (psi != null) {
-            val uastContext = ServiceManager.getService(psi.project, UastContext::class.java) ?: error("UastContext not found")
-            return uastContext.findPlugin(psi) ?: error("Language plugin was not found for $this (${this.javaClass.name})")
-        }
+    val psi = this.psi
+    if (psi != null) {
+        val uastContext = ServiceManager.getService(psi.project, UastContext::class.java) ?: error("UastContext not found")
+        return uastContext.findPlugin(psi) ?: error("Language plugin was not found for $this (${this.javaClass.name})")
     }
 
     return (containingElement ?: error("PsiElement should exist at least for UFile")).getLanguagePlugin()
 }
 
-fun Collection<UElement>.toPsiElements() = filterIsInstance<PsiElementBacked>().mapNotNull { it.psi }
+fun Collection<UElement>.toPsiElements() = mapNotNull { it.psi }

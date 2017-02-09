@@ -21,12 +21,11 @@ import com.intellij.psi.PsiLambdaExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.ULambdaExpression
 import org.jetbrains.uast.UastEmptyExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaULambdaExpression(
         override val psi: PsiLambdaExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), ULambdaExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), ULambdaExpression {
     override val valueParameters by lz {
         psi.parameterList.parameters.map { JavaUParameter(it, this) }
     }

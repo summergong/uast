@@ -21,12 +21,11 @@ import org.jetbrains.uast.UBinaryExpressionWithType
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UastBinaryExpressionWithTypeKind
 import org.jetbrains.uast.UastErrorType
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUTypeCastExpression(
         override val psi: PsiTypeCastExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UBinaryExpressionWithType, PsiElementBacked {
+) : JavaAbstractUExpression(), UBinaryExpressionWithType {
     override val operand by lz { JavaConverter.convertOrEmpty(psi.operand, this) }
     
     override val type: PsiType

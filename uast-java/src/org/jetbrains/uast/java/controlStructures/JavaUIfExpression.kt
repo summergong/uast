@@ -20,12 +20,11 @@ import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UIfExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUIfExpression(
         override val psi: PsiIfStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UIfExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UIfExpression {
     override val condition by lz { JavaConverter.convertOrEmpty(psi.condition, this) }
     override val thenExpression by lz { JavaConverter.convertOrEmpty(psi.thenBranch, this) }
     override val elseExpression by lz { JavaConverter.convertOrEmpty(psi.elseBranch, this) }

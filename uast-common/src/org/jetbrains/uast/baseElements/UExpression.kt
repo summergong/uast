@@ -15,6 +15,7 @@
  */
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.internal.log
 import org.jetbrains.uast.visitor.UastTypedVisitor
@@ -89,6 +90,9 @@ object UastEmptyExpression : UExpression {
 
     override val annotations: List<UAnnotation>
         get() = emptyList()
+
+    override val psi: PsiElement?
+        get() = null
 
     override fun asLogString() = log()
 }

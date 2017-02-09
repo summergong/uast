@@ -1,14 +1,13 @@
 package org.jetbrains.uast
 
 import org.jetbrains.uast.internal.log
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
 /**
  * Represents an import statement.
  */
-interface UImportStatement : UResolvable, UElement, PsiElementBacked {
+interface UImportStatement : UResolvable, UElement {
     /**
      * Returns true if the statement is an import-on-demand (star-import) statement.
      */

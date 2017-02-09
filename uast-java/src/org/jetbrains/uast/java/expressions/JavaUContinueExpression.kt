@@ -19,12 +19,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiContinueStatement
 import org.jetbrains.uast.UContinueExpression
 import org.jetbrains.uast.UElement
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUContinueExpression(
         override val psi: PsiContinueStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UContinueExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UContinueExpression {
     override val label: String?
         get() = psi.labelIdentifier?.text
 }

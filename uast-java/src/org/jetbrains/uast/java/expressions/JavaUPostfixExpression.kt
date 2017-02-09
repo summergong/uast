@@ -21,12 +21,11 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UPostfixExpression
 import org.jetbrains.uast.UastPostfixOperator
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUPostfixExpression(
         override val psi: PsiPostfixExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UPostfixExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UPostfixExpression {
     override val operand by lz { JavaConverter.convertOrEmpty(psi.operand, this) }
 
     override val operatorIdentifier: UIdentifier?

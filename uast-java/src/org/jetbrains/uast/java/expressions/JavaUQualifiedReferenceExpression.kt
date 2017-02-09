@@ -18,12 +18,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiJavaCodeReferenceElement
 import com.intellij.psi.PsiNamedElement
 import org.jetbrains.uast.*
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUQualifiedReferenceExpression(
         override val psi: PsiJavaCodeReferenceElement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UQualifiedReferenceExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UQualifiedReferenceExpression {
     override val receiver by lz {
         psi.qualifier?.let { JavaConverter.convertPsiElement(it, { this }) as? UExpression } ?: UastEmptyExpression
     }

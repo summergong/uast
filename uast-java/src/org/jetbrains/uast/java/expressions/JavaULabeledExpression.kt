@@ -19,12 +19,11 @@ import com.intellij.psi.PsiLabeledStatement
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.ULabeledExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaULabeledExpression(
         override val psi: PsiLabeledStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), ULabeledExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), ULabeledExpression {
     override val label: String
         get() = psi.labelIdentifier.text
 

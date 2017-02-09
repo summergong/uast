@@ -18,12 +18,11 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.*
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUTryExpression(
         override val psi: PsiTryStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UTryExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UTryExpression {
     override val tryClause by lz { JavaConverter.convertOrEmpty(psi.tryBlock, this) }
     override val catchClauses by lz { psi.catchSections.map { JavaUCatchClause(it, this) } }
     override val finallyClause by lz { psi.finallyBlock?.let { JavaConverter.convertBlock(it, this) } }
@@ -48,7 +47,7 @@ class JavaUTryExpression(
 class JavaUCatchClause(
         override val psi: PsiCatchSection,
         override val containingElement: UElement?
-) : JavaAbstractUElement(), UCatchClause, PsiElementBacked {
+) : JavaAbstractUElement(), UCatchClause {
     override val body by lz { JavaConverter.convertOrEmpty(psi.catchBlock, this) }
     
     override val parameters by lz {

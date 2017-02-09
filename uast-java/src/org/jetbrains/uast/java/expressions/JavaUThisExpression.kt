@@ -19,12 +19,11 @@ import com.intellij.psi.PsiThisExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UThisExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUThisExpression(
         override val psi: PsiThisExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UThisExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UThisExpression {
     override val label: String?
         get() = psi.qualifier?.qualifiedName
 

@@ -3,7 +3,6 @@ package org.jetbrains.uast.evaluation
 import com.intellij.openapi.extensions.Extensions
 import com.intellij.psi.PsiElement
 import org.jetbrains.uast.*
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.values.UDependency
 import org.jetbrains.uast.values.UValue
 
@@ -21,7 +20,7 @@ interface UEvaluator {
 
     fun PsiElement.languageExtension() = languageExtensions.firstOrNull { it.language == language }
 
-    fun UElement.languageExtension() = (this as? PsiElementBacked)?.psi?.languageExtension()
+    fun UElement.languageExtension() = psi?.languageExtension()
 
     fun analyze(method: UMethod, state: UEvaluationState = method.createEmptyState())
 

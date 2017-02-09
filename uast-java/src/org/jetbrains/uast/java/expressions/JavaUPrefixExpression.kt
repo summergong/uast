@@ -21,12 +21,11 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UPrefixExpression
 import org.jetbrains.uast.UastPrefixOperator
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUPrefixExpression(
         override val psi: PsiPrefixExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UPrefixExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UPrefixExpression {
     override val operand by lz { JavaConverter.convertOrEmpty(psi.operand, this) }
 
     override val operatorIdentifier: UIdentifier?

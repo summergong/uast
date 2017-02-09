@@ -15,6 +15,7 @@
  */
 package org.jetbrains.uast
 
+import com.intellij.psi.PsiElement
 import org.jetbrains.uast.visitor.UastTypedVisitor
 import org.jetbrains.uast.visitor.UastVisitor
 
@@ -27,11 +28,13 @@ interface UElement {
      */
     val containingElement: UElement?
 
+    val psi: PsiElement?
+
     /**
      * Returns true if this element is valid, false otherwise.
      */
     val isPsiValid: Boolean
-        get() = true
+        get() = psi?.isValid ?: true
 
     /**
      * Returns the list of comments for this element.

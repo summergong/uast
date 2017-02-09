@@ -15,20 +15,16 @@
  */
 package org.jetbrains.uast.java
 
-import com.intellij.psi.PsiCodeBlock
-import com.intellij.psi.PsiStatement
-import com.intellij.psi.PsiSwitchLabelStatement
-import com.intellij.psi.PsiSwitchStatement
+import com.intellij.psi.*
 import com.intellij.psi.impl.source.tree.ChildRole
 import org.jetbrains.uast.*
 import org.jetbrains.uast.java.expressions.JavaUExpressionList
 import org.jetbrains.uast.java.kinds.JavaSpecialExpressionKinds
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUSwitchExpression(
         override val psi: PsiSwitchStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), USwitchExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), USwitchExpression {
     override val expression by lz { JavaConverter.convertOrEmpty(psi.expression, this) }
 
     override val body: UExpressionList by lz {
@@ -75,7 +71,7 @@ class JavaUSwitchEntry(
         val labels: List<PsiSwitchLabelStatement>,
         val statements: List<PsiStatement>,
         override val containingElement: UExpression
-) : JavaAbstractUExpression(), USwitchClauseExpressionWithBody, PsiElementBacked {
+) : JavaAbstractUExpression(), USwitchClauseExpressionWithBody {
     override val psi: PsiSwitchLabelStatement = labels.first()
 
     override val caseValues by lz {
@@ -106,6 +102,9 @@ class JavaUSwitchEntry(
 
 object JavaUDefaultCaseExpression : UExpression {
     override val containingElement: UElement?
+        get() = null
+
+    override val psi: PsiElement?
         get() = null
 
     override val annotations: List<UAnnotation>

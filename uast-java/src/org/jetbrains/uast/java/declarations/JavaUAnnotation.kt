@@ -3,6 +3,7 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiClass
 import org.jetbrains.uast.*
+import org.jetbrains.uast.java.expressions.JavaUNamedExpression
 
 class JavaUAnnotation(
         override val psi: PsiAnnotation,
@@ -15,30 +16,21 @@ class JavaUAnnotation(
         val context = getUastContext()
         val attributes = psi.parameterList.attributes
 
-        attributes.map { attribute ->
-            UNamedExpression(attribute.name ?: "", this).apply {
-                val value = attribute.value?.let { context.convertElement(it, this, null) } as? UExpression
-                expression = value ?: UastEmptyExpression
-            }
-        }
+        attributes.map { attribute -> JavaUNamedExpression(attribute, this) }
     }
 
     override fun resolve(): PsiClass? = psi.nameReferenceElement?.resolve() as? PsiClass
 
-    override fun findAttributeValue(name: String?): UNamedExpression? {
+    override fun findAttributeValue(name: String?): UExpression? {
         val context = getUastContext()
         val attributeValue = psi.findAttributeValue(name) ?: return null
-        return UNamedExpression(name ?: "", this).apply {
-            expression = context.convertElement(attributeValue, this, null) as? UExpression ?: UastEmptyExpression
-        }
+        return context.convertElement(attributeValue, this, null) as? UExpression ?: UastEmptyExpression
     }
 
-    override fun findDeclaredAttributeValue(name: String?): UNamedExpression? {
+    override fun findDeclaredAttributeValue(name: String?): UExpression? {
         val context = getUastContext()
         val attributeValue = psi.findDeclaredAttributeValue(name) ?: return null
-        return UNamedExpression(name ?: "", this).apply {
-            expression = context.convertElement(attributeValue, this, null) as? UExpression ?: UastEmptyExpression
-        }
+        return context.convertElement(attributeValue, this, null) as? UExpression ?: UastEmptyExpression
     }
 
     companion object {

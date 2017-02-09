@@ -3,13 +3,12 @@ package org.jetbrains.uast
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiModifier
 import com.intellij.psi.PsiModifierListOwner
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.visitor.UastTypedVisitor
 
 /**
  * A [PsiElement] declaration wrapper.
  */
-interface UDeclaration : UElement, PsiElementBacked, PsiModifierListOwner, UAnnotated {
+interface UDeclaration : UElement, PsiModifierListOwner, UAnnotated {
     /**
      * Returns the original declaration (which is *always* unwrapped, never a [UDeclaration]).
      */

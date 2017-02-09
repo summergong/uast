@@ -4,7 +4,6 @@ import com.intellij.psi.PsiNamedElement
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UFile
 import org.jetbrains.uast.UResolvable
-import org.jetbrains.uast.psi.PsiElementBacked
 import org.jetbrains.uast.test.env.findElementByText
 import org.jetbrains.uast.visitor.UastVisitor
 import org.junit.Assert.assertEquals

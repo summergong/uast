@@ -19,11 +19,10 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiThrowStatement
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UThrowExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUThrowExpression(
         override val psi: PsiThrowStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UThrowExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UThrowExpression {
     override val thrownExpression by lz { JavaConverter.convertOrEmpty(psi.exception, this) }
 }

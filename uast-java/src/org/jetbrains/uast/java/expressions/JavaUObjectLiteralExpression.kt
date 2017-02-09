@@ -20,12 +20,11 @@ import com.intellij.psi.PsiType
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UObjectLiteralExpression
 import org.jetbrains.uast.UReferenceExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUObjectLiteralExpression(
         override val psi: PsiNewExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UObjectLiteralExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UObjectLiteralExpression {
     override val declaration by lz { JavaUClass.create(psi.anonymousClass!!, this) }
 
     override val classReference by lz {

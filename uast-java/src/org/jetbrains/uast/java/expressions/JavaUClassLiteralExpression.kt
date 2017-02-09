@@ -20,12 +20,10 @@ import com.intellij.psi.PsiType
 import org.jetbrains.uast.UClassLiteralExpression
 import org.jetbrains.uast.UElement
 
-import org.jetbrains.uast.psi.PsiElementBacked
-
 class JavaUClassLiteralExpression(
         override val psi: PsiClassObjectAccessExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UClassLiteralExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UClassLiteralExpression {
     override val type: PsiType
         get() = psi.operand.type
 

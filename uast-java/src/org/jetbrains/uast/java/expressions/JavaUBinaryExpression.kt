@@ -19,12 +19,11 @@ import com.intellij.psi.PsiBinaryExpression
 import org.jetbrains.uast.UBinaryExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUBinaryExpression(
         override val psi: PsiBinaryExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UBinaryExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UBinaryExpression {
     override val leftOperand by lz { JavaConverter.convertOrEmpty(psi.lOperand, this) }
     override val rightOperand by lz { JavaConverter.convertOrEmpty(psi.rOperand, this) }
     override val operator by lz { psi.operationTokenType.getOperatorType() }

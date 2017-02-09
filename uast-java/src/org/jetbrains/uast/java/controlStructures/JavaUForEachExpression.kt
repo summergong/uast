@@ -21,12 +21,11 @@ import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UForEachExpression
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UParameter
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUForEachExpression(
         override val psi: PsiForeachStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UForEachExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UForEachExpression {
     override val variable: UParameter
         get() = JavaUParameter(psi.iterationParameter, this)
 

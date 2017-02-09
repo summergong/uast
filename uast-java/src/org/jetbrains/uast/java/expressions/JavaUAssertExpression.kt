@@ -19,13 +19,12 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiAssertStatement
 import com.intellij.psi.PsiType
 import org.jetbrains.uast.*
-import org.jetbrains.uast.psi.PsiElementBacked
 
 
 class JavaUAssertExpression(
         override val psi: PsiAssertStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UCallExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UCallExpression {
     val condition: UExpression by lz { JavaConverter.convertOrEmpty(psi.assertCondition, this) }
     val message: UExpression? by lz { JavaConverter.convertOrNull(psi.assertDescription, this) }
     

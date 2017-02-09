@@ -20,8 +20,8 @@ import com.intellij.lang.Language
 import com.intellij.lang.java.JavaLanguage
 import com.intellij.psi.*
 import org.jetbrains.uast.*
+import org.jetbrains.uast.java.expressions.JavaUNamedExpression
 import org.jetbrains.uast.java.expressions.JavaUSynchronizedExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUastLanguagePlugin : UastLanguagePlugin {
     override val priority = 0
@@ -35,7 +35,7 @@ class JavaUastLanguagePlugin : UastLanguagePlugin {
         is JavaUDeclarationsExpression -> false
         is UnknownJavaExpression -> (element.containingElement as? UExpression)?.let { isExpressionValueUsed(it) } ?: false
         else -> {
-            val statement = (element as? PsiElementBacked)?.psi as? PsiStatement
+            val statement = element.psi as? PsiStatement
             statement != null && statement.parent !is PsiExpressionStatement
         }
     }
@@ -181,10 +181,7 @@ internal object JavaConverter {
                 val parent = if (parentCallback == null) null else (parentCallback() ?: return null)
                 JavaUSimpleNameReferenceExpression(el, el.text, parent)
             }
-            is PsiNameValuePair -> el<UNamedExpression> {
-                val parent = if (parentCallback == null) null else (parentCallback() ?: return null)
-                convertNameValue(el, parent)
-            }
+            is PsiNameValuePair -> el<UNamedExpression>(build(::JavaUNamedExpression))
             is PsiArrayInitializerMemberValue -> el<UCallExpression>(build(::JavaAnnotationArrayInitializerUCallExpression))
             is PsiTypeElement -> el<UTypeReferenceExpression>(build(::JavaUTypeReferenceExpression))
             is PsiJavaCodeReferenceElement -> convertReference(el, parentCallback, requiredType)
@@ -194,13 +191,6 @@ internal object JavaConverter {
     
     internal fun convertBlock(block: PsiCodeBlock, parent: UElement?): UBlockExpression =
         getCached(block) ?: JavaUCodeBlockExpression(block, parent)
-
-    internal fun convertNameValue(pair: PsiNameValuePair, parent: UElement?): UNamedExpression {
-        return UNamedExpression.create(pair.name.orAnonymous(), parent) {
-            val value = pair.value as? PsiElement
-            value?.let { convertPsiElement(it, { this }, null) as? UExpression } ?: UnknownJavaExpression(value ?: pair, this)
-        }
-    }
 
     internal fun convertReference(reference: PsiJavaCodeReferenceElement, parentCallback: (() -> UElement?)?, requiredType: Class<out UElement>?): UExpression? {
         return with (requiredType) {

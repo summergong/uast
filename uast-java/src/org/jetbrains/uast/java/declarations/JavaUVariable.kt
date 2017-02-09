@@ -19,7 +19,6 @@ package org.jetbrains.uast.java
 import com.intellij.psi.*
 import org.jetbrains.uast.*
 import org.jetbrains.uast.java.internal.JavaUElementWithComments
-import org.jetbrains.uast.psi.PsiElementBacked
 
 abstract class AbstractJavaUVariable : PsiVariable, UVariable, JavaUElementWithComments {
     override val uastInitializer by lz {
@@ -119,7 +118,7 @@ open class JavaUEnumConstant(
     private class JavaEnumConstantClassReference(
             override val psi: PsiEnumConstant,
             override val containingElement: UElement?
-    ) : JavaAbstractUExpression(), USimpleNameReferenceExpression, PsiElementBacked {
+    ) : JavaAbstractUExpression(), USimpleNameReferenceExpression {
         override fun resolve() = psi.containingClass
         override val resolvedName: String?
             get() = psi.containingClass?.name

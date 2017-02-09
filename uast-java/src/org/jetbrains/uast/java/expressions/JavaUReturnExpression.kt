@@ -19,11 +19,10 @@ package org.jetbrains.uast.java
 import com.intellij.psi.PsiReturnStatement
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UReturnExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUReturnExpression(
         override val psi: PsiReturnStatement,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UReturnExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UReturnExpression {
     override val returnExpression by lz { JavaConverter.convertOrNull(psi.returnValue, this) }
 }

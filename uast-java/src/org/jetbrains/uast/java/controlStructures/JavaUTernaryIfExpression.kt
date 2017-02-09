@@ -19,12 +19,11 @@ import com.intellij.psi.PsiConditionalExpression
 import org.jetbrains.uast.UElement
 import org.jetbrains.uast.UIdentifier
 import org.jetbrains.uast.UIfExpression
-import org.jetbrains.uast.psi.PsiElementBacked
 
 class JavaUTernaryIfExpression(
         override val psi: PsiConditionalExpression,
         override val containingElement: UElement?
-) : JavaAbstractUExpression(), UIfExpression, PsiElementBacked {
+) : JavaAbstractUExpression(), UIfExpression {
     override val condition by lz { JavaConverter.convertOrEmpty(psi.condition, this) }
     override val thenExpression by lz { JavaConverter.convertOrEmpty(psi.thenExpression, this) }
     override val elseExpression by lz { JavaConverter.convertOrEmpty(psi.elseExpression, this) }
