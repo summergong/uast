@@ -16,11 +16,10 @@ interface UClass : UDeclaration, PsiClass {
     /**
      * Returns a [UClass] wrapper of the superclass of this class, or null if this class is [java.lang.Object].
      */
-    val uastSuperClass: UClass?
-        get() {
-            val superClass = superClass ?: return null
-            return getUastContext().convertWithParent(superClass)
-        }
+    override fun getSuperClass(): UClass? {
+        val superClass = psi.superClass ?: return null
+        return getUastContext().convertWithParent(superClass)
+    }
 
     val uastSuperTypes: List<UTypeReferenceExpression>
 
@@ -28,11 +27,18 @@ interface UClass : UDeclaration, PsiClass {
      * Returns [UDeclaration] wrappers for the class declarations.
      */
     val uastDeclarations: List<UDeclaration>
-    
-    val uastFields: List<UVariable>
-    val uastInitializers: List<UClassInitializer>
-    val uastMethods: List<UMethod>
-    val uastNestedClasses: List<UClass>
+
+    override fun getFields(): Array<UField> =
+        psi.fields.map { getLanguagePlugin().convert<UField>(it, this) }.toTypedArray()
+
+    override fun getInitializers(): Array<UClassInitializer> =
+        psi.initializers.map { getLanguagePlugin().convert<UClassInitializer>(it, this) }.toTypedArray()
+
+    override fun getMethods(): Array<UMethod> =
+        psi.methods.map { getLanguagePlugin().convert<UMethod>(it, this) }.toTypedArray()
+
+    override fun getInnerClasses(): Array<UClass> =
+        psi.innerClasses.map { getLanguagePlugin().convert<UClass>(it, this) }.toTypedArray()
 
     override fun asLogString() = log("name = $name")
 

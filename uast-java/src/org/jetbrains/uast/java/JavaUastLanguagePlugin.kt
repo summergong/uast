@@ -127,22 +127,23 @@ class JavaUastLanguagePlugin : UastLanguagePlugin {
                 JavaUMethod.create(element, this@JavaUastLanguagePlugin, parent)
             }
             is PsiClassInitializer -> el<UClassInitializer>(build(::JavaUClassInitializer))
-            is PsiVariable -> el<UVariable> {
-                val parent = if (parentCallback == null) null else (parentCallback() ?: return null)
-                JavaUVariable.create(element, parent)
-            }
+            is PsiEnumConstant -> el<UEnumConstant>(build(::JavaUEnumConstant))
+            is PsiLocalVariable -> el<ULocalVariable>(build(::JavaULocalVariable))
+            is PsiParameter -> el<UParameter>(build(::JavaUParameter))
+            is PsiField -> el<UField>(build(::JavaUField))
+            is PsiVariable -> el<UVariable>(build(::JavaUVariable))
             is PsiAnnotation -> el<UAnnotation>(build(::JavaUAnnotation))
             else -> null
         }}
     }
 }
 
-internal inline fun <reified T : UElement> Class<out UElement>?.el(f: () -> UElement?): UElement? {
-    return if (this == null || T::class.java == this) f() else null
+internal inline fun <reified ActualT : UElement> Class<out UElement>?.el(f: () -> UElement?): UElement? {
+    return if (this == null || isAssignableFrom(ActualT::class.java)) f() else null
 }
 
-internal inline fun <reified T : UElement> Class<out UElement>?.expr(f: () -> UExpression?): UExpression? {
-    return if (this == null || UExpression::class.java == this || T::class.java == this) f() else null
+internal inline fun <reified ActualT : UElement> Class<out UElement>?.expr(f: () -> UExpression?): UExpression? {
+    return if (this == null || isAssignableFrom(ActualT::class.java)) f() else null
 }
 
 private fun UElement?.toCallback() = if (this != null) fun(): UElement? { return this } else null

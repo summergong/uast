@@ -16,4 +16,10 @@ class JavaUastApiTest : AbstractJavaUastTest() {
             assertNotNull(typeRef)
         }
     }
+
+    @Test fun testFields() {
+        doTest("Simple/Field.java") { name, file ->
+            assertEquals(1, file.classes[0].fields.size)
+        }
+    }
 }

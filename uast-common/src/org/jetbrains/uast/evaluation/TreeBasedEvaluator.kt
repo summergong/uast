@@ -611,7 +611,7 @@ class TreeBasedEvaluator(
     override fun visitClass(node: UClass, data: UEvaluationState): UEvaluationInfo {
         // fields / initializers / nested classes?
         var resultState = data
-        for (method in node.uastMethods) {
+        for (method in node.methods) {
             resultState = resultState.merge(method.accept(this, resultState).state)
         }
         return UUndeterminedValue to resultState

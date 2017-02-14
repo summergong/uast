@@ -16,17 +16,20 @@
 
 package org.jetbrains.uast.java
 
-import com.intellij.psi.*
+import com.intellij.psi.JavaPsiFacade
+import com.intellij.psi.PsiAnonymousClass
+import com.intellij.psi.PsiClass
+import com.intellij.psi.PsiJavaCodeReferenceElement
 import org.jetbrains.uast.*
 import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
 abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
     override val uastDeclarations by lz {
         mutableListOf<UDeclaration>().apply {
-            addAll(uastFields)
-            addAll(uastInitializers)
-            addAll(uastMethods)
-            addAll(uastNestedClasses)
+            addAll(fields)
+            addAll(initializers)
+            addAll(methods)
+            addAll(innerClasses)
         }
     }
 
@@ -47,22 +50,6 @@ abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
     override val annotations: List<UAnnotation>
         get() = psi.annotations.map { JavaUAnnotation(it, this) }
 
-    override val uastFields: List<UVariable> by lz {
-        psi.fields.map { getLanguagePlugin().convert<UVariable>(it, this) }
-    }
-
-    override val uastInitializers: List<UClassInitializer> by lz {
-        psi.initializers.map { getLanguagePlugin().convert<UClassInitializer>(it, this) }
-    }
-
-    override val uastMethods: List<UMethod> by lz {
-        psi.methods.map { getLanguagePlugin().convert<UMethod>(it, this) }
-    }
-
-    override val uastNestedClasses: List<UClass> by lz {
-        psi.innerClasses.map { getLanguagePlugin().convert<UClass>(it, this) }
-    }
-
     override fun equals(other: Any?) = other is AbstractJavaUClass && psi == other.psi
     override fun hashCode() = psi.hashCode()
 }
@@ -70,6 +57,12 @@ abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
 class JavaUClass private constructor(psi: PsiClass, override val containingElement: UElement?) :
         AbstractJavaUClass(), PsiClass by psi {
     override val psi = unwrap<UClass, PsiClass>(psi)
+
+    override fun getSuperClass(): UClass? = super.getSuperClass()
+    override fun getFields(): Array<UField> = super.getFields()
+    override fun getInitializers(): Array<UClassInitializer> = super.getInitializers()
+    override fun getMethods(): Array<UMethod> = super.getMethods()
+    override fun getInnerClasses(): Array<UClass> = super.getInnerClasses()
 
     companion object {
         fun create(psi: PsiClass, containingElement: UElement?): UClass {
@@ -86,4 +79,10 @@ class JavaUAnonymousClass(
         override val containingElement: UElement?
 ) : AbstractJavaUClass(), UAnonymousClass, PsiAnonymousClass by psi {
     override val psi: PsiAnonymousClass = unwrap<UAnonymousClass, PsiAnonymousClass>(psi)
+
+    override fun getSuperClass(): UClass? = super<AbstractJavaUClass>.getSuperClass()
+    override fun getFields(): Array<UField> = super<AbstractJavaUClass>.getFields()
+    override fun getInitializers(): Array<UClassInitializer> = super<AbstractJavaUClass>.getInitializers()
+    override fun getMethods(): Array<UMethod> = super<AbstractJavaUClass>.getMethods()
+    override fun getInnerClasses(): Array<UClass> = super<AbstractJavaUClass>.getInnerClasses()
 }
