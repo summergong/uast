@@ -26,7 +26,7 @@ interface UElement {
     /**
      * Returns the element parent.
      */
-    val containingElement: UElement?
+    val uastParent: UElement?
 
     /**
      * Returns the PSI element underlying this element. Note that some UElements are synthetic and do not have
@@ -105,4 +105,4 @@ interface UElement {
  * Returns a sequence including this element and its containing elements.
  */
 val UElement.withContainingElements: Sequence<UElement>
-    get() = generateSequence(this, UElement::containingElement)
+    get() = generateSequence(this, UElement::uastParent)

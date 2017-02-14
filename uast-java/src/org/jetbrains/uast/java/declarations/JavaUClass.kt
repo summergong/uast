@@ -54,7 +54,7 @@ abstract class AbstractJavaUClass : UClass, JavaUElementWithComments {
     override fun hashCode() = psi.hashCode()
 }
 
-class JavaUClass private constructor(psi: PsiClass, override val containingElement: UElement?) :
+class JavaUClass private constructor(psi: PsiClass, override val uastParent: UElement?) :
         AbstractJavaUClass(), PsiClass by psi {
     override val psi = unwrap<UClass, PsiClass>(psi)
 
@@ -76,7 +76,7 @@ class JavaUClass private constructor(psi: PsiClass, override val containingEleme
 
 class JavaUAnonymousClass(
         psi: PsiAnonymousClass,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : AbstractJavaUClass(), UAnonymousClass, PsiAnonymousClass by psi {
     override val psi: PsiAnonymousClass = unwrap<UAnonymousClass, PsiAnonymousClass>(psi)
 

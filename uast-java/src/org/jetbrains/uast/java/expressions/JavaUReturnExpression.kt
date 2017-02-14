@@ -22,7 +22,7 @@ import org.jetbrains.uast.UReturnExpression
 
 class JavaUReturnExpression(
         override val psi: PsiReturnStatement,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UReturnExpression {
     override val returnExpression by lz { JavaConverter.convertOrNull(psi.returnValue, this) }
 }

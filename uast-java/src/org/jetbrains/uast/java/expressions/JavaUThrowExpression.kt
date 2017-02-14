@@ -22,7 +22,7 @@ import org.jetbrains.uast.UThrowExpression
 
 class JavaUThrowExpression(
         override val psi: PsiThrowStatement,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UThrowExpression {
     override val thrownExpression by lz { JavaConverter.convertOrEmpty(psi.exception, this) }
 }

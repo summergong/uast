@@ -22,7 +22,7 @@ import org.jetbrains.uast.UExpression
 
 class UnknownJavaExpression(
         override val psi: PsiElement,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : UExpression {
     override fun asLogString() = "[!] " + UnknownJavaExpression::class.java.simpleName + " ($psi)"
 

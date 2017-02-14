@@ -22,7 +22,7 @@ import org.jetbrains.uast.java.internal.JavaUElementWithComments
 
 class JavaUClassInitializer(
         psi: PsiClassInitializer,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : UClassInitializer, JavaUElementWithComments, PsiClassInitializer by psi {
     override val psi = unwrap<UClassInitializer, PsiClassInitializer>(psi)
 

@@ -60,9 +60,9 @@ interface UFile : UElement, UAnnotated {
     }
 
     /**
-     * [UFile] is a top-level element of the Uast hierarchy, thus the [containingElement] always returns null for it.
+     * [UFile] is a top-level element of the Uast hierarchy, thus the [uastParent] always returns null for it.
      */
-    override val containingElement: UElement?
+    override val uastParent: UElement?
         get() = null
 
     override fun accept(visitor: UastVisitor) {

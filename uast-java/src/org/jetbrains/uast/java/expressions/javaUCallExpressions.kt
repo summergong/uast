@@ -22,7 +22,7 @@ import org.jetbrains.uast.psi.UElementWithLocation
 
 class JavaUCallExpression(
         override val psi: PsiMethodCallExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UCallExpression, UElementWithLocation {
     override val kind: UastCallKind
         get() = UastCallKind.METHOD_CALL
@@ -60,8 +60,8 @@ class JavaUCallExpression(
 
     override val receiver: UExpression?
         get() {
-            return if (containingElement is UQualifiedReferenceExpression && containingElement.selector == this)
-                containingElement.receiver
+            return if (uastParent is UQualifiedReferenceExpression && uastParent.selector == this)
+                uastParent.receiver
             else
                 null
         }
@@ -81,7 +81,7 @@ class JavaUCallExpression(
 
 class JavaConstructorUCallExpression(
         override val psi: PsiNewExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UCallExpression {
     override val kind by lz {
         when {
@@ -147,7 +147,7 @@ class JavaConstructorUCallExpression(
 
 class JavaArrayInitializerUCallExpression(
         override val psi: PsiArrayInitializerExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UCallExpression {
     override val methodIdentifier: UIdentifier?
         get() = null
@@ -184,7 +184,7 @@ class JavaArrayInitializerUCallExpression(
 
 class JavaAnnotationArrayInitializerUCallExpression(
         override val psi: PsiArrayInitializerMemberValue,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UCallExpression {
     override val kind: UastCallKind
         get() = UastCallKind.NESTED_ARRAY_INITIALIZER

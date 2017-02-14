@@ -6,7 +6,7 @@ import org.jetbrains.uast.UImportStatement
 
 class JavaUImportStatement(
         override val psi: PsiImportStatementBase, 
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : UImportStatement {
     override val isOnDemand: Boolean
         get() = psi.isOnDemand

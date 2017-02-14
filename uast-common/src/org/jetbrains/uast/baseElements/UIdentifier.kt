@@ -21,7 +21,7 @@ import org.jetbrains.uast.internal.log
 
 class UIdentifier(
         override val psi: PsiElement?,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : UElement {
     /**
      * Returns the identifier name.

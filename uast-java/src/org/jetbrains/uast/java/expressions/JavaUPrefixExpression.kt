@@ -24,7 +24,7 @@ import org.jetbrains.uast.UastPrefixOperator
 
 class JavaUPrefixExpression(
         override val psi: PsiPrefixExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UPrefixExpression {
     override val operand by lz { JavaConverter.convertOrEmpty(psi.operand, this) }
 

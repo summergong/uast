@@ -65,7 +65,7 @@ class UastContext(val project: Project) : UastLanguagePlugin {
 
     private tailrec fun UElement.getLanguage(): Language {
         psi?.language?.let { return it }
-        val containingElement = this.containingElement ?: throw IllegalStateException("At least UFile should have a language")
+        val containingElement = this.uastParent ?: throw IllegalStateException("At least UFile should have a language")
         return containingElement.getLanguage()
     }
 }
@@ -101,10 +101,10 @@ fun <T : UElement> PsiFile.findUElementAt(offset: Int, cls: Class<out T>): T? {
  * Finds an UAST element of the given type among the parents of the given PSI element.
  */
 @JvmOverloads
-fun <T : UElement> PsiElement?.getUParentOfType(cls: Class<out T>, strict: Boolean = false): T? {
+fun <T : UElement> PsiElement?.getUastParentOfType(cls: Class<out T>, strict: Boolean = false): T? {
     val uElement = this.toUElement() ?: return null
     val sequence = if (strict)
-        (uElement.containingElement?.withContainingElements ?: emptySequence())
+        (uElement.uastParent?.withContainingElements ?: emptySequence())
     else
         uElement.withContainingElements
 
@@ -112,4 +112,4 @@ fun <T : UElement> PsiElement?.getUParentOfType(cls: Class<out T>, strict: Boole
     return sequence.firstOrNull { cls.isInstance(it) } as T?
 }
 
-inline fun <reified T : UElement> PsiElement?.getUParentOfType(strict: Boolean = false): T? = getUParentOfType(T::class.java, strict)
+inline fun <reified T : UElement> PsiElement?.getUastParentOfType(strict: Boolean = false): T? = getUastParentOfType(T::class.java, strict)

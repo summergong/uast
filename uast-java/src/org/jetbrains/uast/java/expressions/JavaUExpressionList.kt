@@ -10,7 +10,7 @@ import org.jetbrains.uast.java.JavaAbstractUExpression
 open class JavaUExpressionList(
         override val psi: PsiElement?,
         override val kind: UastSpecialExpressionKind, // original element
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UExpressionList {
     override lateinit var expressions: List<UExpression>
         internal set

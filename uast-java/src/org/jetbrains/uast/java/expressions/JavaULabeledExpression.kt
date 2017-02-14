@@ -22,7 +22,7 @@ import org.jetbrains.uast.ULabeledExpression
 
 class JavaULabeledExpression(
         override val psi: PsiLabeledStatement,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), ULabeledExpression {
     override val label: String
         get() = psi.labelIdentifier.text

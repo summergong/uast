@@ -23,7 +23,7 @@ fun UExpression.getQualifiedParentOrThis(): UExpression {
     fun findParent(current: UExpression?, previous: UExpression): UExpression? = when (current) {
         is UQualifiedReferenceExpression -> {
             if (current.selector == previous)
-                findParent(current.containingElement as? UExpression, current) ?: current
+                findParent(current.uastParent as? UExpression, current) ?: current
             else
                 previous
         }
@@ -31,7 +31,7 @@ fun UExpression.getQualifiedParentOrThis(): UExpression {
         else -> null
     }
 
-    return findParent(containingElement as? UExpression, this) ?: this
+    return findParent(uastParent as? UExpression, this) ?: this
 }
 
 
@@ -109,12 +109,12 @@ fun UExpression?.getQualifiedChain(): List<UExpression> {
  */
 fun UExpression.getOutermostQualified(): UQualifiedReferenceExpression? {
     tailrec fun getOutermostQualified(current: UElement?, previous: UExpression): UQualifiedReferenceExpression? = when (current) {
-        is UQualifiedReferenceExpression -> getOutermostQualified(current.containingElement, current)
-        is UParenthesizedExpression -> getOutermostQualified(current.containingElement, previous)
+        is UQualifiedReferenceExpression -> getOutermostQualified(current.uastParent, current)
+        is UParenthesizedExpression -> getOutermostQualified(current.uastParent, previous)
         else -> if (previous is UQualifiedReferenceExpression) previous else null
     }
 
-    return getOutermostQualified(this.containingElement, this)
+    return getOutermostQualified(this.uastParent, this)
 }
 
 /**

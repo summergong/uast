@@ -14,13 +14,13 @@ inline fun <reified T : UElement> UElement.getParentOfType(strict: Boolean = tru
 
 @JvmOverloads
 fun <T : UElement> UElement.getParentOfType(parentClass: Class<out UElement>, strict: Boolean = true): T? {
-    var element = (if (strict) containingElement else this) ?: return null
+    var element = (if (strict) uastParent else this) ?: return null
     while (true) {
         if (parentClass.isInstance(element)) {
             @Suppress("UNCHECKED_CAST")
             return element as T
         }
-        element = element.containingElement ?: return null
+        element = element.uastParent ?: return null
     }
 }
 
@@ -29,7 +29,7 @@ fun <T : UElement> UElement.getParentOfType(
         strict: Boolean = true,
         vararg terminators: Class<out UElement>
 ): T? {
-    var element = (if (strict) containingElement else this) ?: return null
+    var element = (if (strict) uastParent else this) ?: return null
     while (true) {
         if (parentClass.isInstance(element)) {
             @Suppress("UNCHECKED_CAST")
@@ -38,7 +38,7 @@ fun <T : UElement> UElement.getParentOfType(
         if (terminators.any { it.isInstance(element) }) {
             return null
         }
-        element = element.containingElement ?: return null
+        element = element.uastParent ?: return null
     }
 }
 
@@ -47,7 +47,7 @@ fun <T : UElement> UElement.getParentOfType(
         firstParentClass: Class<out T>,
         vararg parentClasses: Class<out T>
 ): T? {
-    var element = (if (strict) containingElement else this) ?: return null
+    var element = (if (strict) uastParent else this) ?: return null
     while (true) {
         if (firstParentClass.isInstance(element)) {
             @Suppress("UNCHECKED_CAST")
@@ -57,7 +57,7 @@ fun <T : UElement> UElement.getParentOfType(
             @Suppress("UNCHECKED_CAST")
             return element as T
         }
-        element = element.containingElement ?: return null
+        element = element.uastParent ?: return null
     }
 }
 
@@ -78,12 +78,12 @@ fun UElement.isChildOf(probablyParent: UElement?, strict: Boolean = false): Bool
         return when (current) {
             null -> false
             probablyParent -> true
-            else -> isChildOf(current.containingElement, probablyParent)
+            else -> isChildOf(current.uastParent, probablyParent)
         }
     }
     
     if (probablyParent == null) return false
-    return isChildOf(if (strict) this else containingElement, probablyParent)
+    return isChildOf(if (strict) this else uastParent, probablyParent)
 }
 
 /**
@@ -117,7 +117,7 @@ tailrec fun UElement.getUastContext(): UastContext {
         return ServiceManager.getService(psi.project, UastContext::class.java) ?: error("UastContext not found")
     }
 
-    return (containingElement ?: error("PsiElement should exist at least for UFile")).getUastContext()
+    return (uastParent ?: error("PsiElement should exist at least for UFile")).getUastContext()
 }
 
 tailrec fun UElement.getLanguagePlugin(): UastLanguagePlugin {
@@ -127,7 +127,7 @@ tailrec fun UElement.getLanguagePlugin(): UastLanguagePlugin {
         return uastContext.findPlugin(psi) ?: error("Language plugin was not found for $this (${this.javaClass.name})")
     }
 
-    return (containingElement ?: error("PsiElement should exist at least for UFile")).getLanguagePlugin()
+    return (uastParent ?: error("PsiElement should exist at least for UFile")).getLanguagePlugin()
 }
 
 fun Collection<UElement>.toPsiElements() = mapNotNull { it.psi }

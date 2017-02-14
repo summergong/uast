@@ -22,7 +22,7 @@ import org.jetbrains.uast.USuperExpression
 
 class JavaUSuperExpression(
         override val psi: PsiSuperExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), USuperExpression {
     override val label: String?
         get() = psi.qualifier?.qualifiedName

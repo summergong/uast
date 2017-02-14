@@ -11,7 +11,7 @@ import org.jetbrains.uast.java.lz
 
 class JavaUNamedExpression(
         override val psi: PsiNameValuePair,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UNamedExpression {
     override fun evaluate(): Any? = expression.evaluate()
 

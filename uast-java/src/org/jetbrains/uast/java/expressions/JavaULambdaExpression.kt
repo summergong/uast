@@ -24,7 +24,7 @@ import org.jetbrains.uast.UastEmptyExpression
 
 class JavaULambdaExpression(
         override val psi: PsiLambdaExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), ULambdaExpression {
     override val valueParameters by lz {
         psi.parameterList.parameters.map { JavaUParameter(it, this) }

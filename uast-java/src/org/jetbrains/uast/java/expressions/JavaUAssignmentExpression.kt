@@ -22,7 +22,7 @@ import org.jetbrains.uast.UIdentifier
 
 class JavaUAssignmentExpression(
         override val psi: PsiAssignmentExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UBinaryExpression {
     override val leftOperand by lz { JavaConverter.convertOrEmpty(psi.lExpression, this) }
     override val rightOperand by lz { JavaConverter.convertOrEmpty(psi.rExpression, this) }

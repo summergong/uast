@@ -40,4 +40,4 @@ fun UElement.isInstanceCheck() = (this as? UBinaryExpressionWithType)?.operation
 
 fun UElement.isAssignment() = (this as? UBinaryExpression)?.operator is UastBinaryOperator.AssignOperator
 
-fun UVariable.isResourceVariable() = containingElement is UTryExpression
+fun UVariable.isResourceVariable() = uastParent is UTryExpression

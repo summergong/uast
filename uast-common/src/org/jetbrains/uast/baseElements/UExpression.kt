@@ -85,7 +85,7 @@ interface ULabeled : UElement {
  * Use [UastEmptyExpression] in this case.
  */
 object UastEmptyExpression : UExpression {
-    override val containingElement: UElement?
+    override val uastParent: UElement?
         get() = null
 
     override val annotations: List<UAnnotation>

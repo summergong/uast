@@ -21,7 +21,7 @@ import org.jetbrains.uast.ULiteralExpression
 
 class JavaULiteralExpression(
         override val psi: PsiLiteralExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), ULiteralExpression {
     override fun evaluate() = psi.value
     override val value by lz { evaluate() }

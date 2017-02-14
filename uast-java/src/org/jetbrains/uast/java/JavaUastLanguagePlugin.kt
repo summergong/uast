@@ -33,7 +33,7 @@ class JavaUastLanguagePlugin : UastLanguagePlugin {
 
     override fun isExpressionValueUsed(element: UExpression): Boolean = when (element) {
         is JavaUDeclarationsExpression -> false
-        is UnknownJavaExpression -> (element.containingElement as? UExpression)?.let { isExpressionValueUsed(it) } ?: false
+        is UnknownJavaExpression -> (element.uastParent as? UExpression)?.let { isExpressionValueUsed(it) } ?: false
         else -> {
             val statement = element.psi as? PsiStatement
             statement != null && statement.parent !is PsiExpressionStatement

@@ -39,18 +39,18 @@ internal class UNothingValue private constructor(
 
     companion object {
         private fun UJumpExpression.containingLoopOrSwitch(): UExpression? {
-            var containingElement = containingElement
+            var containingElement = uastParent
             while (containingElement != null) {
                 if (this is UBreakExpression && label == null && containingElement is USwitchExpression) {
                     return containingElement
                 }
                 if (containingElement is ULoopExpression) {
-                    val containingLabeled = containingElement.containingElement as? ULabeledExpression
+                    val containingLabeled = containingElement.uastParent as? ULabeledExpression
                     if (label == null || label == containingLabeled?.label) {
                         return containingElement
                     }
                 }
-                containingElement = containingElement.containingElement
+                containingElement = containingElement.uastParent
             }
             return null
         }

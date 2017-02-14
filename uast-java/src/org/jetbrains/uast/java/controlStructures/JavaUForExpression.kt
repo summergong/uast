@@ -23,7 +23,7 @@ import org.jetbrains.uast.UIdentifier
 
 class JavaUForExpression(
         override val psi: PsiForStatement,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UForExpression {
     override val declaration by lz { psi.initialization?.let { JavaConverter.convertStatement(it, { this }) } }
     override val condition by lz { psi.condition?.let { JavaConverter.convertExpression(it, { this }) } }

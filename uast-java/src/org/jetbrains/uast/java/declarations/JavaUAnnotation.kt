@@ -7,7 +7,7 @@ import org.jetbrains.uast.java.expressions.JavaUNamedExpression
 
 class JavaUAnnotation(
         override val psi: PsiAnnotation,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : UAnnotation {
     override val qualifiedName: String?
         get() = psi.qualifiedName

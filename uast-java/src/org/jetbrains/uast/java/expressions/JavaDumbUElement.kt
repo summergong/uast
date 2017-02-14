@@ -21,7 +21,7 @@ import org.jetbrains.uast.internal.log
 
 class JavaDumbUElement(
         override val psi: PsiElement?,
-        override val containingElement: UElement?,
+        override val uastParent: UElement?,
         private val customRenderString: String? = null
 ) : JavaAbstractUElement(), UElement {
     override fun asLogString() = log()

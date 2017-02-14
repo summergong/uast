@@ -38,7 +38,7 @@ abstract class AbstractJavaUVariable : PsiVariable, UVariable, JavaUElementWithC
 
 open class JavaUVariable(
         psi: PsiVariable,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : AbstractJavaUVariable(), UVariable, PsiVariable by psi {
     override val psi = unwrap<UVariable, PsiVariable>(psi)
     
@@ -57,28 +57,28 @@ open class JavaUVariable(
 
 open class JavaUParameter(
         psi: PsiParameter,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : AbstractJavaUVariable(), UParameter, PsiParameter by psi {
     override val psi = unwrap<UParameter, PsiParameter>(psi)
 }
 
 open class JavaUField(
         psi: PsiField,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : AbstractJavaUVariable(), UField, PsiField by psi {
     override val psi = unwrap<UField, PsiField>(psi)
 }
 
 open class JavaULocalVariable(
         psi: PsiLocalVariable,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : AbstractJavaUVariable(), ULocalVariable, PsiLocalVariable by psi {
     override val psi = unwrap<ULocalVariable, PsiLocalVariable>(psi)
 }
 
 open class JavaUEnumConstant(
         psi: PsiEnumConstant,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : AbstractJavaUVariable(), UEnumConstant, PsiEnumConstant by psi {
     override val initializingClass: UClass? by lz { getLanguagePlugin().convertOpt<UClass>(psi.initializingClass, this) }
 
@@ -93,7 +93,7 @@ open class JavaUEnumConstant(
     override val methodIdentifier: UIdentifier?
         get() = null
     override val classReference: UReferenceExpression?
-        get() = JavaEnumConstantClassReference(psi, containingElement)
+        get() = JavaEnumConstantClassReference(psi, uastParent)
     override val typeArgumentCount: Int
         get() = 0
     override val typeArguments: List<PsiType>
@@ -117,7 +117,7 @@ open class JavaUEnumConstant(
 
     private class JavaEnumConstantClassReference(
             override val psi: PsiEnumConstant,
-            override val containingElement: UElement?
+            override val uastParent: UElement?
     ) : JavaAbstractUExpression(), USimpleNameReferenceExpression {
         override fun resolve() = psi.containingClass
         override val resolvedName: String?

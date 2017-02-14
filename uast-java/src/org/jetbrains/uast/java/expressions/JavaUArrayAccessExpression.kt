@@ -21,7 +21,7 @@ import org.jetbrains.uast.UElement
 
 class JavaUArrayAccessExpression(
         override val psi: PsiArrayAccessExpression,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UArrayAccessExpression {
     override val receiver by lz { JavaConverter.convertOrEmpty(psi.arrayExpression, this) }
     override val indices by lz { singletonListOrEmpty(JavaConverter.convertOrNull(psi.indexExpression, this)) }

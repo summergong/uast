@@ -23,7 +23,7 @@ import org.jetbrains.uast.UTypeReferenceExpression
 class JavaUSimpleNameReferenceExpression(
         override val psi: PsiElement?,
         override val identifier: String,
-        override val containingElement: UElement?,
+        override val uastParent: UElement?,
         val reference: PsiReference? = null 
 ) : JavaAbstractUExpression(), USimpleNameReferenceExpression {
     override fun resolve() = (reference ?: psi as? PsiReference)?.resolve()
@@ -33,7 +33,7 @@ class JavaUSimpleNameReferenceExpression(
 
 class JavaUTypeReferenceExpression(
         override val psi: PsiTypeElement,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), UTypeReferenceExpression {
     override val type: PsiType
         get() = psi.type
@@ -41,7 +41,7 @@ class JavaUTypeReferenceExpression(
 
 class LazyJavaUTypeReferenceExpression(
         override val psi: PsiElement,
-        override val containingElement: UElement?,
+        override val uastParent: UElement?,
         private val typeSupplier: () -> PsiType
 ) : JavaAbstractUExpression(), UTypeReferenceExpression {
     override val type: PsiType by lz { typeSupplier() }
@@ -51,7 +51,7 @@ class JavaClassUSimpleNameReferenceExpression(
         override val identifier: String,
         val ref: PsiJavaReference,
         override val psi: PsiElement?,
-        override val containingElement: UElement?
+        override val uastParent: UElement?
 ) : JavaAbstractUExpression(), USimpleNameReferenceExpression {
     override fun resolve() = ref.resolve()
     override val resolvedName: String?

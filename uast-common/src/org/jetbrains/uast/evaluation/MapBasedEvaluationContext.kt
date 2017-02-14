@@ -46,7 +46,7 @@ class MapBasedEvaluationContext(
     override fun getEvaluator(declaration: UDeclaration) = getOrCreateEvaluator(declaration)
 
     private fun getEvaluator(expression: UExpression): UEvaluator? {
-        var containingElement = expression.containingElement
+        var containingElement = expression.uastParent
         while (containingElement != null) {
             if (containingElement is UDeclaration) {
                 val evaluator = evaluators[containingElement]?.get()
@@ -54,7 +54,7 @@ class MapBasedEvaluationContext(
                     return evaluator
                 }
             }
-            containingElement = containingElement.containingElement
+            containingElement = containingElement.uastParent
         }
         return null
     }
